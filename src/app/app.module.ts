@@ -10,8 +10,12 @@ import { environment } from '../environments/environment';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LandingComponent } from './landing/landing.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { PoiComponent } from './poi/poi.component';
 import { SigninComponent } from './signin/signin.component';
 import { SignupComponent } from './signup/signup.component';
+import { ProfileComponent } from './profile/profile.component';
+import { ReportSymptomComponent } from './report-symptom/report-symptom.component';
+import { ReportBehaviorComponent } from './report-behavior/report-behavior.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +23,11 @@ import { SignupComponent } from './signup/signup.component';
     LandingComponent,
     DashboardComponent,
     SigninComponent,
-    SignupComponent
+    SignupComponent,
+    ProfileComponent,
+    PoiComponent,
+    ReportSymptomComponent,
+    ReportBehaviorComponent
   ],
   imports: [
     BrowserModule,

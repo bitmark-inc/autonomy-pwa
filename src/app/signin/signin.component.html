@@ -1,1 +1,14 @@
-<p>signin works!</p>
+<div [hidden]="stage != PageStage.RecoveryPhrase">
+  Please enter your recovery phrase
+  <br/>
+  <a [routerLink]="['/landing']">Back</a>
+  <br/>
+  <a (click)="stage=PageStage.Permission">Next</a>
+</div>
+<div [hidden]="stage != PageStage.Permission">
+  Asking for permission
+  <br/>
+  <a (click)="stage=PageStage.RecoveryPhrase">Back</a>
+  <br/>
+  <a [routerLink]="['/dashboard']">Done</a>
+</div>
