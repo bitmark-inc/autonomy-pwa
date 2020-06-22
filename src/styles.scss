@@ -1,4 +1,97 @@
-/* You can add global styles to this file, and also import other style files */
+html {
+  font-family: 'Atlas Grotesk', 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    Roboto, 'Helvetica Neue', Arial, sans-serif;
+	-ms-text-size-adjust: 100%;
+	-webkit-text-size-adjust: 100%;
+	-moz-osx-font-smoothing: grayscale;
+	-webkit-font-smoothing: antialiased;
+	box-sizing: border-box;
+}
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+*,
+*:before,
+*:after {
+	box-sizing: border-box;
+	margin: 0;
+}
+
+body {
+  color: #ffffff;
+  background-color: #000000;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 8px 0;
+}
+
+p {
+  margin: 0;
+}
+
+
+a,
+a:visited,
+a:hover {
+  color: #1976d2;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #125699;
+}
+
+.mat-toolbar {
+  color: grey;
+  background-color: inherit;
+  font-family: 'Domaine Sans Text';
+  font-weight: 300;
+  font-size: 14px;
+  font-style: normal;
+
+  .header-line {
+    width: 35%;
+    hr {
+      color: inherit;
+      margin-bottom: .1rem;
+      height: 0.5px;
+      height: 0.75px;
+      border: none;
+      background-color: grey;
+    }
+  }
+  
+  .header-title {
+    width: 30%;
+    text-align: center;
+    text-transform: uppercase;
+  }
+}
+
+.mat-card {
+  background-color: inherit;
+  color: inherit;
+}
+
+footer {
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+  line-height: 20px;
+}
+
+footer a {
+  display: flex;
+  align-items: center;
+}
+
+/* Responsive Styles */
+@media screen and (max-width: 767px) {
+}
+
+@media screen and (max-width: 575px) {
+}
