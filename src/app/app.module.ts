@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, APP_INITIALIZER } from '@angular/core';
 
 import { FormsModule } from "@angular/forms";
 import { MatToolbarModule, MatCardModule, MatGridListModule } from '@angular/material';
@@ -19,6 +19,10 @@ import { SignupComponent } from './signup/signup.component';
 import { ProfileComponent } from './profile/profile.component';
 import { ReportSymptomComponent } from './report-symptom/report-symptom.component';
 import { ReportBehaviorComponent } from './report-behavior/report-behavior.component';
+
+import { UserService } from './services/user/user.service';
+import { ApiService } from './services/api/api.service';
+import { AuthGuard, GuestGuard } from './url-guard';
 
 @NgModule({
   declarations: [
@@ -43,7 +47,25 @@ import { ReportBehaviorComponent } from './report-behavior/report-behavior.compo
     MatCardModule,
     MatGridListModule
   ],
-  providers: [],
+  providers: [
+    UserService,
+    ApiService,
+    AuthGuard,
+    GuestGuard,
+    {provide: APP_INITIALIZER, useFactory: InitServices, deps: [UserService], multi: true}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+
+function InitServices(userService: UserService) {
+  return (): Promise<any> => {
+    return new Promise((resolve, reject) => {
+      userService.getStatus().subscribe(ready => {
+        if (ready) {
+          resolve();
+        }
+      })
+    });
+  }
+}

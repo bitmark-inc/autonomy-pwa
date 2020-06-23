@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService } from '../user/user.service';
+import { UserService } from '../services/user/user.service';
 import { Router } from '@angular/router';
 
 enum EnumPageStage { Intro01, Intro02, Intro03, Permission }

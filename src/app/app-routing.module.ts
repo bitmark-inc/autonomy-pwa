@@ -8,18 +8,19 @@ import { PoiComponent } from './poi/poi.component';
 import { ProfileComponent } from './profile/profile.component';
 import { ReportSymptomComponent } from './report-symptom/report-symptom.component';
 import { ReportBehaviorComponent } from './report-behavior/report-behavior.component';
+import { AuthGuard, GuestGuard } from './url-guard';
 
 const routes: Routes = [
-  {path: "", redirectTo: "/landing", pathMatch: 'full'},
-  {path: "landing", component: LandingComponent},
-  {path: "signin", component: SigninComponent},
-  {path: "signup", component: SignupComponent},
-  {path: "dashboard", component: DashboardComponent},
-  {path: "pois/:id", component: PoiComponent},
-  {path: "locations/:lat/:long", component: PoiComponent},
-  {path: "profile", component: ProfileComponent},
-  {path: "report-symptom", component: ReportSymptomComponent},
-  {path: "report-behavior", component: ReportBehaviorComponent},
+  {path: "landing", component: LandingComponent, canActivate: [GuestGuard]},
+  {path: "signin", component: SigninComponent, canActivate: [GuestGuard]},
+  {path: "signup", component: SignupComponent, canActivate: [GuestGuard]},
+  {path: "dashboard", component: DashboardComponent, canActivate: [AuthGuard]},
+  {path: "pois/:id", component: PoiComponent, canActivate: [AuthGuard]},
+  {path: "locations/:lat/:long", component: PoiComponent, canActivate: [AuthGuard]},
+  {path: "profile", component: ProfileComponent, canActivate: [AuthGuard]},
+  {path: "report-symptom", component: ReportSymptomComponent, canActivate: [AuthGuard]},
+  {path: "report-behavior", component: ReportBehaviorComponent, canActivate: [AuthGuard]},
+  {path: "**", redirectTo: 'landing'},
 ];
 
 @NgModule({

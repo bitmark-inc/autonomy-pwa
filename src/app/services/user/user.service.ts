@@ -6,7 +6,6 @@ import { HttpClient } from '@angular/common/http';
 import { BaseService } from '../base.service';
 
 import { v4 as uuidv4 } from 'uuid';
-import { nextTick } from 'process';
 
 @Injectable({
   providedIn: 'root'
@@ -37,20 +36,24 @@ export class UserService extends BaseService {
       } catch (err) {}
     }
     if (this.user) {
-      this.authenticate().subscribe();
+      this.authenticate().subscribe(
+        () => this.statusSubject.next(true)
+      );
+    } else {
+      this.statusSubject.next(true);
     }
-    this.statusSubject.next(true);
+  }
+
+  public getStatus() {
+    return this.statusSubject;
   }
 
   public getUser() {
-    return Observable.create((observer: Observer<any>) => {
-      this.statusSubject.subscribe(ready => {
-        if (ready) {
-          observer.next(this.user);
-          observer.complete();
-        }
-      });
-    });
+    return this.user;
+  }
+
+  public getJWT() {
+    return this.user ? this.user.jwt : null;
   }
 
   public register() {
@@ -64,8 +67,8 @@ export class UserService extends BaseService {
         }
       }, {
         headers: {
-          'Client-Type': 'pwa',
-          'Client-Version': 1,
+          'Client-Type': 'ios',
+          'Client-Version': '5',
           'requester': userKey
         }
       }).subscribe(
@@ -90,8 +93,8 @@ export class UserService extends BaseService {
     return Observable.create(observer => {
       this.sendHttpRequest('get', 'api/accounts/me', {
         headers: {
-          'Client-Type': 'pwa',
-          'Client-Version': 1,
+          'Client-Type': 'ios',
+          'Client-Version': '5',
           'requester': key,
         }
       }).subscribe(
