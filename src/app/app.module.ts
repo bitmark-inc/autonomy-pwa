@@ -4,6 +4,8 @@ import { NgModule } from '@angular/core';
 import { MatToolbarModule, MatCardModule, MatGridListModule } from '@angular/material';
 
 import { AppRoutingModule } from './app-routing.module';
+import { HttpClientModule }    from '@angular/common/http';
+
 import { AppComponent } from './app.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
@@ -32,6 +34,7 @@ import { ReportBehaviorComponent } from './report-behavior/report-behavior.compo
   imports: [
     BrowserModule,
     AppRoutingModule,
+    HttpClientModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
     BrowserAnimationsModule,
     MatToolbarModule,

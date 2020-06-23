@@ -1,3 +1,5 @@
+declare var window: any;
+
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
@@ -10,18 +12,28 @@ import { Observable } from 'rxjs';
 export abstract class BaseService {
   constructor(protected http: HttpClient) {}
 
-  protected sendHttpRequest(method, url, params?) {
+  protected sendHttpRequest(method: string, url: string, params?, options?) {
+    console.log(method, url, params, options);
+    if (url.startsWith('api')) {
+      url = `${window.App.config.api_server_url}${url}`
+    }
+    // if (!options) {
+    //   options = {};
+    // }
+    // if (options.withCredentials === undefined) {
+    //   options.withCredentials = true;
+    // }
     return Observable.create((observer) => {
       let request;
       switch (method) {
         case 'post':
-          request = this.http.post(url, params);
+          request = this.http.post(url, params, options);
           break;
         case 'put':
-          request = this.http.put(url, params);
+          request = this.http.put(url, params, options);
           break;
         case 'get':
-          request = this.http.get(url, params);
+          request = this.http.get(url, options);
           break;
         case 'head':
           request = this.http.head(url);
