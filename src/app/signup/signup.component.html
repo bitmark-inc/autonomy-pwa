@@ -120,7 +120,7 @@
           <span>We’ll remind you to report symptoms and practice healthy behaviors. When your neighborhood’s health changes, we’ll send you alerts.</span>
         </div>
         <div class="access-btns">
-          <button (click)="notifyPermission()"><img [src]="notifyState" alt=""></button>
+          <button (click)="notifyPermission()"><img [src]="notifyChecked ? '/assets/img/checked.svg' : '/assets/img/plus.svg'" alt=""></button>
         </div>
       </div>
     </mat-card>
@@ -132,7 +132,7 @@
           <span>Your data will be used to help improve your neighborhood’s health. Your own location will be kept private.</span>
         </div>
         <div class="access-btns">
-          <button (click)="locationPermission()"><img [src]="locationState" alt=""></button>
+          <button (click)="locationPermission()"><img [src]="locationChecked ? '/assets/img/checked.svg' : '/assets/img/plus.svg'" alt=""></button>
         </div>
       </div>
     </mat-card>

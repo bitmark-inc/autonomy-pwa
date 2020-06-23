@@ -1,5 +1,6 @@
+import { Component, OnInit } from '@angular/core';
+import { UserService } from '../user/user.service';
 import { Router } from '@angular/router';
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 
 enum EnumPageStage { Intro01, Intro02, Intro03, Permission }
 
@@ -17,27 +18,37 @@ export class SignupComponent implements OnInit {
   public notifyState: any;
   public locationState: any;
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private userService: UserService) {
     this.locationChecked = false;
     this.notifyChecked = false;
     this.notifyState = '/assets/img/plus.svg'
     this.locationState = '/assets/img/plus.svg'
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    // setTimeout(() => {
+    //   this.signup();
+    // }, 2000);
+  }
+
+  public signup(): void {
+    this.userService.register().subscribe(
+      (data) => {
+        this.router.navigate(['/dashboard']);
+      },
+      (err) => {
+        // TODO: do something
+        console.log(err);
+      }
+    );
+  }
 
   public locationPermission() {
     this.locationChecked = true;
-    if (this.locationChecked) {
-      this.locationState = '/assets/img/checked.svg';
-    }
   }
 
   public notifyPermission() {
     this.notifyChecked = true;
-    if (this.notifyChecked) {
-      this.notifyState = '/assets/img/checked.svg';
-    }
   }
 
   public done() {
