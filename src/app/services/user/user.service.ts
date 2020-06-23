@@ -67,13 +67,10 @@ export class UserService extends BaseService {
         }
       }, {
         headers: {
-          'Client-Type': 'ios',
-          'Client-Version': '5',
           'requester': userKey
         }
       }).subscribe(
         (data: {result: any}) => {
-          console.log('Got data ', data);
           this.user = data.result;
           this.user.key = userKey;
           window.localStorage.setItem('user', JSON.stringify(this.user));
@@ -91,10 +88,8 @@ export class UserService extends BaseService {
   public signin(key: string) {
     let userKey = key;
     return Observable.create(observer => {
-      this.sendHttpRequest('get', 'api/accounts/me', {
+      this.sendHttpRequest('get', 'api/accounts/me', {}, {
         headers: {
-          'Client-Type': 'ios',
-          'Client-Version': '5',
           'requester': key,
         }
       }).subscribe(

@@ -16,7 +16,7 @@ export class ApiService extends BaseService {
     if (jwt) {
       options = options || {};
       options.headers = options.headers || {};
-      options.headers.jwt = options.headers.jwt || jwt;
+      options.headers.requester = options.headers.requester || jwt;
     }
     return this.sendHttpRequest(method, url, params, options);
   }

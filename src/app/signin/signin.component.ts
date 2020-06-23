@@ -14,13 +14,10 @@ export class SigninComponent implements OnInit {
   public stage: EnumPageStage = EnumPageStage.RecoveryPhrase;
 
   public key: string;
-  public locationChecked: boolean;
-  public notifyChecked: boolean;
+  public locationGranted: boolean = false;
+  public notificationGranted: boolean = false;
 
-  constructor(private router: Router, private userService: UserService) {
-    this.locationChecked = false;
-    this.notifyChecked = false;
-  }
+  constructor(private router: Router, private userService: UserService) {}
 
   ngOnInit() {}
 
@@ -28,7 +25,7 @@ export class SigninComponent implements OnInit {
     if (this.key) {
       this.userService.signin(this.key).subscribe(
         (data) => {
-          this.stage = this.PageStage.Permission;
+          this.setStage(EnumPageStage.Permission);
         },
         (err) => {
           console.log(err);
@@ -38,17 +35,35 @@ export class SigninComponent implements OnInit {
     }
   }
 
-  public locationPermission() {
-    this.locationChecked = true;
-  }
-
-  public notifyPermission() {
-    this.notifyChecked = true;
+  public setStage(newStage: EnumPageStage) {
+    this.stage = newStage;
+    if (this.stage === EnumPageStage.Permission) {
+      navigator.geolocation.getCurrentPosition(
+        (location) => {
+          this.locationGranted = true;
+        },
+        (err) => {
+          console.log('Getting user location error');
+          switch(err.code) {
+            case err.PERMISSION_DENIED:
+              console.log("User denied the request for Geolocation.");
+              break;
+            case err.POSITION_UNAVAILABLE:
+              console.log("Location information is unavailable.");
+              break;
+            case err.TIMEOUT:
+              console.log("The request to get user location timed out.");
+              break;
+            default:
+              console.log("An unknown error occurred.");
+              break;
+          }
+        }
+      )
+    }
   }
 
   public done() {
-    if (this.locationChecked && this.notifyChecked) {
-      this.router.navigate(["/dashboard"]);
-    }
+    this.router.navigate(["/dashboard"]);
   }
 }

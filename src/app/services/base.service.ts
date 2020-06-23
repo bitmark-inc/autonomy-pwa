@@ -17,9 +17,11 @@ export abstract class BaseService {
     if (url.startsWith('api')) {
       url = `${window.App.config.api_server_url}${url}`
     }
-    // if (!options) {
-    //   options = {};
-    // }
+    options = options || {};
+    options.headers = options.headers || {};
+    options.headers['Client-Type'] = 'ios';
+    options.headers['Client-Version'] = '5';
+
     // if (options.withCredentials === undefined) {
     //   options.withCredentials = true;
     // }

@@ -29,17 +29,15 @@ export class SignupComponent implements OnInit {
   }
 
   public signup(): void {
-    if (this.locationGranted && this.notificationGranted) {
-      this.userService.register().subscribe(
-        (data) => {
-          this.router.navigate(['/dashboard']);
-        },
-        (err) => {
-          // TODO: do something
-          console.log(err);
-        }
-      );
-    }
+    this.userService.register().subscribe(
+      (data) => {
+        this.router.navigate(['/dashboard']);
+      },
+      (err) => {
+        // TODO: do something
+        console.log(err);
+      }
+    );
   }
 
   public setStage(newStage: EnumPageStage) {
@@ -47,7 +45,6 @@ export class SignupComponent implements OnInit {
     if (this.stage === EnumPageStage.Permission) {
       navigator.geolocation.getCurrentPosition(
         (location) => {
-          console.log('User location is ', location);
           this.locationGranted = true;
         },
         (err) => {
@@ -69,13 +66,5 @@ export class SignupComponent implements OnInit {
         }
       )
     }
-  }
-
-  public locationPermission() {
-    this.locationGranted = true;
-  }
-
-  public notifyPermission() {
-    this.notificationGranted = true;
   }
 }
