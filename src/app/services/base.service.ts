@@ -13,7 +13,6 @@ export abstract class BaseService {
   constructor(protected http: HttpClient) {}
 
   protected sendHttpRequest(method: string, url: string, params?, options?) {
-    console.log(method, url, params, options);
     if (url.startsWith('api')) {
       url = `${window.App.config.api_server_url}${url}`
     }

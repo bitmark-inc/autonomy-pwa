@@ -4,6 +4,7 @@ import { LandingComponent } from './landing/landing.component';
 import { SigninComponent } from './signin/signin.component';
 import { SignupComponent } from './signup/signup.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { MyAutonomyComponent } from './my-autonomy/my-autonomy.component';
 import { PoiComponent } from './poi/poi.component';
 import { ProfileComponent } from './profile/profile.component';
 import { ReportSymptomComponent } from './report-symptom/report-symptom.component';
@@ -15,6 +16,7 @@ const routes: Routes = [
   {path: "signin", component: SigninComponent, canActivate: [GuestGuard]},
   {path: "signup", component: SignupComponent, canActivate: [GuestGuard]},
   {path: "dashboard", component: DashboardComponent, canActivate: [AuthGuard]},
+  {path: "my-autonomy", component: MyAutonomyComponent, canActivate: [AuthGuard]},
   {path: "pois/:id", component: PoiComponent, canActivate: [AuthGuard]},
   {path: "locations/:lat/:long", component: PoiComponent, canActivate: [AuthGuard]},
   {path: "profile", component: ProfileComponent, canActivate: [AuthGuard]},

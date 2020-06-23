@@ -23,6 +23,7 @@ import { ReportBehaviorComponent } from './report-behavior/report-behavior.compo
 import { UserService } from './services/user/user.service';
 import { ApiService } from './services/api/api.service';
 import { AuthGuard, GuestGuard } from './url-guard';
+import { MyAutonomyComponent } from './my-autonomy/my-autonomy.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { AuthGuard, GuestGuard } from './url-guard';
     ProfileComponent,
     PoiComponent,
     ReportSymptomComponent,
-    ReportBehaviorComponent
+    ReportBehaviorComponent,
+    MyAutonomyComponent
   ],
   imports: [
     BrowserModule,

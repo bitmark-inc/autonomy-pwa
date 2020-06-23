@@ -8,22 +8,22 @@ import { ApiService } from '../services/api/api.service';
 })
 export class DashboardComponent implements OnInit {
 
-  public myProfile: { autonomy_score: number }
+  public myAutonomy: { autonomy_score: number }
   public pois: { id: string, score: number }[];
 
   constructor(private apiService: ApiService) {
-    this.getMyProfile();
+    this.getMyAutonomy();
     this.getMyPOIs();
   }
 
   ngOnInit() {}
 
-  public getMyProfile(): void {
+  public getMyAutonomy(): void {
     this.apiService
       .request('get', 'api/autonomy_profile?me=true')
       .subscribe(
         (data: any) => {
-          this.myProfile = data;
+          this.myAutonomy = data;
         },
         (err: any) => {
           console.log(err);

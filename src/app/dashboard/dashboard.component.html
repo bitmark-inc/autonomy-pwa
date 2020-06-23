@@ -1,2 +1,9 @@
 <p>dashboard works!</p>
+<a *ngIf="myAutonomy" [routerLink]="['/my-autonomy']">{{myAutonomy.autonomy_score}}</a>
+<br/>
+
+<div *ngIf="pois">
+  <a [routerLink]="['/pois', poi.id]" *ngFor="let poi of pois">{{poi.score}}|</a>
+</div>
+
 <a [routerLink]="['/profile']">Profile</a>
