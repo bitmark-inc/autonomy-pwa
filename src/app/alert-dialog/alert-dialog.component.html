@@ -1,0 +1,17 @@
+<div class="custom-dialog">
+  <mat-toolbar layout="fill">
+    <div class="header-line"><hr><hr></div>
+    <div class="header-title">{{modalTitle}}</div>
+    <div class="header-line"><hr><hr></div>
+  </mat-toolbar>
+  <h2 *ngIf="modalSubTitle" mat-dialog-title>{{modalSubTitle}}</h2>
+  <mat-dialog-content>
+    <p>
+      {{modalMessage}}
+    </p>
+  </mat-dialog-content>
+  <mat-dialog-actions *ngIf="modalType == 'warning'">
+    <button mat-button mat-raised-button [mat-dialog-close]="false">Cancel</button>
+    <button mat-raised-button color="warn" [mat-dialog-close]="true">Try again</button>
+  </mat-dialog-actions>
+</div>
