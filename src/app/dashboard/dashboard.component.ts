@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../services/api/api.service';
+import { Router } from "@angular/router";
 
 @Component({
   selector: 'app-dashboard',
@@ -9,9 +10,9 @@ import { ApiService } from '../services/api/api.service';
 export class DashboardComponent implements OnInit {
 
   public myAutonomy: { autonomy_score: number }
-  public pois: { id: string, score: number }[];
+  public pois: { id: string, score: number, alias: string }[];
 
-  constructor(private apiService: ApiService) {
+  constructor(private router: Router, private apiService: ApiService) {
     this.getMyAutonomy();
     this.getMyPOIs();
   }

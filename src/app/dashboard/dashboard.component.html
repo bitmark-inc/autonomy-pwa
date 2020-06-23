@@ -1,9 +1,40 @@
-<p>dashboard works!</p>
-<a *ngIf="myAutonomy" [routerLink]="['/my-autonomy']">{{myAutonomy.autonomy_score}}</a>
-<br/>
-
-<div *ngIf="pois">
-  <a [routerLink]="['/pois', poi.id]" *ngFor="let poi of pois">{{poi.score}}|</a>
+<div class="content dashboard">
+  <mat-toolbar class="title-page" layout="fill">
+    <p>AUTONOMY</p>
+    <div class="top-profile">
+      <a [routerLink]="['/profile']"><img src="/assets/img/PROFILE_button.svg" alt=""></a>
+    </div>
+  </mat-toolbar>
+  <mat-card>
+    <mat-grid-list [cols]="3" rowHeight="1:1.25" [gutterSize]="'15px'" *ngIf="myAutonomy">
+      <mat-grid-tile></mat-grid-tile>
+      <mat-grid-tile>
+        <div class="address-point">
+          <a [routerLink]="['/my-autonomy']">
+            <img src="/assets/img/triangles/triangle_{{myAutonomy.autonomy_score | number:'1.0-0'}}.svg" [alt]="myAutonomy.autonomy_score">
+            <span>{{myAutonomy.autonomy_score | number:'1.0-0'}}</span>
+          </a>
+          <p>You</p>
+        </div>
+      </mat-grid-tile>
+      <mat-grid-tile></mat-grid-tile>
+    </mat-grid-list>
+  </mat-card>
+  <mat-card>
+    <mat-grid-list [cols]="3" rowHeight="1:1.25" [gutterSize]="'15px'" *ngIf="pois">
+      <mat-grid-tile *ngFor="let poi of pois">
+        <div class="address-point">
+          <a [routerLink]="['/pois', poi.id]">
+            <img src="/assets/img/triangles/triangle_{{poi.score | number:'1.0-0'}}.svg" [alt]="poi.score">
+            <span>{{poi.score | number:'1.0-0'}}</span>
+          </a>
+          <p>{{poi.alias}}</p>
+        </div>
+      </mat-grid-tile>
+    </mat-grid-list>
+  </mat-card>
+  <mat-toolbar class="footer search-bar">
+    <mat-icon matPrefix class="search-icon">search</mat-icon>
+    <input (click)="this.router.navigate(['/poi-search'])" matInput type="search" placeholder="Enter name or address ..." class="search-input">
+  </mat-toolbar>
 </div>
-
-<a [routerLink]="['/profile']">Profile</a>

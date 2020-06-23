@@ -38,12 +38,12 @@ p {
 a,
 a:visited,
 a:hover {
-  color: #1976d2;
+  color: inherit;
   text-decoration: none;
 }
 
 a:hover {
-  color: #125699;
+  // color: #125699;
 }
 
 hr {
@@ -54,7 +54,7 @@ hr {
   background-color: grey;
 }
 
-.mat-toolbar {
+.header {
   color: grey;
   background-color: inherit;
   font-family: 'Domaine Sans Text';
@@ -73,7 +73,7 @@ hr {
       background-color: grey;
     }
   }
-  
+
   .header-title {
     width: 30%;
     text-align: center;
@@ -81,6 +81,16 @@ hr {
     display: flex;
     justify-content: space-evenly;
   }
+}
+
+.title-page {
+  display: flex;
+  justify-content: center;
+  color: inherit;
+  background-color: inherit;
+  font-family: 'Domaine Sans Text';
+  font-size: 14px;
+  font-style: normal;
 }
 
 .mat-card {
@@ -130,20 +140,28 @@ hr {
   }
 }
 
+.footer {
+  position: absolute;
+  bottom: 0;
+  background-color: #2B2B2B;
+  width: 100%;
+}
+
+.search-bar {
+  .search-icon {
+    color: grey;
+  }
+
+  .search-input {
+    width: 100%;
+    background-color: inherit;
+    border: unset;
+    font-size: 18px;
+  }
+}
+
 .disable-btns {
   opacity: 0.25;
-}
-
-footer {
-  margin-top: 8px;
-  display: flex;
-  align-items: center;
-  line-height: 20px;
-}
-
-footer a {
-  display: flex;
-  align-items: center;
 }
 
 /* Responsive Styles */

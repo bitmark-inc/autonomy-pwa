@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, APP_INITIALIZER } from '@angular/core';
 
 import { FormsModule } from "@angular/forms";
-import { MatToolbarModule, MatCardModule, MatGridListModule, MatDialogModule } from '@angular/material';
+import { MatToolbarModule, MatCardModule, MatGridListModule, MatDialogModule, MatButtonModule, MatIconModule } from '@angular/material';
 
 import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule }    from '@angular/common/http';
@@ -53,7 +53,9 @@ import { PoiSearchComponent } from './poi-search/poi-search.component';
     MatToolbarModule,
     MatCardModule,
     MatGridListModule,
-    MatDialogModule
+    MatDialogModule,
+    MatButtonModule,
+    MatIconModule,
   ],
   providers: [
     UserService,
