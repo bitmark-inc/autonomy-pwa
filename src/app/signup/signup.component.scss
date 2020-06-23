@@ -33,7 +33,6 @@
 
 .permission-scope {
   display: flex;
-  padding-top: 1rem;
 
   .brief-des {
     padding-right: 0.5rem;
@@ -53,8 +52,4 @@
       border: none;
     }
   }
-}
-
-.disable-btns {
-  opacity: 0.25;
 }

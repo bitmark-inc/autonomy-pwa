@@ -112,7 +112,7 @@
         </div>
       </mat-card-content>
     </mat-card>
-    <hr>
+    <mat-card><hr></mat-card>
     <mat-card>
       <div class="permission-scope">
         <div class="brief-des">
@@ -124,7 +124,7 @@
         </div>
       </div>
     </mat-card>
-    <hr>
+    <mat-card><hr></mat-card>
     <mat-card>
       <div class="permission-scope">
         <div class="brief-des">
@@ -143,9 +143,9 @@
           class="command">Back</span></a>
     </div>
     <div class="next">
-      <a (click)="done()" [ngClass]="{'disable-btns': !(locationChecked && notifyChecked)}">
+      <a (click)="signup()" [ngClass]="{'disable-btns': !(locationChecked && notifyChecked)}">
         <span class="command">Done</span>
-        <img src="/assets/img/next-icon.svg" alt="">
+        <img src="/assets/img/done.svg" alt="">
       </a>
     </div>
   </div>

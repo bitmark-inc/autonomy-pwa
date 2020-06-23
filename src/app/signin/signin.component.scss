@@ -1,0 +1,45 @@
+.content {
+  display: block;
+  text-align: center;
+
+  .onboarding-words {
+    font-size: 36px;
+    font-weight: 300;
+    line-height: 120%;
+
+    p {
+      font-size: 24px;
+    }
+  }
+}
+
+.permission-scope {
+  display: flex;
+
+  .brief-des {
+    padding-right: 0.5rem;
+    text-align: left;
+
+    p {
+      font-size: 24px;
+    }
+
+    span {
+      color: grey;
+    }
+  }
+  .access-btns {
+    button {
+      background-color: unset;
+      border: none;
+    }
+  }
+}
+
+#recoveryKey {
+  width: 100%;
+  background-color: unset;
+  border: none;
+  font-size: 18px;
+  color: #ffffff;
+}

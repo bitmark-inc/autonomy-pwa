@@ -1,14 +1,86 @@
 <div [hidden]="stage != PageStage.RecoveryPhrase">
-  Please enter your recovery phrase
-  <br/>
-  <a [routerLink]="['/landing']">Back</a>
-  <br/>
-  <a (click)="stage=PageStage.Permission">Next</a>
+  <mat-toolbar layout="fill">
+    <div class="header-line"><hr><hr></div>
+    <div class="header-title">sign in</div>
+    <div class="header-line"><hr><hr></div>
+  </mat-toolbar>
+  <div class="content">
+    <mat-card>
+      <mat-card-content>
+        <div class="onboarding-words">
+          <p>Welcome back! To sign in, please enter your 13-word recovery key:</p>
+        </div>
+      </mat-card-content>
+    </mat-card>
+    <mat-card><hr></mat-card>
+    <mat-card>
+      <mat-card-content>
+        <input type="text" id="recoveryKey" [(ngModel)]="key" placeholder="Enter your recovery key here ...">
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <div class="bottom-buttons">
+    <div class="back">
+      <a [routerLink]="['/landing']"><img src="/assets/img/back-icon.svg" alt=""><span
+          class="command">Back</span></a>
+    </div>
+    <div class="next">
+      <a (click)="signin()" [ngClass]="{'disable-btns': !key}">
+        <span class="command">Sign in</span>
+        <img src="/assets/img/signin.svg" alt="">
+      </a>
+    </div>
+  </div>
 </div>
 <div [hidden]="stage != PageStage.Permission">
-  Asking for permission
-  <br/>
-  <a (click)="stage=PageStage.RecoveryPhrase">Back</a>
-  <br/>
-  <a [routerLink]="['/dashboard']">Done</a>
+  <mat-toolbar layout="fill">
+    <div class="header-line"><hr><hr></div>
+    <div class="header-title">permission</div>
+    <div class="header-line"><hr><hr></div>
+  </mat-toolbar>
+  <div class="content">
+    <mat-card>
+      <mat-card-content>
+        <div class="onboarding-words">
+          <p>Autonomy requires access to the following:</p>
+        </div>
+      </mat-card-content>
+    </mat-card>
+    <mat-card><hr></mat-card>
+    <mat-card>
+      <div class="permission-scope">
+        <div class="brief-des">
+          <p>Notifications</p>
+          <span>We’ll remind you to report symptoms and practice healthy behaviors. When your neighborhood’s health changes, we’ll send you alerts.</span>
+        </div>
+        <div class="access-btns">
+          <button (click)="notifyPermission()"><img [src]="notifyChecked ? '/assets/img/checked.svg' : '/assets/img/plus.svg'" alt=""></button>
+        </div>
+      </div>
+    </mat-card>
+    <mat-card><hr></mat-card>
+    <mat-card>
+      <div class="permission-scope">
+        <div class="brief-des">
+          <p>Location data</p>
+          <span>Your data will be used to help improve your neighborhood’s health. Your own location will be kept private.</span>
+        </div>
+        <div class="access-btns">
+          <button (click)="locationPermission()"><img [src]="locationChecked ? '/assets/img/checked.svg' : '/assets/img/plus.svg'" alt=""></button>
+        </div>
+      </div>
+    </mat-card>
+  </div>
+  <div class="bottom-buttons">
+    <!-- <div class="back">
+      <a (click)="stage=PageStage.RecoveryPhrase"><img src="/assets/img/back-icon.svg" alt=""><span
+          class="command">Back</span></a>
+    </div> -->
+    <div class="next">
+      <a (click)="done()" [ngClass]="{'disable-btns': !(locationChecked && notifyChecked)}">
+        <span class="command">Done</span>
+        <img src="/assets/img/done.svg" alt="">
+      </a>
+    </div>
+  </div>
 </div>

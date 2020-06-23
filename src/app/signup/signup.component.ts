@@ -15,14 +15,10 @@ export class SignupComponent implements OnInit {
   public stage: EnumPageStage = EnumPageStage.Intro01;
   public locationChecked: boolean;
   public notifyChecked: boolean;
-  public notifyState: any;
-  public locationState: any;
 
   constructor(private router: Router, private userService: UserService) {
     this.locationChecked = false;
     this.notifyChecked = false;
-    this.notifyState = '/assets/img/plus.svg'
-    this.locationState = '/assets/img/plus.svg'
   }
 
   ngOnInit() {
@@ -32,15 +28,17 @@ export class SignupComponent implements OnInit {
   }
 
   public signup(): void {
-    this.userService.register().subscribe(
-      (data) => {
-        this.router.navigate(['/dashboard']);
-      },
-      (err) => {
-        // TODO: do something
-        console.log(err);
-      }
-    );
+    if (this.locationChecked && this.notifyChecked) {
+      this.userService.register().subscribe(
+        (data) => {
+          this.router.navigate(['/dashboard']);
+        },
+        (err) => {
+          // TODO: do something
+          console.log(err);
+        }
+      );
+    }
   }
 
   public locationPermission() {
@@ -50,11 +48,4 @@ export class SignupComponent implements OnInit {
   public notifyPermission() {
     this.notifyChecked = true;
   }
-
-  public done() {
-    if (this.locationChecked && this.notifyChecked) {
-      this.router.navigate(['dashboard']);
-    }
-  }
-
 }

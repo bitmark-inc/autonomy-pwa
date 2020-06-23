@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
+import { FormsModule } from "@angular/forms";
 import { MatToolbarModule, MatCardModule, MatGridListModule } from '@angular/material';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -37,6 +38,7 @@ import { ReportBehaviorComponent } from './report-behavior/report-behavior.compo
     HttpClientModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
     BrowserAnimationsModule,
+    FormsModule,
     MatToolbarModule,
     MatCardModule,
     MatGridListModule
