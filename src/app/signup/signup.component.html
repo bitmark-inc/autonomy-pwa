@@ -23,7 +23,7 @@
       <a [routerLink]="['/landing']"><img src="/assets/img/back-icon.svg" alt=""><span class="command">Back</span></a>
     </div>
     <div class="next">
-      <a (click)="stage=PageStage.Intro02"><span class="command">Next</span><img src="/assets/img/next-icon.svg" alt=""></a>
+      <a (click)="setStage(PageStage.Intro02)"><span class="command">Next</span><img src="/assets/img/next-icon.svg" alt=""></a>
     </div>
   </div>
 </div>
@@ -55,10 +55,10 @@
   </div>
   <div class="bottom-buttons">
     <div class="back">
-      <a (click)="stage=PageStage.Intro01"><img src="/assets/img/back-icon.svg" alt=""><span class="command">Back</span></a>
+      <a (click)="setStage(PageStage.Intro01)"><img src="/assets/img/back-icon.svg" alt=""><span class="command">Back</span></a>
     </div>
     <div class="next">
-      <a (click)="stage=PageStage.Intro03"><span class="command">Next</span><img src="/assets/img/next-icon.svg"
+      <a (click)="setStage(PageStage.Intro03)"><span class="command">Next</span><img src="/assets/img/next-icon.svg"
           alt=""></a>
     </div>
   </div>
@@ -90,10 +90,10 @@
   </div>
   <div class="bottom-buttons">
     <div class="back">
-      <a (click)="stage=PageStage.Intro02"><img src="/assets/img/back-icon.svg" alt=""><span class="command">Back</span></a>
+      <a (click)="setStage(PageStage.Intro02)"><img src="/assets/img/back-icon.svg" alt=""><span class="command">Back</span></a>
     </div>
     <div class="next">
-      <a (click)="stage=PageStage.Permission"><span class="command">Next</span><img src="/assets/img/next-icon.svg"
+      <a (click)="setStage(PageStage.Permission)"><span class="command">Next</span><img src="/assets/img/next-icon.svg"
           alt=""></a>
     </div>
   </div>
@@ -120,7 +120,7 @@
           <span>We’ll remind you to report symptoms and practice healthy behaviors. When your neighborhood’s health changes, we’ll send you alerts.</span>
         </div>
         <div class="access-btns">
-          <button (click)="notifyPermission()"><img [src]="notifyChecked ? '/assets/img/checked.svg' : '/assets/img/plus.svg'" alt=""></button>
+          <button (click)="notifyPermission()"><img [src]="notificationGranted ? '/assets/img/checked.svg' : '/assets/img/plus.svg'" alt=""></button>
         </div>
       </div>
     </mat-card>
@@ -132,18 +132,18 @@
           <span>Your data will be used to help improve your neighborhood’s health. Your own location will be kept private.</span>
         </div>
         <div class="access-btns">
-          <button (click)="locationPermission()"><img [src]="locationChecked ? '/assets/img/checked.svg' : '/assets/img/plus.svg'" alt=""></button>
+          <button (click)="locationPermission()"><img [src]="locationGranted ? '/assets/img/checked.svg' : '/assets/img/plus.svg'" alt=""></button>
         </div>
       </div>
     </mat-card>
   </div>
   <div class="bottom-buttons">
     <div class="back">
-      <a (click)="stage=PageStage.Intro03"><img src="/assets/img/back-icon.svg" alt=""><span
+      <a (click)="setStage(PageStage.Intro03)"><img src="/assets/img/back-icon.svg" alt=""><span
           class="command">Back</span></a>
     </div>
     <div class="next">
-      <a (click)="signup()" [ngClass]="{'disable-btns': !(locationChecked && notifyChecked)}">
+      <a (click)="signup()" [ngClass]="{'disable-btns': !(locationGranted && notificationGranted)}">
         <span class="command">Done</span>
         <img src="/assets/img/done.svg" alt="">
       </a>
