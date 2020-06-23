@@ -18,6 +18,25 @@
   color: grey;
   width: 100%;
 
+  .start-landing {
+    font-weight: 300;
+    font-size: 36px;
+    line-height: 100%;
+    text-transform: uppercase;
+    padding-bottom: 1rem;
+    
+    a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffffff;
+      text-decoration: none;
+      .command {
+        padding-right: 1rem;
+      }
+    }
+  }
+
   a {
     color: inherit;
     text-decoration: underline;

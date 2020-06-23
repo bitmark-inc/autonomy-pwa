@@ -1,28 +1,152 @@
 <div [hidden]="stage != PageStage.Intro01">
-  We'll forecast the public health of your beighboardood
-  <br/>
-  <a [routerLink]="['/landing']">Back</a>
-  <br/>
-  <a (click)="stage=PageStage.Intro02">Next</a>
+  <mat-toolbar layout="fill">
+    <div class="header-line"><hr><hr></div>
+    <div class="header-title"><span class="highlight">1</span><span>2</span><span>3</span></div>
+    <div class="header-line"><hr><hr>
+    </div>
+  </mat-toolbar>
+  <div class="content">
+    <mat-card>
+      <mat-card-content>
+        <div class="onboarding-words">
+          <p>We'll forecast the public health of your beighboardood</p>
+        </div>
+      </mat-card-content>
+    </mat-card>
+    <div class="img-groups">
+      <img class="device" src="/assets/img/device.svg" alt="">
+      <img class="intro" src="/assets/img/intro1.svg" alt="">
+    </div>
+  </div>
+  <div class="bottom-buttons">
+    <div class="back">
+      <a [routerLink]="['/landing']"><img src="/assets/img/back-icon.svg" alt=""><span class="command">Back</span></a>
+    </div>
+    <div class="next">
+      <a (click)="stage=PageStage.Intro02"><span class="command">Next</span><img src="/assets/img/next-icon.svg" alt=""></a>
+    </div>
+  </div>
 </div>
 <div [hidden]="stage != PageStage.Intro02">
-  Your data is always kept 100% confidential (Even to us.)
-  <br/>
-  <a (click)="stage=PageStage.Intro01">Back</a>
-  <br/>
-  <a (click)="stage=PageStage.Intro03">Next</a>
+  <mat-toolbar layout="fill">
+    <div class="header-line">
+      <hr>
+      <hr>
+    </div>
+    <div class="header-title"><span>1</span><span class="highlight">2</span><span>3</span></div>
+    <div class="header-line">
+      <hr>
+      <hr>
+    </div>
+  </mat-toolbar>
+  <div class="content">
+    <mat-card>
+      <mat-card-content>
+        <div class="onboarding-words">
+          <p>Your data is always kept 100% confidential.</p>
+          <p>(Even to us.)</p>
+        </div>
+      </mat-card-content>
+    </mat-card>
+    <div class="img-groups">
+      <img class="device" src="/assets/img/device.svg" alt="">
+      <img class="intro" src="/assets/img/intro2.svg" alt="">
+    </div>
+  </div>
+  <div class="bottom-buttons">
+    <div class="back">
+      <a (click)="stage=PageStage.Intro01"><img src="/assets/img/back-icon.svg" alt=""><span class="command">Back</span></a>
+    </div>
+    <div class="next">
+      <a (click)="stage=PageStage.Intro03"><span class="command">Next</span><img src="/assets/img/next-icon.svg"
+          alt=""></a>
+    </div>
+  </div>
 </div>
 <div [hidden]="stage != PageStage.Intro03">
-  We'll help your neighborhood frow healthier together
-  <br/>
-  <a (click)="stage=PageStage.Intro02">Back</a>
-  <br/>
-  <a (click)="stage=PageStage.Permission">Next</a>
+  <mat-toolbar layout="fill">
+    <div class="header-line">
+      <hr>
+      <hr>
+    </div>
+    <div class="header-title"><span>1</span><span>2</span><span class="highlight">3</span></div>
+    <div class="header-line">
+      <hr>
+      <hr>
+    </div>
+  </mat-toolbar>
+  <div class="content">
+    <mat-card>
+      <mat-card-content>
+        <div class="onboarding-words">
+          <p>We'll help your neighborhood frow healthier together</p>
+        </div>
+      </mat-card-content>
+    </mat-card>
+    <div class="img-groups">
+      <img class="device" src="/assets/img/device.svg" alt="">
+      <img class="intro" src="/assets/img/intro1.svg" alt="">
+    </div>
+  </div>
+  <div class="bottom-buttons">
+    <div class="back">
+      <a (click)="stage=PageStage.Intro02"><img src="/assets/img/back-icon.svg" alt=""><span class="command">Back</span></a>
+    </div>
+    <div class="next">
+      <a (click)="stage=PageStage.Permission"><span class="command">Next</span><img src="/assets/img/next-icon.svg"
+          alt=""></a>
+    </div>
+  </div>
 </div>
 <div [hidden]="stage != PageStage.Permission">
-  Asking for permission
-  <br/>
-  <a (click)="stage=PageStage.Intro03">Back</a>
-  <br/>
-  <a [routerLink]="['/dashboard']">Done</a>
+  <mat-toolbar layout="fill">
+    <div class="header-line"><hr><hr></div>
+    <div class="header-title">permission</div>
+    <div class="header-line"><hr><hr></div>
+  </mat-toolbar>
+  <div class="content">
+    <mat-card>
+      <mat-card-content>
+        <div class="onboarding-words">
+          <p>Autonomy requires access to the following:</p>
+        </div>
+      </mat-card-content>
+    </mat-card>
+    <hr>
+    <mat-card>
+      <div class="permission-scope">
+        <div class="brief-des">
+          <p>Notifications</p>
+          <span>We’ll remind you to report symptoms and practice healthy behaviors. When your neighborhood’s health changes, we’ll send you alerts.</span>
+        </div>
+        <div class="access-btns">
+          <button (click)="notifyPermission()"><img [src]="notifyState" alt=""></button>
+        </div>
+      </div>
+    </mat-card>
+    <hr>
+    <mat-card>
+      <div class="permission-scope">
+        <div class="brief-des">
+          <p>Location data</p>
+          <span>Your data will be used to help improve your neighborhood’s health. Your own location will be kept private.</span>
+        </div>
+        <div class="access-btns">
+          <button (click)="locationPermission()"><img [src]="locationState" alt=""></button>
+        </div>
+      </div>
+    </mat-card>
+  </div>
+  <div class="bottom-buttons">
+    <div class="back">
+      <a (click)="stage=PageStage.Intro03"><img src="/assets/img/back-icon.svg" alt=""><span
+          class="command">Back</span></a>
+    </div>
+    <div class="next">
+      <a (click)="done()" [ngClass]="{'disable-btns': !(locationChecked && notifyChecked)}">
+        <span class="command">Done</span>
+        <img src="/assets/img/next-icon.svg" alt="">
+      </a>
+    </div>
+  </div>
 </div>
