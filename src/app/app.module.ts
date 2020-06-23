@@ -26,6 +26,7 @@ import { EventEmitterService } from "./services/event-emitter.service";
 import { AuthGuard, GuestGuard } from './url-guard';
 import { MyAutonomyComponent } from './my-autonomy/my-autonomy.component';
 import { AlertDialogComponent } from "./alert-dialog/alert-dialog.component";
+import { PoiSearchComponent } from './poi-search/poi-search.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import { AlertDialogComponent } from "./alert-dialog/alert-dialog.component";
     ReportSymptomComponent,
     ReportBehaviorComponent,
     MyAutonomyComponent,
-    AlertDialogComponent
+    AlertDialogComponent,
+    PoiSearchComponent,
   ],
   imports: [
     BrowserModule,
