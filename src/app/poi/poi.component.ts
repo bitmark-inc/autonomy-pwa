@@ -39,7 +39,16 @@ export class PoiComponent implements OnInit {
     }[],
     autonomy_score: number,
     autonomy_score_delta: number
-  }
+  };
+
+  public resources: {
+    resource: {
+      id: string,
+      name: string
+    },
+    score: number,
+    ratings: number
+  }[];
 
   constructor(private activatedRoute: ActivatedRoute, private apiService: ApiService) {
     this.activatedRoute.params.subscribe((params) => {
@@ -68,6 +77,7 @@ export class PoiComponent implements OnInit {
       .subscribe(
         (data: any) => {
           this.poi = data;
+          this.resources = this.poi.resources.slice(0, 11);
         },
         (err: any) => {
           console.log(err);
@@ -90,5 +100,7 @@ export class PoiComponent implements OnInit {
       );
   }
 
-  
+  public showMore() {
+    this.resources = this.poi.resources;
+  }
 }

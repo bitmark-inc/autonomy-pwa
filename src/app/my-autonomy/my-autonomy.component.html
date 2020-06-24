@@ -1,1 +1,25 @@
-<p>my-autonomy works!</p>
+<div class="content">
+  <mat-toolbar class="title-page" layout="fill">
+    <p>You</p>
+  </mat-toolbar>
+  <mat-card>
+    <div class="triangle">
+      <a [routerLink]="['/my-autonomy']">
+        <img src="/assets/img/triangles/triangle_{{myProfile.autonomy_score | number:'1.0-0'}}.svg"
+          [alt]="myProfile.autonomy_score">
+        <div class="inside-triangle">
+          <span class="score">{{myProfile.autonomy_score | number:'1.0-0'}}</span><br/>
+          <span class="delta">{{myProfile.autonomy_score_delta}}</span>
+        </div>
+      </a>
+    </div>
+  </mat-card>
+  <mat-card>
+  </mat-card>
+  <div class="bottom-buttons">
+    <div class="back">
+      <a (click)="this.router.navigate(['/dashboard'])"><img src="/assets/img/back-icon.svg" alt=""><span
+          class="command">Back</span></a>
+    </div>
+  </div>
+</div>

@@ -2,7 +2,16 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, APP_INITIALIZER } from '@angular/core';
 
 import { FormsModule } from "@angular/forms";
-import { MatToolbarModule, MatCardModule, MatGridListModule, MatDialogModule, MatButtonModule, MatIconModule } from '@angular/material';
+import {
+  MatToolbarModule,
+  MatCardModule,
+  MatGridListModule,
+  MatDialogModule,
+  MatButtonModule,
+  MatIconModule,
+  MatTableModule,
+  MatListModule,
+} from "@angular/material";
 
 import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule }    from '@angular/common/http';
@@ -60,6 +69,8 @@ import { ResourcesAddingComponent } from './resources-adding/resources-adding.co
     MatDialogModule,
     MatButtonModule,
     MatIconModule,
+    MatTableModule,
+    MatListModule,
   ],
   providers: [
     UserService,

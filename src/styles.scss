@@ -1,3 +1,8 @@
+$base-color: #ffffff;
+$title-color: #BFBFBF;
+$base-background: #000000;
+$sub-background: #2B2B2B;
+
 html {
   font-family: 'Atlas Grotesk', 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI',
     Roboto, 'Helvetica Neue', Arial, sans-serif;
@@ -54,6 +59,16 @@ hr {
   background-color: grey;
 }
 
+button {
+  background-color: $base-background;
+  color: $base-color;
+  border: unset;
+}
+
+.main-content {
+  padding-bottom: 70px;
+}
+
 .header {
   color: grey;
   background-color: inherit;
@@ -63,7 +78,7 @@ hr {
   font-style: normal;
 
   .header-line {
-    width: 35%;
+    width: 30%;
     hr {
       color: inherit;
       margin-bottom: .1rem;
@@ -75,7 +90,7 @@ hr {
   }
 
   .header-title {
-    width: 30%;
+    width: 40%;
     text-align: center;
     text-transform: uppercase;
     display: flex;
@@ -91,6 +106,60 @@ hr {
   font-family: 'Domaine Sans Text';
   font-size: 14px;
   font-style: normal;
+  text-transform: uppercase;
+}
+
+.small-title {
+  display: flex;
+  justify-content: left;
+  color: $title-color;
+  background-color: inherit;
+  font-family: 'Domaine Sans Text';
+  font-size: 10px;
+  font-style: normal;
+  text-transform: uppercase;
+}
+
+.row-items {
+  color: $base-color !important;
+  font-size: 14px;
+  text-transform: uppercase;
+  border-bottom: 1px solid $sub-background;
+}
+
+.last-item {
+  border-bottom: unset;
+}
+
+.resource-footer {
+  padding-left: unset !important;
+  padding-right: unset !important;
+
+  .resource-footer-items {
+    color: $title-color;
+    font-size: 14px;
+    text-transform: uppercase;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    img {
+      width: 16px;
+      object-fit: scale-down;
+    }
+
+    span {
+      margin: 0.5em;
+    }
+  }
+
+  .left {
+    float: left;
+  }
+
+  .right {
+    float: right;
+  }
 }
 
 .mat-card {
@@ -141,7 +210,7 @@ hr {
 }
 
 .footer {
-  position: absolute;
+  position: fixed;
   bottom: 0;
   background-color: #2B2B2B;
   width: 100%;
@@ -163,8 +232,64 @@ hr {
   }
 }
 
+.triangle {
+  text-align: center;
+
+  img {
+    width: 100%;
+    height: 100%;
+  }
+
+  .inside-triangle {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, 20%);
+    font-weight: normal;
+
+    .score {
+      font-size: 5ex;
+    }
+    .delta {
+      font-size: 1.75ex;
+    }
+  }
+}
+
 .disable-btns {
   opacity: 0.25;
+}
+
+.col-20 {
+  width: 20%;
+}
+
+.col-40 {
+  width: 40%;
+}
+
+.col-50 {
+  width: 50%;
+}
+
+.col-60 {
+  width: 60%;
+}
+
+.content-left {
+  text-align: left;
+}
+
+.content-right {
+  text-align: right;
+}
+
+.p-t-30 {
+  padding-top: 30px;
+}
+
+.p-b-30 {
+  padding-bottom: 30px;
 }
 
 /* Responsive Styles */

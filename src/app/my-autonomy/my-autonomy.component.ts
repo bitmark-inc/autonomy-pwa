@@ -45,6 +45,7 @@ export class MyAutonomyComponent implements OnInit {
       .subscribe(
         (data: any) => {
           this.myProfile = data;
+          console.log(this.myProfile);
         },
         (err: any) => {
           console.log(err);
