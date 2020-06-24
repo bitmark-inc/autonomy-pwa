@@ -28,6 +28,7 @@ import { ReportBehaviorComponent } from './report-behavior/report-behavior.compo
 import { MyAutonomyComponent } from './my-autonomy/my-autonomy.component';
 import { AlertDialogComponent } from "./alert-dialog/alert-dialog.component";
 import { PoiSearchComponent } from './poi-search/poi-search.component';
+import { ResourcesAddingComponent } from './resources-adding/resources-adding.component';
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import { PoiSearchComponent } from './poi-search/poi-search.component';
     AlertDialogComponent,
     PoiSearchComponent,
     RatingsComponent,
+    ResourcesAddingComponent,
   ],
   imports: [
     BrowserModule,
