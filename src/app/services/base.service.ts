@@ -39,6 +39,9 @@ export abstract class BaseService {
         case 'head':
           request = this.http.head(url);
           break;
+        case 'delete':
+          request = this.http.delete(url, options);
+          break;
         default:
           break;
       }

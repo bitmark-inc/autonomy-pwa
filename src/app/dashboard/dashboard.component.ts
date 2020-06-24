@@ -47,4 +47,18 @@ export class DashboardComponent implements OnInit {
       )
   }
 
+  public forgetPOI(id: string) {
+    this.apiService
+      .request('delete', `api/accounts/me/pois/${id}`)
+      .subscribe(
+        (data) => {
+          this.getMyPOIs();
+        },
+        (err: any) => {
+          console.log(err);
+          // TODO: do something
+        }
+      )
+  }
+
 }

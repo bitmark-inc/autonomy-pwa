@@ -76,4 +76,19 @@ export class PoiComponent implements OnInit {
       )
   }
 
+  public monitor() {
+    this.apiService
+      .request('post', 'api/accounts/me/pois', {poi_id: this.poi.id})
+      .subscribe(
+        (data) => {
+          this.poi.owned = true;
+        },
+        (err: any) => {
+          console.log(err);
+          // TODO: do something
+        }
+      );
+  }
+
+  
 }
