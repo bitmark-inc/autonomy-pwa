@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ApiService } from '../services/api/api.service';
+import { Router } from "@angular/router";
 
 @Component({
   selector: 'app-poi',
@@ -50,7 +51,7 @@ export class PoiComponent implements OnInit {
     ratings: number
   }[];
 
-  constructor(private activatedRoute: ActivatedRoute, private apiService: ApiService) {
+  constructor(private activatedRoute: ActivatedRoute, private apiService: ApiService, private router: Router) {
     this.activatedRoute.params.subscribe((params) => {
       if (params.id) {
         this.id = params.id;

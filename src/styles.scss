@@ -69,6 +69,11 @@ button {
   padding-bottom: 70px;
 }
 
+.default-color {
+  background-color: $base-background;
+  color: $base-color;
+}
+
 .header {
   color: grey;
   background-color: inherit;
@@ -121,7 +126,7 @@ button {
 }
 
 .row-items {
-  color: $base-color !important;
+  color: $base-color;
   font-size: 14px;
   text-transform: uppercase;
   border-bottom: 1px solid $sub-background;
@@ -244,14 +249,14 @@ button {
     position: absolute;
     left: 50%;
     top: 50%;
-    transform: translate(-50%, 20%);
+    transform: translate(-50%, 10%);
     font-weight: normal;
 
     .score {
-      font-size: 5ex;
+      font-size: 7ex;
     }
     .delta {
-      font-size: 1.75ex;
+      font-size: 2ex;
     }
   }
 }
@@ -278,10 +283,14 @@ button {
 
 .content-left {
   text-align: left;
+  display: flex;
+  justify-content: flex-start;
 }
 
 .content-right {
   text-align: right;
+  display: flex;
+  justify-content: flex-end;
 }
 
 .p-t-30 {
@@ -290,6 +299,24 @@ button {
 
 .p-b-30 {
   padding-bottom: 30px;
+}
+
+.green {
+  display: flex;
+  color: green;
+  align-items: center;
+}
+
+.red {
+  display: flex;
+  color: red;
+  align-items: center;
+}
+
+.grey {
+  display: flex;
+  color: $title-color;
+  align-items: center;
 }
 
 /* Responsive Styles */

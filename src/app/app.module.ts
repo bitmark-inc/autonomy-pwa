@@ -38,6 +38,8 @@ import { MyAutonomyComponent } from './my-autonomy/my-autonomy.component';
 import { AlertDialogComponent } from "./alert-dialog/alert-dialog.component";
 import { PoiSearchComponent } from './poi-search/poi-search.component';
 import { ResourcesAddingComponent } from './resources-adding/resources-adding.component';
+import { PlaceDeltaPipe } from './pipes/place-delta.pipe';
+import { SymptomDeltaPipe } from './pipes/symptom-delta.pipe';
 
 @NgModule({
   declarations: [
@@ -55,6 +57,8 @@ import { ResourcesAddingComponent } from './resources-adding/resources-adding.co
     PoiSearchComponent,
     RatingsComponent,
     ResourcesAddingComponent,
+    PlaceDeltaPipe,
+    SymptomDeltaPipe,
   ],
   imports: [
     BrowserModule,

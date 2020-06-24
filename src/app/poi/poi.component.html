@@ -9,7 +9,7 @@
           [alt]="poi.autonomy_score">
         <div class="inside-triangle">
           <span class="score">{{poi.autonomy_score | number:'1.0-0'}}</span><br />
-          <span class="delta">{{poi.autonomy_score_delta}}</span>
+          <span class="delta" [innerHTML]="poi.autonomy_score_delta | placeDelta"></span>
         </div>
       </a>
     </div>
@@ -38,7 +38,7 @@
         <!-- score Column -->
         <ng-container matColumnDef="score">
           <mat-header-cell class="small-title" *matHeaderCellDef> score (1-5) </mat-header-cell>
-          <mat-cell class="row-items" *matCellDef="let element"> {{element.score}} </mat-cell>
+          <mat-cell class="row-items" [ngStyle]="{'color': element.score > 3.3 ? 'green' : (element.score <= 1.6 ? 'red' : 'yellow') }" *matCellDef="let element"> {{element.score}} </mat-cell>
         </ng-container>
       
         <!-- ratings Column -->
@@ -50,11 +50,17 @@
         <mat-header-row *matHeaderRowDef="['resource', 'score', 'ratings']"></mat-header-row>
         <mat-row *matRowDef="let row; columns: ['resource', 'score', 'ratings'];"></mat-row>
       </mat-table>
-      <mat-card class="resource-footer">
-        <button *ngIf="poi.resources.length > 10" (click)="showMore()" class="resource-footer-items left"><img src="/assets/img/done.svg" alt=""><span>More</span></button>
-        <button class="resource-footer-items right"><span>add resource</span><img src="/assets/img/plus.svg" alt=""></button>
-      </mat-card>
     </div>
+    <div *ngIf="!(resources && resources.length)" class="resource-empty">
+      <p>You can be the first to add resources provided by this place by tapping below.</p>
+      <div class="content-right">
+        <img src="/assets/img/arrow-down.svg" alt="">
+      </div>
+    </div>
+    <mat-card class="resource-footer">
+      <button *ngIf="poi.resources && poi.resources.length > 10" (click)="showMore()" class="resource-footer-items left"><img src="/assets/img/done.svg" alt=""><span>More</span></button>
+      <button class="resource-footer-items right"><span>add resource</span><img src="/assets/img/plus.svg" alt=""></button>
+    </mat-card>
   </mat-card>
 
   <!-- neighborhood -->
@@ -67,19 +73,19 @@
   <div class="p-b-30" *ngIf="poi.neighbor">
     <mat-list>
       <mat-list-item class="row-items">
-        <p class="col-60 content-left">ACTIVE CASES</p>
-        <p class="col-20 content-right">{{poi.neighbor.confirm}}</p>
-        <p class="col-20 content-right">{{poi.neighbor.confirm_delta}}</p>
+        <p class="default-color col-60 content-left">ACTIVE CASES</p>
+        <p class="default-color col-20 content-right">{{poi.neighbor.confirm}}</p>
+        <p class="col-20 content-right" [innerHTML]="poi.neighbor.confirm_delta | symptomDelta"></p>
       </mat-list-item>
       <mat-list-item class="row-items">
-        <p class="col-60 content-left">SYMPTOMS</p>
-        <p class="col-20 content-right">{{poi.neighbor.symptom}}</p>
-        <p class="col-20 content-right">{{poi.neighbor.symptom_delta}}</p>
+        <p class="default-color col-60 content-left">SYMPTOMS</p>
+        <p class="default-color col-20 content-right">{{poi.neighbor.symptom}}</p>
+        <p class="col-20 content-right" [innerHTML]="poi.neighbor.symptom_delta | symptomDelta"></p>
       </mat-list-item>
       <mat-list-item class="row-items last-item">
-        <p class="col-60 content-left">HEALTHY BEHAVIORS</p>
-        <p class="col-20 content-right">{{poi.neighbor.behavior}}</p>
-        <p class="col-20 content-right">{{poi.neighbor.behavior_delta}}</p>
+        <p class="default-color col-60 content-left">HEALTHY BEHAVIORS</p>
+        <p class="default-color col-20 content-right">{{poi.neighbor.behavior}}</p>
+        <p class="col-20 content-right" [innerHTML]="poi.neighbor.behavior_delta | placeDelta"></p>
       </mat-list-item>
     </mat-list>
   </div>
