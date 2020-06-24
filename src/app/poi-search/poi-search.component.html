@@ -9,11 +9,12 @@
   <mat-card>
     <div *ngIf="placesByKeyword && placesByKeyword.length">
       <mat-card *ngFor="let place of placesByKeyword">
-        <div class="place-found">
-          <p>{{place.structured_formatting.main_text}}</p>
-          <span>{{place.structured_formatting.secondary_text}}</span>
+        <div class="place-found" (click)="navigateToPlace(place)">
+          <p>{{place.name}}</p>
+          <span>{{place.formatted_address}}</span>
         </div>
       </mat-card>
     </div>
   </mat-card>
+  <div [hidden]="true" #googleMapAttribution></div>
 </div>

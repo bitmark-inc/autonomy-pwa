@@ -1,6 +1,6 @@
 declare var window: any;
 
-import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
+import { Component, ViewChild, ElementRef, OnInit, ChangeDetectorRef, NgZone } from '@angular/core';
 import {
   debounceTime,
   map,
@@ -10,6 +10,7 @@ import {
 import { fromEvent } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { ApiService } from '../services/api/api.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-poi-search',
@@ -19,17 +20,13 @@ import { ApiService } from '../services/api/api.service';
 export class PoiSearchComponent implements OnInit {
 
   @ViewChild('placeSearchInput', { static: true }) placeSearchInput: ElementRef;
+  @ViewChild('googleMapAttribution', { static: true }) googleMapAttribution: ElementRef;
+
   public keyword: string = '';
   public placesByKeyword: {
-    description: string,
-    distance_meters: number,
-    id: string,
-    place_id: string,
-    reference: string,
-    structured_formatting: {
-       main_text: string,
-       secondary_text: string
-    }
+    name: string,
+    formatted_address: string,
+    place_id: string
   }[];
 
   public resources: {
@@ -42,9 +39,9 @@ export class PoiSearchComponent implements OnInit {
     alias: string,
   }[];
 
-  private GGkey: string = window.App.config.google_key;
+  private placeService: any;
 
-  constructor(private http: HttpClient, private apiService: ApiService) {}
+  constructor(private apiService: ApiService, private ref: ChangeDetectorRef, private router: Router, private ngZone: NgZone) {}
 
   ngOnInit() {
     fromEvent(this.placeSearchInput.nativeElement, 'keyup').pipe(
@@ -61,19 +58,24 @@ export class PoiSearchComponent implements OnInit {
     this.getResourcesForSearching();
   }
 
+  private initPlaceService() {
+    if (!this.placeService) {
+      this.placeService = new window.google.maps.places.PlacesService(this.googleMapAttribution.nativeElement);
+    }
+    return this.placeService;
+  }
+
   private searchByKeyword(){
-    this.http
-      .get(`https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${this.keyword}&key=${this.GGkey}`)
-      .subscribe(
-        (data: {predictions: any}) => {
-          this.placesByKeyword = data.predictions;
-          console.log(this.placesByKeyword);
-        },
-        (err) => {
-          console.log(err);
-          // TODO: do something
-        }
-      );
+    this.initPlaceService();
+    this.placeService.textSearch({query: this.keyword}, (result, status) => {
+      if (status === window.google.maps.places.PlacesServiceStatus.OK) {
+        this.placesByKeyword = result;
+        this.ref.detectChanges();
+      } else {
+        console.log('Error searching places from google map service');
+        // TODO: do something
+      }
+    })
   }
 
   private searchByResource(){
@@ -103,4 +105,32 @@ export class PoiSearchComponent implements OnInit {
         }
       );
   }
+
+  public navigateToPlace(place: any) {
+    this.apiService
+      .request('post', 'api/points-of-interest', {
+        alias: place.name,
+        address: place.formatted_address,
+        location: {
+          latitude: place.geometry.location.lat(),
+          longitude: place.geometry.location.lng()
+        }
+      })
+      .subscribe(
+        (data: {id: string}) => {
+          this.ngZone.run(() => {
+            this.navigateToPOI(data.id);
+          });
+        },
+        (err) => {
+          console.log(err);
+          // TODO: do something
+        }
+      );
+  }
+
+  public navigateToPOI(id: string) {
+    this.router.navigate(['/pois', id]);
+  }
+  
 }
