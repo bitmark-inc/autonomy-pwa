@@ -7,6 +7,11 @@ import { MatToolbarModule, MatCardModule, MatGridListModule, MatDialogModule, Ma
 import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule }    from '@angular/common/http';
 
+import { UserService } from './services/user/user.service';
+import { ApiService } from './services/api/api.service';
+import { EventEmitterService } from "./services/event-emitter.service";
+import { AuthGuard, GuestGuard } from './url-guard';
+
 import { AppComponent } from './app.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
@@ -14,16 +19,12 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LandingComponent } from './landing/landing.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { PoiComponent } from './poi/poi.component';
+import { RatingsComponent } from './ratings/ratings.component';
 import { SigninComponent } from './signin/signin.component';
 import { SignupComponent } from './signup/signup.component';
 import { ProfileComponent } from './profile/profile.component';
 import { ReportSymptomComponent } from './report-symptom/report-symptom.component';
 import { ReportBehaviorComponent } from './report-behavior/report-behavior.component';
-
-import { UserService } from './services/user/user.service';
-import { ApiService } from './services/api/api.service';
-import { EventEmitterService } from "./services/event-emitter.service";
-import { AuthGuard, GuestGuard } from './url-guard';
 import { MyAutonomyComponent } from './my-autonomy/my-autonomy.component';
 import { AlertDialogComponent } from "./alert-dialog/alert-dialog.component";
 import { PoiSearchComponent } from './poi-search/poi-search.component';
@@ -42,6 +43,7 @@ import { PoiSearchComponent } from './poi-search/poi-search.component';
     MyAutonomyComponent,
     AlertDialogComponent,
     PoiSearchComponent,
+    RatingsComponent,
   ],
   imports: [
     BrowserModule,

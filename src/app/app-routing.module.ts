@@ -7,6 +7,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { PoiSearchComponent } from './poi-search/poi-search.component';
 import { MyAutonomyComponent } from './my-autonomy/my-autonomy.component';
 import { PoiComponent } from './poi/poi.component';
+import { RatingsComponent } from './ratings/ratings.component';
 import { ProfileComponent } from './profile/profile.component';
 import { ReportSymptomComponent } from './report-symptom/report-symptom.component';
 import { ReportBehaviorComponent } from './report-behavior/report-behavior.component';
@@ -20,6 +21,7 @@ const routes: Routes = [
   {path: "poi-search", component: PoiSearchComponent, canActivate: [AuthGuard]},
   {path: "my-autonomy", component: MyAutonomyComponent, canActivate: [AuthGuard]},
   {path: "pois/:id", component: PoiComponent, canActivate: [AuthGuard]},
+  {path: "rating/:id", component: RatingsComponent, canActivate: [AuthGuard]},
   {path: "locations/:lat/:long", component: PoiComponent, canActivate: [AuthGuard]},
   {path: "profile", component: ProfileComponent, canActivate: [AuthGuard]},
   {path: "report-symptom", component: ReportSymptomComponent, canActivate: [AuthGuard]},
