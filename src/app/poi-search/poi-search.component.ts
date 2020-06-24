@@ -21,14 +21,14 @@ export class PoiSearchComponent implements OnInit {
   @ViewChild('placeSearchInput', { static: true }) placeSearchInput: ElementRef;
   public keyword: string = '';
   public placesByKeyword: {
-    description : string,
-    distance_meters : number,
-    id : string,
-    place_id : string,
-    reference : string,
+    description: string,
+    distance_meters: number,
+    id: string,
+    place_id: string,
+    reference: string,
     structured_formatting: {
-       main_text : string,
-       secondary_text : string
+       main_text: string,
+       secondary_text: string
     }
   }[];
 
@@ -67,6 +67,7 @@ export class PoiSearchComponent implements OnInit {
       .subscribe(
         (data: {predictions: any}) => {
           this.placesByKeyword = data.predictions;
+          console.log(this.placesByKeyword);
         },
         (err) => {
           console.log(err);
