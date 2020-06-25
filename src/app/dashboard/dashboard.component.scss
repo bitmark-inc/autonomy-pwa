@@ -11,9 +11,9 @@
       position: absolute;
       left: 50%;
       top: 50%;
-      transform: translate(-50%, -20%);
-      font-size: 5vw;
-      font-weight: normal;
+      transform: translate(-50%, -65%);
+      font-size: 1.25em;
+      font-weight: 300;
     }
   }
 }
@@ -25,4 +25,17 @@
   a {
     display: flex;
   }
+}
+
+.alias-dashboard {
+  resize: none;
+  background: #000000;
+  color: #ffffff;
+  border: unset;
+  width: 100%;
+  font-size: 1em;
+  font-family: 'Domaine Sans Text';
+  font-weight: 300;
+  font-style: normal;
+  text-align: center;
 }

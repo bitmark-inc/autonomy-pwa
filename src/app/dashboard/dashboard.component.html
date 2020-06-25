@@ -14,7 +14,7 @@
             <img src="/assets/img/triangles/triangle_{{myAutonomy.autonomy_score | number:'1.0-0'}}.svg" [alt]="myAutonomy.autonomy_score">
             <span>{{myAutonomy.autonomy_score | number:'1.0-0'}}</span>
           </a>
-          <p>You</p>
+          <textarea class="alias-dashboard" name="poiAlias" id="poiAlias" cols="1" rows="2" readonly>You</textarea>
         </div>
       </mat-grid-tile>
       <mat-grid-tile></mat-grid-tile>
@@ -28,7 +28,7 @@
             <img src="/assets/img/triangles/triangle_{{poi.score | number:'1.0-0'}}.svg" [alt]="poi.score">
             <span>{{poi.score | number:'1.0-0'}}</span>
           </a>
-          <p>{{poi.alias}}</p>
+          <textarea class="alias-dashboard" name="poiAlias" id="poiAlias" cols="1" rows="2" readonly>{{(poi.alias.length>21) ? (poi.alias | slice:0:21)+'...' : poi.alias}}</textarea>
         </div>
       </mat-grid-tile>
     </mat-grid-list>
