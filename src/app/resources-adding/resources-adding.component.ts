@@ -1,4 +1,4 @@
-import { Component, OnInit, Renderer2 } from '@angular/core';
+import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { ApiService } from '../services/api/api.service';
@@ -13,6 +13,8 @@ enum EnumPageView {Main, Search};
   styleUrls: ['./resources-adding.component.scss']
 })
 export class ResourcesAddingComponent implements OnInit {
+  @ViewChild('searchInput', { static: true }) searchInput: ElementRef;
+
   public PageView = EnumPageView;
   public view: EnumPageView = EnumPageView.Main;
 
@@ -33,7 +35,7 @@ export class ResourcesAddingComponent implements OnInit {
   }[];
 
 
-  constructor(private activatedRoute: ActivatedRoute, private location: Location, private apiService: ApiService, private renderer: Renderer2 ) {
+  constructor(private activatedRoute: ActivatedRoute, private location: Location, private apiService: ApiService) {
     this.autocompleteResources = [];
     this.keyword = '';
 
@@ -43,13 +45,17 @@ export class ResourcesAddingComponent implements OnInit {
     });
   }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   public setView(newView: EnumPageView) {
     this.view = newView;
-    if (this.view === EnumPageView.Search && this.autocompleteResources.length === 0) {
-      this.getRecommendedResources();
+    if (this.view === EnumPageView.Search) {
+      if (this.autocompleteResources.length === 0) {
+        this.getRecommendedResources();
+      }
+      setTimeout(() => {
+        this.searchInput.nativeElement.focus();
+      }, 100);
     }
   }
 
