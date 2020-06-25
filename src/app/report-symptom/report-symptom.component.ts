@@ -1,10 +1,7 @@
-declare var window: any;
-
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { ApiService } from '../services/api/api.service';
-import { v4 as uuidv4 } from 'uuid';
 
 enum EnumPageView {Main, Search, Thanks, SymptomGuide, CommonGuide};
 
@@ -61,7 +58,6 @@ export class ReportSymptomComponent implements OnInit {
     this.autocompleteSymptoms = [];
     this.keyword = '';
     this.getSymptoms();
-    this.getAutocompleteSymptoms();
   }
 
   ngOnInit() {}
