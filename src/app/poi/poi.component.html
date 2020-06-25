@@ -15,8 +15,11 @@
     </div>
   </mat-card>
   <mat-card>
-    <p class="small-title">ADDRESS</p>
-    <p>{{poi.address}}</p>  
+    <p class="small-title p-b-10">ADDRESS</p>
+    <div class="content-left">
+      <p class="col-90 gap-right-10">{{poi.address}}</p>
+      <a class="content-right col-10" [href]="'https://www.google.com/maps/search/?api=1&query=' + poi.address" target="_blank"><img src="/assets/img/related-url.svg" alt=""></a>
+    </div>
   </mat-card>
 
   <!-- report card -->

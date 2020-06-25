@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../services/api/api.service';
+import { Router } from "@angular/router";
 
 @Component({
   selector: 'app-my-autonomy',
@@ -32,7 +33,7 @@ export class MyAutonomyComponent implements OnInit {
     }
   }
 
-  constructor(private apiService: ApiService) {
+  constructor(private apiService: ApiService, private router: Router) {
     this.getMyProfile();
   }
 

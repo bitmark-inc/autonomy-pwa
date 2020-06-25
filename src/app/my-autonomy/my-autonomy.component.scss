@@ -1,0 +1,75 @@
+.header {
+  padding-bottom: 0 !important;
+  width: 100%;
+  display: flex !important;
+  align-items: center;
+}
+
+table{
+ width: 100%;
+}
+
+.mat-table {
+  background-color: inherit !important;
+  color: inherit !important;
+}
+
+.mat-header-row {
+  min-height: 25px;
+}
+
+.mat-column-resource {
+  padding-left: 0 !important;
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 60% !important;
+  width: 60% !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+
+  word-break: break-word;
+
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}
+
+.mat-column-score {
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 20% !important;
+  width: 20% !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+
+  word-break: break-word;
+
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+  justify-content: flex-end;
+}
+
+.mat-column-ratings {
+  padding-right: 0 !important;
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 20% !important;
+  width: 20% !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+
+  word-break: break-word;
+
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+  justify-content: flex-end;
+}
+
+.resource-empty {
+  color: #BFBFBF;
+}

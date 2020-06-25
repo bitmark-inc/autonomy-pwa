@@ -109,7 +109,7 @@ button {
   color: inherit;
   background-color: inherit;
   font-family: 'Domaine Sans Text';
-  font-size: 14px;
+  font-size: 1.25em;
   font-style: normal;
   text-transform: uppercase;
 }
@@ -193,9 +193,10 @@ button {
   line-height: 100%;
   text-transform: uppercase;
   padding-bottom: 1rem;
+  padding-top: 10px;
   display: flex;
   align-items: center;
-  background-color: #000000;
+  background: #1B1B1B;;
 
   a {
     display: flex;
@@ -295,6 +296,10 @@ button {
   opacity: 0.25;
 }
 
+.col-10 {
+  width: 10%;
+}
+
 .col-20 {
   width: 20%;
 }
@@ -317,6 +322,14 @@ button {
 
 .col-70 {
   width: 70%;
+}
+
+.col-80 {
+  width: 80%;
+}
+
+.col-90 {
+  width: 90%;
 }
 
 .gap-right-10 {
