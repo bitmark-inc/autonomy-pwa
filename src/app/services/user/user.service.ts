@@ -56,6 +56,10 @@ export class UserService extends BaseService {
     return this.user ? this.user.jwt : null;
   }
 
+  public getAccountNumber(): string {
+    return this.user.account_number;
+  }
+
   public register() {
     let userKey = uuidv4();
     return Observable.create(observer => {
@@ -73,6 +77,7 @@ export class UserService extends BaseService {
         (data: {result: any}) => {
           this.user = data.result;
           this.user.key = userKey;
+          this.user.account_number = userKey;
           window.localStorage.setItem('user', JSON.stringify(this.user));
           this.authenticate().subscribe();
 
@@ -96,6 +101,7 @@ export class UserService extends BaseService {
         (data: {result: any}) => {
           this.user = data.result;
           this.user.key = userKey;
+          this.user.account_number = userKey;
           window.localStorage.setItem('user', JSON.stringify(this.user));
           this.authenticate().subscribe();
 
