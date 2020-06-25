@@ -31,7 +31,7 @@
         <div *ngIf="!symptom.common" class="resource-item" [ngClass]="{'highlight': symptom.picked}" (click)="toggleSymptomPicking(symptom.name)">
           {{symptom.name}}
         </div>
-        <div *ngIf="!existCommon()">None</div>
+        <div *ngIf="!existNoneCommon()">None</div>
       </div>
     </mat-card>
 
@@ -85,14 +85,20 @@
       <p>SYMPTOMS</p>
     </mat-card>
     <mat-card class="metric-report">
-      <div class="you">
-        <p class="sub-direction">SYMPTOMS YOU REPORTED TODAY</p>
+      <div class="you col-50 gap-right-10">
+        <p class="sub-direction">
+          <span>SYMPTOMS YOU</span><br />
+          <span>REPORTED TODAY</span>
+        </p>
         <p class="metric-num">{{symptomMetric.me.total_today}}</p>
         <p [innerHTML]="symptomMetric.me.delta | symptomDelta"></p>
         <p class="small-title">FROM YESTERDAY</p>
       </div>
-      <div class="community">
-        <p class="sub-direction">SYMPTOMS YOU REPORTED TODAY</p>
+      <div class="community col-50">
+        <p class="sub-direction">
+          <span>COMMUNITY AVERAGE</span><br />
+          <span>FOR TODAY</span>
+        </p>
         <p class="metric-num">{{symptomMetric.community.avg_today}}</p>
         <p [innerHTML]="symptomMetric.community.delta | placeDelta"></p>
         <p class="small-title">FROM YESTERDAY</p>
@@ -180,7 +186,7 @@
         <div class="guide-row guide-detail">
           <p class="content-left col-70">{{guide.address}}</p>
           <div class="content-right col-30">
-            <a class="gap-right-5" [href]="'tel:+'+ guide.phone"><img src="/assets/img/phone.svg" alt=""></a>
+            <a class="gap-right-10" [href]="'tel:+'+ guide.phone"><img src="/assets/img/phone.svg" alt=""></a>
             <a [href]="'https://www.google.com/maps/search/?api=1&query=' + guide.address" target="_blank"><img src="/assets/img/address.svg" alt=""></a>
           </div>
         </div>

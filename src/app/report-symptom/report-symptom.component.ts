@@ -79,20 +79,17 @@ export class ReportSymptomComponent implements OnInit {
         this.searchInput.nativeElement.focus();
       }, 100);
     } else if (this.view === EnumPageView.Thanks && !this.symptomMetric) {
-      console.log('metric');
       this.getSymptomMetric();
     }
   }
 
   public autocomplete() {
-    console.log('auto complete');
     this.autocompleteSymptoms.forEach((symptom) => {
       symptom.matched = symptom.name.includes(this.keyword);
     });
   }
 
   public toggleSymptomPicking(name: string, force?: boolean) {
-    console.log('picking');
     name = name.toLowerCase().trim();
     let found = this.symptoms.find(
       (symptom) => symptom.name.toLowerCase() === name
@@ -100,14 +97,11 @@ export class ReportSymptomComponent implements OnInit {
     if (found) {
       found.picked = force === undefined ? !found.picked : force;
     } else {
-      console.log('enter here');
-      console.log(name);
       this.addSymptom(name);
     }
   }
 
   public addSymptom(name: string) {
-    console.log("add symptom");
     this.apiService
       .request("post", "api/symptoms", {
         name: name,
@@ -157,8 +151,8 @@ export class ReportSymptomComponent implements OnInit {
     return this.symptoms.some((s) => s.picked);
   }
 
-  public existCommon() {
-    return this.symptoms.some((s) => s.common);
+  public existNoneCommon() {
+    return this.symptoms.some(s => !(s.common));
   }
 
   private getSymptoms(): void {
