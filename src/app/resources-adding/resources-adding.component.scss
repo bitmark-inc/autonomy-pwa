@@ -1,0 +1,25 @@
+.content {
+  position: relative;
+  padding-bottom: 60px;
+
+  .suggest-resource {
+    position: fixed;
+    bottom: 70px;
+  }
+}
+
+.resources-list {
+  display: flex;
+  flex-wrap: wrap;
+
+  .resource-item {
+    background: #282B32;
+    margin-right: 1em;
+    margin-bottom: 1em;
+    padding: 7px;
+  }
+
+  .highlight {
+    background: #0060F2;
+  }
+}

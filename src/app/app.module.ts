@@ -40,6 +40,7 @@ import { PoiSearchComponent } from './poi-search/poi-search.component';
 import { ResourcesAddingComponent } from './resources-adding/resources-adding.component';
 import { PlaceDeltaPipe } from './pipes/place-delta.pipe';
 import { SymptomDeltaPipe } from './pipes/symptom-delta.pipe';
+import { ReportScorePipe } from './pipes/report-score.pipe';
 
 @NgModule({
   declarations: [
@@ -59,6 +60,7 @@ import { SymptomDeltaPipe } from './pipes/symptom-delta.pipe';
     ResourcesAddingComponent,
     PlaceDeltaPipe,
     SymptomDeltaPipe,
+    ReportScorePipe,
   ],
   imports: [
     BrowserModule,

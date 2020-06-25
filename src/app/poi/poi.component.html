@@ -38,7 +38,7 @@
         <!-- score Column -->
         <ng-container matColumnDef="score">
           <mat-header-cell class="small-title" *matHeaderCellDef> score (1-5) </mat-header-cell>
-          <mat-cell class="row-items" [ngStyle]="{'color': element.score > 3.3 ? 'green' : (element.score <= 1.6 ? 'red' : 'yellow') }" *matCellDef="let element"> {{element.score}} </mat-cell>
+          <mat-cell class="row-items" *matCellDef="let element" [innerHTML]="element.score | reportScore"></mat-cell>
         </ng-container>
       
         <!-- ratings Column -->
@@ -59,7 +59,7 @@
     </div>
     <mat-card class="resource-footer">
       <button *ngIf="poi.resources && poi.resources.length > 10" (click)="showMore()" class="resource-footer-items left"><img src="/assets/img/done.svg" alt=""><span>More</span></button>
-      <button class="resource-footer-items right"><span>add resource</span><img src="/assets/img/plus.svg" alt=""></button>
+      <button (click)="this.router.navigate(['/resources-adding', poi.id])" class="resource-footer-items right"><span>add resource</span><img src="/assets/img/plus.svg" alt=""></button>
     </mat-card>
   </mat-card>
 
@@ -74,17 +74,17 @@
     <mat-list>
       <mat-list-item class="row-items">
         <p class="default-color col-60 content-left">ACTIVE CASES</p>
-        <p class="default-color col-20 content-right">{{poi.neighbor.confirm}}</p>
+        <p class="default-color col-20 content-center">{{poi.neighbor.confirm}}</p>
         <p class="col-20 content-right" [innerHTML]="poi.neighbor.confirm_delta | symptomDelta"></p>
       </mat-list-item>
       <mat-list-item class="row-items">
         <p class="default-color col-60 content-left">SYMPTOMS</p>
-        <p class="default-color col-20 content-right">{{poi.neighbor.symptom}}</p>
+        <p class="default-color col-20 content-center">{{poi.neighbor.symptom}}</p>
         <p class="col-20 content-right" [innerHTML]="poi.neighbor.symptom_delta | symptomDelta"></p>
       </mat-list-item>
       <mat-list-item class="row-items last-item">
         <p class="default-color col-60 content-left">HEALTHY BEHAVIORS</p>
-        <p class="default-color col-20 content-right">{{poi.neighbor.behavior}}</p>
+        <p class="default-color col-20 content-center">{{poi.neighbor.behavior}}</p>
         <p class="col-20 content-right" [innerHTML]="poi.neighbor.behavior_delta | placeDelta"></p>
       </mat-list-item>
     </mat-list>

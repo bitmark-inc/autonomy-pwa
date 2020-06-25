@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Renderer2 } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { ApiService } from '../services/api/api.service';
 import { v4 as uuidv4 } from 'uuid';
+import { EventEmitterService } from "../services/event-emitter.service";
 
 enum EnumPageView {Main, Search};
 
@@ -31,7 +32,8 @@ export class ResourcesAddingComponent implements OnInit {
     matched: boolean
   }[];
 
-  constructor(private activatedRoute: ActivatedRoute, private location: Location, private apiService: ApiService) {
+
+  constructor(private activatedRoute: ActivatedRoute, private location: Location, private apiService: ApiService, private renderer: Renderer2 ) {
     this.autocompleteResources = [];
     this.keyword = '';
 
@@ -41,7 +43,8 @@ export class ResourcesAddingComponent implements OnInit {
     });
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+  }
 
   public setView(newView: EnumPageView) {
     this.view = newView;
@@ -52,13 +55,13 @@ export class ResourcesAddingComponent implements OnInit {
 
   public autocomplete() {
     this.autocompleteResources.forEach((resource) => {
-      resource.matched = resource.name.includes(this.keyword);
+      resource.matched = resource.name.toLowerCase().includes(this.keyword.toLowerCase());
     });
   }
 
   public toggleResourcePicking(name: string, force?: boolean) {
     name = name.toLowerCase().trim();
-    let found = this.resources.find(resource => resource.name === name);
+    let found = this.resources.find(resource => resource.name.toLowerCase() === name);
     if (found) {
       found.picked = force === undefined ? !found.picked : force;
     } else {
@@ -75,20 +78,41 @@ export class ResourcesAddingComponent implements OnInit {
     let existingResources = this.resources.filter(resource => resource.existing && resource.picked).map(resource => resource.id);
     let newResources = this.resources.filter(resource => !resource.existing && resource.picked).map(resource => resource.name);
 
-    this.apiService
-      .request('post', `api/points-of-interest/${this.poiID}/resources`, {
-        resource_ids: existingResources,
-        new_resource_names: newResources
-      })
-      .subscribe(
-        (data: {resources: any}) => {
-          // Do something
-        },
-        (err: any) => {
-          console.log(err);
-          // TODO: do something
-        }
-      );
+    if (existingResources.length + newResources.length) {
+      EventEmitterService.getEventEmitter(EventEmitterService.Events.ModalDialog).emit({
+        open: true,
+        title: 'submitting',
+        message: 'Adding your resources for this place ...',
+        type: 'info'
+      });
+      this.apiService
+        .request("post", `api/points-of-interest/${this.poiID}/resources`, {
+          resource_ids: existingResources,
+          new_resource_names: newResources,
+        })
+        .subscribe(
+          (data: { resources: any }) => {
+            console.log(data);
+            setTimeout(() => {
+              EventEmitterService.getEventEmitter(EventEmitterService.Events.ModalDialog).emit({open: false});
+              this.back();
+            }, 2 * 1000);
+            // Do something
+          },
+          (err: any) => {
+            console.log(err);
+            // TODO: do something
+          }
+        );
+    }
+  }
+
+  public back(): void {
+    this.location.back();
+  }
+  
+  public isSubmit() {
+    return !this.resources.some(r => r.picked);
   }
 
   private getImportantResources(): void {

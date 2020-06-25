@@ -20,6 +20,8 @@ export class AppComponent {
     EventEmitterService.getEventEmitter(EventEmitterService.Events.ModalDialog).subscribe((data) => {
       if (data.open) {
         this.openModal(data.title, data.subTitle || '', data.message, data.type, data.cancel || null, data.retry || null);
+      } else {
+        this.dialog.closeAll();
       }
     });
   }

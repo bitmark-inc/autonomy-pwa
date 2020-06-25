@@ -136,6 +136,17 @@ button {
   border-bottom: unset;
 }
 
+.direction {
+  font-size: 24px;
+  line-height: 120%;
+}
+
+.sub-direction {
+  color: $title-color;
+  font-size: 14px;
+  text-transform: uppercase;
+}
+
 .resource-footer {
   padding-left: unset !important;
   padding-right: unset !important;
@@ -226,6 +237,11 @@ button {
 
   .search-icon {
     color: grey;
+    margin-right: 5px;
+
+    img {
+      width: inherit;
+    }
   }
 
   .search-input {
@@ -237,12 +253,18 @@ button {
   }
 }
 
+.search-item {
+  padding-left: unset;
+  padding-right: unset;
+  border-bottom: 1px solid $base-color;
+}
+
 .triangle {
   text-align: center;
 
   img {
-    width: 100%;
-    height: 100%;
+    // width: 100%;
+    // height: 100%;
   }
 
   .inside-triangle {
@@ -293,8 +315,22 @@ button {
   justify-content: flex-end;
 }
 
+.content-center {
+  text-align: center;
+  display: flex;
+  justify-content: center;
+}
+
+.p-t-10 {
+  padding-top: 10px;
+}
+
 .p-t-30 {
   padding-top: 30px;
+}
+
+.p-b-10 {
+  padding-bottom: 10px;
 }
 
 .p-b-30 {

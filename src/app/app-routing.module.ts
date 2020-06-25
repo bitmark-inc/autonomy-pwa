@@ -11,6 +11,7 @@ import { RatingsComponent } from './ratings/ratings.component';
 import { ProfileComponent } from './profile/profile.component';
 import { ReportSymptomComponent } from './report-symptom/report-symptom.component';
 import { ReportBehaviorComponent } from './report-behavior/report-behavior.component';
+import { ResourcesAddingComponent } from "./resources-adding/resources-adding.component";
 import { AuthGuard, GuestGuard } from './url-guard';
 
 const routes: Routes = [
@@ -26,6 +27,7 @@ const routes: Routes = [
   {path: "profile", component: ProfileComponent, canActivate: [AuthGuard]},
   {path: "report-symptom", component: ReportSymptomComponent, canActivate: [AuthGuard]},
   {path: "report-behavior", component: ReportBehaviorComponent, canActivate: [AuthGuard]},
+  {path: "resources-adding/:id", component: ResourcesAddingComponent, canActivate: [AuthGuard]},
   {path: "**", redirectTo: 'landing'},
 ];
 

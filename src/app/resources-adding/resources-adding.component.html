@@ -1,1 +1,56 @@
-<p>resources-adding works!</p>
+<div [hidden]="view != PageView.Main" *ngIf="resources" class="main-content">
+  <div class="content">
+    <mat-toolbar class="header" layout="fill">
+      <div class="header-line"><hr><hr></div>
+      <div class="header-title">add resource</div>
+      <div class="header-line"><hr><hr></div>
+    </mat-toolbar>
+    <mat-card class="direction content-center">
+      <p>Your resource suggestions will be anonymously pooled with others for this place.</p>
+    </mat-card>
+    <mat-card class="direction content-center">
+      <p>Tap any health-promoting resources this place provides:</p>
+    </mat-card>
+    <mat-card><hr></mat-card>
+
+    <mat-card class="sub-direction">
+      <p>IMPORTANT RESOURCES FOR THIS NEIGHBORHOOD</p>
+    </mat-card>
+    <mat-card class="resources-list">
+      <div class="resource-item" [ngClass]="{'highlight': resource.picked}" *ngFor="let resource of resources" (click)="toggleResourcePicking(resource.name)">
+        {{resource.name}}
+      </div>
+    </mat-card>
+    <mat-toolbar class="suggest-resource search-bar">
+      <mat-icon matPrefix class="search-icon">search</mat-icon>
+      <input (click)="keyword='';setView(PageView.Search)" matInput type="search" placeholder="Suggest other resource ..." class="search-input">
+    </mat-toolbar>
+  </div>
+  <!-- button footer -->
+  <div class="bottom-buttons p-t-10">
+    <div class="back">
+      <a (click)="back()"><img src="/assets/img/back-icon.svg" alt=""><span
+          class="command">Back</span></a>
+    </div>
+    <div class="next">
+      <a (click)="submit()" [ngClass]="{'disable-btns': isSubmit()}">
+        <span class="command">submit</span>
+        <img src="/assets/img/submit.svg" alt="">
+      </a>
+    </div>
+  </div>
+</div>
+<div [hidden]="view != PageView.Search">
+  <mat-toolbar class="search-bar">
+    <mat-icon (click)="view = PageView.Main" matPrefix class="search-icon"><img src="/assets/img/clear-search.svg" alt=""></mat-icon>
+    <input [(ngModel)]="keyword" (keyup)="autocomplete()" type="text" class="search-input">
+  </mat-toolbar>
+  <div *ngFor="let completeResource of autocompleteResources">
+    <mat-card *ngIf="keyword.length && completeResource.matched">
+      <div class="p-b-10" (click)="view = PageView.Main; toggleResourcePicking(completeResource.name, true)">
+        {{completeResource.name}}
+      </div>
+      <hr>
+    </mat-card>
+  </div>
+</div>
