@@ -33,6 +33,9 @@ export abstract class BaseService {
         case 'put':
           request = this.http.put(url, params, options);
           break;
+        case 'patch':
+          request = this.http.patch(url, params, options);
+          break;
         case 'get':
           request = this.http.get(url, options);
           break;

@@ -61,4 +61,21 @@ export class DashboardComponent implements OnInit {
       )
   }
 
+  public updatePOI(id: string, alias: string) {
+    this.apiService
+      .request('patch', `api/accounts/me/pois/${id}`, {alias})
+      .subcribe(
+        () => {
+          let found = this.pois.find(poi => poi.id === id);
+          if (found) {
+            found.alias = alias;
+          }
+        },
+        (err: any) => {
+          console.log(err);
+          // TODO: do something
+        }
+      );
+  }
+
 }
