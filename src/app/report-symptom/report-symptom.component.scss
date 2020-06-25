@@ -1,0 +1,59 @@
+.content {
+  position: relative;
+  padding-bottom: 60px;
+
+  .suggest-resource {
+    position: fixed;
+    bottom: 70px;
+  }
+}
+
+.resources-list {
+  display: flex;
+  flex-wrap: wrap;
+  padding-top: unset;
+
+  .resource-item {
+    background: #282B32;
+    margin-right: 1em;
+    margin-bottom: 1em;
+    padding: 7px;
+    word-break: break-word;
+  }
+
+  .highlight {
+    background: #0060F2;
+  }
+}
+
+.metric-report {
+  display: flex;
+  justify-content: space-between;
+
+  .metric-num {
+    font-size: 5em;
+  }
+}
+
+.advice {
+  display: flex;
+  align-items: center;
+  color: #BFBFBF;
+  
+  p {
+    padding-right: 10px;
+  }
+}
+
+.guide-row {
+  display: flex;
+}
+
+.guide-title {
+  font-size: 1em;
+}
+
+.guide-detail {
+  font-size: 0.75em;
+  color: #BFBFBF;
+}
