@@ -41,7 +41,7 @@ export class PoiSearchComponent implements OnInit {
 
   private placeService: any;
 
-  constructor(private apiService: ApiService, private ref: ChangeDetectorRef, private router: Router, private ngZone: NgZone) {}
+  constructor(private apiService: ApiService, private ref: ChangeDetectorRef, public router: Router, private ngZone: NgZone) {}
 
   ngOnInit() {
     fromEvent(this.placeSearchInput.nativeElement, 'keyup').pipe(

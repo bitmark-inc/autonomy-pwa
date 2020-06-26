@@ -2,7 +2,7 @@
   <mat-toolbar class="search-bar">
     <mat-icon matPrefix class="search-icon">search</mat-icon>
     <input #placeSearchInput matInput type="text" [(ngModel)]="keyword" placeholder="Enter name or address..." class="search-input">
-    <button mat-button *ngIf="keyword || resources" matSuffix mat-icon-button aria-label="Clear" (click)="keyword='' && resources=''">
+    <button mat-button *ngIf="keyword || resources" matSuffix mat-icon-button aria-label="Clear" (click)="keyword='' && resources.splice(0, resources.length)">
       <mat-icon><img src="/assets/img/clear-search.svg" alt=""></mat-icon>
     </button>
   </mat-toolbar>

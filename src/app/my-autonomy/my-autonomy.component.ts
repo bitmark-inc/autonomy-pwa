@@ -33,7 +33,7 @@ export class MyAutonomyComponent implements OnInit {
     }
   }
 
-  constructor(private apiService: ApiService, private router: Router) {
+  constructor(private apiService: ApiService, public router: Router) {
     this.getMyProfile();
   }
 

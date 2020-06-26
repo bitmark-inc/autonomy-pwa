@@ -60,7 +60,7 @@ export class ReportSymptomComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private location: Location,
     private apiService: ApiService,
-    private router: Router
+    public router: Router
   ) {
     this.autocompleteSymptoms = [];
     this.keyword = "";

@@ -49,7 +49,7 @@ export class ReportBehaviorComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private location: Location,
     private apiService: ApiService,
-    private router: Router
+    public router: Router
   ) {
     this.autocompleteBehaviors = [];
     this.keyword = "";

@@ -12,7 +12,7 @@ export class DashboardComponent implements OnInit {
   public myAutonomy: { autonomy_score: number }
   public pois: { id: string, score: number, alias: string }[];
 
-  constructor(private router: Router, private apiService: ApiService) {
+  constructor(public router: Router, private apiService: ApiService) {
     this.getMyAutonomy();
     this.getMyPOIs();
   }

@@ -93,7 +93,7 @@ import { ReportScorePipe } from './pipes/report-score.pipe';
 })
 export class AppModule { }
 
-function InitServices(userService: UserService) {
+export function InitServices(userService: UserService) {
   return (): Promise<any> => {
     return new Promise((resolve, reject) => {
       userService.getStatus().subscribe(ready => {

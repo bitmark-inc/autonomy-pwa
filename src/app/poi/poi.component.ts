@@ -51,7 +51,7 @@ export class PoiComponent implements OnInit {
     ratings: number
   }[];
 
-  constructor(private activatedRoute: ActivatedRoute, private apiService: ApiService, private router: Router) {
+  constructor(private activatedRoute: ActivatedRoute, private apiService: ApiService, public router: Router) {
     this.activatedRoute.params.subscribe((params) => {
       if (params.id) {
         this.id = params.id;
