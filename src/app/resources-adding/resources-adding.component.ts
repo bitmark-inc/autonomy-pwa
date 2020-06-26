@@ -1,6 +1,6 @@
 import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from '../services/api/api.service';
 import { v4 as uuidv4 } from 'uuid';
 import { EventEmitterService } from "../services/event-emitter.service";
@@ -35,7 +35,7 @@ export class ResourcesAddingComponent implements OnInit {
   }[];
 
 
-  constructor(private activatedRoute: ActivatedRoute, private location: Location, private apiService: ApiService) {
+  constructor(private activatedRoute: ActivatedRoute, private location: Location, private apiService: ApiService, private router: Router) {
     this.autocompleteResources = [];
     this.keyword = '';
 
@@ -85,12 +85,6 @@ export class ResourcesAddingComponent implements OnInit {
     let newResources = this.resources.filter(resource => !resource.existing && resource.picked).map(resource => resource.name);
 
     if (existingResources.length + newResources.length) {
-      EventEmitterService.getEventEmitter(EventEmitterService.Events.ModalDialog).emit({
-        open: true,
-        title: 'submitting',
-        message: 'Adding your resources for this place ...',
-        type: 'info'
-      });
       this.apiService
         .request("post", `api/points-of-interest/${this.poiID}/resources`, {
           resource_ids: existingResources,
@@ -98,12 +92,7 @@ export class ResourcesAddingComponent implements OnInit {
         })
         .subscribe(
           (data: { resources: any }) => {
-            console.log(data);
-            setTimeout(() => {
-              EventEmitterService.getEventEmitter(EventEmitterService.Events.ModalDialog).emit({open: false});
-              this.back();
-            }, 2 * 1000);
-            // Do something
+            this.router.navigate(['/rating', this.poiID]);
           },
           (err: any) => {
             console.log(err);

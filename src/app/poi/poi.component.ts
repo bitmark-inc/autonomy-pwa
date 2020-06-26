@@ -78,7 +78,7 @@ export class PoiComponent implements OnInit {
       .subscribe(
         (data: any) => {
           this.poi = data;
-          this.resources = this.poi.resources.slice(0, 11);
+          this.resources = this.poi.resources.slice(0, 10);
         },
         (err: any) => {
           console.log(err);

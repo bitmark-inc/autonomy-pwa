@@ -16,7 +16,7 @@
   </mat-card>
   <mat-card>
     <p class="small-title p-b-10">ADDRESS</p>
-    <div class="content-left">
+    <div *ngIf="poi.address" class="content-left">
       <p class="col-90 gap-right-10">{{poi.address}}</p>
       <a class="content-right col-10" [href]="'https://www.google.com/maps/search/?api=1&query=' + poi.address" target="_blank"><img src="/assets/img/related-url.svg" alt=""></a>
     </div>
@@ -35,19 +35,19 @@
         <!-- resource Column -->
         <ng-container matColumnDef="resource">
           <mat-header-cell class="small-title" *matHeaderCellDef> resource </mat-header-cell>
-          <mat-cell class="row-items" *matCellDef="let element"> {{element.resource.name}} </mat-cell>
+          <mat-cell class="row-items" *matCellDef="let element" (click)="this.router.navigate(['/rating', poi.id], { queryParams: { highlight_id: element.resource.id } })"> {{element.resource.name}} </mat-cell>
         </ng-container>
       
         <!-- score Column -->
         <ng-container matColumnDef="score">
           <mat-header-cell class="small-title" *matHeaderCellDef> score (1-5) </mat-header-cell>
-          <mat-cell class="row-items" *matCellDef="let element" [innerHTML]="element.score | reportScore"></mat-cell>
+          <mat-cell class="row-items" *matCellDef="let element" (click)="this.router.navigate(['/rating', poi.id], { queryParams: { highlight_id: element.resource.id } })" [innerHTML]="element.score | reportScore"></mat-cell>
         </ng-container>
       
         <!-- ratings Column -->
         <ng-container matColumnDef="ratings">
           <mat-header-cell class="small-title" *matHeaderCellDef> ratings </mat-header-cell>
-          <mat-cell class="row-items" *matCellDef="let element"> {{element.ratings}} </mat-cell>
+          <mat-cell class="row-items" *matCellDef="let element" (click)="this.router.navigate(['/rating', poi.id], { queryParams: { highlight_id: element.resource.id } })"> {{element.ratings}} </mat-cell>
         </ng-container>
       
         <mat-header-row *matHeaderRowDef="['resource', 'score', 'ratings']"></mat-header-row>
@@ -61,7 +61,7 @@
       </div>
     </div>
     <mat-card class="resource-footer">
-      <button *ngIf="poi.resources && poi.resources.length > 10" (click)="showMore()" class="resource-footer-items left"><img src="/assets/img/done.svg" alt=""><span>More</span></button>
+      <button *ngIf="(poi.resources && poi.resources.length > 10 && resources != poi.resources)" (click)="showMore()" class="resource-footer-items left"><img src="/assets/img/done.svg" alt=""><span>More</span></button>
       <button (click)="this.router.navigate(['/resources-adding', poi.id])" class="resource-footer-items right"><span>add resource</span><img src="/assets/img/plus.svg" alt=""></button>
     </mat-card>
   </mat-card>

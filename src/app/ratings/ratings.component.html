@@ -1,1 +1,95 @@
-<p>ratings works!</p>
+<div *ngIf="ratings" class="main-content">
+  <div class="content">
+    <mat-toolbar class="header" layout="fill">
+      <div class="header-line"><hr><hr></div>
+      <div class="header-title">ratings</div>
+      <div class="header-line"><hr><hr></div>
+    </mat-toolbar>
+    <mat-card class="direction content-center">
+      <p>Your ratings will be anonymously pooled with others for this place.</p>
+    </mat-card>
+    <mat-card class="direction content-center">
+      <p>Tap to rate health resources provided by this place or add others:</p>
+    </mat-card>
+    <mat-card class="no-bottom no-top"><hr></mat-card>
+
+    <mat-card>
+      <div *ngIf="ratings.length">
+        <mat-table [dataSource]="ratings" class="mat-elevation-z8">
+          <!-- resource Column -->
+          <ng-container matColumnDef="resource">
+            <mat-cell class="row-items" [ngClass]="{'highlight-resource': element.resource.id === highlightID}" *matCellDef="let element"> {{element.resource.name}} </mat-cell>
+          </ng-container>
+
+          <!-- score Column -->
+          <ng-container matColumnDef="score">
+            <mat-cell class="row-items" [ngClass]="{'highlight-resource': element.resource.id === highlightID}" *matCellDef="let element">
+              <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group" [(ngModel)]="element.score">
+                <div *ngIf="element.score == 0" class="group-radios">
+                  <div class="default-color">
+                    <mat-radio-button class="example-radio-button" *ngFor="let i of [1,2,3,4,5]" [value]="i"></mat-radio-button>
+                  </div>
+                </div>
+                <div *ngIf="element.score == 1" class="group-radios">
+                  <div class="risk-color">
+                    <mat-radio-button class="example-radio-button" [value]="1"></mat-radio-button>
+                  </div>
+                  <div class="default-color">
+                    <mat-radio-button class="example-radio-button" *ngFor="let i of [2,3,4,5]" [value]="i"></mat-radio-button>
+                  </div>
+                </div>
+                <div *ngIf="element.score == 2" class="group-radios">
+                  <div class="risk-color">
+                    <mat-radio-button class="example-radio-button" *ngFor="let i of [1,2]" [value]="i"></mat-radio-button>
+                  </div>
+                  <div class="default-color">
+                    <mat-radio-button class="example-radio-button" *ngFor="let i of [3,4,5]" [value]="i"></mat-radio-button>
+                  </div>
+                </div>
+                <div *ngIf="element.score == 3" class="group-radios">
+                  <div class="warn-color">
+                    <mat-radio-button class="example-radio-button" *ngFor="let i of [1,2,3]" [value]="i"></mat-radio-button>
+                  </div>
+                  <div class="default-color">
+                    <mat-radio-button class="example-radio-button" *ngFor="let i of [4,5]" [value]="i"></mat-radio-button>
+                  </div>
+                </div>
+                <div *ngIf="element.score == 4" class="group-radios">
+                  <div class="good-color">
+                    <mat-radio-button class="example-radio-button" *ngFor="let i of [1,2,3,4]" [value]="i"></mat-radio-button>
+                  </div>
+                  <div class="default-color">
+                    <mat-radio-button class="example-radio-button" [value]="5"></mat-radio-button>
+                  </div>
+                </div>
+                <div *ngIf="element.score == 5" class="group-radios">
+                  <div class="good-color">
+                    <mat-radio-button class="example-radio-button" *ngFor="let i of [1,2,3,4,5]" [value]="i"></mat-radio-button>
+                  </div>
+                </div>
+              </mat-radio-group>
+            </mat-cell>
+          </ng-container>
+
+          <mat-row *matRowDef="let row; columns: ['resource', 'score'];"></mat-row>
+        </mat-table>
+      </div>
+      <mat-card class="resource-footer">
+        <button (click)="this.router.navigate(['/resources-adding', poiID])" class="resource-footer-items right"><span>add resource</span><img src="/assets/img/plus.svg" alt=""></button>
+      </mat-card>
+    </mat-card>
+  </div>
+  <!-- button footer -->
+  <div class="bottom-buttons p-t-10">
+    <div class="back">
+      <a (click)="back()"><img src="/assets/img/back-icon.svg" alt=""><span
+          class="command">Back</span></a>
+    </div>
+    <div class="next">
+      <a (click)="submitRatings()">
+        <span class="command">submit</span>
+        <img src="/assets/img/submit.svg" alt="">
+      </a>
+    </div>
+  </div>
+</div>

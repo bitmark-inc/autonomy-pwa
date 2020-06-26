@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from '../services/api/api.service';
 
 @Component({
@@ -20,7 +20,7 @@ export class RatingsComponent implements OnInit {
     score: number
   }[];
 
-  constructor(private activatedRoute: ActivatedRoute, private location: Location, private apiService: ApiService) {
+  constructor(private activatedRoute: ActivatedRoute, private location: Location, private apiService: ApiService, public router: Router) {
     this.activatedRoute.params.subscribe((params) => {
       this.poiID = params.id;
       this.getRatings();
@@ -48,12 +48,12 @@ export class RatingsComponent implements OnInit {
 
   public submitRatings(): void {
     this.apiService
-      .request('put', `api/points-of-interest/${this.poiID}/resource-rating`, {
+      .request('put', `api/points-of-interest/${this.poiID}/resource-ratings`, {
         ratings: this.ratings
       })
       .subscribe(
         () => {
-          this.back();
+          this.router.navigate(["/pois", this.poiID]);
         },
         (err: any) => {
           console.log(err);

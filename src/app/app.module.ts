@@ -11,6 +11,7 @@ import {
   MatIconModule,
   MatTableModule,
   MatListModule,
+  MatRadioModule,
 } from "@angular/material";
 
 import { AppRoutingModule } from './app-routing.module';
@@ -77,6 +78,7 @@ import { ReportScorePipe } from './pipes/report-score.pipe';
     MatIconModule,
     MatTableModule,
     MatListModule,
+    MatRadioModule
   ],
   providers: [
     UserService,
