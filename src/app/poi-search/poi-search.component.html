@@ -1,20 +1,103 @@
 <div class="search-page">
   <mat-toolbar class="search-bar">
     <mat-icon matPrefix class="search-icon">search</mat-icon>
-    <input #placeSearchInput matInput type="text" [(ngModel)]="keyword" placeholder="Enter name or address..." class="search-input">
-    <button mat-button *ngIf="keyword || resources" matSuffix mat-icon-button aria-label="Clear" (click)="keyword='' && resources.splice(0, resources.length)">
+    <input [hidden]="resourceID" #placeSearchInput matInput type="text" [(ngModel)]="keyword" placeholder="Enter name or address..." class="search-input">
+    <input [hidden]="!resourceID" class="search-input" disabled readonly [(ngModel)]="resourceID">
+    <button mat-button *ngIf="keyword || resources" matSuffix mat-icon-button aria-label="Clear" (click)="clearAll()">
       <mat-icon><img src="/assets/img/clear-search.svg" alt=""></mat-icon>
     </button>
   </mat-toolbar>
-  <mat-card>
-    <div *ngIf="placesByKeyword && placesByKeyword.length">
-      <mat-card *ngFor="let place of placesByKeyword">
-        <div class="place-found" (click)="navigateToPlace(place)">
-          <p>{{place.name}}</p>
-          <span>{{place.formatted_address}}</span>
+  <div *ngIf="(!keyword) && (!resourceID)">
+    <mat-card>
+      <p class="sub-direction">or tap to find a specific resource:</p>
+    </mat-card>
+    <mat-card class="resources-list">
+      <div class="resource-item" *ngFor="let resource of resources"
+        (click)="searchByResource(resource)">
+        {{resource.name}}
+      </div>
+    </mat-card>
+  </div>
+  <div *ngIf="keyword && placesByKeyword && placesByKeyword.length">
+    <mat-card *ngFor="let place of placesByKeyword">
+      <div class="place-found" (click)="navigateToPlace(place)">
+        <p>{{place.name}}</p>
+        <span>{{place.formatted_address}}</span>
+      </div>
+    </mat-card>
+  </div>
+  <div *ngIf="resourceID && poisByResource && poisByResource.length">
+    <mat-card *ngFor="let place of poisByResource">
+      <div class="place-found" (click)="navigateToPOI(place.id)">
+        <p>{{place.alias}} ({{place.distance | number:'1.1-1'}}km)</p>
+        <p class="small-address p-t-5">{{place.address}}</p>
+
+        <div class="resource-score search-resource p-t-5">
+          <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group" [(ngModel)]="place.resource_score">
+            <div *ngIf="place.resource_score == 0" class="group-radios">
+              <div class="default-color">
+                <mat-radio-button class="example-radio-button" *ngFor="let i of [1,2,3,4,5]" [value]="i"></mat-radio-button>
+              </div>
+            </div>
+            <div *ngIf="place.resource_score > 0 && place.resource_score <= 1" class="group-radios">
+              <div class="risk-color">
+                <mat-radio-button class="example-radio-button" [value]="1"></mat-radio-button>
+              </div>
+              <div class="default-color">
+                <mat-radio-button class="example-radio-button" *ngFor="let i of [2,3,4,5]" [value]="i"></mat-radio-button>
+              </div>
+            </div>
+            <div *ngIf="place.resource_score > 1 && place.resource_score <= 1.6" class="group-radios">
+              <div class="risk-color">
+                <mat-radio-button class="example-radio-button" *ngFor="let i of [1,2]" [value]="i"></mat-radio-button>
+              </div>
+              <div class="default-color">
+                <mat-radio-button class="example-radio-button" *ngFor="let i of [3,4,5]" [value]="i"></mat-radio-button>
+              </div>
+            </div>
+            <div *ngIf="place.resource_score > 1.6 && place.resource_score <= 2" class="group-radios">
+              <div class="warn-color">
+                <mat-radio-button class="example-radio-button" *ngFor="let i of [1,2]" [value]="i"></mat-radio-button>
+              </div>
+              <div class="default-color">
+                <mat-radio-button class="example-radio-button" *ngFor="let i of [3,4,5]" [value]="i"></mat-radio-button>
+              </div>
+            </div>
+            <div *ngIf="place.resource_score > 2 && place.resource_score <= 3" class="group-radios">
+              <div class="warn-color">
+                <mat-radio-button class="example-radio-button" *ngFor="let i of [1,2,3]" [value]="i"></mat-radio-button>
+              </div>
+              <div class="default-color">
+                <mat-radio-button class="example-radio-button" *ngFor="let i of [4,5]" [value]="i"></mat-radio-button>
+              </div>
+            </div>
+            <div *ngIf="place.resource_score > 3 && place.resource_score <= 3.3" class="group-radios">
+              <div class="warn-color">
+                <mat-radio-button class="example-radio-button" *ngFor="let i of [1,2,3,4]" [value]="i"></mat-radio-button>
+              </div>
+              <div class="default-color">
+                <mat-radio-button class="example-radio-button" [value]="5"></mat-radio-button>
+              </div>
+            </div>
+            <div *ngIf="place.resource_score > 3.3 && place.resource_score <= 4" class="group-radios">
+              <div class="good-color">
+                <mat-radio-button class="example-radio-button" *ngFor="let i of [1,2,3,4]" [value]="i"></mat-radio-button>
+              </div>
+              <div class="default-color">
+                <mat-radio-button class="example-radio-button" [value]="5"></mat-radio-button>
+              </div>
+            </div>
+            <div *ngIf="place.resource_score > 4 && place.resource_score <= 5" class="group-radios">
+              <div class="good-color">
+                <mat-radio-button class="example-radio-button" *ngFor="let i of [1,2,3,4,5]" [value]="i"></mat-radio-button>
+              </div>
+            </div>
+          </mat-radio-group>
+          <p [innerHTML]="place.resource_score | reportScore"></p>
         </div>
-      </mat-card>
-    </div>
-  </mat-card>
+      </div>
+      <div class="p-t-20"><hr></div>
+    </mat-card>
+  </div>
   <div [hidden]="true" #googleMapAttribution></div>
 </div>
