@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { BaseService } from '../base.service';
 import { UserService } from '../user/user.service';
 import { HttpClient } from '@angular/common/http';
+import { Observable, Subscriber, Observer } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +18,10 @@ export class ApiService extends BaseService {
       options = options || {};
       options.headers = options.headers || {};
       options.headers.requester = options.headers.requester || jwt;
+      let currentLocation = this.userService.getCurrentLocation();
+      if (currentLocation) {
+        options.headers['Geo-Position'] = `${currentLocation.latitude};${currentLocation.longitude}`;
+      }
     }
     return this.sendHttpRequest(method, url, params, options);
   }

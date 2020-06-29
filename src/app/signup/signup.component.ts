@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { UserService } from '../services/user/user.service';
 import { Router } from '@angular/router';
 import { SwPush } from '@angular/service-worker';
@@ -17,7 +17,7 @@ export class SignupComponent implements OnInit {
   public locationGranted: boolean = false;
   public notificationGranted: boolean = false;
 
-  constructor(private router: Router, private userService: UserService, private SwPush: SwPush) {
+  constructor(private router: Router, private userService: UserService, private SwPush: SwPush, private ref: ChangeDetectorRef) {
     this.locationGranted = false;
     this.notificationGranted = false;
   }
@@ -43,28 +43,31 @@ export class SignupComponent implements OnInit {
   public setStage(newStage: EnumPageStage) {
     this.stage = newStage;
     if (this.stage === EnumPageStage.Permission) {
-      navigator.geolocation.getCurrentPosition(
-        (location) => {
-          this.locationGranted = true;
-        },
-        (err) => {
-          console.log('Getting user location error');
-          switch(err.code) {
-            case err.PERMISSION_DENIED:
-              console.log("User denied the request for Geolocation.");
-              break;
-            case err.POSITION_UNAVAILABLE:
-              console.log("Location information is unavailable.");
-              break;
-            case err.TIMEOUT:
-              console.log("The request to get user location timed out.");
-              break;
-            default:
-              console.log("An unknown error occurred.");
-              break;
+      this.userService
+        .startTrackingLocation()
+        .subscribe(
+          (coordinate) => {
+            this.locationGranted = true;
+            this.ref.detectChanges();
+          },
+          (err) => {
+            console.log('Getting user location error');
+            switch(err.code) {
+              case err.PERMISSION_DENIED:
+                console.log("User denied the request for Geolocation.");
+                break;
+              case err.POSITION_UNAVAILABLE:
+                console.log("Location information is unavailable.");
+                break;
+              case err.TIMEOUT:
+                console.log("The request to get user location timed out.");
+                break;
+              default:
+                console.log("An unknown error occurred.");
+                break;
+            }
           }
-        }
-      )
+        )
     }
   }
 }

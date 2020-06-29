@@ -25,7 +25,12 @@ export class UserService extends BaseService {
     metadata: {},
     created_at: string,
     updated_at: string
+
+    currentLocation: {latitude: number, longitude: number}
   };
+
+  private isTrackingLocation: boolean = false;
+  private currentLocation: {latitude: number, longitude: number};
 
   constructor(protected http: HttpClient) {
     super(http);
@@ -33,6 +38,10 @@ export class UserService extends BaseService {
     if (localUserData) {
       try {
         this.user = JSON.parse(localUserData);
+        if (this.user.currentLocation != null) {
+          this.currentLocation = this.user.currentLocation;
+          this.startTrackingLocation().subscribe();
+        }
       } catch (err) {}
     }
     if (this.user) {
@@ -41,6 +50,13 @@ export class UserService extends BaseService {
       );
     } else {
       this.statusSubject.next(true);
+    }
+  }
+
+  private saveUser() {
+    if (this.user) {
+      this.user.currentLocation = this.currentLocation;
+      window.localStorage.setItem('user', JSON.stringify(this.user));
     }
   }
 
@@ -60,10 +76,13 @@ export class UserService extends BaseService {
     return this.user.account_number;
   }
 
+  public getCurrentLocation(): {latitude: number, longitude: number} {
+    return this.currentLocation;
+  }
+
   public register() {
     let userKey = uuidv4();
     return Observable.create(observer => {
-      console.log('Got here');
       this.sendHttpRequest('post', 'api/accounts', {
         enc_pub_key: "temporary_encryption_public_key",
         metadata: {
@@ -78,7 +97,7 @@ export class UserService extends BaseService {
           this.user = data.result;
           this.user.key = userKey;
           this.user.account_number = userKey;
-          window.localStorage.setItem('user', JSON.stringify(this.user));
+          this.saveUser();
           this.authenticate().subscribe();
 
           observer.next(this.user);
@@ -102,7 +121,7 @@ export class UserService extends BaseService {
           this.user = data.result;
           this.user.key = userKey;
           this.user.account_number = userKey;
-          window.localStorage.setItem('user', JSON.stringify(this.user));
+          this.saveUser();
           this.authenticate().subscribe();
 
           observer.next(this.user);
@@ -121,5 +140,43 @@ export class UserService extends BaseService {
       observer.next();
       observer.complete();
     });
+  }
+
+  public startTrackingLocation(): Observable<any> {
+    return Observable.create((observer: Observer<any>) => {
+      if (this.isTrackingLocation) {
+        observer.next(this.currentLocation);
+        observer.complete();
+        return;
+      }
+
+      navigator.geolocation.getCurrentPosition(
+        (position: {coords: any}) => {
+          this.currentLocation = position.coords;
+          this.saveUser();
+
+          this.isTrackingLocation = true;
+          this.updateOnLocationChanged();
+          observer.next(this.currentLocation);
+          observer.complete();
+        },
+        (err) => {
+          observer.error(err);
+        }
+      );
+    });
+  }
+
+  private updateOnLocationChanged() {
+    navigator.geolocation.watchPosition(
+      (position: {coords: any}) => {
+        this.currentLocation = position.coords;
+        this.saveUser();
+      },
+      (err) => {
+        console.log(err);
+        // TODO: do something
+      }
+    );
   }
 }
