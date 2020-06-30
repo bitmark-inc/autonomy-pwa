@@ -1,0 +1,23 @@
+dist: xenial
+sudo: false
+language: node_js
+node_js:
+- '10'
+cache:
+  directories:
+  - "./node_modules"
+before_install:
+- openssl aes-256-cbc -K $encrypted_613e8e5d4c40_key -iv $encrypted_613e8e5d4c40_iv -in ./travis/external-services.js.enc -out ./src/assets/external-services.js -d
+install:
+- npm install
+script:
+- npm run build --prod
+deploy:
+  provider: s3
+  access_key_id: AKIARG2XGPJ66O2DK3WW
+  secret_access_key:
+    secure: iAwdkgb15++9DujId7paVjoP54hFczGoo4XPail89jt3sNtpJn2HhmYtWmfpPIdIGZgzn2ZUnmCkOg+eDmfL+ML329F3YA1EFB9+HOQQ2HLKxmGaA0qo1uQ2Yb9dyeyDA9npQSN0WOszxZHJ21k8k3Qv2b/2wXcQS5S99iRToTdNYzwMeXSc9ariD2xEA4DXh1mVOeBYnEHm3+as5H09ng8MTvfEy3d2OlNL4TQMO6imwwURAwVeP9y/9FytRhI46DFDgcJf3tFCAJsX5C9U4bFRW9y831s/ugq68ycit+puCiMmaZmhP+o4hAeJyEGz65xJFumGoDcK5YDZqECTKTXupLhstt+gT/W22kBnvwWwX1eaOASPMQRzXIa8h1yPzJFkxJVaCF0S+fapRBz0hDYzvi3xNRL9fr3We1DOQSLt+Ga319QKjJ4U2xDMu88g/3VH+ZDbVdCC8j97/Nbf1DjhcbkBl1P7DRJv2pmVRRFZQCqi/Qy3UkruI3W7xjfNMPV8RZaqQeW6zylCfy7bYlJE6QXI3W9YG+cydQNX/zZMx5ZHsZ9QodEhd8sjwwu+XplfKm3v12egGdXstbB1mJt4GTRRWoF7MR4o4d4Kn8vhB7CQXPoYcA0SG6fcv83LvdGZu/ZzKrkFGxeE0xxBwQtp63dVc9hbBI8ZOz9OvpA=
+  bucket: autonomy-pwa.test.bitmark.com
+  skip_cleanup: true
+  local_dir: "./dist/autonomy"
+  region: ap-northeast-1
