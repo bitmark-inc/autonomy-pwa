@@ -11,7 +11,7 @@ before_install:
 install:
 - npm install
 script:
-- npm run build --prod
+- npm run build -- --aot=true --prod=true
 deploy:
   provider: s3
   access_key_id: AKIARG2XGPJ66O2DK3WW
