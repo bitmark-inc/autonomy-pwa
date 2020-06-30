@@ -103,5 +103,11 @@
         <img src="/assets/img/plus.svg" alt="">
       </a>
     </div>
+    <div *ngIf="poi.owned" class="next">
+      <a (click)="forgetPOI()">
+        <span class="command command-long">monitoring</span>
+        <img src="/assets/img/checked.svg" alt="">
+      </a>
+    </div>
   </div>
 </div>

@@ -101,6 +101,20 @@ export class PoiComponent implements OnInit {
       );
   }
 
+  public forgetPOI() {
+    this.apiService
+      .request("delete", `api/accounts/me/pois/${this.poi.id}`)
+      .subscribe(
+        (data) => {
+          this.poi.owned = false;
+        },
+        (err: any) => {
+          console.log(err);
+          // TODO: do something
+        }
+      );
+  }
+
   public showMore() {
     this.resources = this.poi.resources;
   }
