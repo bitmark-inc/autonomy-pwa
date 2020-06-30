@@ -6,6 +6,10 @@
 
   .search-bar {
     border-bottom: 0.5pt solid #BFBFBF;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    background-color: #2B2B2B;
   }
 
   .direction {

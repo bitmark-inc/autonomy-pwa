@@ -5,7 +5,7 @@
   <mat-card>
     <div class="triangle">
       <a>
-        <img src="/assets/img/triangles/triangle_{{poi.autonomy_score | number:'1.0-0'}}.svg"
+        <img class="triangle-boder" src="/assets/img/triangles/triangle_{{poi.autonomy_score | number:'1.0-0'}}.svg"
           [alt]="poi.autonomy_score">
         <div class="inside-triangle">
           <span class="score">{{poi.autonomy_score | number:'1.0-0'}}</span>
