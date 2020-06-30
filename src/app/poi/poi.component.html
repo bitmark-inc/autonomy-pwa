@@ -8,7 +8,7 @@
         <img src="/assets/img/triangles/triangle_{{poi.autonomy_score | number:'1.0-0'}}.svg"
           [alt]="poi.autonomy_score">
         <div class="inside-triangle">
-          <span class="score">{{poi.autonomy_score | number:'1.0-0'}}</span><br />
+          <span class="score">{{poi.autonomy_score | number:'1.0-0'}}</span>
           <span class="delta" [innerHTML]="poi.autonomy_score_delta | placeDelta"></span>
         </div>
       </a>

@@ -9,7 +9,7 @@ export class ReportScorePipe implements PipeTransform {
 
   transform(value: any): any {
     let obj: any;
-    value = parseFloat(value);
+    value = parseFloat(value).toFixed(1);
     if (value > 3.3) {
       obj = `<div style="color: green;">${value}</div>`;
     } else if (value <= 3.3 && value > 1.6 ) {

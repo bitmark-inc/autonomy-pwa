@@ -13,17 +13,21 @@
     </mat-card>
     <mat-card class="no-bottom no-top"><hr></mat-card>
 
-    <mat-card>
-      <div *ngIf="ratings.length">
-        <mat-table [dataSource]="ratings" class="mat-elevation-z8">
-          <!-- resource Column -->
-          <ng-container matColumnDef="resource">
-            <mat-cell class="row-items" [ngClass]="{'highlight-resource': element.resource.id === highlightID}" *matCellDef="let element"> {{element.resource.name}} </mat-cell>
-          </ng-container>
+    <div *ngIf="ratings.length">
+      <mat-table [dataSource]="ratings" class="mat-elevation-z8">
+        <!-- resource Column -->
+        <ng-container matColumnDef="resource">
+          <mat-cell class="row-items" [ngClass]="{'highlight-resource': element.resource.id === highlightID}" *matCellDef="let element">
+            <mat-card class="col no-right no-top no-bottom">
+              {{element.resource.name}}
+            </mat-card>
+          </mat-cell>
+        </ng-container>
 
-          <!-- score Column -->
-          <ng-container matColumnDef="score">
-            <mat-cell class="row-items" [ngClass]="{'highlight-resource': element.resource.id === highlightID}" *matCellDef="let element">
+        <!-- score Column -->
+        <ng-container matColumnDef="score">
+          <mat-cell class="row-items" [ngClass]="{'highlight-resource': element.resource.id === highlightID}" *matCellDef="let element">
+            <mat-card class="col no-left no-top no-bottom">
               <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group" [(ngModel)]="element.score">
                 <div *ngIf="element.score == 0" class="group-radios">
                   <div class="default-color">
@@ -68,15 +72,15 @@
                   </div>
                 </div>
               </mat-radio-group>
-            </mat-cell>
-          </ng-container>
+            </mat-card>
+          </mat-cell>
+        </ng-container>
 
-          <mat-row *matRowDef="let row; columns: ['resource', 'score'];"></mat-row>
-        </mat-table>
-      </div>
-      <mat-card class="resource-footer">
-        <button (click)="this.router.navigate(['/resources-adding', poiID])" class="resource-footer-items right"><span>add resource</span><img src="/assets/img/plus.svg" alt=""></button>
-      </mat-card>
+        <mat-row *matRowDef="let row; columns: ['resource', 'score'];"></mat-row>
+      </mat-table>
+    </div>
+    <mat-card class="content-right">
+      <button (click)="this.router.navigate(['/resources-adding', poiID])" class="resource-footer-items right"><span>add resource</span><img src="/assets/img/plus.svg" alt=""></button>
     </mat-card>
   </div>
   <!-- button footer -->

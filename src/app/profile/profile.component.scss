@@ -1,5 +1,6 @@
 .profile-content {
   padding-bottom: 120px;
+  position: relative;
 }
 
 .section-row {
@@ -33,12 +34,13 @@
 
 .donation {
   background: #0060F2;
-  text-transform: uppercase;
   display: flex;
   text-align: center;
   align-items: center;
 
   .title-align {
+    font-size: 1.20em;
+    text-transform: uppercase;
     align-items: center;
   }
 }
@@ -48,6 +50,10 @@
   justify-content: center;
   text-align: center;
   height: auto;
+  position: absolute;
+  bottom: 0;
+  background-color: #2B2B2B;
+  width: 100%;
 
   .version {
     color: #ffffff;

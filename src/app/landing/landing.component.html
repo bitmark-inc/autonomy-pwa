@@ -1,25 +1,23 @@
-<div>
+<div class="content">
   <mat-toolbar class="header" layout="fill">
     <div class="header-line"><hr><hr></div>
     <div class="header-title">Autonomy</div>
     <div class="header-line"><hr><hr></div>
   </mat-toolbar>
-  <div class="content">
-    <mat-card>
-      <mat-card-content>
-        <div class="landing-words">
-          <p>Get better.</p>
-          <p>Together.</p>
-        </div>
-      </mat-card-content>
+  <div class="landing-content">
+    <mat-card class="no-top">
+      <div class="landing-words">
+        <p>Get better.</p>
+        <p>Together.</p>
+      </div>
     </mat-card>
-    <mat-card>
-      <mat-card-content>
+    <mat-card class="no-top">
+      <div class="logo">
         <img src="/assets/img/Polygon.svg" alt="">
-      </mat-card-content>
+      </div>
     </mat-card>
   </div>
-  <div class="footer">
+  <div class="footer landing-footer">
     <!-- <mat-card> -->
       <div class="start-landing">
         <a [routerLink]="['/signup']"><span class="command">Start</span><img src="/assets/img/next-icon.svg" alt=""></a>

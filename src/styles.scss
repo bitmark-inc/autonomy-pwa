@@ -65,6 +65,12 @@ button {
   border: unset;
 }
 
+textarea {
+  &:focus {
+    outline: unset;
+  }
+}
+
 .main-content {
   padding-bottom: 70px;
 }
@@ -151,30 +157,30 @@ button {
   padding-left: unset !important;
   padding-right: unset !important;
 
-  .resource-footer-items {
-    color: $title-color;
-    font-size: 14px;
-    text-transform: uppercase;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-    img {
-      width: 16px;
-      object-fit: scale-down;
-    }
-
-    span {
-      margin: 0.5em;
-    }
-  }
-
   .left {
     float: left;
   }
 
   .right {
     float: right;
+  }
+}
+
+.resource-footer-items {
+  color: $title-color;
+  font-size: 14px;
+  text-transform: uppercase;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  img {
+    width: 16px;
+    object-fit: scale-down;
+  }
+
+  span {
+    margin: 0.5em;
   }
 }
 
@@ -212,7 +218,7 @@ button {
     justify-content: flex-end;
     padding-right: 1rem;
     .command {
-      padding-right: 1rem;
+      padding-right: 0.5rem;
     }
   }
 
@@ -222,12 +228,12 @@ button {
     justify-content: flex-start;
     padding-left: 1rem;
     .command {
-      padding-left: 1rem;
+      padding-left: 0.5rem;
     }
   }
 
   .command-long {
-    font-size: 0.8em;
+    font-size: 0.75em;
   }
 }
 
@@ -268,6 +274,10 @@ button {
 .triangle {
   text-align: center;
 
+  img {
+    width: 100%;
+  }
+
   .inside-triangle {
     position: absolute;
     left: 50%;
@@ -276,10 +286,14 @@ button {
     font-weight: normal;
 
     .score {
-      font-size: 9ex;
+      font-size: 8ex;
     }
     .delta {
-      font-size: 2ex;
+      font-size: 1.75ex;
+      img {
+        width: 100%;
+        height: 100%;
+      }
     }
   }
 }
@@ -290,6 +304,14 @@ button {
 
 .no-top {
   padding-top: unset !important;
+}
+
+.no-left {
+  padding-left: unset !important;
+}
+
+.no-right {
+  padding-right: unset !important;
 }
 
 .disable-btns {
@@ -342,19 +364,19 @@ button {
 
 .content-left {
   text-align: left;
-  display: flex;
+  display: flex !important;
   justify-content: flex-start;
 }
 
 .content-right {
   text-align: right;
-  display: flex;
+  display: flex !important;
   justify-content: flex-end;
 }
 
 .content-center {
   text-align: center;
-  display: flex;
+  display: flex !important;
   justify-content: center;
 }
 
@@ -376,6 +398,10 @@ button {
 
 .p-t-30 {
   padding-top: 30px;
+}
+
+.p-b-5 {
+  padding-bottom: 5px;
 }
 
 .p-b-10 {

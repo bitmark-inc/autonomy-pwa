@@ -113,8 +113,12 @@ export class PoiSearchComponent implements OnInit {
   }
 
   public clearAll() {
-    this.keyword = "";
-    this.resourceID = "";
+    if (this.keyword || this.resourceID) {
+      this.keyword = "";
+      this.resourceID = "";
+    } else {
+      this.router.navigate(['/dashboard']);
+    }
   }
 
   public navigateToPlace(place: any) {

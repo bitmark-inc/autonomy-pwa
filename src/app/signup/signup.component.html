@@ -1,22 +1,22 @@
-<div [hidden]="stage != PageStage.Intro01">
+<div class="content" [hidden]="stage != PageStage.Intro01">
   <mat-toolbar class="header" layout="fill">
     <div class="header-line"><hr><hr></div>
     <div class="header-title"><span class="highlight">1</span><span>2</span><span>3</span></div>
     <div class="header-line"><hr><hr>
     </div>
   </mat-toolbar>
-  <div class="content">
-    <mat-card>
-      <mat-card-content>
-        <div class="onboarding-words">
-          <p>We'll forecast the public health of your beighboardood</p>
-        </div>
-      </mat-card-content>
+  <div class="onboarding-content">
+    <mat-card class="no-top center-direction">
+      <div class="onboarding-words">
+        <p>We'll forecast the public health of your beighboardood</p>
+      </div>
     </mat-card>
-    <div class="img-groups">
-      <img class="device" src="/assets/img/device.svg" alt="">
-      <img class="intro" src="/assets/img/intro1.svg" alt="">
-    </div>
+    <mat-card class="no-top no-bottom">
+      <div class="img-groups">
+        <img class="device" src="/assets/img/device.svg" alt="">
+        <img class="intro" src="/assets/img/intro1.svg" alt="">
+      </div>
+    </mat-card>
   </div>
   <div class="bottom-buttons">
     <div class="back">
@@ -27,31 +27,27 @@
     </div>
   </div>
 </div>
-<div [hidden]="stage != PageStage.Intro02">
+<div class="content" [hidden]="stage != PageStage.Intro02">
   <mat-toolbar class="header" layout="fill">
-    <div class="header-line">
-      <hr>
-      <hr>
-    </div>
+    <div class="header-line"><hr><hr></div>
     <div class="header-title"><span>1</span><span class="highlight">2</span><span>3</span></div>
-    <div class="header-line">
-      <hr>
-      <hr>
-    </div>
+    <div class="header-line"><hr><hr></div>
   </mat-toolbar>
-  <div class="content">
-    <mat-card>
-      <mat-card-content>
-        <div class="onboarding-words">
+  <div class="onboarding-content">
+    <mat-card class="no-top center-direction">
+      <div class="onboarding-words">
+        <div>
           <p>Your data is always kept 100% confidential.</p>
           <p>(Even to us.)</p>
         </div>
-      </mat-card-content>
+      </div>
     </mat-card>
-    <div class="img-groups">
-      <img class="device" src="/assets/img/device.svg" alt="">
-      <img class="intro" src="/assets/img/intro2.svg" alt="">
-    </div>
+    <mat-card class="no-top no-bottom">
+      <div class="img-groups">
+        <img class="device" src="/assets/img/device.svg" alt="">
+        <img class="intro intro2" src="/assets/img/intro2.svg" alt="">
+      </div>
+    </mat-card>
   </div>
   <div class="bottom-buttons">
     <div class="back">
@@ -63,30 +59,25 @@
     </div>
   </div>
 </div>
-<div [hidden]="stage != PageStage.Intro03">
+<div class="content" [hidden]="stage != PageStage.Intro03">
   <mat-toolbar class="header" layout="fill">
-    <div class="header-line">
-      <hr>
-      <hr>
-    </div>
+    <div class="header-line"><hr><hr></div>
     <div class="header-title"><span>1</span><span>2</span><span class="highlight">3</span></div>
-    <div class="header-line">
-      <hr>
-      <hr>
+    <div class="header-line"><hr><hr>
     </div>
   </mat-toolbar>
-  <div class="content">
-    <mat-card>
-      <mat-card-content>
-        <div class="onboarding-words">
-          <p>We'll help your neighborhood frow healthier together</p>
-        </div>
-      </mat-card-content>
+  <div class="onboarding-content">
+    <mat-card class="no-top center-direction">
+      <div class="onboarding-words">
+        <p>We'll help your neighborhood frow healthier together</p>
+      </div>
     </mat-card>
-    <div class="img-groups">
-      <img class="device" src="/assets/img/device.svg" alt="">
-      <img class="intro" src="/assets/img/intro1.svg" alt="">
-    </div>
+    <mat-card class="no-top no-bottom">
+      <div class="img-groups">
+        <img class="device" src="/assets/img/device.svg" alt="">
+        <img class="intro" src="/assets/img/intro1.svg" alt="">
+      </div>
+    </mat-card>
   </div>
   <div class="bottom-buttons">
     <div class="back">
@@ -98,19 +89,17 @@
     </div>
   </div>
 </div>
-<div [hidden]="stage != PageStage.Permission">
+<div class="content" [hidden]="stage != PageStage.Permission">
   <mat-toolbar class="header" layout="fill">
     <div class="header-line"><hr><hr></div>
     <div class="header-title">permission</div>
     <div class="header-line"><hr><hr></div>
   </mat-toolbar>
-  <div class="content">
-    <mat-card>
-      <mat-card-content>
-        <div class="onboarding-words">
-          <p>Autonomy requires access to the following:</p>
-        </div>
-      </mat-card-content>
+  <div class="onboarding-content">
+    <mat-card class="no-top center-direction">
+      <div class="onboarding-words">
+        <p>Autonomy requires access to the following:</p>
+      </div>
     </mat-card>
     <mat-card><hr></mat-card>
     <mat-card>
