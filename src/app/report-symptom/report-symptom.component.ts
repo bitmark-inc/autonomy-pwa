@@ -83,10 +83,25 @@ export class ReportSymptomComponent implements OnInit {
     }
   }
 
+  public searchKeyup(e: KeyboardEvent) {
+    if (e.keyCode === 13) {
+      this.submitSearch();
+    } else {
+      this.autocomplete();
+    }
+  }
+
   public autocomplete() {
     this.autocompleteSymptoms.forEach((symptom) => {
       symptom.matched = symptom.name.includes(this.keyword);
     });
+  }
+
+  public submitSearch() {
+    if (this.view === EnumPageView.Search) { // Workaround to prevent the call from focusout event on Android
+      this.view = EnumPageView.Main;
+      this.toggleSymptomPicking(this.keyword, true);
+    }
   }
 
   public toggleSymptomPicking(name: string, force?: boolean) {

@@ -58,7 +58,7 @@
 <div [hidden]="view != PageView.Search">
   <mat-toolbar class="search-bar">
     <mat-icon (click)="view = PageView.Main" matPrefix class="search-icon"><img src="/assets/img/clear-search.svg" alt=""></mat-icon>
-    <input [(ngModel)]="keyword" (keyup)="autocomplete()" (keyup.enter)="view = PageView.Main; toggleSymptomPicking(keyword, true)" type="text" class="search-input" #searchInput>
+    <input [(ngModel)]="keyword" (keyup)="searchKeyup($event)" (focusout)="submitSearch()" type="text" class="search-input" #searchInput>
   </mat-toolbar>
   <div *ngFor="let completeSymptoms of autocompleteSymptoms">
     <mat-card *ngIf="keyword.length && completeSymptoms.matched">

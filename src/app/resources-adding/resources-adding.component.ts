@@ -59,10 +59,25 @@ export class ResourcesAddingComponent implements OnInit {
     }
   }
 
+  public searchKeyup(e: KeyboardEvent) {
+    if (e.keyCode === 13) {
+      this.submitSearch();
+    } else {
+      this.autocomplete();
+    }
+  }
+
   public autocomplete() {
     this.autocompleteResources.forEach((resource) => {
       resource.matched = resource.name.toLowerCase().includes(this.keyword.toLowerCase());
     });
+  }
+
+  public submitSearch() {
+    if (this.view === EnumPageView.Search) { // Workaround to prevent the call from focusout event on Android
+      this.view = EnumPageView.Main;
+      this.toggleResourcePicking(this.keyword, true);
+    }
   }
 
   public toggleResourcePicking(name: string, force?: boolean) {

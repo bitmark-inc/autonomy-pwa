@@ -73,15 +73,32 @@ export class ReportBehaviorComponent implements OnInit {
     }
   }
 
+  public searchKeyup(e: KeyboardEvent) {
+    if (e.keyCode === 13) {
+      this.submitSearch();
+    } else {
+      this.autocomplete();
+    }
+  }
+
   public autocomplete() {
     this.autocompleteBehaviors.forEach((behavior) => {
       behavior.matched = behavior.name.includes(this.keyword);
     });
   }
 
+  public submitSearch() {
+    if (this.view === EnumPageView.Search) { // Workaround to prevent the call from focusout event on Android
+      this.view = EnumPageView.Main;
+      this.toggleBehaviorPicking(this.keyword, true);
+    }
+  }
+
   public toggleBehaviorPicking(name: string, force?: boolean) {
     name = name.toLowerCase().trim();
-    let found = this.behaviors.find((behavior) => behavior.name.toLowerCase() === name);
+    let found = this.behaviors.find(
+      (behavior) => behavior.name.toLowerCase() === name
+    );
     if (found) {
       found.picked = force === undefined ? !found.picked : force;
     } else {
@@ -95,14 +112,14 @@ export class ReportBehaviorComponent implements OnInit {
         name: name,
         description: "",
       })
-      .subscribe((data: {id: string}) => {
+      .subscribe((data: { id: string }) => {
         this.behaviors.push({
           id: data.id,
           name,
-          description: '',
+          description: "",
           recommended: false,
           existing: true,
-          picked: true
+          picked: true,
         });
       });
   }
