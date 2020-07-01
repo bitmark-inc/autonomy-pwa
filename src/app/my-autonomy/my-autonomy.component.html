@@ -4,8 +4,8 @@
   </mat-toolbar>
   <mat-card>
     <div class="triangle">
-      <a [routerLink]="['/my-autonomy']">
-        <img src="/assets/img/triangles/triangle_{{myProfile.autonomy_score | number:'1.0-0'}}.svg"
+      <a>
+        <img class="triangle-boder" src="/assets/img/triangles/triangle_{{myProfile.autonomy_score | number:'1.0-0'}}.svg"
           [alt]="myProfile.autonomy_score">
         <div class="inside-triangle">
           <span class="score">{{myProfile.autonomy_score | number:'1.0-0'}}</span><br/>
@@ -33,38 +33,6 @@
         <p class="default-color col-60 content-left">HEALTHY BEHAVIORS</p>
         <p class="default-color col-20 content-center">{{myProfile.individual.behavior}}</p>
         <p class="col-20 content-right" [innerHTML]="myProfile.individual.behavior_delta | placeDelta"></p>
-      </mat-list-item>
-    </mat-list>
-  </div>
-
-  <!-- neighborhood -->
-  <mat-card class="header p-t-30" layout="fill">
-    <div class="header-line"><hr><hr></div>
-    <div class="header-title"><span>NEIGHBORHOOD</span></div>
-    <div class="header-line"><hr><hr>
-    </div>
-  </mat-card>
-  <div class="p-b-30" *ngIf="myProfile.neighbor">
-    <mat-list>
-      <mat-list-item class="row-items">
-        <p class="default-color col-60 content-left">NEIGHBORHOOD SCORE</p>
-        <p class="default-color col-20 content-center">{{myProfile.neighbor.score | number:'1.0-0'}}</p>
-        <p class="col-20 content-right" [innerHTML]="myProfile.neighbor.score_delta | placeDelta"></p>
-      </mat-list-item>
-      <mat-list-item class="row-items">
-        <p class="default-color col-60 content-left">ACTIVE CASES</p>
-        <p class="default-color col-20 content-center">{{myProfile.neighbor.confirm}}</p>
-        <p class="col-20 content-right" [innerHTML]="myProfile.neighbor.confirm_delta | symptomDelta"></p>
-      </mat-list-item>
-      <mat-list-item class="row-items">
-        <p class="default-color col-60 content-left">SYMPTOMS</p>
-        <p class="default-color col-20 content-center">{{myProfile.neighbor.symptom}}</p>
-        <p class="col-20 content-right" [innerHTML]="myProfile.neighbor.symptom_delta | symptomDelta"></p>
-      </mat-list-item>
-      <mat-list-item class="row-items last-item">
-        <p class="default-color col-60 content-left">HEALTHY BEHAVIORS</p>
-        <p class="default-color col-20 content-center">{{myProfile.neighbor.behavior}}</p>
-        <p class="col-20 content-right" [innerHTML]="myProfile.neighbor.behavior_delta | placeDelta"></p>
       </mat-list-item>
     </mat-list>
   </div>

@@ -65,33 +65,8 @@
       <button (click)="this.router.navigate(['/resources-adding', poi.id])" class="resource-footer-items right"><span>add resource</span><img src="/assets/img/plus.svg" alt=""></button>
     </mat-card>
   </mat-card>
+  <div class="p-b-30"></div>
 
-  <!-- neighborhood -->
-  <mat-card class="header p-t-30" layout="fill">
-    <div class="header-line"><hr><hr></div>
-    <div class="header-title"><span>NEIGHBORHOOD</span></div>
-    <div class="header-line"><hr><hr>
-    </div>
-  </mat-card>
-  <div class="p-b-30" *ngIf="poi.neighbor">
-    <mat-list>
-      <mat-list-item class="row-items">
-        <p class="default-color col-60 content-left">ACTIVE CASES</p>
-        <p class="default-color col-20 content-center">{{poi.neighbor.confirm}}</p>
-        <p class="col-20 content-right" [innerHTML]="poi.neighbor.confirm_delta | symptomDelta"></p>
-      </mat-list-item>
-      <mat-list-item class="row-items">
-        <p class="default-color col-60 content-left">SYMPTOMS</p>
-        <p class="default-color col-20 content-center">{{poi.neighbor.symptom}}</p>
-        <p class="col-20 content-right" [innerHTML]="poi.neighbor.symptom_delta | symptomDelta"></p>
-      </mat-list-item>
-      <mat-list-item class="row-items last-item">
-        <p class="default-color col-60 content-left">HEALTHY BEHAVIORS</p>
-        <p class="default-color col-20 content-center">{{poi.neighbor.behavior}}</p>
-        <p class="col-20 content-right" [innerHTML]="poi.neighbor.behavior_delta | placeDelta"></p>
-      </mat-list-item>
-    </mat-list>
-  </div>
   <div class="bottom-buttons">
     <div class="back">
       <a (click)="this.router.navigate(['/dashboard'])"><img src="/assets/img/back-icon.svg" alt=""><span
