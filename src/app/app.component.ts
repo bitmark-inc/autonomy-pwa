@@ -3,6 +3,8 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { MatDialog, MatDialogConfig } from "@angular/material";
 import { AlertDialogComponent } from "./alert-dialog/alert-dialog.component";
 import { EventEmitterService } from "./services/event-emitter.service";
+import { interval } from 'rxjs';
+import { SwUpdate } from '@angular/service-worker';
 
 @Component({
   selector: 'app-root',
@@ -14,7 +16,7 @@ export class AppComponent {
 
   @ViewChild('modalAlert', {static: false}) public modalAlert: ElementRef;
 
-  constructor(public dialog: MatDialog, public breakpointObserver: BreakpointObserver) {
+  constructor(public dialog: MatDialog, public breakpointObserver: BreakpointObserver, private swUpdate: SwUpdate) {
     const isSmallScreen = breakpointObserver.isMatched('(max-width: 599px)');
 
     EventEmitterService.getEventEmitter(EventEmitterService.Events.ModalDialog).subscribe((data) => {
@@ -24,6 +26,19 @@ export class AppComponent {
         this.dialog.closeAll();
       }
     });
+
+    interval(1000 * 60 * 60).subscribe(() => {
+      this.swUpdate.checkForUpdate();
+    });
+
+    this.swUpdate.available.subscribe(
+      () => {
+        console.log('A new version is detected.');
+        this.swUpdate.activateUpdate().then(() => {
+          console.log('A new version is downloaded.');
+        });
+      }
+    );
   }
 
   public openModal(title:string, subTitle: string, message:string, type:string = 'info', yes:Function = null, no:Function = null) {
