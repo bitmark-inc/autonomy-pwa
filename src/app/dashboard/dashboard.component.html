@@ -28,7 +28,7 @@
             <a [routerLink]="['/pois', poi.id]">
               <img src="/assets/img/triangles/triangle_{{poi.score | number:'1.0-0'}}.svg" [alt]="poi.score">
               <span>{{poi.score | number:'1.0-0'}}</span>
-              <textarea class="alias-dashboard" name="poiAlias" id="poiAlias" cols="1" rows="2" readonly>{{(poi.alias.length>21) ? (poi.alias | slice:0:21)+'...' : poi.alias}}</textarea>
+              <textarea class="alias-dashboard" name="poiAlias" id="poiAlias" cols="1" rows="2" readonly>{{(poi.alias.length>20) ? (poi.alias | slice:0:20)+'...' : poi.alias}}</textarea>
             </a>
           </div>
         </mat-grid-tile>

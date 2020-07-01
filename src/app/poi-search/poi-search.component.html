@@ -2,7 +2,7 @@
   <mat-toolbar class="search-bar">
     <mat-icon matPrefix class="search-icon">search</mat-icon>
     <input [hidden]="resourceID" #placeSearchInput matInput type="text" [(ngModel)]="keyword" placeholder="Enter name or address..." class="search-input">
-    <input [hidden]="!resourceID" class="search-input" disabled readonly [(ngModel)]="resourceID">
+    <input [hidden]="!resourceID" class="search-input" readonly [(ngModel)]="resourceID">
     <button mat-button *ngIf="keyword || resources" matSuffix mat-icon-button aria-label="Clear" (click)="clearAll()">
       <mat-icon><img src="/assets/img/clear-search.svg" alt=""></mat-icon>
     </button>
@@ -99,5 +99,8 @@
       <div class="p-t-20"><hr></div>
     </mat-card>
   </div>
+  <mat-card class="non-places-found" *ngIf="resourceID && poisByResource && !poisByResource.length">
+    <p>Sorry, there aren’t currently any places in our system offering that resource. Be the first to add it for places you know!</p>
+  </mat-card>
   <div [hidden]="true" #googleMapAttribution></div>
 </div>

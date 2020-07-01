@@ -16,16 +16,22 @@
     color: #BFBFBF;
   }
 
+  .non-places-found {
+    color: #BFBFBF;
+    text-align: center;
+  }
+
   .resources-list {
     display: flex;
     flex-wrap: wrap;
   
     .resource-item {
       background: #000000;
-      margin-right: 1em;
-      margin-bottom: 1em;
-      padding: 7px;
+      margin-right: 0.95em;
+      margin-bottom: 0.85em;
+      padding: 4px;
       word-break: break-word;
+      font-size: 0.95em;
     }
   }
 
