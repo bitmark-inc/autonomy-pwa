@@ -134,6 +134,28 @@ export class UserService extends BaseService {
     });
   }
 
+  public submitOneSignalTag(): void {
+    window.OneSignal.push(() => {
+      window.OneSignal.sendTag('account_number', this.getAccountNumber());
+    })
+  }
+
+  public removeOneSignalTag(): void {
+    window.OneSignal.push(() => {
+      window.OneSignal.isPushNotificationsEnabled((isEnabled: boolean) => {
+        if (isEnabled) {
+          window.OneSignal.sendTag('account_number', '');
+        }
+      });
+    });
+  }
+
+  public signout() {
+    localStorage.removeItem('user');
+    this.removeOneSignalTag();
+    this.user = null;
+  }
+
   public authenticate() {
     return Observable.create(observer => {
       this.user.jwt = this.user.key;

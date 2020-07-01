@@ -13,22 +13,21 @@ export class PermissionComponent implements OnInit {
 
   public locationGranted: boolean = false;
   public notificationGranted: boolean = false;
-  public OneSignal = window.OneSignal;
 
   constructor(private router: Router, private userService: UserService, private ref: ChangeDetectorRef) {
     this.locationGranted = false;
     this.notificationGranted = false;
 
-    this.OneSignal.push(() => {
-      var isPushSupported = this.OneSignal.isPushNotificationsSupported();
+    window.OneSignal.push(() => {
+      var isPushSupported = window.OneSignal.isPushNotificationsSupported();
       console.log(`Push notification is ${isPushSupported ? '' : 'not '}supported`);
     });
 
-    this.OneSignal.push(() => {
-      this.OneSignal.isPushNotificationsEnabled((isEnabled: boolean) => {
+    window.OneSignal.push(() => {
+      window.OneSignal.isPushNotificationsEnabled((isEnabled: boolean) => {
         console.log(`Push notification is ${isEnabled ? '' : 'not '}enabled`);
         this.notificationGranted = isEnabled;
-        this.submitOneSignalTag();
+        this.userService.submitOneSignalTag();
         this.ref.detectChanges();
 
         if (!isEnabled) {
@@ -41,10 +40,10 @@ export class PermissionComponent implements OnInit {
   ngOnInit() {}
 
   public listenOnSubscriptionChange(): void {
-    this.OneSignal.push(() => {
-      this.OneSignal.on('subscriptionChange', (isSubscribed: boolean) => {
+    window.OneSignal.push(() => {
+      window.OneSignal.on('subscriptionChange', (isSubscribed: boolean) => {
         if (!this.notificationGranted && isSubscribed) {
-          this.submitOneSignalTag();
+          this.userService.submitOneSignalTag();
         }
         this.notificationGranted = isSubscribed;
         this.ref.detectChanges();
@@ -52,15 +51,11 @@ export class PermissionComponent implements OnInit {
     });
   }
 
-  public submitOneSignalTag(): void {
-    this.OneSignal.push(() => {
-      this.OneSignal.sendTag('account_number', this.userService.getAccountNumber());
-    })
-  }
+  
 
   public grantNotificationPermission() {
-    this.OneSignal.push(() => {
-      this.OneSignal.showNativePrompt();
+    window.OneSignal.push(() => {
+      window.OneSignal.showNativePrompt();
     });
   }
 

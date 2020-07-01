@@ -3,6 +3,7 @@ declare var window: any;
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { UserService } from '../services/user/user.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-profile',
@@ -11,9 +12,15 @@ import { UserService } from '../services/user/user.service';
 })
 export class ProfileComponent implements OnInit {
 
-  constructor(private location: Location, private userService: UserService) { }
+  constructor(private location: Location, private router: Router, private userService: UserService) { }
 
   ngOnInit() {}
+
+  public signout() {
+    console.log('signing out triggered');
+    this.userService.signout();
+    this.router.navigate(['/landing']);
+  }
 
   public back(): void {
     this.location.back();
