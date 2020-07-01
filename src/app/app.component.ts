@@ -27,7 +27,7 @@ export class AppComponent {
       }
     });
 
-    interval(1000 * 60 * 60).subscribe(() => {
+    interval(1000 * 60 * 15).subscribe(() => {
       this.swUpdate.checkForUpdate();
     });
 

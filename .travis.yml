@@ -10,7 +10,7 @@ branches:
   - master
   - dev
 before_install:
-- openssl aes-256-cbc -K $encrypted_613e8e5d4c40_key -iv $encrypted_613e8e5d4c40_iv -in ./travis/external-services.js.enc -out ./src/assets/external-services.js -d
+- openssl aes-256-cbc -K $encrypted_613e8e5d4c40_key -iv $encrypted_613e8e5d4c40_iv -in ./travis/js/external-services.js.enc -out ./src/assets/js/external-services.js -d
 install:
 - npm install
 script:
