@@ -56,13 +56,13 @@
   </div>
 </div>
 <div [hidden]="view != PageView.Search">
-  <mat-toolbar class="search-bar">
+  <mat-toolbar class="search-bar search-view">
     <mat-icon (click)="view = PageView.Main" matPrefix class="search-icon"><img src="/assets/img/clear-search.svg" alt=""></mat-icon>
     <input [(ngModel)]="keyword" (keyup)="searchKeyup($event)" (focusout)="submitSearch()" type="text" class="search-input" #searchInput>
   </mat-toolbar>
   <div *ngFor="let completeBehaviors of autocompleteBehaviors">
     <mat-card *ngIf="keyword.length && completeBehaviors.matched">
-      <div class="p-b-10" (click)="view = PageView.Main; toggleBehaviorPicking(completeBehaviors.name, true)">
+      <div class="p-b-10" (click)="keyword = ''; view = PageView.Main; toggleBehaviorPicking(completeBehaviors.name, true)">
         {{completeBehaviors.name}}
       </div>
       <hr>

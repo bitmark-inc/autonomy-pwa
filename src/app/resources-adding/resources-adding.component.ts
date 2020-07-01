@@ -59,8 +59,9 @@ export class ResourcesAddingComponent implements OnInit {
     }
   }
 
-  public searchKeyup(e: KeyboardEvent) {
+  public searchKeyup(e) {
     if (e.keyCode === 13) {
+      e.target.blur();
       this.submitSearch();
     } else {
       this.autocomplete();
@@ -74,24 +75,28 @@ export class ResourcesAddingComponent implements OnInit {
   }
 
   public submitSearch() {
-    if (this.view === EnumPageView.Search) { // Workaround to prevent the call from focusout event on Android
-      this.view = EnumPageView.Main;
-      this.toggleResourcePicking(this.keyword, true);
-    }
+    setTimeout(() => {  // Workaround to prevent call focusout when click resources matched
+      if (this.view === EnumPageView.Search) { // Workaround to prevent the call from focusout event on Android
+        this.view = EnumPageView.Main;
+        this.toggleResourcePicking(this.keyword, true);
+      }
+    }, 200);
   }
 
   public toggleResourcePicking(name: string, force?: boolean) {
     name = name.toLowerCase().trim();
-    let found = this.resources.find(resource => resource.name.toLowerCase() === name);
-    if (found) {
-      found.picked = force === undefined ? !found.picked : force;
-    } else {
-      this.resources.push({
-        id: uuidv4(),
-        name: name,
-        picked: true,
-        existing: false
-      })
+    if (name) {
+      let found = this.resources.find(resource => resource.name.toLowerCase() === name);
+      if (found) {
+        found.picked = force === undefined ? !found.picked : force;
+      } else {
+        this.resources.push({
+          id: uuidv4(),
+          name: name,
+          picked: true,
+          existing: false
+        })
+      }
     }
   }
 

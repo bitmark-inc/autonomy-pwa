@@ -83,8 +83,9 @@ export class ReportSymptomComponent implements OnInit {
     }
   }
 
-  public searchKeyup(e: KeyboardEvent) {
+  public searchKeyup(e) {
     if (e.keyCode === 13) {
+      e.target.blur();
       this.submitSearch();
     } else {
       this.autocomplete();
@@ -98,21 +99,25 @@ export class ReportSymptomComponent implements OnInit {
   }
 
   public submitSearch() {
-    if (this.view === EnumPageView.Search) { // Workaround to prevent the call from focusout event on Android
-      this.view = EnumPageView.Main;
-      this.toggleSymptomPicking(this.keyword, true);
-    }
+    setTimeout(() => { // Workaround to prevent call focusout when click resources matched
+      if (this.view === EnumPageView.Search) { // Workaround to prevent the call from focusout event on Android
+        this.view = EnumPageView.Main;
+        this.toggleSymptomPicking(this.keyword, true);
+      }
+    }, 200);
   }
 
   public toggleSymptomPicking(name: string, force?: boolean) {
     name = name.toLowerCase().trim();
-    let found = this.symptoms.find(
-      (symptom) => symptom.name.toLowerCase() === name
-    );
-    if (found) {
-      found.picked = force === undefined ? !found.picked : force;
-    } else {
-      this.addSymptom(name);
+    if (name) {
+      let found = this.symptoms.find(
+        (symptom) => symptom.name.toLowerCase() === name
+      );
+      if (found) {
+        found.picked = force === undefined ? !found.picked : force;
+      } else {
+        this.addSymptom(name);
+      }
     }
   }
 
