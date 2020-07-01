@@ -42,6 +42,10 @@ import { ResourcesAddingComponent } from './resources-adding/resources-adding.co
 import { PlaceDeltaPipe } from './pipes/place-delta.pipe';
 import { SymptomDeltaPipe } from './pipes/symptom-delta.pipe';
 import { ReportScorePipe } from './pipes/report-score.pipe';
+import { PermissionComponent } from './permission/permission.component';
+
+declare var window: any;
+window.isProduction = environment.production;
 
 @NgModule({
   declarations: [
@@ -62,12 +66,13 @@ import { ReportScorePipe } from './pipes/report-score.pipe';
     PlaceDeltaPipe,
     SymptomDeltaPipe,
     ReportScorePipe,
+    PermissionComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
+    ServiceWorkerModule.register('OneSignalSDKWorker.js', { enabled: environment.production }),
     BrowserAnimationsModule,
     FormsModule,
     MatToolbarModule,

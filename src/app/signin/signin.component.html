@@ -1,4 +1,4 @@
-<div [hidden]="stage != PageStage.RecoveryPhrase">
+<div>
   <mat-toolbar class="header" layout="fill">
     <div class="header-line"><hr><hr></div>
     <div class="header-title">sign in</div>
@@ -28,58 +28,6 @@
       <a (click)="signin()" [ngClass]="{'disable-btns': !key}">
         <span class="command">Sign in</span>
         <img src="/assets/img/signin.svg" alt="">
-      </a>
-    </div>
-  </div>
-</div>
-<div [hidden]="stage != PageStage.Permission">
-  <mat-toolbar class="header" layout="fill">
-    <div class="header-line"><hr><hr></div>
-    <div class="header-title">permission</div>
-    <div class="header-line"><hr><hr></div>
-  </mat-toolbar>
-  <div class="content">
-    <mat-card>
-      <mat-card-content>
-        <div class="onboarding-words">
-          <p>Autonomy requires access to the following:</p>
-        </div>
-      </mat-card-content>
-    </mat-card>
-    <mat-card><hr></mat-card>
-    <mat-card>
-      <div class="permission-scope">
-        <div class="brief-des">
-          <p>Notifications</p>
-          <span>We’ll remind you to report symptoms and practice healthy behaviors. When your neighborhood’s health changes, we’ll send you alerts.</span>
-        </div>
-        <div class="access-btns">
-          <button><img [src]="notificationGranted ? '/assets/img/checked.svg' : '/assets/img/plus.svg'" alt=""></button>
-        </div>
-      </div>
-    </mat-card>
-    <mat-card><hr></mat-card>
-    <mat-card>
-      <div class="permission-scope">
-        <div class="brief-des">
-          <p>Location data</p>
-          <span>Your data will be used to help improve your neighborhood’s health. Your own location will be kept private.</span>
-        </div>
-        <div class="access-btns">
-          <button><img [src]="locationGranted ? '/assets/img/checked.svg' : '/assets/img/plus.svg'" alt=""></button>
-        </div>
-      </div>
-    </mat-card>
-  </div>
-  <div class="bottom-buttons">
-    <!-- <div class="back">
-      <a (click)="stage=PageStage.RecoveryPhrase"><img src="/assets/img/back-icon.svg" alt=""><span
-          class="command">Back</span></a>
-    </div> -->
-    <div class="next">
-      <a (click)="done()">
-        <span class="command">Done</span>
-        <img src="/assets/img/done.svg" alt="">
       </a>
     </div>
   </div>

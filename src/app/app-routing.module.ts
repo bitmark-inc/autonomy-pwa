@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { LandingComponent } from './landing/landing.component';
 import { SigninComponent } from './signin/signin.component';
 import { SignupComponent } from './signup/signup.component';
+import { PermissionComponent } from './permission/permission.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { PoiSearchComponent } from './poi-search/poi-search.component';
 import { MyAutonomyComponent } from './my-autonomy/my-autonomy.component';
@@ -18,6 +19,7 @@ const routes: Routes = [
   {path: "landing", component: LandingComponent, canActivate: [GuestGuard]},
   {path: "signin", component: SigninComponent, canActivate: [GuestGuard]},
   {path: "signup", component: SignupComponent, canActivate: [GuestGuard]},
+  {path: "permission", component: PermissionComponent, canActivate: [AuthGuard]},
   {path: "dashboard", component: DashboardComponent, canActivate: [AuthGuard]},
   {path: "poi-search", component: PoiSearchComponent, canActivate: [AuthGuard]},
   {path: "my-autonomy", component: MyAutonomyComponent, canActivate: [AuthGuard]},
