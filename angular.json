@@ -27,6 +27,8 @@
               "src/favicon.ico",
               "src/assets",
               "src/manifest.webmanifest",
+              {"glob": "main.wasm", "input": "src/bitmarksdk/src", "output": "/"},
+              {"glob": "wasm_exec.js", "input": "src/bitmarksdk/src", "output": "/"},
               {"glob": "**/*", "input": "src/onesignal/", "output": "/"}
             ],
             "styles": [

@@ -1,0 +1,15 @@
+{
+  "name": "trywasm",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "cd ./src && env GOOS=js GOARCH=wasm go build -o main.wasm && cd ../",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}

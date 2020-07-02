@@ -21,7 +21,7 @@ export class SignupComponent implements OnInit {
   ngOnInit() {}
 
   public signup(): void {
-    this.userService.register().subscribe(
+    this.userService.signup().subscribe(
       (data) => {
         this.router.navigate(['/permission']);
       },

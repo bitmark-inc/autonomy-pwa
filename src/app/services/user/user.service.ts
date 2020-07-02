@@ -1,23 +1,26 @@
-declare var window:any;
+declare var window: any;
 
 import { Injectable } from '@angular/core';
-import { Observable, BehaviorSubject, Observer, observable } from 'rxjs';
+import { Observable, BehaviorSubject, Observer, observable, timer } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { BaseService } from '../base.service';
 
 import { v4 as uuidv4 } from 'uuid';
+import { mergeMap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService extends BaseService {
 
+  private userStorageKey: string = 'user-v1';
   private statusSubject = new BehaviorSubject(false);
   private user: {
     id: string,
-    key: string,
     jwt: string,
     account_number: string,
+    recovery_phrase: string,
+    encryption_pubkey: string,
     state: {
       last_active_time: string,
       location: string,
@@ -34,29 +37,62 @@ export class UserService extends BaseService {
 
   constructor(protected http: HttpClient) {
     super(http);
-    let localUserData = window.localStorage.getItem('user');
+    this.initService();
+  }
+
+  private async initService() {
+    await this.initBitmarkSDK();
+    window.BitmarkSdk.setup('my api token', 'testnet'); // TODO: replace this with real configuration
+
+    let localUserData = window.localStorage.getItem(this.userStorageKey);
     if (localUserData) {
       try {
         this.user = JSON.parse(localUserData);
-        if (this.user.currentLocation != null) {
-          this.currentLocation = this.user.currentLocation;
-          this.startTrackingLocation().subscribe();
+        if (!this.user.recovery_phrase) { // old test account without recovery phrase
+          localStorage.removeItem(this.userStorageKey);
+          this.user = null;
         }
       } catch (err) {}
     }
+
     if (this.user) {
-      this.authenticate().subscribe(
-        () => this.statusSubject.next(true)
+      if (this.user.currentLocation != null) {
+        this.currentLocation = this.user.currentLocation;
+        this.startTrackingLocation().subscribe();
+      }
+      this.authenticate(this.user.account_number, this.user.recovery_phrase).subscribe(
+        (jwt: string) => {
+          this.user.jwt = jwt;
+          this.statusSubject.next(true);
+        },
+        (err) => {
+          console.log(err);
+          // TODO: do something
+        }
       );
     } else {
       this.statusSubject.next(true);
+    }
+    this.resetJWTPeriodically();
+  }
+
+  private async initBitmarkSDK() {
+    if (!window.BitmarkSdk) {
+      window.BitmarkSdk = {};
+      let InstantiateStreaming = async (resp, importObject) => {
+        const source = await (await resp).arrayBuffer();
+        return await WebAssembly.instantiate(source, importObject);
+      };
+      let go = new window.Go();
+      let result = await InstantiateStreaming(fetch('main.wasm'), go.importObject)
+      go.run(result.instance);
     }
   }
 
   private saveUser() {
     if (this.user) {
       this.user.currentLocation = this.currentLocation;
-      window.localStorage.setItem('user', JSON.stringify(this.user));
+      window.localStorage.setItem(this.userStorageKey, JSON.stringify(this.user));
     }
   }
 
@@ -76,31 +112,85 @@ export class UserService extends BaseService {
     return this.user.account_number;
   }
 
+  public getRecoveryPhrase(): string {
+    return this.user.recovery_phrase;
+  }
+
   public getCurrentLocation(): {latitude: number, longitude: number} {
     return this.currentLocation;
   }
 
-  public register() {
-    let userKey = uuidv4();
+  private authenticate(accountNumber: string, recoveryPhrase: string) {
+    return Observable.create(observer => {
+      let currentTimestamp = (new Date()).getTime() + '';
+      let signature = window.BitmarkSdk.signMessage(recoveryPhrase, currentTimestamp);
+
+      this.sendHttpRequest('post', 'api/auth', {
+        signature: signature,
+        timestamp: currentTimestamp,
+        requester: accountNumber,
+      }).subscribe(
+        (data: {jwt_token: string}) => {
+          observer.next(data.jwt_token);
+          observer.complete();
+        },
+        (err) => { observer.error(err); }
+      );
+    });
+  }
+
+  // Signup with a new 13-word phrase or just auto create a new one
+  public signup(recoveryPhrase?: string) {
+    let accountInfo: {
+      account_number: string,
+      recovery_phrase: string,
+      encryption_pubkey: string
+    };
+
+    return Observable.create(observer => {
+      if (recoveryPhrase) {
+        accountInfo = window.BitmarkSdk.parseAccount(recoveryPhrase);
+        if (!accountInfo) {
+          observer.error(new Error('invalid recovery phrase for bitmark account'));
+          return;
+        }
+      } else {
+        accountInfo = window.BitmarkSdk.createNewAccount();
+      }
+
+      this.authenticate(accountInfo.account_number, accountInfo.recovery_phrase).subscribe(
+        (jwt) => {
+          this.register(accountInfo, jwt).subscribe(
+            (result) => {
+              this.user = result;
+              this.user.recovery_phrase = accountInfo.recovery_phrase;
+              this.user.account_number = accountInfo.account_number;
+              this.user.encryption_pubkey = accountInfo.encryption_pubkey;
+              this.user.jwt = jwt;
+              this.saveUser();
+              observer.next();
+              observer.complete();
+            },
+            (err) => { observer.error(err); }
+          );
+        },
+        (err) => { observer.error(err); }
+      );
+    });
+  }
+
+  private register(accountInfo, jwt) {
     return Observable.create(observer => {
       this.sendHttpRequest('post', 'api/accounts', {
-        enc_pub_key: "temporary_encryption_public_key",
-        metadata: {
-          source: 'test-pwa'
-        }
+        enc_pub_key: accountInfo.encryption_pubkey,
+        metadata: {source: 'pwa'}
       }, {
         headers: {
-          'requester': userKey
+          Authorization: 'Bearer ' + jwt
         }
       }).subscribe(
         (data: {result: any}) => {
-          this.user = data.result;
-          this.user.key = userKey;
-          this.user.account_number = userKey;
-          this.saveUser();
-          this.authenticate().subscribe();
-
-          observer.next(this.user);
+          observer.next(data.result);
           observer.complete();
         },
         (err) => {
@@ -109,29 +199,64 @@ export class UserService extends BaseService {
     });
   }
 
-  public signin(key: string) {
-    let userKey = key;
+  public signin(recoveryPhrase: string) {
+    return Observable.create(observer => {
+      let accountInfo = window.BitmarkSdk.parseAccount(recoveryPhrase);
+      if (!accountInfo) {
+        observer.error(new Error('invalid recovery phrase'));
+      }
+
+      this.authenticate(accountInfo.account_number, recoveryPhrase)
+        .subscribe(
+        (jwt) => {
+          this.me(jwt).subscribe(
+            (result) => {
+              this.user = result;
+              this.user.recovery_phrase = accountInfo.recovery_phrase;
+              this.user.account_number = accountInfo.account_number;
+              this.user.encryption_pubkey = accountInfo.encryption_pubkey;
+              this.user.jwt = jwt;
+              this.saveUser();
+              observer.next();
+              observer.complete();
+            },
+            (err) => { observer.error(err); }
+          )
+        },
+        (err) => { observer.error(err); }
+      );
+    });
+  }
+
+  private me(jwt: string) {
     return Observable.create(observer => {
       this.sendHttpRequest('get', 'api/accounts/me', {}, {
         headers: {
-          'requester': key,
+          Authorization: `Bearer ${jwt}`
         }
       }).subscribe(
         (data: {result: any}) => {
-          this.user = data.result;
-          this.user.key = userKey;
-          this.user.account_number = userKey;
-          this.saveUser();
-          this.authenticate().subscribe();
-
-          observer.next(this.user);
+          observer.next(data.result);
           observer.complete();
         },
-        (err) => {
-          observer.error(err);
-        }
+        (err) => { observer.error(err); }
       );
     });
+  }
+
+  private resetJWTPeriodically() {
+    timer(30*60*1000).subscribe(
+      () => {
+        if (!this.user) {
+          return;
+        }
+        this.authenticate(this.user.recovery_phrase, this.user.account_number).subscribe(
+          (jwt: string) => {
+            this.user.jwt = jwt;
+          }
+        );
+      }
+    );
   }
 
   public submitOneSignalTag(): void {
@@ -151,17 +276,9 @@ export class UserService extends BaseService {
   }
 
   public signout() {
-    localStorage.removeItem('user');
+    localStorage.removeItem(this.userStorageKey);
     this.removeOneSignalTag();
     this.user = null;
-  }
-
-  public authenticate() {
-    return Observable.create(observer => {
-      this.user.jwt = this.user.key;
-      observer.next();
-      observer.complete();
-    });
   }
 
   public startTrackingLocation(): Observable<any> {

@@ -17,7 +17,7 @@ export class ApiService extends BaseService {
     if (jwt) {
       options = options || {};
       options.headers = options.headers || {};
-      options.headers.requester = options.headers.requester || jwt;
+      options.headers.Authorization = options.headers.Authorization || `Bearer ${jwt}`;
       let currentLocation = this.userService.getCurrentLocation();
       if (currentLocation) {
         options.headers['Geo-Position'] = `${currentLocation.latitude};${currentLocation.longitude}`;
