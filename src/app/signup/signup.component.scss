@@ -46,26 +46,3 @@
 .highlight {
   color: #ffffff;
 }
-
-.permission-scope {
-  display: flex;
-
-  .brief-des {
-    padding-right: 0.5rem;
-    text-align: left;
-
-    p {
-      font-size: 24px;
-    }
-
-    span {
-      color: grey;
-    }
-  }
-  .access-btns {
-    button {
-      background-color: unset;
-      border: none;
-    }
-  }
-}

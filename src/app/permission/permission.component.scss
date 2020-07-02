@@ -1,0 +1,42 @@
+.content {
+  text-align: center;
+  position: relative;
+  height: 100vh;
+
+  .onboarding-content {
+    height: calc(100vh -70px - 56px);
+
+    .onboarding-words {
+      height: calc(((100vh - 70px - 56px) / 100 * 35) - 16px);
+      font-size: 9vw;
+      font-weight: 300;
+      line-height: 120%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+
+  .permission-scope {
+    display: flex;
+
+    .brief-des {
+      padding-right: 0.5rem;
+      text-align: left;
+
+      p {
+        font-size: 24px;
+      }
+
+      span {
+        color: grey;
+      }
+    }
+    .access-btns {
+      button {
+        background-color: unset;
+        border: none;
+      }
+    }
+  }
+}

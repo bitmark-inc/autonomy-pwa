@@ -78,6 +78,11 @@ textarea {
   }
 }
 
+.desktop-view {
+  display: flex;
+  justify-content: center;
+}
+
 .main-content {
   padding-bottom: 70px;
 }
@@ -242,6 +247,11 @@ textarea {
   .command-long {
     font-size: 0.75em;
   }
+}
+
+.onboarding-footer {
+  background: linear-gradient(0deg, #000000 60%, rgba(27, 27, 27, 0) 100%);
+  padding-top: 30px;
 }
 
 .footer {

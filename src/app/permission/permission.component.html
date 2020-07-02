@@ -4,8 +4,8 @@
     <div class="header-title">permission</div>
     <div class="header-line"><hr><hr></div>
   </mat-toolbar>
-  <div class="onboarding-content">
-    <mat-card class="no-top center-direction">
+  <div class="onboarding-content p-b-30">
+    <mat-card class="no-top no-bottom center-direction">
       <div class="onboarding-words">
         <p>Autonomy requires access to the following:</p>
       </div>
@@ -39,7 +39,7 @@
       </div>
     </mat-card>
   </div>
-  <div class="bottom-buttons">
+  <div class="bottom-buttons onboarding-footer">
     <div class="next">
       <a [routerLink]="['/dashboard']" [ngClass]="{'disable-btns': false}">
         <span class="command">Done</span>
