@@ -21,7 +21,7 @@ before_install:
 install:
 - cd src/bitmarksdk && npm install && npm run build
 script:
-- npm install && npm run build -- --aot=true --prod=true
+- cd .. && npm install && npm run build -- --aot=true --prod=true
 before_deploy:
 - curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
 - unzip -qq awscliv2.zip
