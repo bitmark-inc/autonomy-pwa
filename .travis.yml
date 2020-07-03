@@ -1,8 +1,10 @@
 dist: xenial
 sudo: required
-language: node_js
+language: generic
 node_js:
 - '10'
+go:
+- '1.14'
 cache:
   npm: true
 branches:
@@ -14,6 +16,7 @@ before_install:
 install:
 - npm install
 script:
+- cd src/bitmarksdk && npm run build
 - npm run build -- --aot=true --prod=true
 before_deploy:
 - curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
