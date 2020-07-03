@@ -1,12 +1,13 @@
 dist: xenial
 sudo: required
-language: go
+language: node
 node_js:
 - '10'
 go:
 - 1.14.x
 env:
   global:
+    - GIMME_OS=linux GIMME_ARCH=amd64
     - GO111MODULE=on
 cache:
   npm: true
@@ -18,11 +19,10 @@ branches:
   - dev
 before_install:
 - openssl aes-256-cbc -K $encrypted_613e8e5d4c40_key -iv $encrypted_613e8e5d4c40_iv -in ./travis/js/external-services.js.enc -out ./src/assets/js/external-services.js -d
+- gimme stable
 install:
 - cd src/bitmarksdk && npm install && npm run build
 script:
-- pwd
-- ls
 - cd ../.. && npm install && npm run build -- --aot=true --prod=true
 before_deploy:
 - curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
