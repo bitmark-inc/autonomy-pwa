@@ -3,8 +3,6 @@ sudo: required
 language: node
 node_js:
 - '10'
-go:
-- 1.14.x
 env:
   global:
     - GIMME_OS=linux GIMME_ARCH=amd64
@@ -21,6 +19,7 @@ before_install:
 - openssl aes-256-cbc -K $encrypted_613e8e5d4c40_key -iv $encrypted_613e8e5d4c40_iv -in ./travis/js/external-services.js.enc -out ./src/assets/js/external-services.js -d
 - gimme stable
 install:
+- go version
 - cd src/bitmarksdk && npm install && npm run build
 script:
 - cd ../.. && npm install && npm run build -- --aot=true --prod=true
