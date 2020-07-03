@@ -4,9 +4,14 @@ language: generic
 node_js:
 - '10'
 go:
-- '1.14'
+- 1.14.x
+env:
+  global:
+    - GO111MODULE=on
 cache:
   npm: true
+  directories:
+  - $GOPATH/pkg/mod
 branches:
   only:
   - master
