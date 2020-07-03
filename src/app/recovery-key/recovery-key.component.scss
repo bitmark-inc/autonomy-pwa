@@ -1,0 +1,46 @@
+.keys {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 20vh;
+  width: 100vw;
+}
+
+.keys-out {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 20vh;
+  width: 10vw;
+}
+
+.word-count,
+.slide-words {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.left-word {
+  font-size: 1.5em;
+  opacity: 0.5;
+  width: 8vw;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.center-word {
+  font-size: 2.25em;
+  opacity: 1;
+  width: 84vw;
+  display: flex;
+  justify-content: center;
+}
+
+.right-word {
+  font-size: 1.5em;
+  opacity: 0.5;
+  width: 8vw;
+  display: flex;
+  justify-content: flex-start;
+}

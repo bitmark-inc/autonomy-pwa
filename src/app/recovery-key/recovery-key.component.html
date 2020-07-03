@@ -1,0 +1,56 @@
+<div class="main-content" [hidden]="stage != PageStage.Direction">
+  <mat-card></mat-card>
+  <mat-card layout="fill">
+    <div class="col content-left">
+      <p class="direction">Recovery key</p>
+    </div>
+  </mat-card>
+  <mat-card>
+    <div class="p-t-5 p-b-10">
+      <p>Your recovery key allows you to fully recover your Autonomy account even if your device is lost or damaged. It is the only way to recover your account.</p>
+      <p>Autonomy does not have access to your recovery key or store it anywhere for you.</p>
+    </div>
+    <div class="p-t-5 p-b-30">
+      <p>Please make sure you are in a safe location then write down your recovery key on a piece of paper and keep it safe.</p>
+    </div>
+  </mat-card>
+  <div class="bottom-buttons">
+    <div class="back">
+      <a [routerLink]="['/profile']"><img src="/assets/img/back-icon.svg" alt=""><span class="command">Back</span></a>
+    </div>
+    <div class="next">
+      <a (click)="setStage(PageStage.Keys)"><span class="command">Next</span><img src="/assets/img/next-icon.svg" alt=""></a>
+    </div>
+  </div>
+</div>
+
+<div class="main-content" [hidden]="stage != PageStage.Keys">
+  <mat-card></mat-card>
+  <mat-card layout="fill">
+    <div class="col content-left">
+      <p class="direction">Recovery key</p>
+    </div>
+  </mat-card>
+  <mat-card>
+    <div class="p-t-5">
+      <p>Write down the following words in order:</p>
+    </div>
+  </mat-card>
+  <mat-card class="slide-words">
+    <div *ngFor="let word of words; index as i">
+      <div class="keys" *ngIf="indexShowing === i" (swipeleft)="onSwipeLeft(i)" (swiperight)="onSwipeRight(i)">
+        <p class="left-word">{{words[i-1]}}</p>
+        <p class="center-word">{{word}}</p>
+        <p class="right-word">{{words[i+1]}}</p>
+      </div>
+    </div>
+  </mat-card>
+  <div class="word-count">
+    <p class="direction">Word {{indexShowing + 1}} of 13</p>
+  </div>
+  <div class="bottom-buttons">
+    <div class="back">
+      <a [routerLink]="['/profile']"><img src="/assets/img/back-icon.svg" alt=""><span class="command">Back</span></a>
+    </div>
+  </div>
+</div>
