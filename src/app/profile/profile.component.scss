@@ -15,6 +15,7 @@
 
   }
   .big-words {
+    font-family: 'Domaine Sans Text';
     font-size: 1.5em;
     font-weight: 300;
     line-height: 120%;
@@ -28,6 +29,7 @@
       display: flex;
       align-items: center;
       justify-content: flex-end;
+      color: #ffffff !important;
     }
   }
 }
@@ -39,7 +41,7 @@
   align-items: center;
 
   .title-align {
-    font-size: 1.20em;
+    font-size: 1.1em;
     text-transform: uppercase;
     align-items: center;
   }

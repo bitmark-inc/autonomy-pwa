@@ -13,6 +13,7 @@ import {
   MatListModule,
   MatRadioModule,
 } from "@angular/material";
+import { TextFieldModule } from "@angular/cdk/text-field";
 
 import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule }    from '@angular/common/http';
@@ -85,7 +86,8 @@ window.isProduction = environment.production;
     MatIconModule,
     MatTableModule,
     MatListModule,
-    MatRadioModule
+    MatRadioModule,
+    TextFieldModule
   ],
   providers: [
     UserService,

@@ -18,12 +18,13 @@
       </div>
     </mat-card>
   </div>
-  <div *ngIf="keyword && placesByKeyword && placesByKeyword.length">
+  <div class="p-t-20" *ngIf="keyword && placesByKeyword && placesByKeyword.length">
     <mat-card *ngFor="let place of placesByKeyword">
       <div class="place-found" (click)="navigateToPlace(place)">
         <p>{{place.name}}</p>
-        <span>{{place.formatted_address}}</span>
+        <span class="small-address p-t-5">{{place.formatted_address}}</span>
       </div>
+      <div class="p-t-20"><hr></div>
     </mat-card>
   </div>
   <div *ngIf="resourceID && poisByResource && poisByResource.length">

@@ -5,6 +5,15 @@
   align-items: center;
 }
 
+.address-link {
+  position: relative;
+
+  img {
+    position: absolute;
+    top: 0;
+  }
+}
+
 table{
  width: 100%;
 }

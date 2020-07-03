@@ -11,7 +11,7 @@
     <mat-card class="direction content-center">
       <p>Tap to rate health resources provided by this place or add others:</p>
     </mat-card>
-    <mat-card class="no-bottom no-top"><hr></mat-card>
+    <mat-card class="no-top"><hr></mat-card>
 
     <div *ngIf="ratings.length">
       <mat-table [dataSource]="ratings" class="mat-elevation-z8">
@@ -80,7 +80,7 @@
       </mat-table>
     </div>
     <mat-card class="content-right">
-      <button (click)="this.router.navigate(['/resources-adding', poiID])" class="resource-footer-items right"><span>add resource</span><img src="/assets/img/plus.svg" alt=""></button>
+      <button (click)="this.router.navigate(['/resources-adding', poiID])" class="resource-footer-items right no-left no-right"><span>add resource</span><img src="/assets/img/plus.svg" alt=""></button>
     </mat-card>
   </div>
   <!-- button footer -->

@@ -1,7 +1,7 @@
 {
   "name": "autonomy",
   "short_name": "autonomy",
-  "theme_color": "#1976d2",
+  "theme_color": "#2b2b2b",
   "background_color": "#fafafa",
   "display": "standalone",
   "scope": "./",

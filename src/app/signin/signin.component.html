@@ -1,4 +1,4 @@
-<div>
+<div class="main-content">
   <mat-toolbar class="header" layout="fill">
     <div class="header-line"><hr><hr></div>
     <div class="header-title">sign in</div>
@@ -6,17 +6,16 @@
   </mat-toolbar>
   <div class="content">
     <mat-card>
-      <mat-card-content>
-        <div class="onboarding-words">
-          <p>Welcome back! To sign in, please enter your 13-word recovery key:</p>
-        </div>
-      </mat-card-content>
+      <div class="onboarding-words">
+        <p>Welcome back! To sign in, please enter your 13-word recovery key:</p>
+      </div>
     </mat-card>
     <mat-card><hr></mat-card>
     <mat-card>
-      <mat-card-content>
-        <input type="text" id="recoveryKey" [(ngModel)]="key" placeholder="Enter your recovery key here ...">
-      </mat-card-content>
+      <div class="p-b-30">
+        <textarea matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="1" cdkAutosizeMaxRows="5"
+        id="recoveryKey" [(ngModel)]="key" placeholder="Enter your recovery key here ..."></textarea>
+      </div>
     </mat-card>
   </div>
   <div class="bottom-buttons">

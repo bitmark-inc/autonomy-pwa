@@ -3,8 +3,21 @@ $title-color: #BFBFBF;
 $base-background: #000000;
 $sub-background: #2B2B2B;
 
+@font-face {
+  font-family: 'Atlas Grotesk';
+  src: url(assets/fonts/Atlas-Grotesk/Atlas-Grotesk-Web.otf);
+}
+@font-face {
+  font-family: 'Domaine Sans Text';
+  src: url(assets/fonts/Domaine-Sans-Text/Domaine_Sans_Text.otf);
+}
+@font-face {
+  font-family: 'IBM Plex Mono';
+  src: url(assets/fonts/IBM-Plex-Mono/IBM-Plex-Mono.otf);
+}
+
 html {
-  font-family: 'Atlas Grotesk', 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI',
+  font-family: 'Atlas Grotesk', 'Domaine Sans Text','Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI',
     Roboto, 'Helvetica Neue', Arial, sans-serif;
   font-weight: 300;
 	-ms-text-size-adjust: 100%;
@@ -73,9 +86,21 @@ input {
 }
 
 textarea {
+  caret-color: $base-color;
   &:focus {
     outline: unset;
   }
+}
+
+.mat-table,
+.mat-card {
+  font-family: inherit;
+}
+
+.mat-card {
+  background-color: inherit;
+  color: inherit;
+  box-shadow: none !important;
 }
 
 .desktop-view {
@@ -160,6 +185,7 @@ textarea {
 }
 
 .sub-direction {
+  font-family: 'Domaine Sans Text';
   color: $title-color !important;
   font-size: 14px;
   text-transform: uppercase;
@@ -180,6 +206,7 @@ textarea {
 
 .resource-footer-items {
   color: $title-color;
+  font-family: inherit;
   font-size: 14px;
   text-transform: uppercase;
   display: flex;
@@ -194,12 +221,6 @@ textarea {
   span {
     margin: 0.5em;
   }
-}
-
-.mat-card {
-  background-color: inherit;
-  color: inherit;
-  box-shadow: none !important;
 }
 
 .bottom-buttons {
@@ -306,6 +327,7 @@ textarea {
     left: 50%;
     top: 50%;
     transform: translate(-50%, -10%);
+    font-family: 'IBM Plex Mono';
     font-weight: normal;
 
     .score {
@@ -474,45 +496,45 @@ textarea {
 .risk-color {
   display: flex;
   .mat-radio-button.mat-accent .mat-radio-outer-circle {
-    background-color: red;
+    background-color: #CC3232;
     border-color: $base-background;
   }
   .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle{
-    background-color: red;
+    background-color: #CC3232;
   }
   .mat-radio-button.mat-accent .mat-radio-inner-circle{
-    color: red;
-    background-color: red ;
+    color: #CC3232;
+    background-color: #CC3232 ;
   }
 }
 
 .warn-color {
   display: flex;
   .mat-radio-button.mat-accent .mat-radio-outer-circle {
-    background-color: gold;
+    background-color: #E7B416;
     border-color: $base-background;
   }
   .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle{
-    background-color: gold;
+    background-color: #E7B416;
   }
   .mat-radio-button.mat-accent .mat-radio-inner-circle{
-    color: gold;
-    background-color: gold ;
+    color: #E7B416;
+    background-color: #E7B416 ;
   }
 }
 
 .good-color {
   display: flex;
   .mat-radio-button.mat-accent .mat-radio-outer-circle {
-    background-color: green;
+    background-color: #2DC937;
     border-color: $base-background;
   }
   .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle{
-    background-color: green;
+    background-color: #2DC937;
   }
   .mat-radio-button.mat-accent .mat-radio-inner-circle{
-    color: green;
-    background-color: green ;
+    color: #2DC937;
+    background-color: #2DC937 ;
   }
 }
 
