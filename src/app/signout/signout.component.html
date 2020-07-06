@@ -1,0 +1,59 @@
+<div class="main-content" [hidden]="stage != PageStage.Direction">
+  <mat-card></mat-card>
+  <mat-card layout="fill">
+    <div class="col content-left">
+      <p class="direction">Sign out</p>
+    </div>
+  </mat-card>
+  <mat-card>
+    <div class="p-t-5 p-b-10">
+      <p>When you sign out, you will need your 13-word recovery key to unlock your data vault on this device again.</p>
+    </div>
+    <div class="p-t-5 p-b-30">
+      <p>To ensure that you have recorded your recovery key correctly, you will be asked to enter it before you can sign out. If
+      you haven’t already written down your recovery key, <a class="normal-link" [routerLink]="['/recovery-key']">please do so now</a>.</p>
+    </div>
+  </mat-card>
+  <div class="bottom-buttons">
+    <div class="back">
+      <a [routerLink]="['/profile']"><img src="/assets/img/back-icon.svg" alt=""><span class="command">Back</span></a>
+    </div>
+    <div class="next">
+      <a (click)="stage = PageStage.Keys"><span class="command">Next</span><img src="/assets/img/next-icon.svg"
+          alt=""></a>
+    </div>
+  </div>
+</div>
+<div class="main-content" [hidden]="stage != PageStage.Keys">
+  <mat-toolbar class="header" layout="fill">
+    <div class="header-line"><hr><hr></div>
+    <div class="header-title">sign out</div>
+    <div class="header-line"><hr><hr></div>
+  </mat-toolbar>
+  <div class="content">
+    <mat-card>
+      <div class="onboarding-words">
+        <p>Please enter your 13-word recovery key:</p>
+      </div>
+    </mat-card>
+    <mat-card><hr></mat-card>
+    <mat-card>
+      <div class="p-b-30">
+        <textarea matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="1" cdkAutosizeMaxRows="5"
+        id="recoveryKey" [(ngModel)]="key" placeholder="Enter your recovery key here ..."></textarea>
+      </div>
+    </mat-card>
+  </div>
+  <div class="bottom-buttons">
+    <div class="back">
+      <a [routerLink]="['/profile']"><img src="/assets/img/back-icon.svg" alt=""><span
+          class="command">Back</span></a>
+    </div>
+    <div class="next">
+      <a (click)="signout()" [ngClass]="{'disable-btns': !key}">
+        <span class="command command-long-medium">Sign out</span>
+        <img src="/assets/img/signout.svg" alt="">
+      </a>
+    </div>
+  </div>
+</div>

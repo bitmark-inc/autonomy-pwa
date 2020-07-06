@@ -1,0 +1,27 @@
+.content {
+  display: block;
+  text-align: center;
+  height: max-content;
+
+  .onboarding-words {
+    font-size: 36px;
+    font-weight: 300;
+    line-height: 120%;
+
+    p {
+      font-size: 24px;
+    }
+  }
+
+  #recoveryKey {
+    width: 100%;
+    background-color: unset;
+    border: none;
+    font-size: 18px;
+    color: #ffffff;
+  }
+
+  .thumbnail {
+    font-size: 1em;
+  }
+}

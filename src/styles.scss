@@ -64,6 +64,10 @@ a:hover {
   // color: #125699;
 }
 
+.normal-link {
+  text-decoration: underline;
+}
+
 hr {
   color: inherit;
   height: 0.5px;
@@ -87,6 +91,7 @@ input {
 
 textarea {
   caret-color: $base-color;
+  font-family: 'Atlas Grotesk';
   &:focus {
     outline: unset;
   }
@@ -267,6 +272,9 @@ textarea {
 
   .command-long {
     font-size: 0.75em;
+  }
+  .command-long-medium {
+    font-size: 0.95em;
   }
 }
 

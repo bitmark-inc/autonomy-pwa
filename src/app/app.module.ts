@@ -45,6 +45,7 @@ import { SymptomDeltaPipe } from './pipes/symptom-delta.pipe';
 import { ReportScorePipe } from './pipes/report-score.pipe';
 import { PermissionComponent } from './permission/permission.component';
 import { RecoveryKeyComponent } from './recovery-key/recovery-key.component';
+import { SignoutComponent } from './signout/signout.component';
 
 declare var window: any;
 window.isProduction = environment.production;
@@ -70,6 +71,7 @@ window.isProduction = environment.production;
     ReportScorePipe,
     PermissionComponent,
     RecoveryKeyComponent,
+    SignoutComponent,
   ],
   imports: [
     BrowserModule,
