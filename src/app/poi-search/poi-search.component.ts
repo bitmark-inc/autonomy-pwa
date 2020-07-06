@@ -117,7 +117,7 @@ export class PoiSearchComponent implements OnInit {
       this.keyword = "";
       this.resourceID = "";
     } else {
-      this.router.navigate(['/dashboard']);
+      this.router.navigate(['/main']);
     }
   }
 

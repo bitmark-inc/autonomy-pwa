@@ -28,24 +28,23 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LandingComponent } from './landing/landing.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
 import { PoiComponent } from './poi/poi.component';
 import { RatingsComponent } from './ratings/ratings.component';
 import { SigninComponent } from './signin/signin.component';
 import { SignupComponent } from './signup/signup.component';
 import { ProfileComponent } from './profile/profile.component';
-import { ReportSymptomComponent } from './report-symptom/report-symptom.component';
-import { ReportBehaviorComponent } from './report-behavior/report-behavior.component';
-import { MyAutonomyComponent } from './my-autonomy/my-autonomy.component';
 import { AlertDialogComponent } from "./alert-dialog/alert-dialog.component";
 import { PoiSearchComponent } from './poi-search/poi-search.component';
-import { ResourcesAddingComponent } from './resources-adding/resources-adding.component';
 import { PlaceDeltaPipe } from './pipes/place-delta.pipe';
 import { SymptomDeltaPipe } from './pipes/symptom-delta.pipe';
 import { ReportScorePipe } from './pipes/report-score.pipe';
 import { PermissionComponent } from './permission/permission.component';
 import { RecoveryKeyComponent } from './recovery-key/recovery-key.component';
 import { SignoutComponent } from './signout/signout.component';
+import { HomeComponent } from './home/home.component';
+import { YouComponent } from './home/you/you.component';
+import { TrendComponent } from './home/trend/trend.component';
+import { ResourcesComponent } from './home/resources/resources.component';
 
 declare var window: any;
 window.isProduction = environment.production;
@@ -54,24 +53,23 @@ window.isProduction = environment.production;
   declarations: [
     AppComponent,
     LandingComponent,
-    DashboardComponent,
     SigninComponent,
     SignupComponent,
     ProfileComponent,
     PoiComponent,
-    ReportSymptomComponent,
-    ReportBehaviorComponent,
-    MyAutonomyComponent,
     AlertDialogComponent,
     PoiSearchComponent,
     RatingsComponent,
-    ResourcesAddingComponent,
     PlaceDeltaPipe,
     SymptomDeltaPipe,
     ReportScorePipe,
     PermissionComponent,
     RecoveryKeyComponent,
     SignoutComponent,
+    HomeComponent,
+    YouComponent,
+    TrendComponent,
+    ResourcesComponent,
   ],
   imports: [
     BrowserModule,

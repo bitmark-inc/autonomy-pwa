@@ -26,7 +26,7 @@ class GuestGuard implements CanActivate {
     if (!this.userService.getUser()) {
       return true;
     }
-    this.router.navigate( ['/dashboard']);
+    this.router.navigate( ['/home']);
   }
 }
 
