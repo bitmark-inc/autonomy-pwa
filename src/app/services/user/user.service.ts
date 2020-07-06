@@ -139,6 +139,10 @@ export class UserService extends BaseService {
     });
   }
 
+  public validateAccount(recoveryPhrase: string) {
+    return !!window.BitmarkSdk.parseAccount(recoveryPhrase);
+  }
+
   // Signup with a new 13-word phrase or just auto create a new one
   public signup(recoveryPhrase?: string) {
     let accountInfo: {

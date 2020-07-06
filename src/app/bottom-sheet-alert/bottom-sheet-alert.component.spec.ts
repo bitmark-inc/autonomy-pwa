@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TrendComponent } from './trend.component';
+import { BottomSheetAlertComponent } from './bottom-sheet-alert.component';
 
-describe('TrendComponent', () => {
-  let component: TrendComponent;
-  let fixture: ComponentFixture<TrendComponent>;
+describe('BottomSheetAlertComponent', () => {
+  let component: BottomSheetAlertComponent;
+  let fixture: ComponentFixture<BottomSheetAlertComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TrendComponent ]
+      declarations: [ BottomSheetAlertComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TrendComponent);
+    fixture = TestBed.createComponent(BottomSheetAlertComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

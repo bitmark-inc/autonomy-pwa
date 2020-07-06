@@ -1,0 +1,22 @@
+<div *ngIf="alertError" class="">
+  <mat-toolbar class="header" layout="fill">
+    <div class="header-line"><hr><hr></div>
+    <div class="header-title">error</div>
+    <div class="header-line"><hr><hr></div>
+  </mat-toolbar>
+  <mat-card>
+    <h2>{{title}}</h2>
+    <p>{{mainContent}}</p>
+  </mat-card>
+</div>
+
+<div *ngIf="!alertError">
+  <mat-toolbar class="header" layout="fill">
+    <div class="header-line"><hr><hr></div>
+    <div class="header-title">error</div>
+    <div class="header-line"><hr><hr></div>
+  </mat-toolbar>
+  <mat-card>
+    <p>{{mainContent}}</p>
+  </mat-card>
+</div>

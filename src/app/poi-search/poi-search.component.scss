@@ -1,32 +1,32 @@
 .search-page {
-  background-color: #2B2B2B;
+  background-color: #E3EBF8;
   width: 100%;
   height: 100%;
   min-height: 100vh;
 
   .search-bar {
-    border-bottom: 0.5pt solid #BFBFBF;
+    border-bottom: 0.5pt solid #EDF0F4;
     position: sticky;
     top: 0;
     z-index: 1;
-    background-color: #2B2B2B;
+    background-color: #E3EBF8;
   }
 
   .direction {
-    color: #BFBFBF;
+    color: #000000;
   }
 
   .non-places-found {
-    color: #BFBFBF;
+    color: #000000;
     text-align: center;
   }
 
   .resources-list {
     display: flex;
     flex-wrap: wrap;
-  
+
     .resource-item {
-      background: #000000;
+      background: #ffffff;
       margin-right: 0.95em;
       margin-bottom: 0.85em;
       padding: 4px;
@@ -36,7 +36,7 @@
   }
 
   .small-address {
-    color: #BFBFBF;
+    color: #000000;
     font-size: 0.85em;
   }
 

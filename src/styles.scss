@@ -1,7 +1,9 @@
-$base-color: #ffffff;
-$title-color: #BFBFBF;
-$base-background: #000000;
-$sub-background: #2B2B2B;
+$base-color: #000000;
+$title-color: #545454;
+$base-background: #ffffff;
+$sub-background: #E3EBF8;
+$bottom-background: #EDF0F4;
+$line-color: #828180;
 
 @font-face {
   font-family: 'Atlas Grotesk';
@@ -35,8 +37,8 @@ html {
 }
 
 body {
-  color: #ffffff;
-  background-color: #000000;
+  color: $base-color;
+  background-color: $base-background;
 }
 
 h1,
@@ -241,12 +243,12 @@ textarea {
   padding-top: 10px;
   display: flex;
   align-items: center;
-  background: #1B1B1B;;
+  background: $bottom-background;
 
   a {
     display: flex;
     align-items: center;
-    color: #ffffff;
+    color: $base-color;
     text-decoration: none;
   }
 
@@ -279,7 +281,7 @@ textarea {
 }
 
 .onboarding-footer {
-  background: linear-gradient(0deg, #000000 60%, rgba(27, 27, 27, 0) 100%);
+  background: linear-gradient(0deg, #ffffff 60%, rgba(27, 27, 27, 0) 100%);
   padding-top: 30px;
 }
 
@@ -307,7 +309,7 @@ textarea {
     background-color: inherit;
     border: unset;
     font-size: 18px;
-    color: #ffffff;
+    color: $base-color;
   }
 }
 

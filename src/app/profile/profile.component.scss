@@ -29,7 +29,7 @@
       display: flex;
       align-items: center;
       justify-content: flex-end;
-      color: #ffffff !important;
+      color: #000000 !important;
     }
   }
 }
@@ -54,17 +54,17 @@
   height: auto;
   position: absolute;
   bottom: 0;
-  background-color: #2B2B2B;
+  background-color: #E3EBF8;
   width: 100%;
 
   .version {
-    color: #ffffff;
+    color: #000000;
     font-size: 0.75em;
     font-weight: 300;
   }
 
   .privacy {
-    color: #BFBFBF;
+    color: #545454;
     font-size: 0.75em;
     font-weight: 300;
 

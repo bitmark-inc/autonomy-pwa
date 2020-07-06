@@ -13,6 +13,7 @@ import {
   MatListModule,
   MatRadioModule,
 } from "@angular/material";
+import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { TextFieldModule } from "@angular/cdk/text-field";
 
 import { AppRoutingModule } from './app-routing.module';
@@ -43,8 +44,9 @@ import { RecoveryKeyComponent } from './recovery-key/recovery-key.component';
 import { SignoutComponent } from './signout/signout.component';
 import { HomeComponent } from './home/home.component';
 import { YouComponent } from './home/you/you.component';
-import { TrendComponent } from './home/trend/trend.component';
+import { CommunityComponent } from './home/community/community.component';
 import { ResourcesComponent } from './home/resources/resources.component';
+import { BottomSheetAlertComponent } from "./bottom-sheet-alert/bottom-sheet-alert.component";
 
 declare var window: any;
 window.isProduction = environment.production;
@@ -68,8 +70,9 @@ window.isProduction = environment.production;
     SignoutComponent,
     HomeComponent,
     YouComponent,
-    TrendComponent,
+    CommunityComponent,
     ResourcesComponent,
+    BottomSheetAlertComponent,
   ],
   imports: [
     BrowserModule,
@@ -87,7 +90,8 @@ window.isProduction = environment.production;
     MatTableModule,
     MatListModule,
     MatRadioModule,
-    TextFieldModule
+    TextFieldModule,
+    MatBottomSheetModule,
   ],
   providers: [
     UserService,
@@ -98,7 +102,7 @@ window.isProduction = environment.production;
     {provide: APP_INITIALIZER, useFactory: InitServices, deps: [UserService], multi: true}
   ],
   bootstrap: [AppComponent],
-  entryComponents: [AlertDialogComponent]
+  entryComponents: [AlertDialogComponent, BottomSheetAlertComponent]
 })
 export class AppModule { }
 

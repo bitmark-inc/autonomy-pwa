@@ -12,7 +12,7 @@ import { RecoveryKeyComponent } from "./recovery-key/recovery-key.component";
 import { SignoutComponent } from "./signout/signout.component";
 import { HomeComponent } from './home/home.component';
 import { YouComponent } from './home/you/you.component';
-import { TrendComponent } from './home/trend/trend.component';
+import { CommunityComponent } from './home/community/community.component';
 import { ResourcesComponent } from './home/resources/resources.component';
 import { AuthGuard, GuestGuard } from './url-guard';
 
@@ -24,7 +24,7 @@ const routes: Routes = [
   {path: 'home', component: HomeComponent, canActivate: [AuthGuard], children: [
     {path: '', redirectTo: 'you', pathMatch: 'full'},
     {path: 'you', component: YouComponent},
-    {path: 'trend', component: TrendComponent},
+    { path: 'community', component: CommunityComponent},
     {path: 'resources', component: ResourcesComponent},
   ]},
   {path: 'poi-search', component: PoiSearchComponent, canActivate: [AuthGuard]},

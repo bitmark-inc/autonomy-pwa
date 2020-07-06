@@ -5,7 +5,8 @@ import { Injectable, EventEmitter } from "@angular/core";
 })
 export class EventEmitterService {
   public static Events = {
-    ModalDialog: 'modal-dialog'
+    ModalDialog: 'modal-dialog',
+    BottomSheetBtn: 'bottom-sheet-btn'
   };
 
   private static eventEmitters = {};

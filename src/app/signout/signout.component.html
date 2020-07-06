@@ -50,7 +50,7 @@
           class="command">Back</span></a>
     </div>
     <div class="next">
-      <a (click)="signout()" [ngClass]="{'disable-btns': !key}">
+      <a (click)="signout()" [ngClass]="{'disable-btns': !(key && key.split(' ').length === 13)}">
         <span class="command command-long-medium">Sign out</span>
         <img src="/assets/img/signout.svg" alt="">
       </a>
