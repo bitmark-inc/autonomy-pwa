@@ -1,7 +1,7 @@
 declare var window: any;
 
 import { Injectable } from '@angular/core';
-import { Observable, BehaviorSubject, Observer, observable, timer } from 'rxjs';
+import { Observable, BehaviorSubject, Observer, observable, timer, interval } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { BaseService } from '../base.service';
 
@@ -245,12 +245,12 @@ export class UserService extends BaseService {
   }
 
   private resetJWTPeriodically() {
-    timer(30*60*1000).subscribe(
+    interval(30*60*1000).subscribe(
       () => {
         if (!this.user) {
           return;
         }
-        this.authenticate(this.user.recovery_phrase, this.user.account_number).subscribe(
+        this.authenticate(this.user.account_number, this.user.recovery_phrase).subscribe(
           (jwt: string) => {
             this.user.jwt = jwt;
           }
