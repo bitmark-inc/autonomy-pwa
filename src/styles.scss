@@ -293,6 +293,26 @@ textarea {
   }
 }
 
+.home-tabs {
+  position: fixed;
+  bottom: 0;
+  text-align: center;
+  width: 100%;
+  font-family: 'Domaine Sans Text';
+  font-weight: 300;
+  font-size: 12px;
+  line-height: 100%;
+  padding-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  background: $bottom-background;
+
+  a.active {
+    border-top: 1.5px solid blue;
+  }
+}
+
 .onboarding-footer {
   background: linear-gradient(0deg, #ffffff 60%, rgba(27, 27, 27, 0) 100%);
   padding-top: 30px;
@@ -488,6 +508,10 @@ textarea {
   padding-bottom: 10px;
 }
 
+.p-b-20 {
+  padding-bottom: 20px;
+}
+
 .p-b-30 {
   padding-bottom: 30px;
 }
@@ -497,6 +521,10 @@ textarea {
   color: #2A6D0C;
   align-items: center;
   justify-content: center;
+
+  img {
+    padding-right: 3px;
+  }
 }
 
 .red {
@@ -504,6 +532,10 @@ textarea {
   color: #CC3232;
   align-items: center;
   justify-content: center;
+
+  img {
+    padding-right: 3px;
+  }
 }
 
 .grey {
@@ -511,6 +543,10 @@ textarea {
   color: $title-color;
   align-items: center;
   justify-content: center;
+
+  img {
+    padding-right: 3px;
+  }
 }
 
 .mat-radio-button.mat-accent .mat-radio-inner-circle{

@@ -1,11 +1,18 @@
 <div class="main-content">
   <router-outlet></router-outlet>
 
-  <div class="bottom-buttons">
-    <a [routerLink]="['./you']" routerLinkActive="active">You</a>
-    |
-    <a [routerLink]="['./community']" routerLinkActive="active">Community</a>
-    |
-    <a [routerLink]="['./resources']" routerLinkActive="active">Resources</a>
+  <div class="home-tabs">
+    <a class="col p-t-10 upcase" [routerLink]="['./you']" routerLinkActive="active">
+      <img class="p-b-10" src="/assets/img/you-tab.svg" alt="">
+      <p>you</p>
+    </a>
+    <a class="col p-t-10 upcase" [routerLink]="['./community']" routerLinkActive="active">
+      <img class="p-b-10" src="/assets/img/community-tab.svg" alt="">
+      <p>Community</p>
+    </a>
+    <a class="col p-t-10 upcase" [routerLink]="['./resources']" routerLinkActive="active">
+      <img class="p-b-10" src="/assets/img/resources-tab.svg" alt="">
+      <p>Resources</p>
+    </a>
   </div>
 </div>
