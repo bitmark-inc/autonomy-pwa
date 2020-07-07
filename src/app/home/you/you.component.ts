@@ -5,6 +5,7 @@ import { AppSettings } from "../../app-settings";
 import { ApiService } from 'src/app/services/api/api.service';
 import * as moment from 'moment';
 import * as d3 from 'd3'
+import { symbol, symbolDiamond } from 'd3';
 
 @Component({
   selector: 'app-you',
@@ -13,8 +14,6 @@ import * as d3 from 'd3'
 })
 export class YouComponent implements OnInit {
   @ViewChild('chartEl', {static: false}) public chartEl: ElementRef;
-
-  public chartColors: any = [];
 
   public dataBySymptoms: any = [];
   public dataByDays: any = [];
@@ -25,8 +24,9 @@ export class YouComponent implements OnInit {
   public reportStart: moment.Moment;
   public reportEnd: moment.Moment;
 
+  public colorsInUse: string[] = [];
+
   constructor(private apiService: ApiService) {
-    this.chartColors = AppSettings.CHART_COLORS;
     this.dataBySymptoms = [{
         "id": "fever",
         "name": "Fever",
@@ -133,10 +133,10 @@ export class YouComponent implements OnInit {
     let margin = {top: 20, right: 20, bottom: 30, left: 40};
     let chartSize = {width: 350, height: 350};
     let g = d3.select(this.chartEl.nativeElement)
-      .append("svg")
-      .attr("width", chartSize.width + margin.left + margin.right)
-      .attr("height", chartSize.height + margin.top + margin.bottom)
-      .append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+      .append('svg')
+      .attr('width', chartSize.width + margin.left + margin.right)
+      .attr('height', chartSize.height + margin.top + margin.bottom)
+      .append('g').attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
     
     // set x scale
     let x = d3.scaleBand()
@@ -148,47 +148,46 @@ export class YouComponent implements OnInit {
     let y = d3.scaleLinear()
       .rangeRound([chartSize.height, 0]);
 
-    // set the colors
-    let z = d3.scaleOrdinal()
-      .range(this.chartColors);
-
     let maxYScale = this.maxSymptomByDay + (5 - this.maxSymptomByDay%5);
 
     x.domain(this.listOfDays);
     y.domain([0, maxYScale]).nice();
-    z.domain(this.chartColors);
 
-    g.append("g")
-      .selectAll("g")
+    let dataBySymptoms = this.dataBySymptoms;
+    g.append('g')
+      .selectAll('g')
       .data(d3.stack().keys(this.listOfSymptoms)(this.dataByDays))
-      .enter().append("g")
+      .enter().append('g')
         .each(function(d) {
-          console.log(d);
+          let symtomData = dataBySymptoms.find(sd => sd.name === d.key);
+          symtomData.chartControl = this;
         })
-        .attr("fill", <any>function(d) { return z(d.key); })
-      .selectAll("rect")
+        .attr('fill', AppSettings.DEFAULT_CHART_COLOR)
+        .attr('stroke', 'white')
+        .attr('stroke-width', 1)
+      .selectAll('rect')
       .data(function(d) { return d; })
-      .enter().append("rect")
-        .attr("x", <any>function(d) { return x(d.data.day); })
-        .attr("y", function(d) { return y(d[1]); })
-        .attr("height", function(d) { return y(d[0]) - y(d[1]); })
-        .attr("width", x.bandwidth());
+      .enter().append('rect')
+        .attr('x', <any>function(d) { return x(d.data.day); })
+        .attr('y', function(d) { return y(d[1]); })
+        .attr('height', function(d) { return y(d[0]) - y(d[1]); })
+        .attr('width', x.bandwidth());
 
-    g.append("g")
-      .attr("class", "axis")
-      .attr("transform", "translate(0," + chartSize.height + ")")
+    g.append('g')
+      .attr('class', 'axis')
+      .attr('transform', 'translate(0,' + chartSize.height + ')')
       .call(d3.axisBottom(x).tickFormat(v => moment(v).format('dd').substring(0,1)));
   
-    g.append("g")
-        .attr("class", "axis")
-        .call(d3.axisLeft(y).ticks(5, "s"))
-      .append("text")
-        .attr("x", 2)
-        .attr("y", y(y.ticks().pop()) + 0.5)
-        .attr("dy", "0.32em")
-        .attr("fill", "#000")
-        .attr("font-weight", "bold")
-        .attr("text-anchor", "start");
+    g.append('g')
+        .attr('class', 'axis')
+        .call(d3.axisLeft(y).ticks(5, 's'))
+      .append('text')
+        .attr('x', 2)
+        .attr('y', y(y.ticks().pop()) + 0.5)
+        .attr('dy', '0.32em')
+        .attr('fill', '#000')
+        .attr('font-weight', 'bold')
+        .attr('text-anchor', 'start');
   }
 
   private buildKeyLists() {
@@ -226,8 +225,42 @@ export class YouComponent implements OnInit {
     });
   }
 
-  public selectSymptom(symptom) {
-    symptom.checked = !symptom.checked;
+  private addColor() {
+    let color: string;
+    if (this.colorsInUse.length < AppSettings.CHART_COLORS.length) {
+      color = AppSettings.CHART_COLORS.find(c => this.colorsInUse.indexOf(c) === -1);
+      this.colorsInUse.push(color);
+    } else {
+      color = this.colorsInUse[0];
+      this.colorsInUse.shift();
+      this.colorsInUse.push(color);
+    }
+    return color;
+  }
+
+  private removeColor(color: string) {
+    let colorIndex = this.colorsInUse.indexOf(color);
+    if (colorIndex !== -1) {
+      this.colorsInUse.splice(colorIndex, 1);
+    }
+  }
+
+  public selectSymptom(symptomData) {
+    if (symptomData.chartShown) {
+      symptomData.chartShown = false;
+      this.removeColor(symptomData.chartColor);
+      d3.select(symptomData.chartControl).attr('fill', AppSettings.DEFAULT_CHART_COLOR);
+    } else {
+      let color = this.addColor();
+      let sameColorSymptom = this.dataBySymptoms.find(symptom => symptom.chartColor === color);
+      if (sameColorSymptom) {
+        sameColorSymptom.chartColor = null;
+        d3.select(sameColorSymptom.chartControl).attr('fill', AppSettings.DEFAULT_CHART_COLOR);
+      }
+      symptomData.chartShown = true;
+      symptomData.chartColor = color;
+      d3.select(symptomData.chartControl).attr('fill', color);
+    }
   }
 
 }

@@ -28,7 +28,7 @@
       <ng-container matColumnDef="check">
         <mat-header-cell class="small-title" *matHeaderCellDef></mat-header-cell>
         <mat-cell class="row-items" *matCellDef="let element">
-          <mat-checkbox [id]="element.id" [checked]="element.checked"></mat-checkbox>
+          <mat-checkbox [id]="element.id" [checked]="element.chartShown"></mat-checkbox>
         </mat-cell>
       </ng-container>
 
