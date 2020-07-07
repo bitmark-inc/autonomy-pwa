@@ -154,6 +154,7 @@ export class YouComponent implements OnInit {
     y.domain([0, maxYScale]).nice();
 
     let dataBySymptoms = this.dataBySymptoms;
+    // Draw cell
     g.append('g')
       .selectAll('g')
       .data(d3.stack().keys(this.listOfSymptoms)(this.dataByDays))
@@ -173,11 +174,13 @@ export class YouComponent implements OnInit {
         .attr('height', function(d) { return y(d[0]) - y(d[1]); })
         .attr('width', x.bandwidth());
 
+    // Draw bottom axis
     g.append('g')
       .attr('class', 'axis')
       .attr('transform', 'translate(0,' + chartSize.height + ')')
       .call(d3.axisBottom(x).tickFormat(v => moment(v).format('dd').substring(0,1)));
-  
+
+    // Draw left axis
     g.append('g')
         .attr('class', 'axis')
         .call(d3.axisLeft(y).ticks(5, 's'))
