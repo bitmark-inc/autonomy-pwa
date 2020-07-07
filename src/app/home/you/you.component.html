@@ -19,11 +19,11 @@
   </div>
 </mat-card>
 <mat-card>
-  <div class="chart"></div>
+  <div class="chart" #chartEl></div>
 </mat-card>
 <mat-card>
-  <div *ngIf="symptoms && symptoms.length">
-    <mat-table [dataSource]="symptoms" class="mat-elevation-z8">
+  <div *ngIf="dataBySymptoms && dataBySymptoms.length">
+    <mat-table [dataSource]="dataBySymptoms" class="mat-elevation-z8">
       <!-- chek Column -->
       <ng-container matColumnDef="check">
         <mat-header-cell class="small-title" *matHeaderCellDef></mat-header-cell>
