@@ -1,10 +1,11 @@
-<p>home works!</p>
-<router-outlet></router-outlet>
+<div class="main-content">
+  <router-outlet></router-outlet>
 
-<div class="bottom-buttons">
-  <a [routerLink]="['./you']" routerLinkActive="active">You</a>
-  |
-  <a [routerLink]="['./trend']" routerLinkActive="active">Trend</a>
-  |
-  <a [routerLink]="['./resources']" routerLinkActive="active">Resources</a>
+  <div class="bottom-buttons">
+    <a [routerLink]="['./you']" routerLinkActive="active">You</a>
+    |
+    <a [routerLink]="['./community']" routerLinkActive="active">Community</a>
+    |
+    <a [routerLink]="['./resources']" routerLinkActive="active">Resources</a>
+  </div>
 </div>

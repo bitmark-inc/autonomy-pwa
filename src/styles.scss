@@ -75,7 +75,7 @@ hr {
   height: 0.5px;
   height: 0.75px;
   border: none;
-  background-color: grey;
+  background-color: $line-color;
 }
 
 button {
@@ -99,15 +99,23 @@ textarea {
   }
 }
 
-.mat-table,
-.mat-card {
-  font-family: inherit;
+.mono {
+  font-family: 'IBM Plex Mono';
 }
 
+.mat-table,
 .mat-card {
   background-color: inherit;
   color: inherit;
+  font-family: inherit;
   box-shadow: none !important;
+}
+
+.mat-table {
+  .mat-row {
+    border-style: unset;
+    border-bottom: 1px solid #999999;
+  }
 }
 
 .desktop-view {
@@ -125,27 +133,29 @@ textarea {
 }
 
 .header {
-  color: grey;
   background-color: inherit;
   font-family: 'Domaine Sans Text';
   font-weight: 300;
   font-size: 14px;
   font-style: normal;
+  display: flex !important;
+  align-items: center;
+  width: 100%;
 
   .header-line {
-    width: 30%;
+    width: 32%;
     hr {
       color: inherit;
-      margin-bottom: .1rem;
+      margin-bottom: .15rem;
       height: 0.5px;
       height: 0.75px;
       border: none;
-      background-color: grey;
+      background-color: $line-color;
     }
   }
 
   .header-title {
-    width: 40%;
+    width: 36%;
     text-align: center;
     text-transform: uppercase;
     display: flex;
@@ -179,11 +189,15 @@ textarea {
   color: $base-color;
   font-size: 14px;
   text-transform: uppercase;
-  border-bottom: 1px solid $sub-background;
 }
 
 .last-item {
   border-bottom: unset;
+}
+
+.main-direction {
+  font-size: 36px;
+  line-height: 43px;
 }
 
 .direction {
@@ -195,7 +209,6 @@ textarea {
   font-family: 'Domaine Sans Text';
   color: $title-color !important;
   font-size: 14px;
-  text-transform: uppercase;
 }
 
 .resource-footer {
@@ -325,6 +338,10 @@ textarea {
   border-bottom: 1px solid $base-color;
 }
 
+.chart {
+  min-height: 300px;
+}
+
 .triangle {
   text-align: center;
 
@@ -413,6 +430,14 @@ textarea {
   width: 100%;
 }
 
+.font-10 {
+  font-size: 10px;
+}
+
+.font-14 {
+  font-size: 14px;
+}
+
 .gap-right-10 {
   margin-right: 10px;
 }
@@ -469,14 +494,14 @@ textarea {
 
 .green {
   display: flex;
-  color: green;
+  color: #2A6D0C;
   align-items: center;
   justify-content: center;
 }
 
 .red {
   display: flex;
-  color: red;
+  color: #CC3232;
   align-items: center;
   justify-content: center;
 }
@@ -645,6 +670,28 @@ textarea {
 }
 
 // ------------- end rating score style ---------------
+
+// -------------- checkbox chart -------------------
+.mat-checkbox .mat-checkbox-background {
+  svg {
+    display: none;
+  }
+  border-radius: 50%;
+}
+.mat-checkbox-checked .mat-checkbox-background {
+  svg {
+    display: none;
+  }
+  border-radius: 50%;
+}
+
+.mat-checkbox .mat-checkbox-frame {
+  border-style: none;
+}
+
+.mat-checkbox-checked .mat-checkbox-frame {
+  border-style: none;
+}
 
 /* Responsive Styles */
 @media screen and (max-width: 767px) {

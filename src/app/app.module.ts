@@ -12,6 +12,7 @@ import {
   MatTableModule,
   MatListModule,
   MatRadioModule,
+  MatCheckboxModule,
 } from "@angular/material";
 import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { TextFieldModule } from "@angular/cdk/text-field";
@@ -92,6 +93,7 @@ window.isProduction = environment.production;
     MatRadioModule,
     TextFieldModule,
     MatBottomSheetModule,
+    MatCheckboxModule,
   ],
   providers: [
     UserService,
