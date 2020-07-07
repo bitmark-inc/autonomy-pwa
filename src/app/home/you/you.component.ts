@@ -152,8 +152,10 @@ export class YouComponent implements OnInit {
     let z = d3.scaleOrdinal()
       .range(this.chartColors);
 
+    let maxYScale = this.maxSymptomByDay + (5 - this.maxSymptomByDay%5);
+
     x.domain(this.listOfDays);
-    y.domain([0, this.maxSymptomByDay]).nice();
+    y.domain([0, maxYScale]).nice();
     z.domain(this.chartColors);
 
     g.append("g")
