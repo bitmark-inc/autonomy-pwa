@@ -22,7 +22,9 @@ install:
 - go version
 - cd src/bitmarksdk && npm install && npm run build
 script:
-- cd ../.. && npm install && npm run build -- --aot=true --prod=true
+- cd ../.. && npm install
+- test $TRAVIS_BRANCH = "dev" && npm run build -- --configuration staging
+- test $TRAVIS_BRANCH = "master" && npm run build -- --configuration production
 before_deploy:
 - curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
 - unzip -qq awscliv2.zip
