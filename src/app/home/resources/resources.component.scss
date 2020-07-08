@@ -1,0 +1,12 @@
+.resources-list {
+  display: flex;
+  flex-wrap: wrap;
+
+  .resource-item {
+    background: #E3EBF8;
+    margin-right: 15px;
+    margin-bottom: 15px;
+    padding: 5px 15px;
+    word-break: break-word;
+  }
+}
