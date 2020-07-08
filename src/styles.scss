@@ -316,10 +316,12 @@ textarea {
   display: flex;
   align-items: center;
   justify-content: space-around;
-  background: $bottom-background;
+  background: $base-background;
+  border-top: 1px solid #EDEDED;
 
   a.active {
-    border-top: 1.5px solid blue;
+    border-top: 1.5px solid #0060F2;
+    color: #0060F2;
   }
 }
 
