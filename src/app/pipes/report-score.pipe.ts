@@ -11,11 +11,11 @@ export class ReportScorePipe implements PipeTransform {
     let obj: any;
     value = parseFloat(value).toFixed(1);
     if (value > 3.3) {
-      obj = `<div style="color: green;">${value}</div>`;
+      obj = `<div style="color: #2A6D0C;">${value}</div>`;
     } else if (value <= 3.3 && value > 1.6 ) {
-      obj = `<div style="color: yellow;">${value}</div>`;
+      obj = `<div style="color: #E7B416;">${value}</div>`;
     } else if (value <= 1.6 && value > 0) {
-      obj = `<div style="color: red;">${value}</div>`;
+      obj = `<div style="color: #CC3232;">${value}</div>`;
     } else {
       obj = `<div>--</div>`;
     }

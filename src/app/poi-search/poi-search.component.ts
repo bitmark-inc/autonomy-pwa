@@ -10,7 +10,7 @@ import {
 import { fromEvent } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { ApiService } from '../services/api/api.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: "app-poi-search",
@@ -19,8 +19,6 @@ import { Router } from '@angular/router';
 })
 export class PoiSearchComponent implements OnInit {
   @ViewChild("placeSearchInput", { static: true }) placeSearchInput: ElementRef;
-  @ViewChild("googleMapAttribution", { static: true })
-  googleMapAttribution: ElementRef;
 
   public keyword: string = "";
   public placesByKeyword: {
@@ -44,7 +42,15 @@ export class PoiSearchComponent implements OnInit {
 
   private placeService: any;
 
-  constructor(private apiService: ApiService, private ref: ChangeDetectorRef, public router: Router, private ngZone: NgZone) {}
+  constructor(private activatedRoute: ActivatedRoute, private apiService: ApiService, private ref: ChangeDetectorRef, public router: Router, private ngZone: NgZone) {
+    this.activatedRoute.queryParams.subscribe((params) => {
+      if (params.category) {
+        this.resourceID = params.category;
+        this.searchByResource(params.categoryID, params.category);
+      }
+      
+    });
+  }
 
   ngOnInit() {
     fromEvent(this.placeSearchInput.nativeElement, "keyup")
@@ -61,28 +67,13 @@ export class PoiSearchComponent implements OnInit {
       });
 
     this.getResourcesForSearching();
-  }
-
-  private initPlaceService() {
-    if (!this.placeService) {
-      this.placeService = new window.google.maps.places.PlacesService(
-        this.googleMapAttribution.nativeElement
-      );
-    }
-    return this.placeService;
+    setTimeout(() => {
+      this.placeSearchInput.nativeElement.focus();
+    }, 200);
   }
 
   private searchByKeyword() {
-    this.initPlaceService();
-    this.placeService.textSearch({ query: this.keyword }, (result, status) => {
-      if (status === window.google.maps.places.PlacesServiceStatus.OK) {
-        this.placesByKeyword = result;
-        this.ref.detectChanges();
-      } else {
-        console.log("Error searching places from google map service");
-        // TODO: do something
-      }
-    });
+    // TODO: search by keyword from Autonomy server
   }
 
   private getResourcesForSearching() {
@@ -97,10 +88,10 @@ export class PoiSearchComponent implements OnInit {
     );
   }
 
-  public searchByResource(resource) {
-    this.resourceID = resource.name;
+  public searchByResource(id, name) {
+    this.resourceID = name;
     this.apiService
-      .request("get", `api/points-of-interest?resource_id=${resource.id}`)
+      .request("get", `api/points-of-interest?resource_id=${id}`)
       .subscribe(
         (data) => {
           this.poisByResource = data;
@@ -116,8 +107,11 @@ export class PoiSearchComponent implements OnInit {
     if (this.keyword || this.resourceID) {
       this.keyword = "";
       this.resourceID = "";
+      setTimeout(() => {
+        this.placeSearchInput.nativeElement.focus();
+      }, 50);
     } else {
-      this.router.navigate(['/main']);
+      this.router.navigate(['/home/resources']);
     }
   }
 

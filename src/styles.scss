@@ -342,6 +342,12 @@ textarea {
 
   .search-icon {
     margin-right: 5px;
+    display: flex;
+  }
+
+  .search-clear {
+    height: auto;
+    width: auto;
   }
 
   .search-input {
@@ -615,15 +621,15 @@ textarea {
 .good-color {
   display: flex;
   .mat-radio-button.mat-accent .mat-radio-outer-circle {
-    background-color: #2DC937;
+    background-color: #2A6D0C;
     border-color: $base-background;
   }
   .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle{
-    background-color: #2DC937;
+    background-color: #2A6D0C;
   }
   .mat-radio-button.mat-accent .mat-radio-inner-circle{
-    color: #2DC937;
-    background-color: #2DC937 ;
+    color: #2A6D0C;
+    background-color: #2A6D0C;
   }
 }
 
@@ -676,49 +682,52 @@ textarea {
 }
 
 .search-resource {
-  background-color: $sub-background;
 
   .mat-radio-container {
-    width: 12px;
-    height: 12px;
+    width: 9px;
+    height: 9px;
+  }
+
+  .mat-radio-label-content {
+    padding-left: 2px;
   }
 
   .mat-radio-button.mat-accent {
-    background-color: $sub-background;
+    background-color: $base-background;
   }
 
   .mat-radio-button.mat-accent .mat-radio-outer-circle,
   .mat-radio-button.mat-accent .mat-radio-inner-circle {
-    width: 11px;
-    height: 11px;
+    width: 9px;
+    height: 9px;
   }
 
   .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle{
-    border-color: $sub-background;
+    border-color: $base-background;
   }
   .risk-color,
   .warn-color,
   .good-color,
   .default-color {
     .mat-radio-button.mat-accent .mat-radio-outer-circle {
-      border-color: $sub-background;
+      border-color: $base-background;
     }
   }
 
   .default-color {
     display: flex;
     .mat-radio-button.mat-accent .mat-radio-outer-circle {
-      background-color: $base-background;
+      background-color: #EDF0F4;
     }
     .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle{
-      background-color: $base-background;
+      background-color: #EDF0F4;
     }
     .mat-radio-button.mat-accent .mat-radio-inner-circle{
-      color: $base-background;
-      background-color: $base-background;
+      color: #EDF0F4;
+      background-color: #EDF0F4;
     }
     .mat-radio-button.mat-accent .mat-radio-label{
-      background-color: $sub-background;
+      background-color: $base-background;
     }
   }
 }

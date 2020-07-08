@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { ApiService } from './../../services/api/api.service';
 import { Component, OnInit } from '@angular/core';
 
@@ -7,16 +8,18 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ["./resources.component.scss"],
 })
 export class ResourcesComponent implements OnInit {
+
   public resources: {
     id: string;
     name: string;
   }[];
 
-  constructor(private apiService: ApiService) {
+  constructor(private apiService: ApiService, public router: Router) {
     this.getResourcesForSearching();
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+  }
 
   private getResourcesForSearching() {
     this.apiService.request("get", `api/resources?suggestion=true`).subscribe(

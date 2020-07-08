@@ -1,19 +1,26 @@
 <div class="search-page">
   <mat-toolbar class="search-bar">
-    <mat-icon matPrefix class="search-icon">search</mat-icon>
-    <input [hidden]="resourceID" #placeSearchInput matInput type="text" [(ngModel)]="keyword" placeholder="Enter name or address..." class="search-input">
-    <input [hidden]="!resourceID" class="search-input" readonly [(ngModel)]="resourceID">
+    <mat-icon matPrefix class="search-icon"><img src="/assets/img/search.svg" alt=""></mat-icon>
+    <input [hidden]="resourceID" #placeSearchInput matInput type="text" [(ngModel)]="keyword" placeholder="Enter local name or address ..." class="search-input">
+    <div [hidden]="!resourceID" class="search-input">
+      <p class="resource-on-searching">{{resourceID}}</p>
+    </div>
     <button mat-button *ngIf="keyword || resources" matSuffix mat-icon-button aria-label="Clear" (click)="clearAll()">
-      <mat-icon><img src="/assets/img/clear-search.svg" alt=""></mat-icon>
+      <img src="/assets/img/clear-search.svg" alt="">
     </button>
   </mat-toolbar>
+  <mat-card class="no-top no-bottom search-bar-line"><hr></mat-card>
   <div *ngIf="(!keyword) && (!resourceID)">
-    <mat-card>
-      <p class="sub-direction upcase">or tap to find a specific resource:</p>
+    <mat-card class="main-direction content-center no-bottom">
+      <div class="p-t-20 p-b-20"><p>Find safe resources</p></div>
+    </mat-card>
+    <mat-card class="font-14 content-center">
+      <p class="p-b-20">We can help you identify safe resources in and around the Berkeley community. Just tap one of the resource types below
+      or enter a local name or address in the search field above.</p>
     </mat-card>
     <mat-card class="resources-list">
-      <div class="resource-item" *ngFor="let resource of resources"
-        (click)="searchByResource(resource)">
+      <div class="resource-item font-14" *ngFor="let resource of resources"
+        (click)="searchByResource(resource.id, resource.name)">
         {{resource.name}}
       </div>
     </mat-card>
@@ -28,7 +35,7 @@
     </mat-card>
   </div>
   <div *ngIf="resourceID && poisByResource && poisByResource.length">
-    <mat-card *ngFor="let place of poisByResource">
+    <mat-card class="no-bottom" *ngFor="let place of poisByResource">
       <div class="place-found" (click)="navigateToPOI(place.id)">
         <p>{{place.alias}} ({{place.distance | number:'1.1-1'}}km)</p>
         <p class="small-address p-t-5">{{place.address}}</p>
@@ -94,14 +101,13 @@
               </div>
             </div>
           </mat-radio-group>
-          <p [innerHTML]="place.resource_score | reportScore"></p>
+          <p *ngIf="place.resource_score" class="resource-rating" [innerHTML]="place.resource_score | reportScore"></p>
         </div>
       </div>
-      <div class="p-t-20"><hr></div>
+      <div class="p-t-10"><hr></div>
     </mat-card>
   </div>
   <mat-card class="non-places-found" *ngIf="resourceID && poisByResource && !poisByResource.length">
     <p>Sorry, there aren’t currently any places in our system offering that resource. Be the first to add it for places you know!</p>
   </mat-card>
-  <div [hidden]="true" #googleMapAttribution></div>
 </div>

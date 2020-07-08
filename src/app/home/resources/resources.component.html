@@ -1,9 +1,7 @@
 <div class="search-page p-b-30">
   <mat-toolbar class="search-bar">
-    <div class="col">
-      <mat-icon matPrefix class="search-icon"><img src="/assets/img/search.svg" alt=""></mat-icon>
-      <input class="search-input" matInput type="text" placeholder="Enter local name or address ..." class="search-input">
-    </div>
+    <mat-icon matPrefix class="search-icon"><img src="/assets/img/search.svg" alt=""></mat-icon>
+    <input (click)="router.navigate(['../../poi-search'])" class="search-input" matInput type="text" placeholder="Enter local name or address ..." class="search-input">
   </mat-toolbar>
   <mat-card class="no-top no-bottom search-bar-line"><hr></mat-card>
   <mat-card class="main-direction content-center no-bottom">
@@ -14,7 +12,8 @@
     or enter a local name or address in the search field above.</p>
   </mat-card>
   <mat-card class="resources-list">
-    <div class="resource-item font-14" *ngFor="let resource of resources">
+    <div class="resource-item font-14" *ngFor="let resource of resources"
+      (click)="router.navigate(['../../poi-search'], {queryParams: {categoryID: resource.id, category: resource.name }})">
       {{resource.name}}
     </div>
   </mat-card>
