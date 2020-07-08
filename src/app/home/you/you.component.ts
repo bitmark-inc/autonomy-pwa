@@ -1,6 +1,6 @@
 declare var window: any;
 
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Renderer } from '@angular/core';
 import { AppSettings } from "../../app-settings";
 import { ApiService } from 'src/app/services/api/api.service';
 import * as moment from 'moment';
@@ -14,6 +14,7 @@ import { symbol, symbolDiamond } from 'd3';
 })
 export class YouComponent implements OnInit {
   @ViewChild('chartEl', {static: false}) public chartEl: ElementRef;
+  @ViewChild('tableEl', {static: false}) public tableEl: ElementRef;
 
   public dataBySymptoms: any = [];
   public dataByDays: any = [];
@@ -26,7 +27,7 @@ export class YouComponent implements OnInit {
 
   public colorsInUse: string[] = [];
 
-  constructor(private apiService: ApiService) {
+  constructor(private apiService: ApiService, private renderer: Renderer) {
     this.dataBySymptoms = [{
         "id": "fever",
         "name": "Fever",
@@ -131,7 +132,7 @@ export class YouComponent implements OnInit {
     this.buildDataByDays();
     
     let margin = {top: 20, right: 20, bottom: 30, left: 40};
-    let chartSize = {width: 350, height: 350};
+    let chartSize = { width: window.innerWidth - margin.left - margin.right, height: 270 };
     let g = d3.select(this.chartEl.nativeElement)
       .append('svg')
       .attr('width', chartSize.width + margin.left + margin.right)
@@ -176,21 +177,26 @@ export class YouComponent implements OnInit {
 
     // Draw bottom axis
     g.append('g')
-      .attr('class', 'axis')
+      .attr('class', 'axis chart-text bottom')
       .attr('transform', 'translate(0,' + chartSize.height + ')')
       .call(d3.axisBottom(x).tickFormat(v => moment(v).format('dd').substring(0,1)));
 
     // Draw left axis
     g.append('g')
-        .attr('class', 'axis')
-        .call(d3.axisLeft(y).ticks(5, 's'))
-      .append('text')
-        .attr('x', 2)
-        .attr('y', y(y.ticks().pop()) + 0.5)
-        .attr('dy', '0.32em')
-        .attr('fill', '#000')
-        .attr('font-weight', 'bold')
-        .attr('text-anchor', 'start');
+        .attr('class', 'axis chart-text left')
+        .call(d3.axisLeft(y).ticks(5, 's'));
+    
+    this.chartEl.nativeElement.querySelector('svg .left path').remove();
+    this.chartEl.nativeElement.querySelector('svg .left g').remove();
+    this.chartEl.nativeElement.querySelectorAll('svg .axis g line').forEach(el => el.remove());
+
+    this.chartEl.nativeElement.querySelector('svg .bottom path').remove();
+    d3.select(this.chartEl.nativeElement.querySelector("svg .bottom"))
+      .append("path")
+      .attr("d", `M-10,0H0,${chartSize.width + 5}`)
+      .attr("stroke", "#828180")
+      .attr("stroke-width", 1)
+      .attr("fill", "#828180");
   }
 
   private buildKeyLists() {
@@ -249,19 +255,23 @@ export class YouComponent implements OnInit {
   }
 
   public selectSymptom(symptomData) {
+    let checkEl = this.tableEl.nativeElement.querySelector(`.row-items #checkbox-${symptomData.id}`);
     if (symptomData.chartShown) {
       symptomData.chartShown = false;
       this.removeColor(symptomData.chartColor);
+      this.renderer.setElementStyle(checkEl, "background", '');
       d3.select(symptomData.chartControl).attr('fill', AppSettings.DEFAULT_CHART_COLOR);
     } else {
       let color = this.addColor();
       let sameColorSymptom = this.dataBySymptoms.find(symptom => symptom.chartColor === color);
       if (sameColorSymptom) {
         sameColorSymptom.chartColor = null;
+        sameColorSymptom.chartShown = false;
         d3.select(sameColorSymptom.chartControl).attr('fill', AppSettings.DEFAULT_CHART_COLOR);
       }
       symptomData.chartShown = true;
       symptomData.chartColor = color;
+      this.renderer.setElementStyle(checkEl, 'background', color);
       d3.select(symptomData.chartControl).attr('fill', color);
     }
   }

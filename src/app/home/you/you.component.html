@@ -8,9 +8,8 @@
   <p>Your private overview of your check-in data.</p>
 </mat-card>
 <mat-card class="font-14 content-center">
-  <p>These insight are completely private and only visible to you.</p>
+  <a class="p-b-20 link" [routerLink]="['../../profile']">View your account »</a>
 </mat-card>
-<mat-card class="no-top"><hr></mat-card>
 
 <mat-card class="header" layout="fill">
   <div class="header-line"><hr><hr></div>
@@ -18,17 +17,16 @@
   <div class="header-line"><hr><hr>
   </div>
 </mat-card>
+<mat-card class="no-bottom"><p class="small-title">symptoms</p></mat-card>
+<div class="chart" #chartEl></div>
 <mat-card>
-  <div class="chart" #chartEl></div>
-</mat-card>
-<mat-card>
-  <div *ngIf="dataBySymptoms && dataBySymptoms.length">
+  <div #tableEl *ngIf="dataBySymptoms && dataBySymptoms.length">
     <mat-table [dataSource]="dataBySymptoms" class="mat-elevation-z8">
       <!-- chek Column -->
       <ng-container matColumnDef="check">
         <mat-header-cell class="small-title" *matHeaderCellDef></mat-header-cell>
-        <mat-cell class="row-items" *matCellDef="let element">
-          <mat-checkbox [id]="element.id" [checked]="element.chartShown"></mat-checkbox>
+        <mat-cell class="row-items" *matCellDef="let element" (click)="selectSymptom(element)">
+          <div class="checkRadio" [ngClass]="{ 'unCheckRadio': !element.chartShown }" [id]="'checkbox-' + element.id"></div>
         </mat-cell>
       </ng-container>
 
@@ -43,13 +41,13 @@
       <!-- days Column -->
       <ng-container matColumnDef="days">
         <mat-header-cell class="small-title" *matHeaderCellDef> days </mat-header-cell>
-        <mat-cell class="row-items mono" *matCellDef="let element">{{element.value}}</mat-cell>
+        <mat-cell class="row-items mono" *matCellDef="let element" (click)="selectSymptom(element)">{{element.value}}</mat-cell>
       </ng-container>
 
       <!-- change Column -->
       <ng-container matColumnDef="change">
         <mat-header-cell class="small-title" *matHeaderCellDef> change </mat-header-cell>
-        <mat-cell class="row-items mono" *matCellDef="let element" [innerHTML]="element.change_rate | symptomDelta"></mat-cell>
+        <mat-cell class="row-items mono" *matCellDef="let element" [innerHTML]="element.change_rate | symptomDelta" (click)="selectSymptom(element)"></mat-cell>
       </ng-container>
 
       <mat-header-row *matHeaderRowDef="['check', 'symptom', 'days', 'change']"></mat-header-row>
