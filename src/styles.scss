@@ -99,6 +99,10 @@ textarea {
   }
 }
 
+.sans-text {
+  font-family: 'Domaine Sans Text';
+}
+
 .mono {
   font-family: 'IBM Plex Mono';
 }
@@ -177,7 +181,7 @@ textarea {
 .small-title {
   display: flex;
   justify-content: left;
-  color: $title-color;
+  color: $base-color;
   background-color: inherit;
   font-family: 'Domaine Sans Text';
   font-size: 10px;
@@ -219,6 +223,13 @@ textarea {
   font-family: 'Domaine Sans Text';
   color: $title-color !important;
   font-size: 14px;
+}
+
+.small-direction {
+  font-size: 12px;
+  font-weight: 300;
+  line-height: 120%;
+  color: #404040;
 }
 
 .resource-footer {
@@ -337,6 +348,7 @@ textarea {
   width: 100%;
 }
 
+// --------- search ---------
 .search-bar {
   background-color: $base-background;
 
@@ -382,6 +394,8 @@ textarea {
   border-bottom: 1px solid $base-color;
 }
 
+// ----------- end search ----------
+
 .chart {
   min-height: 300px;
 }
@@ -409,6 +423,50 @@ textarea {
       img {
         width: 0.9em;
         height: 0.9em;
+      }
+    }
+  }
+}
+
+.resource-info {
+  background: $sub-background;
+  padding-bottom: 15px;
+
+  .poi-score {
+    display: flex;
+    justify-content: center;
+    line-height: 100%;
+
+    .mat-radio-button.mat-accent {
+      background-color: $sub-background;
+    }
+
+    .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle{
+      border-color: $sub-background;
+    }
+    .risk-color,
+    .warn-color,
+    .good-color,
+    .default-color {
+      .mat-radio-button.mat-accent .mat-radio-outer-circle {
+        border-color: $sub-background;
+      }
+    }
+
+    .default-color {
+      display: flex;
+      .mat-radio-button.mat-accent .mat-radio-outer-circle {
+        background-color: #C1C1C1;
+      }
+      .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle{
+        background-color: #C1C1C1;
+      }
+      .mat-radio-button.mat-accent .mat-radio-inner-circle{
+        color: #C1C1C1;
+        background-color: #C1C1C1;
+      }
+      .mat-radio-button.mat-accent .mat-radio-label{
+        background-color: $sub-background;
       }
     }
   }
@@ -474,6 +532,10 @@ textarea {
   width: 100%;
 }
 
+.line-height-120 {
+  line-height: 120%;
+}
+
 .font-10 {
   font-size: 10px;
 }
@@ -482,8 +544,20 @@ textarea {
   font-size: 14px;
 }
 
+.font-24 {
+  font-size: 24px;
+}
+
 .gap-right-10 {
   margin-right: 10px;
+}
+
+.gap-right-15 {
+  margin-right: 15px;
+}
+
+.gap-right-20 {
+  margin-right: 20px;
 }
 
 .content-left {

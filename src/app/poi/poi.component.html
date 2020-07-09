@@ -1,33 +1,90 @@
 <div *ngIf="poi" class="main-content">
-  <mat-toolbar class="title-page" layout="fill">
-    <p>{{poi.alias}}</p>
-  </mat-toolbar>
-  <mat-card>
-    <div class="triangle">
-      <a>
-        <img class="triangle-boder" src="/assets/img/triangles/triangle_{{poi.autonomy_score | number:'1.0-0'}}.svg"
-          [alt]="poi.autonomy_score">
-        <div class="inside-triangle">
-          <span class="score">{{poi.autonomy_score | number:'1.0-0'}}</span>
-          <span class="delta" [innerHTML]="poi.autonomy_score_delta | placeDelta"></span>
-        </div>
-      </a>
-    </div>
-  </mat-card>
-  <mat-card>
-    <p class="small-title p-b-10">ADDRESS</p>
-    <div *ngIf="poi.address" class="content-left">
-      <p class="col-90 gap-right-10">{{poi.address}}</p>
-      <a class="content-right col-10 address-link" [href]="'https://www.google.com/maps/search/?api=1&query=' + poi.address" target="_blank"><img src="/assets/img/related-url.svg" alt=""></a>
-    </div>
-  </mat-card>
+  <div class="resource-info">
+    <mat-card class="font-24 upcase content-center" layout="fill">
+      <p class="sans-text">{{poi.alias}}</p>
+    </mat-card>
+    <mat-card>
+      <div class="poi-score">
+        <p class="font-24 mono gap-right-15" *ngIf="poiScore" [innerHTML]="poiScore | reportScore"></p>
+        <p class="font-24 mono gap-right-15" *ngIf="!poiScore">{{poiScore | number:'1.1-1'}}</p>
+        <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group" [(ngModel)]="poiScore">
+          <div *ngIf="poiScore == 0" class="group-radios">
+            <div class="default-color">
+              <mat-radio-button class="example-radio-button" *ngFor="let i of [1,2,3,4,5]" [value]="i"></mat-radio-button>
+            </div>
+          </div>
+          <div *ngIf="poiScore > 0 && poiScore <= 1" class="group-radios">
+            <div class="risk-color">
+              <mat-radio-button class="example-radio-button" [value]="1"></mat-radio-button>
+            </div>
+            <div class="default-color">
+              <mat-radio-button class="example-radio-button" *ngFor="let i of [2,3,4,5]" [value]="i"></mat-radio-button>
+            </div>
+          </div>
+          <div *ngIf="poiScore > 1 && poiScore <= 1.6" class="group-radios">
+            <div class="risk-color">
+              <mat-radio-button class="example-radio-button" *ngFor="let i of [1,2]" [value]="i"></mat-radio-button>
+            </div>
+            <div class="default-color">
+              <mat-radio-button class="example-radio-button" *ngFor="let i of [3,4,5]" [value]="i"></mat-radio-button>
+            </div>
+          </div>
+          <div *ngIf="poiScore > 1.6 && poiScore <= 2" class="group-radios">
+            <div class="warn-color">
+              <mat-radio-button class="example-radio-button" *ngFor="let i of [1,2]" [value]="i"></mat-radio-button>
+            </div>
+            <div class="default-color">
+              <mat-radio-button class="example-radio-button" *ngFor="let i of [3,4,5]" [value]="i"></mat-radio-button>
+            </div>
+          </div>
+          <div *ngIf="poiScore > 2 && poiScore <= 3" class="group-radios">
+            <div class="warn-color">
+              <mat-radio-button class="example-radio-button" *ngFor="let i of [1,2,3]" [value]="i"></mat-radio-button>
+            </div>
+            <div class="default-color">
+              <mat-radio-button class="example-radio-button" *ngFor="let i of [4,5]" [value]="i"></mat-radio-button>
+            </div>
+          </div>
+          <div *ngIf="poiScore > 3 && poiScore <= 3.3" class="group-radios">
+            <div class="warn-color">
+              <mat-radio-button class="example-radio-button" *ngFor="let i of [1,2,3,4]" [value]="i"></mat-radio-button>
+            </div>
+            <div class="default-color">
+              <mat-radio-button class="example-radio-button" [value]="5"></mat-radio-button>
+            </div>
+          </div>
+          <div *ngIf="poiScore > 3.3 && poiScore <= 4" class="group-radios">
+            <div class="good-color">
+              <mat-radio-button class="example-radio-button" *ngFor="let i of [1,2,3,4]" [value]="i"></mat-radio-button>
+            </div>
+            <div class="default-color">
+              <mat-radio-button class="example-radio-button" [value]="5"></mat-radio-button>
+            </div>
+          </div>
+          <div *ngIf="poiScore > 4 && poiScore <= 5" class="group-radios">
+            <div class="good-color">
+              <mat-radio-button class="example-radio-button" *ngFor="let i of [1,2,3,4,5]" [value]="i"></mat-radio-button>
+            </div>
+          </div>
+        </mat-radio-group>
+      </div>
+      <div class="content-center small-direction p-t-10">
+        <p>Last rated: 2 days ago</p>
+      </div>
+    </mat-card>
+    <mat-card>
+      <p class="small-title p-b-10">ADDRESS</p>
+      <div *ngIf="poi.address" class="content-left">
+        <p class="font-14 line-height-120 col-90 gap-right-10">{{poi.address}}</p>
+        <a class="content-right col-10 address-link" [href]="'https://www.google.com/maps/search/?api=1&query=' + poi.address" target="_blank"><img src="/assets/img/related-url.svg" alt=""></a>
+      </div>
+    </mat-card>
+  </div>
 
   <!-- report card -->
-  <mat-card class="header" layout="fill">
-    <div class="header-line"><hr><hr></div>
-    <div class="header-title"><span>report card</span></div>
-    <div class="header-line"><hr><hr>
-    </div>
+  <mat-card class="content-center no-bottom">
+    <p *ngIf="poi.rating" class="small-direction">You have never rated this place. Tap below to rate.</p>
+    <p *ngIf="!poi.rating" class="small-direction">You’ve already rated this place. Tap below to change ratings.</p>
   </mat-card>
   <mat-card>
     <div *ngIf="resources && resources.length">
@@ -54,35 +111,13 @@
         <mat-row *matRowDef="let row; columns: ['resource', 'score', 'ratings'];"></mat-row>
       </mat-table>
     </div>
-    <div *ngIf="!(resources && resources.length)" class="resource-empty">
-      <p>You can be the first to add resources provided by this place by tapping below.</p>
-      <div class="content-right">
-        <img src="/assets/img/arrow-down.svg" alt="">
-      </div>
-    </div>
-    <mat-card class="resource-footer">
-      <button *ngIf="(poi.resources && poi.resources.length > 10 && resources != poi.resources)" (click)="showMore()" class="resource-footer-items left no-left no-right"><img src="/assets/img/done.svg" alt=""><span>More</span></button>
-      <button (click)="this.router.navigate(['/resources-adding', poi.id])" class="resource-footer-items right no-right no-left"><span>add resource</span><img src="/assets/img/plus.svg" alt=""></button>
-    </mat-card>
   </mat-card>
   <div class="p-b-30"></div>
 
   <div class="bottom-buttons">
     <div class="back">
-      <a (click)="this.router.navigate(['/main'])"><img src="/assets/img/back-icon.svg" alt=""><span
+      <a (click)="this.router.navigate(['/home/resources'])"><img src="/assets/img/back-icon.svg" alt=""><span
           class="command">Back</span></a>
-    </div>
-    <div *ngIf="!poi.owned" class="next">
-      <a (click)="monitor()">
-        <span class="command">monitor</span>
-        <img src="/assets/img/plus.svg" alt="">
-      </a>
-    </div>
-    <div *ngIf="poi.owned" class="next">
-      <a (click)="forgetPOI()">
-        <span class="command command-long">monitoring</span>
-        <img src="/assets/img/checked.svg" alt="">
-      </a>
     </div>
   </div>
 </div>

@@ -51,6 +51,8 @@ export class PoiComponent implements OnInit {
     ratings: number
   }[];
 
+  public poiScore: number = 0;
+
   constructor(private activatedRoute: ActivatedRoute, private apiService: ApiService, public router: Router) {
     this.activatedRoute.params.subscribe((params) => {
       if (params.id) {
@@ -78,13 +80,26 @@ export class PoiComponent implements OnInit {
       .subscribe(
         (data: any) => {
           this.poi = data;
-          this.resources = this.poi.resources.slice(0, 10);
+          this.resources = this.poi.resources;
+          this.getPoiScore();
         },
         (err: any) => {
           console.log(err);
           // TODO: do something
         }
       )
+  }
+
+  private getPoiScore() {
+    if (this.resources.length) {
+      let scoresTotal = 0;
+      let ratingsTotal = 1;
+      for (let i = 0; i < this.resources.length; i++) {
+        scoresTotal += (this.resources[i].score * this.resources[i].ratings);
+        ratingsTotal += this.resources[i].ratings;
+      }
+      this.poiScore = scoresTotal / ratingsTotal;
+    }
   }
 
   public monitor() {
