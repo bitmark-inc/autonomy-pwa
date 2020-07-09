@@ -3,7 +3,9 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  bitmark_network: 'testnet',
+  autonomy_api_url: 'https://autonomy.test.bitmark.com/'
 };
 
 /*

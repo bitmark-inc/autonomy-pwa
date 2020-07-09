@@ -1,5 +1,6 @@
 declare var window: any;
 
+import { environment } from '../../environments/environment';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
@@ -14,7 +15,7 @@ export abstract class BaseService {
 
   protected sendHttpRequest(method: string, url: string, params?, options?) {
     if (url.startsWith('api')) {
-      url = `${window.App.config.api_server_url}${url}`
+      url = `${environment.autonomy_api_url}${url}`
     }
     options = options || {};
     options.headers = options.headers || {};

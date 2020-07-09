@@ -1,5 +1,6 @@
 declare var window: any;
 
+import { environment } from '../../../environments/environment';
 import { Injectable } from '@angular/core';
 import { Observable, BehaviorSubject, Observer, observable, timer, interval } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
@@ -42,7 +43,7 @@ export class UserService extends BaseService {
 
   private async initService() {
     await this.initBitmarkSDK();
-    window.BitmarkSdk.setup('my api token', 'testnet'); // TODO: replace this with real configuration
+    window.BitmarkSdk.setup('my api token', environment.bitmark_network); // TODO: replace this with real configuration
 
     let localUserData = window.localStorage.getItem(this.userStorageKey);
     if (localUserData) {
