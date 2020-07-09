@@ -50,6 +50,8 @@ export class RatingsComponent implements OnInit {
     autonomy_score_delta: number;
   };
 
+  public submitable: boolean = true;
+
   public poiScore: number = 0;
 
   constructor(private activatedRoute: ActivatedRoute, private location: Location, private apiService: ApiService, private bottomSheet: MatBottomSheet, private bottomSheetRef: MatBottomSheetRef<BottomSheetAlertComponent>, public router: Router
@@ -107,6 +109,7 @@ export class RatingsComponent implements OnInit {
 
   private openBottomSheet(): void {
     this.bottomSheetRef = this.bottomSheet.open(BottomSheetAlertComponent, {
+      disableClose: true,
       data: {
         error: false,
         header: "submitting",
@@ -115,26 +118,34 @@ export class RatingsComponent implements OnInit {
     });
   }
 
+  private checkSubmitable() {
+    this.submitable = this.ratings.some(rating => {
+      rating.score > 0;
+    })
+  }
+
   public submitRatings(): void {
-    this.openBottomSheet();
-    this.apiService
-      .request("put", `api/points-of-interest/${this.poiID}/resource-ratings`, {
-        ratings: this.ratings,
-      })
-      .subscribe(
-        () => {
-          setTimeout(() => {
-            this.bottomSheetRef.afterDismissed().subscribe(() => {
-              this.router.navigate(["/pois", this.poiID]);
-            })
-            this.bottomSheetRef.dismiss();
-          }, 3 * 1000);
-        },
-        (err: any) => {
-          console.log(err);
-          // TODO: do something
-        }
-      );
+    if (this.submitable) {
+      this.openBottomSheet();
+      this.apiService
+        .request("put", `api/points-of-interest/${this.poiID}/resource-ratings`, {
+          ratings: this.ratings,
+        })
+        .subscribe(
+          () => {
+            setTimeout(() => {
+              this.bottomSheetRef.afterDismissed().subscribe(() => {
+                this.router.navigate(["/pois", this.poiID]);
+              })
+              this.bottomSheetRef.dismiss();
+            }, 3 * 1000);
+          },
+          (err: any) => {
+            console.log(err);
+            // TODO: do something
+          }
+        );
+    }
   }
 
   public back(): void {

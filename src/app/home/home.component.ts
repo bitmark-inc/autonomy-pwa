@@ -22,7 +22,6 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    HomepageState.fullscreen.next(false);
     this.stateSubscription.unsubscribe();
   }
 }

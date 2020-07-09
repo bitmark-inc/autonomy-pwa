@@ -282,7 +282,8 @@ textarea {
   padding-top: 10px;
   display: flex;
   align-items: center;
-  background: $bottom-background;
+  background: $base-background;
+  border-top: 1px solid #EDEDED;
 
   a {
     display: flex;

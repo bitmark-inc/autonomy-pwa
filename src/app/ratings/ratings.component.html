@@ -159,7 +159,7 @@
           class="command">Back</span></a>
     </div>
     <div class="next">
-      <a (click)="submitRatings()">
+      <a [ngClass]="{'disable-btns': !submitable}" (click)="submitRatings()">
         <span class="command">submit</span>
         <img src="/assets/img/submit.svg" alt="">
       </a>
