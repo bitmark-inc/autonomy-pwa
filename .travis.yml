@@ -37,7 +37,6 @@ deploy:
   local_dir: "./dist/autonomy"
   region: ap-northeast-1
   edge: true
-  detect_encoding: true
   default_text_charset: utf-8
   max_threads: 10
   cache_control: "max-age=31536000: *.jpg, *.svg, *.gif, *.png, *.webp, *.css, *.js, *.ico"
