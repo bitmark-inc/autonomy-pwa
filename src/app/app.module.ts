@@ -13,8 +13,10 @@ import {
   MatListModule,
   MatRadioModule,
   MatCheckboxModule,
+  MatBottomSheetModule,
+  MatProgressBarModule,
+  MatBottomSheetRef,
 } from "@angular/material";
-import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { TextFieldModule } from "@angular/cdk/text-field";
 
 import { AppRoutingModule } from './app-routing.module';
@@ -94,6 +96,7 @@ window.isProduction = environment.production;
     TextFieldModule,
     MatBottomSheetModule,
     MatCheckboxModule,
+    MatProgressBarModule,
   ],
   providers: [
     UserService,
@@ -101,7 +104,8 @@ window.isProduction = environment.production;
     EventEmitterService,
     AuthGuard,
     GuestGuard,
-    {provide: APP_INITIALIZER, useFactory: InitServices, deps: [UserService], multi: true}
+    {provide: APP_INITIALIZER, useFactory: InitServices, deps: [UserService], multi: true},
+    {provide: MatBottomSheetRef, useValue: {}}
   ],
   bootstrap: [AppComponent],
   entryComponents: [AlertDialogComponent, BottomSheetAlertComponent]

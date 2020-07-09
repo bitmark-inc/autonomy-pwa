@@ -1,22 +1,27 @@
-<div *ngIf="alertError" class="">
-  <mat-toolbar class="header" layout="fill">
-    <div class="header-line"><hr><hr></div>
-    <div class="header-title">error</div>
-    <div class="header-line"><hr><hr></div>
-  </mat-toolbar>
-  <mat-card>
-    <h2>{{title}}</h2>
-    <p>{{mainContent}}</p>
-  </mat-card>
-</div>
+<div class="bottom-sheet-alert p-b-30">
+  <div *ngIf="alertError" class="">
+    <mat-toolbar class="header" layout="fill">
+      <div class="header-line"><hr><hr></div>
+      <div class="header-title">{{header}}</div>
+      <div class="header-line"><hr><hr></div>
+    </mat-toolbar>
+    <mat-card>
+      <h2>{{title}}</h2>
+      <p class="line-height-120">{{mainContent}}</p>
+    </mat-card>
+  </div>
 
-<div *ngIf="!alertError">
-  <mat-toolbar class="header" layout="fill">
-    <div class="header-line"><hr><hr></div>
-    <div class="header-title">error</div>
-    <div class="header-line"><hr><hr></div>
-  </mat-toolbar>
-  <mat-card>
-    <p>{{mainContent}}</p>
-  </mat-card>
+  <div *ngIf="!alertError">
+    <mat-toolbar class="header" layout="fill">
+      <div class="header-line"><hr><hr></div>
+      <div class="header-title">{{header}}</div>
+      <div class="header-line"><hr><hr></div>
+    </mat-toolbar>
+    <mat-card class="no-top">
+      <p class="line-height-120">{{mainContent}}</p>
+    </mat-card>
+    <mat-card>
+      <mat-progress-bar mode="indeterminate" value="30"></mat-progress-bar>
+    </mat-card>
+  </div>
 </div>
