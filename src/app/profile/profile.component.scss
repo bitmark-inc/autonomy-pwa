@@ -1,5 +1,5 @@
 .profile-content {
-  padding-bottom: 120px;
+  padding-bottom: 140px;
   position: relative;
 }
 
@@ -16,9 +16,9 @@
   }
   .big-words {
     font-family: 'Domaine Sans Text';
-    font-size: 1.5em;
+    font-size: 36px;
     font-weight: 300;
-    line-height: 120%;
+    line-height: 100%;
     text-transform: uppercase;
   }
   
@@ -55,17 +55,17 @@
   position: absolute;
   bottom: 0;
   background-color: #E3EBF8;
+  color: #545454;
   width: 100%;
 
   .version {
-    color: #000000;
-    font-size: 0.75em;
+    font-size: 14px;
     font-weight: 300;
+    line-height: 105.6%;
   }
 
   .privacy {
-    color: #545454;
-    font-size: 0.75em;
+    font-size: 12px;
     font-weight: 300;
 
     a {

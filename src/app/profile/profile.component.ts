@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
 })
 export class ProfileComponent implements OnInit {
 
-  constructor(private location: Location, private router: Router, private userService: UserService) { }
+  constructor(private location: Location, public router: Router, private userService: UserService) { }
 
   ngOnInit() {}
 

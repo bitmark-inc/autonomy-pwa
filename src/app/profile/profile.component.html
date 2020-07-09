@@ -1,79 +1,62 @@
-<div class="profile-content">
-  <mat-card></mat-card>
-  <mat-card class="section-row p-t-30" layout="fill">
-    <div class="col-50 content-left">
-      <p class="big-words">profile</p>
-    </div>
-    <div class="col-50 content-right">
-      <a [routerLink]="['/main']"><img src="/assets/img/up-exit-small.svg" alt=""></a>
-    </div>
-  </mat-card>
-  <div class="donation">
-    <mat-card class="no-top no-bottom col">
-      <div class="section-row p-t-5 p-b-5">
-        <div class="col-80 content-left title-align">
-          <p>Help keep autonomy free</p>
+<div class="main-content">
+  <div class="profile-content">
+    <mat-card></mat-card>
+    <mat-card class="section-row p-t-30" layout="fill">
+      <div class="col-50 content-left">
+        <p class="big-words">account</p>
+      </div>
+    </mat-card>
+    <mat-card class="no-bottom"><hr></mat-card>
+    <mat-card class="section-row">
+      <div class="col-50 content-left">
+        <div>
+          <p class="direction">Data</p>
+          <p class="font-14 normal-link col-70"><a href="">How we keep your data private</a></p>
         </div>
-        <div class="col-20 content-right">
-          <a><img src="/assets/img/next-small.svg" alt=""></a>
+      </div>
+      <div class="col-50 content-right section-child">
+        <div>
+          <a class="link-detail p-b-10 sub-direction upcase"><span class="gap-right-10">export</span><img src="/assets/img/next-small.svg" alt=""></a>
+          <a class="link-detail p-b-10 sub-direction upcase"><span class="gap-right-10">delete</span><img src="/assets/img/next-small.svg" alt=""></a>
         </div>
       </div>
     </mat-card>
+    <mat-card class="no-bottom"><hr></mat-card>
+    <mat-card class="section-row">
+      <div class="col-50 content-left">
+        <p class="direction">Security</p>
+      </div>
+      <div class="col-50 content-right section-child">
+        <div>
+          <a class="link-detail p-b-10 sub-direction upcase" [routerLink]="['/signout']"><span class="gap-right-10">sign out</span><img src="/assets/img/next-small.svg" alt=""></a>
+          <a class="link-detail p-b-10 sub-direction upcase" [routerLink]="['/recovery-key']"><span class="gap-right-10">recovery key</span><img src="/assets/img/next-small.svg" alt=""></a>
+        </div>
+      </div>
+    </mat-card>
+    <mat-card class="no-bottom"><hr></mat-card>
+    <mat-card class="section-row">
+      <div class="col-50 content-left">
+        <p class="direction">Support</p>
+      </div>
+      <div class="col-50 content-right section-child">
+        <div>
+          <a class="link-detail p-b-10 sub-direction upcase"><span class="gap-right-10">faq</span><img src="/assets/img/next-small.svg" alt=""></a>
+          <a class="link-detail p-b-10 sub-direction upcase" (click)="openIntercom()"><span class="gap-right-10">Contact</span><img src="/assets/img/next-small.svg" alt=""></a>
+        </div>
+      </div>
+    </mat-card>
+    <mat-card class="profile-footer">
+      <div class="p-t-10">
+        <p class="version p-b-10">Version 0.1</p>
+        <p class="privacy p-b-10"><a href="">EULA</a> and <a href="https://bitmark.com/privacy" target="_blank">Privacy Policy</a></p>
+        <p><img src="/assets/img/security-bitmark.svg" alt=""></p>
+      </div>
+    </mat-card>
   </div>
-  <mat-card class="no-bottom"><hr></mat-card>
-  <mat-card class="section-row">
-    <div class="col-50 content-left">
-      <p class="direction">Report</p>
+  <!-- button footer -->
+  <div class="bottom-buttons p-t-10">
+    <div class="back">
+      <a (click)="router.navigate(['/home/you'])"><img src="/assets/img/back-icon.svg" alt=""><span class="command">Back</span></a>
     </div>
-    <div class="col-50 content-right section-child">
-      <div>
-        <a class="link-detail p-b-10 sub-direction upcase" [routerLink]="['/report-symptom']"><span class="gap-right-10">symptoms</span><img src="/assets/img/next-small.svg" alt=""></a>
-        <a class="link-detail p-b-10 sub-direction upcase" [routerLink]="['/report-behavior']"><span class="gap-right-10">behaviors</span><img src="/assets/img/next-small.svg" alt=""></a>
-      </div>
-    </div>
-  </mat-card>
-  <mat-card class="no-bottom"><hr></mat-card>
-  <mat-card class="section-row">
-    <div class="col-50 content-left">
-      <p class="direction">Data</p>
-    </div>
-    <div class="col-50 content-right section-child">
-      <div>
-        <a class="link-detail p-b-10 sub-direction upcase"><span class="gap-right-10">api</span><img src="/assets/img/next-small.svg" alt=""></a>
-        <a class="link-detail p-b-10 sub-direction upcase"><span class="gap-right-10">export</span><img src="/assets/img/next-small.svg" alt=""></a>
-        <a class="link-detail p-b-10 sub-direction upcase"><span class="gap-right-10">delete</span><img src="/assets/img/next-small.svg" alt=""></a>
-      </div>
-    </div>
-  </mat-card>
-  <mat-card class="no-bottom"><hr></mat-card>
-  <mat-card class="section-row">
-    <div class="col-50 content-left">
-      <p class="direction">Security</p>
-    </div>
-    <div class="col-50 content-right section-child">
-      <div>
-        <a class="link-detail p-b-10 sub-direction upcase" [routerLink]="['/signout']"><span class="gap-right-10">sign out</span><img src="/assets/img/next-small.svg" alt=""></a>
-        <a class="link-detail p-b-10 sub-direction upcase" [routerLink]="['/recovery-key']"><span class="gap-right-10">recovery key</span><img src="/assets/img/next-small.svg" alt=""></a>
-      </div>
-    </div>
-  </mat-card>
-  <mat-card class="no-bottom"><hr></mat-card>
-  <mat-card class="section-row">
-    <div class="col-50 content-left">
-      <p class="direction">Support</p>
-    </div>
-    <div class="col-50 content-right section-child">
-      <div>
-        <a class="link-detail p-b-10 sub-direction upcase"><span class="gap-right-10">faq</span><img src="/assets/img/next-small.svg" alt=""></a>
-        <a class="link-detail p-b-10 sub-direction upcase" (click)="openIntercom()"><span class="gap-right-10">Contact</span><img src="/assets/img/next-small.svg" alt=""></a>
-      </div>
-    </div>
-  </mat-card>
-  <mat-toolbar class="profile-footer">
-    <div class="p-t-10">
-      <p class="version">Version 0.1</p>
-      <p class="privacy p-b-10">We protect your <a href="https://bitmark.com/privacy" target="_blank">Digital Rights</a>.</p>
-      <p><img src="/assets/img/security-bitmark.svg" alt=""></p>
-    </div>
-  </mat-toolbar>
+  </div>
 </div>
