@@ -1,29 +1,68 @@
 import { Router } from '@angular/router';
 import { ApiService } from './../../services/api/api.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef, NgZone } from "@angular/core";
 import { HomepageState as ParentContainerState } from '../homepage.state';
+import {
+  debounceTime,
+  map,
+  distinctUntilChanged,
+  filter,
+} from "rxjs/operators";
+import { fromEvent } from "rxjs";
 
 @Component({
   selector: "app-resources",
   templateUrl: "./resources.component.html",
   styleUrls: ["./resources.component.scss"],
 })
-export class ResourcesComponent implements OnInit {
+export class ResourcesComponent implements OnInit, OnDestroy {
+  @ViewChild("placeSearchInput", { static: true }) placeSearchInput: ElementRef;
+
+  public keyword: string = "";
+  public placesByKeyword: {
+    name: string;
+    formatted_address: string;
+    place_id: string;
+  }[];
 
   public resources: {
     id: string;
     name: string;
   }[];
+  public resourceSearching: string;
+  public poisByResource: {
+    id: string;
+    alias: string;
+    address: string;
+    resource_score: number;
+    distance: number;
+  }[];
 
-  constructor(private apiService: ApiService, public router: Router) {
+  constructor(private apiService: ApiService, public router: Router, private ngZone: NgZone) {}
+
+  ngOnInit() {
+    fromEvent(this.placeSearchInput.nativeElement, "keyup")
+      .pipe(
+        map((event: any) => {
+          return this.keyword;
+        }),
+        filter((res) => res.length > 2),
+        debounceTime(500),
+        distinctUntilChanged()
+      )
+      .subscribe(() => {
+        this.searchByKeyword();
+      });
+
     this.getResourcesForSearching();
   }
 
-  ngOnInit() {
+  ngOnDestroy() {
+    ParentContainerState.fullscreen.next(false);
   }
 
-  public onInputFocus() {
-    ParentContainerState.fullscreen.next(true);
+  private searchByKeyword() {
+    // TODO: search by keyword from Autonomy server
   }
 
   private getResourcesForSearching() {
@@ -36,5 +75,66 @@ export class ResourcesComponent implements OnInit {
         // TODO: do something
       }
     );
+  }
+
+  public onInputFocus() {
+    ParentContainerState.fullscreen.next(true);
+  }
+
+  public onInputFocusOut() {
+    if (!(this.keyword || this.resourceSearching)) {
+      ParentContainerState.fullscreen.next(false);
+    }
+  }
+
+  public searchByResource(id, name) {
+    ParentContainerState.fullscreen.next(true);
+    this.resourceSearching = name;
+    this.apiService
+      .request("get", `api/points-of-interest?resource_id=${id}`)
+      .subscribe(
+        (data) => {
+          this.poisByResource = data;
+        },
+        (err) => {
+          console.log(err);
+          // TODO: do something
+        }
+      );
+  }
+
+  public clearAll() {
+    if (this.keyword || this.resourceSearching) {
+      this.keyword = "";
+      this.resourceSearching = "";
+      ParentContainerState.fullscreen.next(false);
+    }
+  }
+
+  public navigateToPlace(place: any) {
+    this.apiService
+      .request("post", "api/points-of-interest", {
+        alias: place.name,
+        address: place.formatted_address,
+        location: {
+          latitude: place.geometry.location.lat(),
+          longitude: place.geometry.location.lng(),
+        },
+      })
+      .subscribe(
+        (data: { id: string }) => {
+          this.ngZone.run(() => {
+            this.navigateToPOI(data.id);
+          });
+        },
+        (err) => {
+          console.log(err);
+          // TODO: do something
+        }
+      );
+  }
+
+  public navigateToPOI(id: string) {
+    this.router.navigate(["/pois", id]);
   }
 }
