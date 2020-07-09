@@ -1,6 +1,7 @@
 import { Router } from '@angular/router';
 import { ApiService } from './../../services/api/api.service';
 import { Component, OnInit } from '@angular/core';
+import { HomepageState as ParentContainerState } from '../homepage.state';
 
 @Component({
   selector: "app-resources",
@@ -19,6 +20,10 @@ export class ResourcesComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  public onInputFocus() {
+    ParentContainerState.fullscreen.next(true);
   }
 
   private getResourcesForSearching() {

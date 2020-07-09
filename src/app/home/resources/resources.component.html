@@ -1,7 +1,7 @@
 <div class="search-page p-b-30">
   <mat-toolbar class="search-bar">
     <mat-icon matPrefix class="search-icon"><img src="/assets/img/search.svg" alt=""></mat-icon>
-    <input (click)="router.navigate(['../../poi-search'])" class="search-input" matInput type="text" placeholder="Enter local name or address ..." class="search-input">
+    <input (focus)="onInputFocus()" class="search-input" matInput type="text" placeholder="Enter local name or address ..." class="search-input">
   </mat-toolbar>
   <mat-card class="no-top no-bottom search-bar-line"><hr></mat-card>
   <mat-card class="main-direction content-center no-bottom">
