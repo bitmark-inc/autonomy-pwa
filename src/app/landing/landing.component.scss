@@ -1,29 +1,38 @@
 .content {
   display: block;
   text-align: center;
-  position: relative;
-  padding-bottom: 140px;
+  position: fixed;
+  padding-bottom: 120px;
   height: 100vh;
 
   .landing-content {
-    height: calc(100vh - 140px - 56px);
+    height: calc(100vh - 120px - 56px);
 
     .landing-words {
-      height: calc(((100vh - 140px - 56px) / 100 * 35) - 16px);
-      font-size: 18vw;
+      // height: calc(((100vh - 120px - 56px) / 100 * 35) - 30px);
+      font-size: 8vh;
       font-weight: 300;
       line-height: 120%;
     }
 
     .logo {
-      height: calc(((100vh - 140px - 56px) / 100 * 60) - 16px);
+      height: calc(((100vh - 120px - 56px) / 100 * 50));
       display: flex;
       justify-content: center;
       align-items: center;
-      img {
-        // width: 100%;
-        height: calc(((100vh - 140px - 56px) / 100 * 45) - 16px);
-        object-fit: scale-down;
+      margin-bottom: 10px;
+      .imgs {
+        height: inherit;
+        width: 100%;
+        display: block;
+        .autonomy-logo {
+          height: 70%;
+          object-fit: scale-down;
+        }
+        .ucl-logo {
+          height: 30%;
+          object-fit: scale-down;
+        }
       }
     }
   }
@@ -39,23 +48,27 @@
   color: #545454;
   background-color: #ffffff;
   width: 100%;
-  height: 140px;
+  height: 120px;
 
   .start-landing {
+    font-family: 'Domaine Sans Text';
     font-weight: 300;
-    font-size: 36px;
+    font-size: 24px;
     line-height: 100%;
     text-transform: uppercase;
-    padding-bottom: 1rem;
-    
+
     a {
       display: flex;
       align-items: center;
       justify-content: center;
-      color: #000000;
+      color: #1C1C1C;
       text-decoration: none;
       .command {
         padding-right: 1rem;
+      }
+      img {
+        width: 45px;
+        height: 45px;
       }
     }
   }
@@ -66,9 +79,9 @@
   }
 
   p {
-    padding-bottom: 1em;
+    padding-bottom: .5em;
     &:nth-child(1) {
-      padding: 1em;
+      padding: .5em;
     }
   }
 }
