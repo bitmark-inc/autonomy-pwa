@@ -25,6 +25,9 @@ script:
 - cd ../.. && npm install
 - if [ "$TRAVIS_BRANCH" = "dev" ]; then npm run build -- --configuration staging; fi
 - if [ "$TRAVIS_BRANCH" = "master" ]; then npm run build -- --configuration production; fi
+- cd ./dist/autonomy
+- find .  -type f -exec gzip {} \; -exec mv {}.gz {} \;
+- cd ../../
 before_deploy:
 - curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
 - unzip -qq awscliv2.zip
@@ -39,6 +42,7 @@ deploy:
   edge: true
   default_text_charset: utf-8
   max_threads: 10
+  detect_encoding: true
   cache_control: "max-age=31536000: *.jpg, *.svg, *.gif, *.png, *.webp, *.css, *.js, *.ico"
   on:
     branch: dev
