@@ -1,24 +1,27 @@
 <div class="content" [hidden]="stage != PageStage.Intro01">
   <mat-toolbar class="header" layout="fill">
     <div class="header-line"><hr><hr></div>
-    <div class="header-title"><span class="highlight">1</span><span>2</span><span>3</span></div>
+    <div class="header-title"><span>1</span><span class="none-focus">2</span><span class="none-focus">3</span></div>
     <div class="header-line"><hr><hr>
     </div>
   </mat-toolbar>
   <div class="onboarding-content">
     <mat-card class="no-top center-direction">
       <div class="onboarding-words">
-        <p>We’ll forecast the public health of your neighborhood.</p>
+        <p>Navigate the Berkeley community during COVID-19.</p>
       </div>
     </mat-card>
     <mat-card class="no-top no-bottom">
       <div class="img-groups">
         <img class="device" src="/assets/img/device.svg" alt="">
-        <img class="intro" src="/assets/img/intro1.svg" alt="">
+        <div class="intro">
+          <img class="intro-a" src="/assets/img/intro1a.svg" alt="">
+          <img class="intro-b" src="/assets/img/intro1b.svg" alt="">
+        </div>
       </div>
     </mat-card>
   </div>
-  <div class="bottom-buttons onboarding-footer">
+  <div class="bottom-buttons">
     <div class="back">
       <a [routerLink]="['/landing']"><img src="/assets/img/back-icon.svg" alt=""><span class="command">Back</span></a>
     </div>
@@ -30,15 +33,14 @@
 <div class="content" [hidden]="stage != PageStage.Intro02">
   <mat-toolbar class="header" layout="fill">
     <div class="header-line"><hr><hr></div>
-    <div class="header-title"><span>1</span><span class="highlight">2</span><span>3</span></div>
+    <div class="header-title"><span class="none-focus">1</span><span>2</span><span class="none-focus">3</span></div>
     <div class="header-line"><hr><hr></div>
   </mat-toolbar>
   <div class="onboarding-content">
     <mat-card class="no-top center-direction">
       <div class="onboarding-words">
         <div>
-          <p>Your data is always kept 100% confidential.</p>
-          <p>(Even to us.)</p>
+          <p>Help one another identify safe resources in and around campus.</p>
         </div>
       </div>
     </mat-card>
@@ -49,7 +51,7 @@
       </div>
     </mat-card>
   </div>
-  <div class="bottom-buttons onboarding-footer">
+  <div class="bottom-buttons">
     <div class="back">
       <a (click)="setStage(PageStage.Intro01)"><img src="/assets/img/back-icon.svg" alt=""><span class="command">Back</span></a>
     </div>
@@ -62,24 +64,28 @@
 <div class="content" [hidden]="stage != PageStage.Intro03">
   <mat-toolbar class="header" layout="fill">
     <div class="header-line"><hr><hr></div>
-    <div class="header-title"><span>1</span><span>2</span><span class="highlight">3</span></div>
+    <div class="header-title"><span class="none-focus">1</span><span class="none-focus">2</span><span>3</span></div>
     <div class="header-line"><hr><hr>
     </div>
   </mat-toolbar>
   <div class="onboarding-content">
     <mat-card class="no-top center-direction">
       <div class="onboarding-words">
-        <p>We’ll help your neighborhood grow healthier together.</p>
+        <p>Get community insights without exposing your personal data.</p>
       </div>
     </mat-card>
     <mat-card class="no-top no-bottom">
       <div class="img-groups">
         <img class="device" src="/assets/img/device.svg" alt="">
-        <img class="intro" src="/assets/img/intro1.svg" alt="">
+        <div class="intro intro3">
+          <p class="p-b-10">1,234 people from Berkeley have checked in this week.</p>
+          <p class="content-left font-10 upcase sans-text p-b-5">symptoms</p>
+          <img src="/assets/img/intro3.svg" alt="">
+        </div>
       </div>
     </mat-card>
   </div>
-  <div class="bottom-buttons onboarding-footer">
+  <div class="bottom-buttons">
     <div class="back">
       <a (click)="setStage(PageStage.Intro02)"><img src="/assets/img/back-icon.svg" alt=""><span class="command">Back</span></a>
     </div>

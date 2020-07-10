@@ -1,14 +1,15 @@
 .content {
   text-align: center;
-  position: relative;
+  position: fixed;
   height: 100vh;
 
   .onboarding-content {
     height: calc(100vh -70px - 56px);
+    position: relative;
 
     .onboarding-words {
       height: calc(((100vh - 70px - 56px) / 100 * 35) - 16px);
-      font-size: 9vw;
+      font-size: 8.5vw;
       font-weight: 300;
       line-height: 120%;
       display: flex;
@@ -18,31 +19,46 @@
 
     .img-groups{
       position: relative;
-      height: calc(((100vh - 49px - 56px) / 100 * 65) - 16px);
       display: flex;
       justify-content: center;
       align-items: center;
 
       .device {
-        padding-top: calc(((100vh + 70px + 56px) / 100 * 5) + 16px);
+        padding-top: 50px;
         width: 100%;
       }
 
         .intro {
+          width: 85%;
           position: absolute;
-          top: 12vh;
+          top: 17vh;
           left: 50%;
           transform: translateX(-50%);
           object-fit: scale-down;
+
+          .intro-a {
+            width: 100%;
+            padding-bottom: 15px;
+          }
+          .intro-b {
+            width: 100%;
+            padding-bottom: 15px;
+          }
         }
 
         .intro2 {
-          width: 90%;
+          width: 85%;
+        }
+
+        .intro3 {
+          img {
+            width: 100%;
+          }
         }
     }
   }
 }
 
-.highlight {
-  color: #000000;
+.none-focus {
+  color: #BFBFBF;
 }

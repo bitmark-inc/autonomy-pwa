@@ -1,4 +1,4 @@
-$base-color: #000000;
+$base-color: #1C1C1C;
 $title-color: #545454;
 $base-background: #ffffff;
 $sub-background: #E3EBF8;
@@ -274,6 +274,7 @@ textarea {
   bottom: 0;
   text-align: center;
   width: 100%;
+  font-family: 'Domaine Sans Text';
   font-weight: 300;
   font-size: 24px;
   line-height: 100%;
@@ -288,7 +289,7 @@ textarea {
   a {
     display: flex;
     align-items: center;
-    color: $base-color;
+    color: #1C1C1C;
     text-decoration: none;
   }
 
@@ -300,6 +301,10 @@ textarea {
     .command {
       padding-right: 0.5rem;
     }
+    img {
+      width: 45px;
+      height: 45px;
+    }
   }
 
   .back {
@@ -309,6 +314,10 @@ textarea {
     padding-left: 1rem;
     .command {
       padding-left: 0.5rem;
+    }
+    img {
+      width: 45px;
+      height: 45px;
     }
   }
 
