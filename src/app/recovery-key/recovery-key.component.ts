@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { trigger, transition, animate, style, query, state} from "@angular/animations";
 import { UserService } from "../services/user/user.service";
+import { Location } from "@angular/common";
 
 enum EnumPageStage { Direction, Keys }
 
@@ -26,7 +27,7 @@ export class RecoveryKeyComponent implements OnInit {
   public indexShowing: number = 0;
   public slideStateTest: string = 'center';
 
-  constructor(private userService: UserService) {
+  constructor(private userService: UserService, private location: Location) {
     this.getRecoveryWords();
   }
 
@@ -50,5 +51,9 @@ export class RecoveryKeyComponent implements OnInit {
     if (this.indexShowing >= 1) {
       this.indexShowing--;
     }
+  }
+
+  public back(): void {
+    this.location.back();
   }
 }

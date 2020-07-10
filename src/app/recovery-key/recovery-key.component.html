@@ -16,7 +16,7 @@
   </mat-card>
   <div class="bottom-buttons">
     <div class="back">
-      <a [routerLink]="['/profile']"><img src="/assets/img/back-icon.svg" alt=""><span class="command">Back</span></a>
+      <a (click)="back()"><img src="/assets/img/back-icon.svg" alt=""><span class="command">Back</span></a>
     </div>
     <div class="next">
       <a (click)="setStage(PageStage.Keys)"><span class="command">Next</span><img src="/assets/img/next-icon.svg" alt=""></a>
@@ -51,7 +51,7 @@
   </div>
   <div class="bottom-buttons">
     <div class="back">
-      <a [routerLink]="['/profile']"><img src="/assets/img/back-icon.svg" alt=""><span class="command">Back</span></a>
+      <a (click)="back()"><img src="/assets/img/back-icon.svg" alt=""><span class="command">Back</span></a>
     </div>
   </div>
 </div>
