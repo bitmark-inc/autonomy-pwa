@@ -11,7 +11,7 @@ import { ProfileComponent } from './profile/profile.component';
 import { RecoveryKeyComponent } from "./recovery-key/recovery-key.component";
 import { SignoutComponent } from "./signout/signout.component";
 import { HomeComponent } from './home/home.component';
-import { YouComponent } from './home/you/you.component';
+import { SettingComponent } from './home/setting/setting.component';
 import { CommunityComponent } from './home/community/community.component';
 import { ResourcesComponent } from './home/resources/resources.component';
 import { AuthGuard, GuestGuard } from './url-guard';
@@ -22,10 +22,10 @@ const routes: Routes = [
   {path: 'signup', component: SignupComponent, canActivate: [GuestGuard]},
   {path: 'permission', component: PermissionComponent, canActivate: [AuthGuard]},
   {path: 'home', component: HomeComponent, canActivate: [AuthGuard], children: [
-    {path: '', redirectTo: 'you', pathMatch: 'full'},
-    {path: 'you', component: YouComponent},
+    {path: '', redirectTo: 'community', pathMatch: 'full'},
     { path: 'community', component: CommunityComponent},
     {path: 'resources', component: ResourcesComponent},
+    {path: 'setting', component: SettingComponent},
   ]},
   {path: 'poi-search', component: PoiSearchComponent, canActivate: [AuthGuard]},
   {path: 'pois/:id', component: PoiComponent, canActivate: [AuthGuard]},

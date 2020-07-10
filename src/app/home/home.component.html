@@ -2,17 +2,18 @@
   <router-outlet></router-outlet>
 
   <div class="home-tabs">
-    <a class="col p-t-10 upcase" [routerLink]="['./you']" routerLinkActive="active">
-      <img class="p-b-10" [src]="router.isActive('/home/you', false) ? '/assets/img/you-tab-active.svg' : '/assets/img/you-tab.svg'" alt="">
-      <p>you</p>
-    </a>
     <a class="col p-t-10 upcase" [routerLink]="['./community']" routerLinkActive="active">
       <img class="p-b-10" [src]="router.isActive('/home/community', false) ? '/assets/img/community-tab-active.svg' : '/assets/img/community-tab.svg'" alt="">
-      <p>Community</p>
+      <p>trends</p>
     </a>
     <a class="col p-t-10 upcase" [routerLink]="['./resources']" routerLinkActive="active">
       <img class="p-b-10" [src]="router.isActive('/home/resources', false) ? '/assets/img/resources-tab-active.svg' : '/assets/img/resources-tab.svg'" alt="">
       <p>Resources</p>
+    </a>
+    <a class="col p-t-10 upcase" [routerLink]="['./setting']" routerLinkActive="active">
+      <img class="p-b-10"
+        [src]="router.isActive('/home/setting', false) ? '/assets/img/setting-active.svg' : '/assets/img/setting.svg'" alt="">
+      <p>settings</p>
     </a>
   </div>
 </div>

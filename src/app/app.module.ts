@@ -49,6 +49,7 @@ import { HomeComponent } from './home/home.component';
 import { YouComponent } from './home/you/you.component';
 import { CommunityComponent } from './home/community/community.component';
 import { ResourcesComponent } from './home/resources/resources.component';
+import { SettingComponent } from './home/setting/setting.component';
 import { BottomSheetAlertComponent } from "./bottom-sheet-alert/bottom-sheet-alert.component";
 
 declare var window: any;
@@ -75,6 +76,7 @@ window.isProduction = environment.production;
     YouComponent,
     CommunityComponent,
     ResourcesComponent,
+    SettingComponent,
     BottomSheetAlertComponent,
   ],
   imports: [
