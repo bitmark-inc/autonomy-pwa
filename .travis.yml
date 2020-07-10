@@ -45,7 +45,6 @@ deploy:
   max_threads: 10
   detect_encoding: true
   cache_control: "max-age=31536000: *.jpg, *.svg, *.gif, *.png, *.webp, *.css, *.js, *.ico, *wasm"
-  cleanup: true
   on:
     branch: dev
 after_deploy:
