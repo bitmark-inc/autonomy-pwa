@@ -17,7 +17,7 @@ export class SignoutComponent implements OnInit {
   public stage: EnumPageStage = EnumPageStage.Direction;
   public key: string;
 
-  constructor(private userService: UserService, private router: Router, private bottomSheet: MatBottomSheet) { }
+  constructor(private userService: UserService, private router: Router, private bottomSheet: MatBottomSheet, private bottomSheetRef: MatBottomSheetRef) { }
 
   ngOnInit() {
   }
@@ -29,7 +29,8 @@ export class SignoutComponent implements OnInit {
 
   private openBottomSheet(type): void {
     if (type === 'error') {
-      this.bottomSheet.open(BottomSheetAlertComponent, {
+      this.bottomSheetRef = this.bottomSheet.open(BottomSheetAlertComponent, {
+        disableClose: true,
         data: {
           error: true,
           header: 'error',
@@ -40,7 +41,8 @@ export class SignoutComponent implements OnInit {
         }
       });
     } else {
-      this.bottomSheet.open(BottomSheetAlertComponent, {
+      this.bottomSheetRef = this.bottomSheet.open(BottomSheetAlertComponent, {
+        disableClose: true,
         data: {
           error: false,
           header: 'signing out',
@@ -53,11 +55,27 @@ export class SignoutComponent implements OnInit {
   public signout() {
     if (this.key && this.key.split(' ').length === 13) {
       if (this.checkRecoveryWords()) {
+        this.openBottomSheet('ok');
         this.userService.signout();
-        this.router.navigate(['/landing']);
+        setTimeout(() => {
+          this.bottomSheetRef.afterDismissed().subscribe(() => {
+            this.router.navigate(["/landing"]);
+          })
+          this.bottomSheetRef.dismiss();
+        }, 3 * 1000);
       } else {
         // show error dialog
         this.openBottomSheet('error');
+        EventEmitterService.getEventEmitter(EventEmitterService.Events.BottomSheetBtn).subscribe((data) => {
+          if (data.action) { // left action
+            this.bottomSheetRef.afterDismissed().subscribe(() => {
+              this.router.navigate(["/recovery-key"]);
+            })
+            this.bottomSheetRef.dismiss();
+          } else { // right action
+            this.bottomSheetRef.dismiss();
+          }
+        })
       }
     }
   }

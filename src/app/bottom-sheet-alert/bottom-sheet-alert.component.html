@@ -1,17 +1,23 @@
-<div class="bottom-sheet-alert p-b-30">
-  <div *ngIf="alertError" class="">
+<div class="bottom-sheet-alert">
+  <div class="p-b-10" *ngIf="alertError" class="">
     <mat-toolbar class="header" layout="fill">
       <div class="header-line"><hr><hr></div>
       <div class="header-title">{{header}}</div>
       <div class="header-line"><hr><hr></div>
     </mat-toolbar>
-    <mat-card>
-      <h2>{{title}}</h2>
+    <mat-card class="no-top content-center">
+      <p class="sheet-title">{{title}}</p>
+    </mat-card>
+    <mat-card class="no-top no-bottom content-center">
       <p class="line-height-120">{{mainContent}}</p>
+    </mat-card>
+    <mat-card class="sheet-btns">
+      <a (click)="leftAction()">{{leftBtn}}</a>
+      <a (click)="rightAction()">{{rightBtn}}</a>
     </mat-card>
   </div>
 
-  <div *ngIf="!alertError">
+  <div class="p-b-30" *ngIf="!alertError">
     <mat-toolbar class="header" layout="fill">
       <div class="header-line"><hr><hr></div>
       <div class="header-title">{{header}}</div>
