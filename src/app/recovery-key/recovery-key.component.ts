@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { trigger, transition, animate, style, state} from "@angular/animations";
+import { trigger, transition, animate, style, query, state} from "@angular/animations";
 import { UserService } from "../services/user/user.service";
 
 enum EnumPageStage { Direction, Keys }
@@ -9,36 +9,15 @@ enum EnumPageStage { Direction, Keys }
   templateUrl: "./recovery-key.component.html",
   styleUrls: ["./recovery-key.component.scss"],
   animations: [
-    trigger("slideInOutWord", [
-      state('right', style({
-        transform: "translateX(50%)",
-        fontSize: "1.5em",
-        opacity: 0.5,
-      })),
-      state('center', style({
-        transform: "translateX(0)",
-        fontSize: "2em",
-        opacity: 1,
-      })),
-      state('left', style({
-        transform: "translateX(-50%)",
-        fontSize: "1.5em",
-        opacity: 0.5,
-      })),
-      transition("right=>center", [
-        animate("450ms ease-in"),
-      ]),
-      transition("center=>right", [
-        animate("450ms ease-out"),
-      ]),
-      transition("center=>left", [
-        animate("450ms ease-out"),
-      ]),
-      transition("left=>center", [
-        animate("450ms ease-in"),
-      ]),
+    trigger('wordsSlide', [
+      state('*', style({
+        transform: "translateX({{pos}}%)",
+      }), {params: {pos: 0}}),
+      transition('* => *', [
+        animate(200)
+      ])
     ])
-  ],
+  ]
 })
 export class RecoveryKeyComponent implements OnInit {
   public PageStage = EnumPageStage;
@@ -61,15 +40,15 @@ export class RecoveryKeyComponent implements OnInit {
     this.stage = newStage;
   }
 
-  public onSwipeLeft(index) {
-    if (index < 12) {
-      this.indexShowing = index + 1;
+  public onSwipeLeft() {
+    if (this.indexShowing < this.words.length - 1) {
+      this.indexShowing++;
     }
   }
 
-  public onSwipeRight(index) {
-    if (index > 0) {
-      this.indexShowing = index - 1;
+  public onSwipeRight() {
+    if (this.indexShowing >= 1) {
+      this.indexShowing--;
     }
   }
 }

@@ -37,16 +37,17 @@
     </div>
   </mat-card>
   <mat-card class="slide-words">
-    <div *ngFor="let word of words; index as i">
-      <div class="keys" *ngIf="indexShowing === i" (swipeleft)="onSwipeLeft(i)" (swiperight)="onSwipeRight(i)">
-        <p class="left-word">{{words[i-1]}}</p>
-        <p class="center-word">{{word}}</p>
-        <p class="right-word">{{words[i+1]}}</p>
+    <div (swipeleft)="onSwipeLeft()" (swiperight)="onSwipeRight()">
+      <div class="keys" [@wordsSlide]="{value: indexShowing, params: {pos: (6-indexShowing)*(100/words.length)}}">
+        <p class="word" *ngFor="let word of words; index as i"
+          [ngClass]="{'left': i === indexShowing-1, 'center': i === indexShowing, 'right': i === indexShowing+1}">
+          {{word}}
+        </p>
       </div>
     </div>
   </mat-card>
   <div class="word-count">
-    <p class="direction">Word {{indexShowing + 1}} of 13</p>
+    <p class="direction">Word {{indexShowing + 1}} of {{words.length}}</p>
   </div>
   <div class="bottom-buttons">
     <div class="back">
