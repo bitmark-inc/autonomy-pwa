@@ -21,6 +21,7 @@ func main() {
 	jsSdkLib.Set("createNewAccount", js.FuncOf(createNewAccount))
 	jsSdkLib.Set("parseAccount", js.FuncOf(parseAccount))
 	jsSdkLib.Set("signMessage", js.FuncOf(signMessage))
+	jsSdkLib.Set("decryptText", js.FuncOf(decryptText))
 	jsSdkLib.Set("terminate", js.FuncOf(terminate))
 	<-alive
 }
@@ -108,6 +109,42 @@ func signMessage(this js.Value, args []js.Value) interface{} {
 	signature := acc.Sign([]byte(message))
 	signatureHex := hex.EncodeToString(signature)
 	return js.ValueOf(signatureHex)
+}
+
+// args: (recoveryPhrase string, cipherText string, peerPublicKey string)
+func decryptText(this js.Value, args []js.Value) interface{} {
+	if len(args) != 3 || !args[0].Truthy() || !args[1].Truthy() || !args[2].Truthy() {
+		return js.ValueOf(false)
+	}
+
+	recoveryPhrase := args[0].String()
+	message := args[1].String()
+	peerPubKey := args[2].String()
+
+	acc, err := account.FromRecoveryPhrase(strings.Split(recoveryPhrase, " "), language.AmericanEnglish)
+	if err != nil {
+		return js.ValueOf(false)
+	}
+
+	messageBytes, err := hex.DecodeString(message)
+	if err != nil {
+		return js.ValueOf(false)
+	}
+
+	peerPubKeyBytes, err := hex.DecodeString(peerPubKey)
+	if err != nil {
+		return js.ValueOf(false)
+	}
+
+	plaintext, err := acc.(*account.AccountV2).EncrKey.Decrypt(messageBytes, peerPubKeyBytes)
+	if err != nil {
+		return js.ValueOf(false)
+	}
+
+	plaintextUint8Array := js.Global().Get("Uint8Array").New(len(plaintext))
+	js.CopyBytesToJS(plaintextUint8Array, plaintext)
+
+	return plaintextUint8Array
 }
 
 // args: (reason string)
