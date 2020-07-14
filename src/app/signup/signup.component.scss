@@ -2,6 +2,7 @@
   text-align: center;
   position: fixed;
   height: 100vh;
+  max-width: 768px;
 
   .onboarding-content {
     height: calc(100vh -70px - 56px);
@@ -9,7 +10,7 @@
 
     .onboarding-words {
       height: calc(((100vh - 70px - 56px) / 100 * 35) - 16px);
-      font-size: 8.5vw;
+      font-size: 36px;
       font-weight: 300;
       line-height: 120%;
       display: flex;
@@ -31,10 +32,10 @@
         .intro {
           width: 85%;
           position: absolute;
-          top: 17vh;
+          top: 23%;
           left: 50%;
           transform: translateX(-50%);
-          object-fit: scale-down;
+          // object-fit: scale-down;
 
           .intro-a {
             width: 100%;

@@ -4,6 +4,7 @@ $base-background: #ffffff;
 $sub-background: #E3EBF8;
 $bottom-background: #EDF0F4;
 $line-color: #828180;
+$max-width: 768px;
 
 @font-face {
   font-family: 'Atlas Grotesk';
@@ -39,6 +40,10 @@ html {
 body {
   color: $base-color;
   background-color: $base-background;
+  max-width: $max-width;
+  // display: flex;
+  // justify-content: center;
+  margin: 0 auto;
 }
 
 h1,
@@ -274,13 +279,14 @@ textarea {
   bottom: 0;
   text-align: center;
   width: 100%;
+  max-width: $max-width;
   font-family: 'Domaine Sans Text';
   font-weight: 300;
   font-size: 24px;
   line-height: 100%;
   text-transform: uppercase;
-  padding-bottom: 1rem;
-  padding-top: 10px;
+  padding-bottom: 1.5rem;
+  padding-top: .7rem;
   display: flex;
   align-items: center;
   background: $base-background;
@@ -334,6 +340,7 @@ textarea {
   bottom: 0;
   text-align: center;
   width: 100%;
+  max-width: $max-width;
   font-family: 'Domaine Sans Text';
   font-weight: 300;
   font-size: 12px;

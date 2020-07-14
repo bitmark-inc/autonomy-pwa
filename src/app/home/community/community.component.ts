@@ -197,8 +197,9 @@ export class CommunityComponent implements OnInit {
     this.fakeDistribution();
     this.buildDataByDays();
     
+    let viewWidth = window.innerWidth > 768 ? 768 : window.innerWidth;
     let margin = {top: 20, right: 20, bottom: 30, left: 40};
-    let chartSize = { width: window.innerWidth - margin.left - margin.right, height: 270 };
+    let chartSize = { width: viewWidth - margin.left - margin.right, height: 270 };
     let g = d3.select(this.chartEl.nativeElement)
       .append('svg')
       .attr('width', chartSize.width + margin.left + margin.right)

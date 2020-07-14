@@ -37,7 +37,13 @@
 }
 
 .word {
-  width: 50vw;
+  width: calc(768px / 2);
   display: flex;
   justify-content: center;
+}
+
+@media screen and (max-width: 768px) {
+  .word {
+    width: 50vw;
+  }
 }
