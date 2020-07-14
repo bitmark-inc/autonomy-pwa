@@ -26,7 +26,7 @@
       <ng-container matColumnDef="check">
         <mat-header-cell class="small-title" *matHeaderCellDef></mat-header-cell>
         <mat-cell class="row-items" *matCellDef="let element" (click)="selectSymptom(element)">
-          <div class="checkRadio" [ngClass]="{ 'unCheckRadio': !element.chartShown }" [id]="'checkbox-' + element.id"></div>
+          <div class="checkRadio" [ngClass]="{ 'unCheckRadio': !element.chartShown }" [ngStyle]="{ 'background': element.chartColor }"></div>
         </mat-cell>
       </ng-container>
 

@@ -13,7 +13,6 @@ import * as d3 from 'd3'
 })
 export class CommunityComponent implements OnInit {
   @ViewChild("chartEl", { static: false }) public chartEl: ElementRef;
-  @ViewChild("tableEl", { static: false }) public tableEl: ElementRef;
 
   public dataBySymptoms: any = [];
   public dataByDays: any = [];
@@ -322,11 +321,9 @@ export class CommunityComponent implements OnInit {
   }
 
   public selectSymptom(symptomData) {
-    let checkEl = this.tableEl.nativeElement.querySelector(`.row-items #checkbox-${symptomData.id}`);
     if (symptomData.chartShown) {
       symptomData.chartShown = false;
       this.removeColor(symptomData.chartColor);
-      this.renderer.setElementStyle(checkEl, "background", '');
       d3.select(symptomData.chartControl).attr('fill', AppSettings.DEFAULT_CHART_COLOR);
     } else {
       let color = this.addColor();
@@ -338,7 +335,6 @@ export class CommunityComponent implements OnInit {
       }
       symptomData.chartShown = true;
       symptomData.chartColor = color;
-      this.renderer.setElementStyle(checkEl, 'background', color);
       d3.select(symptomData.chartControl).attr('fill', color);
     }
   }
