@@ -136,13 +136,16 @@ func decryptText(this js.Value, args []js.Value) interface{} {
 		return js.ValueOf(false)
 	}
 
-	plaintext, err := acc.(*account.AccountV2).EncrKey.Decrypt(messageBytes, peerPubKeyBytes)
+	textByte, err := acc.(*account.AccountV2).EncrKey.Decrypt(messageBytes, peerPubKeyBytes)
 	if err != nil {
 		return js.ValueOf(false)
 	}
 
-	plaintextUint8Array := js.Global().Get("Uint8Array").New(len(plaintext))
-	js.CopyBytesToJS(plaintextUint8Array, plaintext)
+	// textHex := hex.EncodeToString(textByte)
+	// return js.ValueOf(textHex)
+
+	plaintextUint8Array := js.Global().Get("Uint8Array").New(len(textByte))
+	js.CopyBytesToJS(plaintextUint8Array, textByte)
 
 	return plaintextUint8Array
 }

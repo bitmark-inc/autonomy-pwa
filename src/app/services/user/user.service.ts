@@ -2,12 +2,18 @@ declare var window: any;
 
 import { environment } from '../../../environments/environment';
 import { Injectable } from '@angular/core';
-import { Observable, BehaviorSubject, Observer, observable, timer, interval } from 'rxjs';
+import { Observable, BehaviorSubject, Observer, forkJoin, interval } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { BaseService } from '../base.service';
 
-import { v4 as uuidv4 } from 'uuid';
-import { mergeMap } from 'rxjs/operators';
+interface AccountInfo {
+  account_number: string,
+  recovery_phrase: string,
+  encryption_pubkey: string
+}
+
+export interface DSTokens { r: string, w: string }
+export interface AllDSTokens { PDS: DSTokens, CDS: DSTokens }
 
 @Injectable({
   providedIn: 'root'
@@ -19,9 +25,8 @@ export class UserService extends BaseService {
   private user: {
     id: string,
     jwt: string,
-    account_number: string,
-    recovery_phrase: string,
-    encryption_pubkey: string,
+    account: AccountInfo,
+    tokens: AllDSTokens,
     state: {
       last_active_time: string,
       location: string,
@@ -29,9 +34,8 @@ export class UserService extends BaseService {
     metadata: {},
     created_at: string,
     updated_at: string
-
-    currentLocation: {latitude: number, longitude: number}
-  };
+    currentLocation?: {latitude: number, longitude: number}
+  }
 
   private isTrackingLocation: boolean = false;
   private currentLocation: {latitude: number, longitude: number};
@@ -49,7 +53,7 @@ export class UserService extends BaseService {
     if (localUserData) {
       try {
         this.user = JSON.parse(localUserData);
-        if (!this.user.recovery_phrase) { // old test account without recovery phrase
+        if (!this.user.tokens) { // old test account without recovery phrase
           localStorage.removeItem(this.userStorageKey);
           this.user = null;
         }
@@ -61,7 +65,7 @@ export class UserService extends BaseService {
         this.currentLocation = this.user.currentLocation;
         this.startTrackingLocation().subscribe();
       }
-      this.authenticate(this.user.account_number, this.user.recovery_phrase).subscribe(
+      this.authenticateWithAgent(this.user.account).subscribe(
         (jwt: string) => {
           this.user.jwt = jwt;
           this.statusSubject.next(true);
@@ -97,39 +101,23 @@ export class UserService extends BaseService {
     }
   }
 
-  public getStatus() {
-    return this.statusSubject;
-  }
+  public getStatus = () => this.statusSubject;
+  public getUser = () => this.user;
+  public getJWT = () => this.user ? this.user.jwt : null;
+  public getAccountNumber = (): string => this.user ? this.user.account.account_number : null;
+  public getRecoveryPhrase = (): string => this.user? this.user.account.recovery_phrase : null;
+  public getCurrentLocation = (): {latitude: number, longitude: number} => this.currentLocation;
+  public getTokens = () : AllDSTokens => this.user? this.user.tokens : null;
 
-  public getUser() {
-    return this.user;
-  }
-
-  public getJWT() {
-    return this.user ? this.user.jwt : null;
-  }
-
-  public getAccountNumber(): string {
-    return this.user.account_number;
-  }
-
-  public getRecoveryPhrase(): string {
-    return this.user.recovery_phrase;
-  }
-
-  public getCurrentLocation(): {latitude: number, longitude: number} {
-    return this.currentLocation;
-  }
-
-  private authenticate(accountNumber: string, recoveryPhrase: string) {
+  private authenticateWithAgent(accountInfo: AccountInfo) {
     return Observable.create(observer => {
       let currentTimestamp = (new Date()).getTime() + '';
-      let signature = window.BitmarkSdk.signMessage(recoveryPhrase, currentTimestamp);
+      let signature = window.BitmarkSdk.signMessage(accountInfo.recovery_phrase, currentTimestamp);
 
-      this.sendHttpRequest('post', 'api/auth', {
+      this.sendHttpRequest('post', `${environment.autonomy_api_url}api/auth`, {
         signature: signature,
         timestamp: currentTimestamp,
-        requester: accountNumber,
+        requester: accountInfo.account_number,
       }).subscribe(
         (data: {jwt_token: string}) => {
           observer.next(data.jwt_token);
@@ -144,13 +132,11 @@ export class UserService extends BaseService {
     return !!window.BitmarkSdk.parseAccount(recoveryPhrase);
   }
 
+  //=========== WORK WITH AGENT SERVER ==============
+
   // Signup with a new 13-word phrase or just auto create a new one
   public signup(recoveryPhrase?: string) {
-    let accountInfo: {
-      account_number: string,
-      recovery_phrase: string,
-      encryption_pubkey: string
-    };
+    let accountInfo: AccountInfo;
 
     return Observable.create(observer => {
       if (recoveryPhrase) {
@@ -163,18 +149,22 @@ export class UserService extends BaseService {
         accountInfo = window.BitmarkSdk.createNewAccount();
       }
 
-      this.authenticate(accountInfo.account_number, accountInfo.recovery_phrase).subscribe(
-        (jwt) => {
+      this.authenticateWithAgent(accountInfo).subscribe(
+        (jwt: string) => {
           this.register(accountInfo, jwt).subscribe(
             (result) => {
               this.user = result;
-              this.user.recovery_phrase = accountInfo.recovery_phrase;
-              this.user.account_number = accountInfo.account_number;
-              this.user.encryption_pubkey = accountInfo.encryption_pubkey;
+              this.user.account = accountInfo;
               this.user.jwt = jwt;
-              this.saveUser();
-              observer.next();
-              observer.complete();
+              this.authenticateWithDSs(accountInfo).subscribe(
+                (result: AllDSTokens) => {
+                  this.user.tokens = result;
+                  this.saveUser();
+                  observer.next(this.user);
+                  observer.complete();
+                },
+                (err) => { observer.error(err); }
+              );
             },
             (err) => { observer.error(err); }
           );
@@ -184,9 +174,9 @@ export class UserService extends BaseService {
     });
   }
 
-  private register(accountInfo, jwt) {
+  private register(accountInfo: AccountInfo, jwt: string) {
     return Observable.create(observer => {
-      this.sendHttpRequest('post', 'api/accounts', {
+      this.sendHttpRequest('post', `${environment.autonomy_api_url}api/accounts`, {
         enc_pub_key: accountInfo.encryption_pubkey,
         metadata: {source: 'pwa'}
       }, {
@@ -211,19 +201,23 @@ export class UserService extends BaseService {
         observer.error(new Error('invalid recovery phrase'));
       }
 
-      this.authenticate(accountInfo.account_number, recoveryPhrase)
+      this.authenticateWithAgent(accountInfo)
         .subscribe(
-        (jwt) => {
+        (jwt: string) => {
           this.me(jwt).subscribe(
             (result) => {
               this.user = result;
-              this.user.recovery_phrase = accountInfo.recovery_phrase;
-              this.user.account_number = accountInfo.account_number;
-              this.user.encryption_pubkey = accountInfo.encryption_pubkey;
+              this.user.account = accountInfo;
               this.user.jwt = jwt;
-              this.saveUser();
-              observer.next();
-              observer.complete();
+              this.authenticateWithDSs(accountInfo).subscribe(
+                (result: AllDSTokens) => {
+                  this.user.tokens = result;
+                  this.saveUser();
+                  observer.next(this.user);
+                  observer.complete();
+                },
+                (err) => { observer.error(err); }
+              );
             },
             (err) => { observer.error(err); }
           )
@@ -255,7 +249,7 @@ export class UserService extends BaseService {
         if (!this.user) {
           return;
         }
-        this.authenticate(this.user.account_number, this.user.recovery_phrase).subscribe(
+        this.authenticateWithAgent(this.user.account).subscribe(
           (jwt: string) => {
             this.user.jwt = jwt;
           }
@@ -264,6 +258,67 @@ export class UserService extends BaseService {
     );
   }
 
+  //=========== WORK WITH DATA STORE ==============
+  public authenticateWithDSs(accountInfo: AccountInfo) {
+    return Observable.create(observer => {
+      forkJoin([
+        this.registerWithDS(accountInfo, `${environment.pds_url}`),
+        this.getDSInfo(`${environment.pds_url}`),
+        this.registerWithDS(accountInfo, `${environment.cds_url}`),
+        this.getDSInfo(`${environment.cds_url}`),
+      ]).subscribe(
+        (results: any[]) => {
+          let encryptedPDSTokens = <DSTokens>results[0];
+          let pdsServerInfo = results[1];
+          let encryptedCDSTokens = <DSTokens>results[2];
+          let cdsServerInfo = results[3];
+
+          let pdsTokens: DSTokens = {
+            r: this.decryptDSToken(accountInfo.recovery_phrase, encryptedPDSTokens.r, pdsServerInfo.server.enc_pub_key),
+            w: this.decryptDSToken(accountInfo.recovery_phrase, encryptedPDSTokens.w, pdsServerInfo.server.enc_pub_key)
+          }
+          let cdsTokens: DSTokens = {
+            r: this.decryptDSToken(accountInfo.recovery_phrase, encryptedCDSTokens.r, cdsServerInfo.server.enc_pub_key),
+            w: this.decryptDSToken(accountInfo.recovery_phrase, encryptedCDSTokens.w, cdsServerInfo.server.enc_pub_key)
+          }
+
+          observer.next({
+            PDS: pdsTokens,
+            CDS: cdsTokens
+          });
+          observer.complete();
+        },
+        (err) => {
+          observer.error(err);
+        }
+      )
+    });
+  }
+
+  private decryptDSToken(recoveryPhrase: string, encryptedToken: string, peerPubkey: string) {
+    let token = window.BitmarkSdk.decryptText(recoveryPhrase, encryptedToken, peerPubkey);
+    return token.map(x => ('00' + x.toString(16)).slice(-2)).join('');
+    // return token
+  }
+
+  private getDSInfo(dsEndPoint: string) {
+    return this.sendHttpRequest('get', `${dsEndPoint}information`);
+  }
+
+  private registerWithDS(accountInfo: AccountInfo, dsEndPoint: string) {
+    let now = (new Date()).getTime();
+    let message = `${accountInfo.encryption_pubkey}|${now}`;
+    let signature = window.BitmarkSdk.signMessage(accountInfo.recovery_phrase, message);
+
+    return this.sendHttpRequest('post', `${dsEndPoint}register`, {
+      requester: accountInfo.account_number,
+      timestamp: now.toString(),
+      encryption_public_key: accountInfo.encryption_pubkey,
+      signature: signature
+    });
+  }
+  
+  //=========== WORK WITH ONE SIGNAL ==============
   public submitOneSignalTag(): void {
     window.OneSignal.push(() => {
       window.OneSignal.sendTag('account_number', this.getAccountNumber());

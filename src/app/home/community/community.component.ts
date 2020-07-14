@@ -5,6 +5,7 @@ import { AppSettings } from "../../app-settings";
 import { ApiService } from 'src/app/services/api/api.service';
 import * as moment from 'moment';
 import * as d3 from 'd3'
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: "app-trend",
@@ -167,19 +168,19 @@ export class CommunityComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getPersonalReport();
+    this.getSymptomReport();
   }
 
-  private getPersonalReport() {
+  private getSymptomReport() {
     this.reportStart = moment().add(-7, 'days');
     this.reportEnd = moment();
 
     let start = encodeURIComponent(this.reportStart.toISOString(true));
     let end = encodeURIComponent(this.reportEnd.toISOString(true));
 
-    let endpoint = `api/report-items?scope=individual&type=symptom&granularity=day&start=${start}&end=${end}`;
+    let endpoint = `${environment.autonomy_api_url}api/report-items?scope=individual&type=symptom&granularity=day&start=${start}&end=${end}`;
     this.apiService
-      .request('get', endpoint)
+      .request('get', endpoint, null, null, ApiService.DSTarget.CDS)
       .subscribe(
         (data: {report_items: any}) => {
           this.renderChart();
