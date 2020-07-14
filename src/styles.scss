@@ -1,7 +1,9 @@
-$base-color: #1C1C1C;
+$base-color: #000000;
+$direction-color: #003262;
+$sub-direction-color: #303030;
 $title-color: #545454;
 $base-background: #ffffff;
-$sub-background: #E3EBF8;
+$sub-background: #DDD5C7; // selection background
 $bottom-background: #EDF0F4;
 $line-color: #828180;
 $max-width: 768px;
@@ -112,6 +114,14 @@ textarea {
   font-family: 'IBM Plex Mono';
 }
 
+.direction-color {
+  color: $direction-color !important;
+}
+
+.sub-direction-color {
+  color: $sub-direction-color !important;
+}
+
 .mat-table,
 .mat-card {
   background-color: inherit;
@@ -191,7 +201,7 @@ textarea {
 .small-title {
   display: flex;
   justify-content: left;
-  color: $base-color;
+  color: $title-color;
   background-color: inherit;
   font-family: 'Domaine Sans Text';
   font-size: 10px;
@@ -211,7 +221,7 @@ textarea {
   }
 
   .unCheckRadio {
-    background: #E3EBF8 !important;
+    background: $sub-background !important;
   }
 }
 
@@ -285,17 +295,17 @@ textarea {
   font-size: 24px;
   line-height: 100%;
   text-transform: uppercase;
-  padding-bottom: 1.5rem;
+  padding-bottom: 1.2rem;
   padding-top: .7rem;
   display: flex;
   align-items: center;
   background: $base-background;
+  color: $direction-color;
   border-top: 1px solid #EDEDED;
 
   a {
     display: flex;
     align-items: center;
-    color: #1C1C1C;
     text-decoration: none;
   }
 
@@ -349,6 +359,7 @@ textarea {
   display: flex;
   align-items: center;
   justify-content: space-around;
+  color: $direction-color;
   background: $base-background;
   border-top: 1px solid #EDEDED;
 
