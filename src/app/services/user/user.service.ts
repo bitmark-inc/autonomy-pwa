@@ -305,25 +305,25 @@ export class UserService extends BaseService {
   }
   
   //=========== WORK WITH ONE SIGNAL ==============
-  public submitOneSignalTag(): void {
-    window.OneSignal.push(() => {
-      window.OneSignal.sendTag('account_number', this.getAccountNumber());
-    })
-  }
+  // public submitOneSignalTag(): void {
+  //   window.OneSignal.push(() => {
+  //     window.OneSignal.sendTag('account_number', this.getAccountNumber());
+  //   })
+  // }
 
-  public removeOneSignalTag(): void {
-    window.OneSignal.push(() => {
-      window.OneSignal.isPushNotificationsEnabled((isEnabled: boolean) => {
-        if (isEnabled) {
-          window.OneSignal.sendTag('account_number', '');
-        }
-      });
-    });
-  }
+  // public removeOneSignalTag(): void {
+  //   window.OneSignal.push(() => {
+  //     window.OneSignal.isPushNotificationsEnabled((isEnabled: boolean) => {
+  //       if (isEnabled) {
+  //         window.OneSignal.sendTag('account_number', '');
+  //       }
+  //     });
+  //   });
+  // }
 
   public signout() {
     localStorage.removeItem(this.userStorageKey);
-    this.removeOneSignalTag();
+    // this.removeOneSignalTag();
     this.user = null;
   }
 

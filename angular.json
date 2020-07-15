@@ -27,8 +27,7 @@
               "src/favicon.ico",
               "src/assets",
               "src/manifest.webmanifest",
-              {"glob": "main.wasm", "input": "src/bitmarksdk/src", "output": "/"},
-              {"glob": "**/*", "input": "src/onesignal/", "output": "/"}
+              {"glob": "main.wasm", "input": "src/bitmarksdk/src", "output": "/"}
             ],
             "styles": [
               "./node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css",
