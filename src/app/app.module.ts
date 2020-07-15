@@ -36,17 +36,13 @@ import { PoiComponent } from './poi/poi.component';
 import { RatingsComponent } from './ratings/ratings.component';
 import { SigninComponent } from './signin/signin.component';
 import { SignupComponent } from './signup/signup.component';
-import { ProfileComponent } from './profile/profile.component';
 import { AlertDialogComponent } from "./alert-dialog/alert-dialog.component";
-import { PoiSearchComponent } from './poi-search/poi-search.component';
 import { PlaceDeltaPipe } from './pipes/place-delta.pipe';
 import { SymptomDeltaPipe } from './pipes/symptom-delta.pipe';
 import { ReportScorePipe } from './pipes/report-score.pipe';
-import { PermissionComponent } from './permission/permission.component';
 import { RecoveryKeyComponent } from './recovery-key/recovery-key.component';
 import { SignoutComponent } from './signout/signout.component';
 import { HomeComponent } from './home/home.component';
-import { YouComponent } from './home/you/you.component';
 import { CommunityComponent } from './home/community/community.component';
 import { ResourcesComponent } from './home/resources/resources.component';
 import { SettingComponent } from './home/setting/setting.component';
@@ -61,19 +57,15 @@ window.isProduction = environment.production;
     LandingComponent,
     SigninComponent,
     SignupComponent,
-    ProfileComponent,
     PoiComponent,
     AlertDialogComponent,
-    PoiSearchComponent,
     RatingsComponent,
     PlaceDeltaPipe,
     SymptomDeltaPipe,
     ReportScorePipe,
-    PermissionComponent,
     RecoveryKeyComponent,
     SignoutComponent,
     HomeComponent,
-    YouComponent,
     CommunityComponent,
     ResourcesComponent,
     SettingComponent,

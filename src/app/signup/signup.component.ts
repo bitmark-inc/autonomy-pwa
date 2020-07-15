@@ -23,7 +23,7 @@ export class SignupComponent implements OnInit {
   public signup(): void {
     this.userService.signup().subscribe(
       (data) => {
-        this.router.navigate(['/permission']);
+        this.router.navigate(['/home']);
       },
       (err) => {
         // TODO: do something

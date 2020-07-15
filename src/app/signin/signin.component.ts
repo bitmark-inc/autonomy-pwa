@@ -19,7 +19,7 @@ export class SigninComponent implements OnInit {
     if (this.key) {
       this.userService.signin(this.key).subscribe(
         (data) => {
-          this.router.navigate(['/permission']);
+          this.router.navigate(['/home']);
         },
         (err) => {
           console.log(err);
