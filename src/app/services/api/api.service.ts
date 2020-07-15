@@ -22,15 +22,12 @@ export class ApiService extends BaseService {
     let dsTokens = target === DSTarget.PDS ? this.userService.getTokens().PDS : this.userService.getTokens().CDS;
     let dsToken = method === 'get' ? dsTokens.r : dsTokens.w;
     let jwt = this.userService.getJWT();
+    let macaroonHeader = `X-FORWARD-MACAROON-${target === DSTarget.CDS ? 'CDS' : 'PDS'}`;
 
     options = options || {};
     options.headers = options.headers || {};
-    options.headers['X-FORWARD-MACAROON'] = options.headers['X-FORWARD-MACAROON'] || dsToken;
+    options.headers[macaroonHeader] = options.headers[macaroonHeader] || dsToken;
     options.headers.Authorization = options.headers.Authorization || `Bearer ${jwt}`;
-    let currentLocation = this.userService.getCurrentLocation();
-    if (currentLocation) {
-      options.headers['Geo-Position'] = `${currentLocation.latitude};${currentLocation.longitude}`;
-    }
     return this.sendHttpRequest(method, url, params, options);
   }
 }

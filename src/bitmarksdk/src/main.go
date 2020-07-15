@@ -142,6 +142,7 @@ func decryptText(this js.Value, args []js.Value) interface{} {
 	}
 
 	// textHex := hex.EncodeToString(textByte)
+	// fmt.Println(textHex)
 	// return js.ValueOf(textHex)
 
 	plaintextUint8Array := js.Global().Get("Uint8Array").New(len(textByte))

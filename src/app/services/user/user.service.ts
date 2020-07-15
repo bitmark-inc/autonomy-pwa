@@ -23,22 +23,10 @@ export class UserService extends BaseService {
   private userStorageKey: string = 'user-v1';
   private statusSubject = new BehaviorSubject(false);
   private user: {
-    id: string,
     jwt: string,
     account: AccountInfo,
     tokens: AllDSTokens,
-    state: {
-      last_active_time: string,
-      location: string,
-    },
-    metadata: {},
-    created_at: string,
-    updated_at: string
-    currentLocation?: {latitude: number, longitude: number}
   }
-
-  private isTrackingLocation: boolean = false;
-  private currentLocation: {latitude: number, longitude: number};
 
   constructor(protected http: HttpClient) {
     super(http);
@@ -61,10 +49,6 @@ export class UserService extends BaseService {
     }
 
     if (this.user) {
-      if (this.user.currentLocation != null) {
-        this.currentLocation = this.user.currentLocation;
-        this.startTrackingLocation().subscribe();
-      }
       this.authenticateWithAgent(this.user.account).subscribe(
         (jwt: string) => {
           this.user.jwt = jwt;
@@ -96,7 +80,6 @@ export class UserService extends BaseService {
 
   private saveUser() {
     if (this.user) {
-      this.user.currentLocation = this.currentLocation;
       window.localStorage.setItem(this.userStorageKey, JSON.stringify(this.user));
     }
   }
@@ -106,7 +89,6 @@ export class UserService extends BaseService {
   public getJWT = () => this.user ? this.user.jwt : null;
   public getAccountNumber = (): string => this.user ? this.user.account.account_number : null;
   public getRecoveryPhrase = (): string => this.user? this.user.account.recovery_phrase : null;
-  public getCurrentLocation = (): {latitude: number, longitude: number} => this.currentLocation;
   public getTokens = () : AllDSTokens => this.user? this.user.tokens : null;
 
   private authenticateWithAgent(accountInfo: AccountInfo) {
@@ -153,12 +135,17 @@ export class UserService extends BaseService {
         (jwt: string) => {
           this.register(accountInfo, jwt).subscribe(
             (result) => {
-              this.user = result;
+              this.user = {
+                jwt: jwt,
+                account: accountInfo,
+                tokens: null
+              };
               this.user.account = accountInfo;
               this.user.jwt = jwt;
               this.authenticateWithDSs(accountInfo).subscribe(
                 (result: AllDSTokens) => {
                   this.user.tokens = result;
+                  console.log(this.user);
                   this.saveUser();
                   observer.next(this.user);
                   observer.complete();
@@ -297,7 +284,7 @@ export class UserService extends BaseService {
 
   private decryptDSToken(recoveryPhrase: string, encryptedToken: string, peerPubkey: string) {
     let token = window.BitmarkSdk.decryptText(recoveryPhrase, encryptedToken, peerPubkey);
-    return token.map(x => ('00' + x.toString(16)).slice(-2)).join('');
+    return Array.from(token).map(x => ('00' + (<number>x).toString(16)).slice(-2)).join('');
     // return token
   }
 
@@ -341,41 +328,41 @@ export class UserService extends BaseService {
     this.user = null;
   }
 
-  public startTrackingLocation(): Observable<any> {
-    return Observable.create((observer: Observer<any>) => {
-      if (this.isTrackingLocation) {
-        observer.next(this.currentLocation);
-        observer.complete();
-        return;
-      }
+  // public startTrackingLocation(): Observable<any> {
+  //   return Observable.create((observer: Observer<any>) => {
+  //     if (this.isTrackingLocation) {
+  //       observer.next(this.currentLocation);
+  //       observer.complete();
+  //       return;
+  //     }
 
-      navigator.geolocation.getCurrentPosition(
-        (position: {coords: any}) => {
-          this.currentLocation = position.coords;
-          this.saveUser();
+  //     navigator.geolocation.getCurrentPosition(
+  //       (position: {coords: any}) => {
+  //         this.currentLocation = position.coords;
+  //         this.saveUser();
 
-          this.isTrackingLocation = true;
-          this.updateOnLocationChanged();
-          observer.next(this.currentLocation);
-          observer.complete();
-        },
-        (err) => {
-          observer.error(err);
-        }
-      );
-    });
-  }
+  //         this.isTrackingLocation = true;
+  //         this.updateOnLocationChanged();
+  //         observer.next(this.currentLocation);
+  //         observer.complete();
+  //       },
+  //       (err) => {
+  //         observer.error(err);
+  //       }
+  //     );
+  //   });
+  // }
 
-  private updateOnLocationChanged() {
-    navigator.geolocation.watchPosition(
-      (position: {coords: any}) => {
-        this.currentLocation = position.coords;
-        this.saveUser();
-      },
-      (err) => {
-        console.log(err);
-        // TODO: do something
-      }
-    );
-  }
+  // private updateOnLocationChanged() {
+  //   navigator.geolocation.watchPosition(
+  //     (position: {coords: any}) => {
+  //       this.currentLocation = position.coords;
+  //       this.saveUser();
+  //     },
+  //     (err) => {
+  //       console.log(err);
+  //       // TODO: do something
+  //     }
+  //   );
+  // }
 }
