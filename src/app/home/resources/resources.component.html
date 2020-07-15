@@ -21,9 +21,9 @@
       or enter a local name or address in the search field above.</p>
     </mat-card>
     <mat-card class="resources-list">
-      <div class="resource-item font-14" *ngFor="let resource of resources"
-        (click)="searchByResource(resource.id, resource.name)">
-        {{resource.name}}
+      <div class="resource-item font-14" *ngFor="let type of placeTypes"
+        (click)="searchByPlaceType(type)">
+        {{type}}
       </div>
     </mat-card>
   </div>
@@ -36,8 +36,8 @@
       <div class="p-t-20"><hr></div>
     </mat-card>
   </div>
-  <div *ngIf="resourceSearching && poisByResource && poisByResource.length">
-    <mat-card class="no-bottom" *ngFor="let place of poisByResource">
+  <div *ngIf="resourceSearching && poisByType && poisByType.length">
+    <mat-card class="no-bottom" *ngFor="let place of poisByType">
       <div class="place-found" (click)="navigateToPOI(place.id)">
         <p>{{place.alias}} ({{place.distance | number:'1.1-1'}}km)</p>
         <p class="small-address p-t-5">{{place.address}}</p>
@@ -109,7 +109,7 @@
       <div class="p-t-10"><hr></div>
     </mat-card>
   </div>
-  <mat-card class="non-places-found" *ngIf="resourceSearching && poisByResource && !poisByResource.length">
+  <mat-card class="non-places-found" *ngIf="resourceSearching && poisByType && !poisByType.length">
     <p>Sorry, there aren’t currently any places in our system offering that resource. Be the first to add it for places you know!</p>
   </mat-card>
 </div>

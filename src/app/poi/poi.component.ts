@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ApiService } from '../services/api/api.service';
 import { Router } from "@angular/router";
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-poi',
@@ -70,9 +71,9 @@ export class PoiComponent implements OnInit {
   private getPOIProfile(): void {
     let url: string;
     if (this.id) {
-      url = `api/autonomy_profile?poi_id=${this.id}&all_resources=true`;
+      url = `${environment.autonomy_api_url}api/autonomy_profile?poi_id=${this.id}&all_resources=true`;
     } else {
-      url = `api/autonomy_profile?lat=${this.lat}&lng=${this.long}&all_resources=true`;
+      url = `${environment.autonomy_api_url}api/autonomy_profile?lat=${this.lat}&lng=${this.long}&all_resources=true`;
     }
 
     this.apiService

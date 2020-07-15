@@ -1,3 +1,4 @@
+import { environment } from '../../environments/environment';
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -70,7 +71,7 @@ export class RatingsComponent implements OnInit {
 
   private getRatings(): void {
     this.apiService
-      .request("get", `api/points-of-interest/${this.poiID}/resource-ratings`)
+      .request("get", `${environment.autonomy_api_url}api/points-of-interest/${this.poiID}/ratings`, null, null, ApiService.DSTarget.PDS)
       .subscribe(
         (data: { ratings: any }) => {
           this.ratings = data.ratings;
@@ -83,7 +84,7 @@ export class RatingsComponent implements OnInit {
   }
 
   private getPOIProfile(): void {
-    this.apiService.request("get", `api/autonomy_profile?poi_id=${this.poiID}`).subscribe(
+    this.apiService.request("get", `${environment.autonomy_api_url}api/autonomy_profile?poi_id=${this.poiID}`, null, null, ApiService.DSTarget.CDS).subscribe(
       (data: any) => {
         this.poi = data;
         this.getPoiScore();
@@ -128,14 +129,14 @@ export class RatingsComponent implements OnInit {
     if (this.submitable) {
       this.openBottomSheet();
       this.apiService
-        .request("put", `api/points-of-interest/${this.poiID}/resource-ratings`, {
+        .request('put', `${environment.autonomy_api_url}api/points-of-interest/${this.poiID}/ratings`, {
           ratings: this.ratings,
-        })
+        }, null, ApiService.DSTarget.PDS)
         .subscribe(
           () => {
             setTimeout(() => {
               this.bottomSheetRef.afterDismissed().subscribe(() => {
-                this.router.navigate(["/pois", this.poiID]);
+                this.router.navigate(['/pois', this.poiID]);
               })
               this.bottomSheetRef.dismiss();
             }, 3 * 1000);

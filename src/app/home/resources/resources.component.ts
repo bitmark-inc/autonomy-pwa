@@ -1,3 +1,4 @@
+import { environment } from '../../../environments/environment';
 import { Router } from '@angular/router';
 import { ApiService } from './../../services/api/api.service';
 import { Component, OnInit, OnDestroy, ViewChild, ElementRef, NgZone } from "@angular/core";
@@ -25,12 +26,9 @@ export class ResourcesComponent implements OnInit, OnDestroy {
     place_id: string;
   }[];
 
-  public resources: {
-    id: string;
-    name: string;
-  }[];
+  public placeTypes: string[];
   public resourceSearching: string;
-  public poisByResource: {
+  public poisByType: {
     id: string;
     alias: string;
     address: string;
@@ -62,19 +60,21 @@ export class ResourcesComponent implements OnInit, OnDestroy {
   }
 
   private searchByKeyword() {
-    // TODO: search by keyword from Autonomy server
+    this.apiService
+      .request('get', `${environment.autonomy_api_url}api/points-of-interest?text=${this.keyword}`, null, null, ApiService.DSTarget.CDS)
+      .subscribe(
+        (data) => {
+          this.poisByType = data;
+        },
+        (err) => {
+          console.log(err);
+          // TODO: do something
+        }
+      );
   }
 
   private getResourcesForSearching() {
-    this.apiService.request("get", `api/resources?suggestion=true`).subscribe(
-      (data: { resources: any }) => {
-        this.resources = data.resources;
-      },
-      (err) => {
-        console.log(err);
-        // TODO: do something
-      }
-    );
+    this.placeTypes = ['restaurents', 'groceries', 'coffee', 'pharmacies', 'gyms', 'parks'];
   }
 
   public onInputFocus() {
@@ -87,14 +87,14 @@ export class ResourcesComponent implements OnInit, OnDestroy {
     }
   }
 
-  public searchByResource(id, name) {
+  public searchByPlaceType(type: string) {
     ParentContainerState.fullscreen.next(true);
-    this.resourceSearching = name;
+    this.resourceSearching = type;
     this.apiService
-      .request("get", `api/points-of-interest?resource_id=${id}`)
+      .request('get', `${environment.autonomy_api_url}api/points-of-interest?place_type=${type}`, null, null, ApiService.DSTarget.CDS)
       .subscribe(
         (data) => {
-          this.poisByResource = data;
+          this.poisByType = data;
         },
         (err) => {
           console.log(err);
