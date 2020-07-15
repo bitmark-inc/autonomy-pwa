@@ -4,6 +4,7 @@ $sub-direction-color: #303030;
 $title-color: #545454;
 $base-background: #ffffff;
 $sub-background: #DDD5C7; // selection background
+$neutral-background: #EEEEEE;
 $bottom-background: #EDF0F4;
 $line-color: #828180;
 $max-width: 768px;
@@ -382,7 +383,7 @@ textarea {
 }
 
 .bottom-sheet-alert {
-  background: $sub-background;
+  background: $neutral-background;
   font-size: 18px;
 }
 
@@ -467,7 +468,7 @@ textarea {
 }
 
 .resource-info {
-  background: $sub-background;
+  background: $neutral-background;
   padding-bottom: 15px;
 
   .poi-score {
@@ -476,18 +477,18 @@ textarea {
     line-height: 100%;
 
     .mat-radio-button.mat-accent {
-      background-color: $sub-background;
+      background-color: $neutral-background;
     }
 
     .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle{
-      border-color: $sub-background;
+      border-color: $neutral-background;
     }
     .risk-color,
     .warn-color,
     .good-color,
     .default-color {
       .mat-radio-button.mat-accent .mat-radio-outer-circle {
-        border-color: $sub-background;
+        border-color: $neutral-background;
       }
     }
 
@@ -504,7 +505,7 @@ textarea {
         background-color: #C1C1C1;
       }
       .mat-radio-button.mat-accent .mat-radio-label{
-        background-color: $sub-background;
+        background-color: $neutral-background;
       }
     }
   }
@@ -584,6 +585,10 @@ textarea {
 
 .font-24 {
   font-size: 24px;
+}
+
+.gap-right-5 {
+  margin-right: 5px;
 }
 
 .gap-right-10 {
@@ -694,6 +699,7 @@ textarea {
 .group-radios {
   display: flex;
   width: 100%;
+  align-items: baseline;
 }
 
 .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle{
@@ -761,34 +767,34 @@ textarea {
 }
 
 .highlight-resource {
-  background-color: $sub-background;
+  background-color: $neutral-background;
 
   .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle{
-    border-color: $sub-background;
+    border-color: $neutral-background;
   }
   .risk-color,
   .warn-color,
   .good-color,
   .default-color {
     .mat-radio-button.mat-accent .mat-radio-outer-circle {
-      border-color: $sub-background;
+      border-color: $neutral-background;
     }
   }
 
   .default-color {
     display: flex;
     .mat-radio-button.mat-accent .mat-radio-outer-circle {
-      background-color: #F1F1F1;
+      background-color: #C1C1C1;
     }
     .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle{
-      background-color: #F1F1F1;
+      background-color: #C1C1C1;
     }
     .mat-radio-button.mat-accent .mat-radio-inner-circle{
-      color: #F1F1F1;
-      background-color: #F1F1F1;
+      color: #C1C1C1;
+      background-color: #C1C1C1;
     }
     .mat-radio-button.mat-accent .mat-radio-label{
-      background-color: $sub-background;
+      background-color: $neutral-background;
     }
   }
 }
