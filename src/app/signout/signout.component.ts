@@ -23,8 +23,9 @@ export class SignoutComponent implements OnInit {
   }
 
   private checkRecoveryWords() {
+    this.key = this.key.trim();
     let systemWords = this.userService.getRecoveryPhrase();
-    return this.key.trim() === systemWords;
+    return this.key === systemWords;
   }
 
   private openBottomSheet(type): void {
