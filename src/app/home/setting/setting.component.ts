@@ -1,5 +1,6 @@
 declare var window: any;
 
+import { environment } from '../../../environments/environment';
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { UserService } from '../../services/user/user.service';
@@ -11,6 +12,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./setting.component.scss']
 })
 export class SettingComponent implements OnInit {
+  public appVersion: string = environment.version;
 
   constructor(private location: Location, public router: Router, private userService: UserService) { }
 
