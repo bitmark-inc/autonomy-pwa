@@ -27,7 +27,7 @@
       </div>
     </mat-card>
   </div>
-  <div *ngIf="poisByType && poisByType.length">
+  <div *ngIf="(keyword || resourceSearching) && poisByType && poisByType.length">
     <mat-card class="no-bottom" *ngFor="let place of poisByType">
       <div class="place-found" (click)="navigateToPOI(place.id)">
         <p>{{place.alias}}</p>
