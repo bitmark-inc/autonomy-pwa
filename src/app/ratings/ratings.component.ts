@@ -15,12 +15,10 @@ export class RatingsComponent implements OnInit {
   public poiID: string;
   public highlightID: string;
   public ratings: {
-    resource: {
-      id: string;
-      name: string;
-    };
+    name: string;
     score: number;
-  }[];
+  }[] = [];
+  public ratingsParam: {} = {};
 
   public poi: {
     id: string;
@@ -74,7 +72,13 @@ export class RatingsComponent implements OnInit {
       .request("get", `${environment.autonomy_api_url}api/points-of-interest/${this.poiID}/ratings`, null, null, ApiService.DSTarget.PDS)
       .subscribe(
         (data: { ratings: any }) => {
-          this.ratings = data.ratings;
+          for (let key in data.ratings) {
+            this.ratings.push({
+              name: key.replace(/_/g, ' '),
+              score: data.ratings[key]
+            });
+          }
+          this.checkSubmitable();
         },
         (err: any) => {
           console.log(err);
@@ -125,13 +129,22 @@ export class RatingsComponent implements OnInit {
     })
   }
 
+  private formatParams() {
+    this.ratings.forEach((el) => {
+      let tmp = {};
+      tmp[el.name.replace(/ /g, '_')] = el.score;
+      this.ratingsParam = Object.assign(this.ratingsParam, tmp)
+    })
+  }
+
   public submitRatings(): void {
     if (this.submitable) {
       this.openBottomSheet();
+      this.formatParams();
       this.apiService
         .request('put', `${environment.autonomy_api_url}api/points-of-interest/${this.poiID}/ratings`, {
-          ratings: this.ratings,
-        }, null, ApiService.DSTarget.PDS)
+          ratings: this.ratingsParam,
+        }, null, ApiService.DSTarget.BOTH)
         .subscribe(
           () => {
             setTimeout(() => {
