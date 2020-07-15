@@ -11,7 +11,7 @@
     </mat-card>
     <mat-card class="logo no-top">
       <div class="imgs">
-        <img class="autonomy-logo" src="/assets/img/Polygon.svg" alt="">
+        <img class="autonomy-logo" [ngClass]="[ isStandalone() ? 'height-100' : 'height-70' ]" src="/assets/img/Polygon.svg" alt="">
         <img class="ucl-logo" src="/assets/img/UCBerkeley_wordmark_gold.svg" alt="">
       </div>
     </mat-card>

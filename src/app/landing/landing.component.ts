@@ -1,3 +1,5 @@
+declare var window: any;
+
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -10,6 +12,10 @@ export class LandingComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+  }
+
+  public isStandalone(): boolean {
+    return (window.matchMedia('(display-mode: standalone)').matches);
   }
 
 }
