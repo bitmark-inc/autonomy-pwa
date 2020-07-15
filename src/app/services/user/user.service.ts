@@ -145,7 +145,6 @@ export class UserService extends BaseService {
               this.authenticateWithDSs(accountInfo).subscribe(
                 (result: AllDSTokens) => {
                   this.user.tokens = result;
-                  console.log(this.user);
                   this.saveUser();
                   observer.next(this.user);
                   observer.complete();

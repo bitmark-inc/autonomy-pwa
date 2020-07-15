@@ -28,14 +28,17 @@
               "src/assets",
               "src/manifest.webmanifest",
               {"glob": "main.wasm", "input": "src/bitmarksdk/src", "output": "/"},
-              {"glob": "wasm_exec.js", "input": "src/bitmarksdk/src", "output": "/"},
               {"glob": "**/*", "input": "src/onesignal/", "output": "/"}
             ],
             "styles": [
               "./node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css",
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [
+              "src/assets/js/sha3.js",
+              "src/assets/js/external-services.js",
+              "src/bitmarksdk/src/wasm_exec.js"
+            ]
           },
           "configurations": {
             "staging": {
