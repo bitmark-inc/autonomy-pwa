@@ -15,6 +15,7 @@ export class SignoutComponent implements OnInit {
   public PageStage = EnumPageStage;
   public stage: EnumPageStage = EnumPageStage.Direction;
   public key: string;
+  public clickable: boolean = true;
 
   constructor(private userService: UserService, private router: Router, private bottomSheet: MatBottomSheet, private bottomSheetRef: MatBottomSheetRef) { }
 
@@ -60,12 +61,14 @@ export class SignoutComponent implements OnInit {
   }
 
   public signout() {
-    if (this.key && this.key.split(' ').length === 13) {
+    if (this.clickable && this.key && this.key.split(' ').length === 13) {
+      this.clickable = false;
       if (this.checkRecoveryWords()) {
         this.openBottomSheet('ok');
         this.userService.signout();
         setTimeout(() => {
           this.bottomSheetRef.afterDismissed().subscribe(() => {
+            this.clickable = true;
             this.router.navigate(["/landing"]);
           })
           this.bottomSheetRef.dismiss();
@@ -73,6 +76,7 @@ export class SignoutComponent implements OnInit {
       } else {
         // show error dialog
         this.openBottomSheet('error');
+        this.clickable = true;
       }
     }
   }

@@ -15,21 +15,27 @@ export class SignupComponent implements OnInit {
 
   public PageStage = EnumPageStage;
   public stage: EnumPageStage = EnumPageStage.Intro01;
+  public clickable: boolean = true;
 
   constructor(private router: Router, private userService: UserService) {}
 
   ngOnInit() {}
 
   public signup(): void {
-    this.userService.signup().subscribe(
-      (data) => {
-        this.router.navigate(['/home']);
-      },
-      (err) => {
-        // TODO: do something
-        console.log(err);
-      }
-    );
+    if (this.clickable) {
+      this.clickable = false;
+      this.userService.signup().subscribe(
+        (data) => {
+          this.clickable = true;
+          this.router.navigate(['/home']);
+        },
+        (err) => {
+          // TODO: do something
+          this.clickable = true;
+          console.log(err);
+        }
+      );
+    }
   }
 
   public setStage(newStage: EnumPageStage) {

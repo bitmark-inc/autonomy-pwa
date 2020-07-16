@@ -11,6 +11,7 @@ import { BottomSheetAlertComponent } from "../bottom-sheet-alert/bottom-sheet-al
 })
 export class SigninComponent implements OnInit {
   public key: string;
+  public clickable: boolean = true;
 
   constructor(private router: Router, private userService: UserService, private bottomSheet: MatBottomSheet, private bottomSheetRef: MatBottomSheetRef) {}
 
@@ -49,18 +50,21 @@ export class SigninComponent implements OnInit {
   }
 
   public signin() {
-    if (this.key) {
+    if (this.clickable && this.key) {
+      this.clickable = false;
       this.openBottomSheet("ok");
       this.userService.signin(this.key).subscribe(
         (data) => {
           setTimeout(() => {
             this.bottomSheetRef.afterDismissed().subscribe(() => {
+              this.clickable = true;
               this.router.navigate(['/home']);
             });
             this.bottomSheetRef.dismiss();
           }, 3 * 1000);
         },
         (err) => {
+          this.clickable = true;
           this.openBottomSheet('error');
         }
       );
