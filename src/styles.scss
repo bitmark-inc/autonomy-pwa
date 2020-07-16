@@ -875,6 +875,72 @@ textarea {
 }
 // ------------- end chart -----------
 
+// ------------- launch page ------------
+.launch-content {
+  text-align: center;
+  position: fixed;
+  height: 100vh;
+  width: 100%;
+  max-width: 768px;
+  padding: 0 16px;
+
+  .header {
+    height: 56px;
+  }
+
+  .launch-content {
+    position: relative;
+    height: calc(100vh - 70px - 56px);
+
+    .launch-words {
+      // height: calc(((100vh - 130px - 56px) / 100 * 35) - 30px);
+      font-size: 8vh;
+      font-weight: 300;
+      line-height: 120%;
+    }
+
+    .logo {
+      // position: relative;
+      height: calc(((100vh - 70px - 56px) / 100 * 50));
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 10px;
+      .imgs {
+        height: inherit;
+        width: 100%;
+        display: block;
+        // margin-top: 20px;
+        .autonomy-logo {
+          width: 100%;
+          height: 70%;
+          object-fit: scale-down;
+        }
+        .ucl-logo {
+          width: 100%;
+          height: 30%;
+          margin-top: 15px;
+          // object-fit: scale-down;
+        }
+      }
+    }
+  }
+
+  .launch-footer {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    color: #888888;
+    background-color: #ffffff;
+    width: 100%;
+    height: 70px;
+  }
+}
+
+// ------------- end launch page ------------
+
 /* Responsive Styles */
 @media screen and (max-width: 767px) {
 }
