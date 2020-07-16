@@ -110,6 +110,7 @@ export class RatingsComponent implements OnInit {
 
   public submitRatings(): void {
     if (this.submitable) {
+      this.submitable = false;
       this.openBottomSheet();
       this.formatParams();
       this.apiService
@@ -120,12 +121,14 @@ export class RatingsComponent implements OnInit {
           () => {
             setTimeout(() => {
               this.bottomSheetRef.afterDismissed().subscribe(() => {
+                this.submitable = true;
                 this.router.navigate(['/pois', this.poiID]);
               })
               this.bottomSheetRef.dismiss();
             }, 3 * 1000);
           },
           (err: any) => {
+            this.submitable = true;
             console.log(err);
             // TODO: do something
           }
