@@ -27,13 +27,13 @@ export class ApiService extends BaseService {
     if (target === DSTarget.BOTH || target === DSTarget.PDS) {
       let dsTokens = this.userService.getTokens().PDS;
       let dsToken = method === 'get' ? dsTokens.r : dsTokens.w;
-      options.headers['X-FORWARD-MACAROON-PDS'] = dsToken;
+      options.headers['X-FORWARD-MACAROON-PDS'] = this.userService.addTimeLimitToMacaroon(dsToken, 10);
     }
 
     if (target === DSTarget.BOTH || target === DSTarget.CDS) {
       let dsTokens = this.userService.getTokens().CDS;
       let dsToken = method === 'get' ? dsTokens.r : dsTokens.w;
-      options.headers['X-FORWARD-MACAROON-CDS'] = dsToken;
+      options.headers['X-FORWARD-MACAROON-CDS'] = this.userService.addTimeLimitToMacaroon(dsToken, 10);
     }
 
     return this.sendHttpRequest(method, url, params, options);

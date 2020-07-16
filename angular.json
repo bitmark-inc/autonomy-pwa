@@ -36,6 +36,7 @@
             "scripts": [
               "src/assets/js/sha3.js",
               "src/assets/js/external-services.js",
+              "src/assets/js/macaroon.js",
               "src/bitmarksdk/src/wasm_exec.js"
             ]
           },

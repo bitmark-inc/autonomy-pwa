@@ -1,4 +1,5 @@
 declare var window: any;
+let macaroon = window.macaroon;
 
 import { environment } from '../../../environments/environment';
 import { Injectable } from '@angular/core';
@@ -20,12 +21,12 @@ export interface AllDSTokens { PDS: DSTokens, CDS: DSTokens }
 })
 export class UserService extends BaseService {
 
-  private userStorageKey: string = 'user-v1';
+  private userStorageKey: string = 'user-data';
   private statusSubject = new BehaviorSubject(false);
   private user: {
     jwt: string,
     account: AccountInfo,
-    tokens: AllDSTokens,
+    tokens: AllDSTokens
   }
 
   constructor(protected http: HttpClient) {
@@ -37,26 +38,15 @@ export class UserService extends BaseService {
     await this.initBitmarkSDK();
     window.BitmarkSdk.setup('my api token', environment.bitmark_network); // TODO: replace this with real configuration
 
-    let localUserData = window.localStorage.getItem(this.userStorageKey);
-    if (localUserData) {
-      try {
-        this.user = JSON.parse(localUserData);
-        if (!this.user.tokens) { // old test account without recovery phrase
-          localStorage.removeItem(this.userStorageKey);
-          this.user = null;
-        }
-      } catch (err) {}
-    }
-
-    if (this.user) {
-      this.authenticateWithAgent(this.user.account).subscribe(
-        (jwt: string) => {
-          this.user.jwt = jwt;
+    let recoveryPhrase = window.localStorage.getItem(this.userStorageKey);
+    if (recoveryPhrase) {
+      this.signin(recoveryPhrase).subscribe(
+        (data) => {
           this.statusSubject.next(true);
         },
         (err) => {
           console.log(err);
-          // TODO: do something
+          this.statusSubject.error(err);
         }
       );
     } else {
@@ -75,12 +65,6 @@ export class UserService extends BaseService {
       let go = new window.Go();
       let result = await InstantiateStreaming(fetch('main.wasm'), go.importObject)
       go.run(result.instance);
-    }
-  }
-
-  private saveUser() {
-    if (this.user) {
-      window.localStorage.setItem(this.userStorageKey, JSON.stringify(this.user));
     }
   }
 
@@ -245,7 +229,7 @@ export class UserService extends BaseService {
   }
 
   //=========== WORK WITH DATA STORE ==============
-  public authenticateWithDSs(accountInfo: AccountInfo) {
+  private authenticateWithDSs(accountInfo: AccountInfo) {
     return Observable.create(observer => {
       forkJoin([
         this.registerWithDS(accountInfo, `${environment.pds_url}`),
@@ -282,9 +266,8 @@ export class UserService extends BaseService {
   }
 
   private decryptDSToken(recoveryPhrase: string, encryptedToken: string, peerPubkey: string) {
-    let token = window.BitmarkSdk.decryptText(recoveryPhrase, encryptedToken, peerPubkey);
-    return Array.from(token).map(x => ('00' + (<number>x).toString(16)).slice(-2)).join('');
-    // return token
+    let token = window.BitmarkSdk.decryptToBase64Url(recoveryPhrase, encryptedToken, peerPubkey);
+    return token;
   }
 
   private getDSInfo(dsEndPoint: string) {
@@ -302,6 +285,18 @@ export class UserService extends BaseService {
       encryption_public_key: accountInfo.encryption_pubkey,
       signature: signature
     });
+  }
+
+  public addTimeLimitToMacaroon(macaroonToken: string, seconds: number) {
+    let now = (new Date()).getTime();
+    let expire = Math.floor(now/1000 + seconds);
+    let token = macaroon.MacaroonsBuilder.deserialize(macaroonToken);
+
+    token = macaroon.MacaroonsBuilder.modify(token)
+      .add_first_party_caveat(`time < ${expire}`)
+      .getMacaroon();
+
+    return token.serialize();
   }
   
   //=========== WORK WITH ONE SIGNAL ==============
@@ -321,10 +316,16 @@ export class UserService extends BaseService {
   //   });
   // }
 
+  private saveUser() {
+    if (this.user) {
+      window.localStorage.setItem(this.userStorageKey, this.user.account.recovery_phrase);
+    }
+  }
+
   public signout() {
-    localStorage.removeItem(this.userStorageKey);
-    // this.removeOneSignalTag();
+    window.localStorage.removeItem(this.userStorageKey);
     this.user = null;
+    // this.removeOneSignalTag();
   }
 
   // public startTrackingLocation(): Observable<any> {

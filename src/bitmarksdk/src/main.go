@@ -22,7 +22,7 @@ func main() {
 	jsSdkLib.Set("createNewAccount", js.FuncOf(createNewAccount))
 	jsSdkLib.Set("parseAccount", js.FuncOf(parseAccount))
 	jsSdkLib.Set("signMessage", js.FuncOf(signMessage))
-	jsSdkLib.Set("decryptText", js.FuncOf(decryptText))
+	jsSdkLib.Set("decryptToBase64Url", js.FuncOf(decryptToBase64Url))
 	jsSdkLib.Set("terminate", js.FuncOf(terminate))
 	<-alive
 }
@@ -113,7 +113,7 @@ func signMessage(this js.Value, args []js.Value) interface{} {
 }
 
 // args: (recoveryPhrase string, cipherText string, peerPublicKey string)
-func decryptText(this js.Value, args []js.Value) interface{} {
+func decryptToBase64Url(this js.Value, args []js.Value) interface{} {
 	if len(args) != 3 || !args[0].Truthy() || !args[1].Truthy() || !args[2].Truthy() {
 		return js.ValueOf(false)
 	}
