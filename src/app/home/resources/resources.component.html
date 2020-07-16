@@ -36,7 +36,7 @@
         <div class="resource-score search-resource p-t-5">
           <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group" [(ngModel)]="place.resource_score">
             <div *ngIf="!place.resource_score" class="group-radios">
-              <div class="default-color gap-right-5">
+              <div class="default-color gap-right-10">
                 <mat-radio-button class="example-radio-button" *ngFor="let i of [1,2,3,4,5]" [value]="i"></mat-radio-button>
               </div>
               <span class="small-address line-height-120">(not yet rated)</span>
@@ -95,7 +95,8 @@
               </div>
             </div>
           </mat-radio-group>
-          <p *ngIf="place.resource_score" class="resource-rating" [innerHTML]="place.resource_score | reportScore"></p>
+          <p *ngIf="place.resource_score" class="resource-rating gap-right-15" [innerHTML]="place.resource_score | reportScore"></p>
+          <span *ngIf="place.resource_score && place.last_updated" class="small-address line-height-120">({{place.last_updated | relativeDate}})</span>
         </div>
       </div>
       <div class="p-t-10"><hr></div>

@@ -33,6 +33,7 @@ export class ResourcesComponent implements OnInit, OnDestroy {
     alias: string;
     address: string;
     resource_score: number;
+    last_updated: number;
   }[];
 
   constructor(private apiService: ApiService, public router: Router, private ngZone: NgZone) {}
