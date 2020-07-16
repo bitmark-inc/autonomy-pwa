@@ -13,12 +13,23 @@
   width: 10vw;
 }
 
-.word-count,
 .slide-words {
   display: flex;
   justify-content: center;
   align-items: center;
   overflow: hidden;
+}
+
+.word-count {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  overflow: hidden;
+
+  img {
+    width: 25px;
+    height: 25px;
+  }
 }
 
 .left {
