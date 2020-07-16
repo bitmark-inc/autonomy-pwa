@@ -1,3 +1,4 @@
+import { environment } from '../environments/environment';
 import { Component } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { interval } from 'rxjs';
@@ -15,14 +16,22 @@ export class AppComponent {
 
   constructor(public breakpointObserver: BreakpointObserver, private swUpdate: SwUpdate, private bottomSheet: MatBottomSheet, private bottomSheetRef: MatBottomSheetRef) {
     const isSmallScreen = breakpointObserver.isMatched('(max-width: 599px)');
+    
+    if (environment.production) {
+      this.autoupdateApp();
+    }
+  }
 
+  private autoupdateApp() {
     interval(1000 * 60 * 2).subscribe(() => {
       this.swUpdate.checkForUpdate();
     });
 
     this.swUpdate.available.subscribe(
       () => {
+        console.log('Checking for update...');
         this.swUpdate.activateUpdate().then(() => {
+          console.log('Update downloaded!');
           this.openBottomSheet();
         });
       }
