@@ -74,7 +74,7 @@ export class ResourcesComponent implements OnInit, OnDestroy {
   }
 
   private getResourcesForSearching() {
-    this.placeTypes = ['restaurents', 'groceries', 'coffee', 'pharmacies', 'gyms', 'parks'];
+    this.placeTypes = ['restaurants', 'groceries', 'coffee', 'pharmacies', 'gyms', 'parks'];
   }
 
   public onInputFocus() {
