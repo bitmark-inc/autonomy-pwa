@@ -102,6 +102,7 @@ input {
 textarea {
   caret-color: $base-color;
   font-family: 'Atlas Grotesk';
+  overflow: hidden;
   &:focus {
     outline: unset;
   }
