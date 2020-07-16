@@ -17,25 +17,25 @@
 </head>
 <body>
   <app-root>
-    <div class="launch-content">
-      <mat-toolbar class="header" layout="fill">
-        <div class="header-line"><hr><hr></div>
-        <div class="header-title direction-color">Autonomy</div>
-        <div class="header-line"><hr><hr></div>
-      </mat-toolbar>
-      <div class="launch-content">
-        <mat-card class="launch-words direction-color no-top">
+    <div style="position: fixed; height: 100vh; width: 100%; max-width: 768px; padding: 0 16px; text-align: center;">
+      <div style="height: 56px; width: 100%; font-family: 'Domaine Sans Text'; font-size: 14px; display: flex; align-items: center;" layout="fill">
+        <div style="width: 32%;"><hr style="background: #828182; border: none; margin-bottom: .15rem; height: 0.75px;"><hr style="background: #828182; border: none; margin-bottom: .15rem; height: 0.75px;"></div>
+        <div style="width: 36%; text-align: center; text-transform: uppercase; color: #003262;">Autonomy</div>
+        <div style="width: 32%;"><hr style="background: #828182; border: none; margin-bottom: .15rem; height: 0.75px;"><hr style="background: #828182; border: none; margin-bottom: .15rem; height: 0.75px;"></div>
+      </div>
+      <div style="position: relative; height: calc(100vh -70px -56px);">
+        <div style="font-size: 8vh; font-weight: 300; line-height: 120%; color: #003262;">
           <p>Get better.</p>
           <p>Together.</p>
-        </mat-card>
-        <mat-card class="logo no-top">
-          <div class="imgs">
-            <img class="autonomy-logo" src="/assets/img/Polygon.svg" alt="">
-            <img class="ucl-logo" src="/assets/img/UCBerkeley_wordmark_blue.svg" alt="">
+        </div>
+        <div style="height: calc(((100vh - 70px - 56px) / 100 * 52)); display: flex; justify-content: center; align-items: center; margin-bottom: 10px;">
+          <div style="height: calc(((100vh - 70px - 56px) / 100 * 50)); width: 100%;">
+            <img style="width: 100%; height: 70%;" src="/assets/img/Polygon.svg" alt="">
+            <img style="width: 100%; height: 30%; margin-top: 15px;" src="/assets/img/UCBerkeley_wordmark_blue.svg" alt="">
           </div>
-        </mat-card>
+        </div>
       </div>
-      <div class="launch-footer">
+      <div style="position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; height: 70px;">
         <img src="/assets/img/security-bitmark-lauch.svg" alt="">
       </div>
     </div>

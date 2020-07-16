@@ -36,12 +36,6 @@ export class ApiService extends BaseService {
       options.headers['X-FORWARD-MACAROON-CDS'] = dsToken;
     }
 
-    let dsTokens = target === DSTarget.PDS ? this.userService.getTokens().PDS : this.userService.getTokens().CDS;
-    let dsToken = method === 'get' ? dsTokens.r : dsTokens.w;
-    let macaroonHeader = `X-FORWARD-MACAROON-${target === DSTarget.CDS ? 'CDS' : 'PDS'}`;
-
-    
-    options.headers[macaroonHeader] = options.headers[macaroonHeader] || dsToken;
     return this.sendHttpRequest(method, url, params, options);
   }
 }
