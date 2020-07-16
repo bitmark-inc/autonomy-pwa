@@ -17,17 +17,31 @@
     </mat-card>
   </div>
 
-  <div class="p-b-30" *ngIf="!alertError">
+  <div class="p-b-30" *ngIf="!alertError && header !== 'updated'">
     <mat-toolbar class="header" layout="fill">
       <div class="header-line"><hr><hr></div>
       <div class="header-title">{{header}}</div>
       <div class="header-line"><hr><hr></div>
     </mat-toolbar>
-    <mat-card class="no-top">
+    <mat-card class="no-top content-center">
       <p class="line-height-120">{{mainContent}}</p>
     </mat-card>
     <mat-card>
       <mat-progress-bar mode="indeterminate" value="30"></mat-progress-bar>
+    </mat-card>
+  </div>
+
+  <div class="p-b-10" *ngIf="!alertError && header === 'updated'">
+    <mat-toolbar class="header" layout="fill">
+      <div class="header-line"><hr><hr></div>
+      <div class="header-title">{{header}}</div>
+      <div class="header-line"><hr><hr></div>
+    </mat-toolbar>
+    <mat-card class="no-top content-center">
+      <p class="line-height-120">{{mainContent}}</p>
+    </mat-card>
+    <mat-card class="sheet-btns">
+      <a (click)="leftAction()">{{leftBtn}}</a>
     </mat-card>
   </div>
 </div>

@@ -1,7 +1,6 @@
 import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { UserService } from "../services/user/user.service";
-import { EventEmitterService } from "../services/event-emitter.service";
 import { MatBottomSheet, MatBottomSheetRef } from '@angular/material/bottom-sheet';
 import { BottomSheetAlertComponent } from "../bottom-sheet-alert/bottom-sheet-alert.component";
 
@@ -39,6 +38,13 @@ export class SignoutComponent implements OnInit {
           mainContent: 'You are unable to sign out because you entered an incorrect recovery key for your account. Please try again or double check your recovery key.',
           leftBtn: 'check key',
           rightBtn: 'try again',
+          leftBtnAction: () => {
+            this.bottomSheetRef.afterDismissed().subscribe(() => {
+              this.router.navigate(['/recovery-key']);
+            })
+            this.bottomSheetRef.dismiss();
+          },
+          rightBtnAction: () => { this.bottomSheetRef.dismiss() }
         }
       });
     } else {
@@ -67,16 +73,6 @@ export class SignoutComponent implements OnInit {
       } else {
         // show error dialog
         this.openBottomSheet('error');
-        EventEmitterService.getEventEmitter(EventEmitterService.Events.BottomSheetBtn).subscribe((data) => {
-          if (data.action) { // left action
-            this.bottomSheetRef.afterDismissed().subscribe(() => {
-              this.router.navigate(["/recovery-key"]);
-            })
-            this.bottomSheetRef.dismiss();
-          } else { // right action
-            this.bottomSheetRef.dismiss();
-          }
-        })
       }
     }
   }

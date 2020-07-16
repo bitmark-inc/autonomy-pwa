@@ -1,8 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MAT_BOTTOM_SHEET_DATA } from '@angular/material/bottom-sheet';
-import { EventEmitterService } from "../services/event-emitter.service";
-
-enum EnumAction { Left = 1, Right = 0 }
 
 @Component({
   selector: 'app-bottom-sheet-alert',
@@ -24,27 +21,27 @@ export class BottomSheetAlertComponent implements OnInit {
     if (data.error) {
       this.alertError = data.error;
       this.title = data.title;
-      this.leftBtn = data.leftBtn;
       this.rightBtn = data.rightBtn;
     }
+    this.leftBtn = data.leftBtn ? data.leftBtn : '';
   }
 
   ngOnInit() {
   }
 
+  public tryAction() {
+    
+  }
+
   public leftAction() {
-    if (this.alertError) {
-      EventEmitterService.getEventEmitter(EventEmitterService.Events.BottomSheetBtn).emit({
-        action: EnumAction.Left
-      })
+    if (this.data.leftBtnAction) {
+      this.data.leftBtnAction();
     }
   }
 
   public rightAction() {
-    if (this.alertError) {
-      EventEmitterService.getEventEmitter(EventEmitterService.Events.BottomSheetBtn).emit({
-        action: EnumAction.Right
-      })
+    if (this.data.leftBtnAction) {
+      this.data.rightBtnAction();
     }
   }
 

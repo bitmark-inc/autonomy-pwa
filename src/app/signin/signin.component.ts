@@ -1,7 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserService } from '../services/user/user.service';
-import { EventEmitterService } from "../services/event-emitter.service";
 import { MatBottomSheet, MatBottomSheetRef } from '@angular/material/bottom-sheet';
 import { BottomSheetAlertComponent } from "../bottom-sheet-alert/bottom-sheet-alert.component";
 
@@ -28,6 +27,13 @@ export class SigninComponent implements OnInit {
           mainContent: 'You are unable to sign in because you entered an incorrect recovery key. Please double check your recovery key and try again.',
           leftBtn: 'cancel',
           rightBtn: 'try again',
+          leftBtnAction: () => {
+            this.bottomSheetRef.afterDismissed().subscribe(() => {
+              this.key = '';
+            })
+            this.bottomSheetRef.dismiss();
+          },
+          rightBtnAction: () => { this.bottomSheetRef.dismiss() },
         }
       });
     } else {
@@ -55,19 +61,7 @@ export class SigninComponent implements OnInit {
           }, 3 * 1000);
         },
         (err) => {
-          console.log(err);
-          // TODO: do something
           this.openBottomSheet('error');
-          EventEmitterService.getEventEmitter(EventEmitterService.Events.BottomSheetBtn).subscribe((data) => {
-            if (data.action) { // left action
-              this.bottomSheetRef.afterDismissed().subscribe(() => {
-                this.key = '';
-              })
-              this.bottomSheetRef.dismiss();
-            } else { // right action
-              this.bottomSheetRef.dismiss();
-            }
-          })
         }
       );
     }

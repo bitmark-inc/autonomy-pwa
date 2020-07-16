@@ -77,7 +77,7 @@ export class PoiComponent implements OnInit {
     }
 
     this.apiService
-      .request('get', url)
+      .request('get', `${environment.autonomy_api_url}api/points-of-interest/${this.id}`, null, null, ApiService.DSTarget.CDS)
       .subscribe(
         (data: any) => {
           this.poi = data;
