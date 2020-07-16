@@ -35,7 +35,8 @@ export class RatingsComponent implements OnInit {
     score: number;
   };
 
-  public submitable: boolean = true;
+  public submitable: boolean;
+  public clickable: boolean = true;
 
   constructor(private activatedRoute: ActivatedRoute, private location: Location, private apiService: ApiService, private bottomSheet: MatBottomSheet, private bottomSheetRef: MatBottomSheetRef<BottomSheetAlertComponent>, public router: Router
   ) {
@@ -62,7 +63,7 @@ export class RatingsComponent implements OnInit {
               score: data.ratings[key]
             });
           }
-          this.checkSubmitable();
+          this.checkSubmitable(data.ratings);
         },
         (err: any) => {
           console.log(err);
@@ -94,10 +95,13 @@ export class RatingsComponent implements OnInit {
     });
   }
 
-  private checkSubmitable() {
-    this.submitable = this.ratings.some(rating => {
-      rating.score > 0;
-    })
+  private checkSubmitable(data) {
+    for (let key in data) {
+      if(data[key] > 0) {
+        this.submitable = true;
+        break;
+      }
+    }
   }
 
   private formatParams() {
@@ -109,8 +113,8 @@ export class RatingsComponent implements OnInit {
   }
 
   public submitRatings(): void {
-    if (this.submitable) {
-      this.submitable = false;
+    if (this.clickable && this.submitable) {
+      this.clickable = false;
       this.openBottomSheet();
       this.formatParams();
       this.apiService
@@ -121,14 +125,14 @@ export class RatingsComponent implements OnInit {
           () => {
             setTimeout(() => {
               this.bottomSheetRef.afterDismissed().subscribe(() => {
-                this.submitable = true;
+                this.clickable = true;
                 this.router.navigate(['/pois', this.poiID]);
               })
               this.bottomSheetRef.dismiss();
             }, 3 * 1000);
           },
           (err: any) => {
-            this.submitable = true;
+            this.clickable = true;
             console.log(err);
             // TODO: do something
           }
