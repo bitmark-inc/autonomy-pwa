@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/base64"
 	"encoding/hex"
 	"fmt"
 	"net/http"
@@ -141,14 +142,8 @@ func decryptText(this js.Value, args []js.Value) interface{} {
 		return js.ValueOf(false)
 	}
 
-	// textHex := hex.EncodeToString(textByte)
-	// fmt.Println(textHex)
-	// return js.ValueOf(textHex)
-
-	plaintextUint8Array := js.Global().Get("Uint8Array").New(len(textByte))
-	js.CopyBytesToJS(plaintextUint8Array, textByte)
-
-	return plaintextUint8Array
+	data := base64.URLEncoding.EncodeToString(textByte)
+	return js.ValueOf(data)
 }
 
 // args: (reason string)
