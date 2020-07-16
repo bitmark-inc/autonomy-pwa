@@ -24,34 +24,18 @@ export class RatingsComponent implements OnInit {
     id: string;
     alias: string;
     address: string;
-    owned: boolean;
-    rating: boolean;
+    last_updated: number;
     has_more_resources: boolean;
-    neighbor: {
-      confirm: number;
-      confirm_delta: number;
-      symptom: number;
-      symptom_delta: number;
-      behavior: number;
-      behavior_delta: number;
-      score: number;
-      score_delta: number;
+    location: {
+      latitude: number;
+      longitude: number;
     };
-    resources: {
-      resource: {
-        id: string;
-        name: string;
-      };
-      score: number;
-      ratings: number;
-    }[];
-    autonomy_score: number;
-    autonomy_score_delta: number;
+    resource_ratings: {};
+    resource_score: number;
+    score: number;
   };
 
   public submitable: boolean = true;
-
-  public poiScore: number = 0;
 
   constructor(private activatedRoute: ActivatedRoute, private location: Location, private apiService: ApiService, private bottomSheet: MatBottomSheet, private bottomSheetRef: MatBottomSheetRef<BottomSheetAlertComponent>, public router: Router
   ) {
@@ -69,7 +53,7 @@ export class RatingsComponent implements OnInit {
 
   private getRatings(): void {
     this.apiService
-      .request("get", `${environment.autonomy_api_url}api/points-of-interest/${this.poiID}/ratings`, null, null, ApiService.DSTarget.PDS)
+      .request('get', `${environment.autonomy_api_url}api/points-of-interest/${this.poiID}/ratings`, null, null, ApiService.DSTarget.PDS)
       .subscribe(
         (data: { ratings: any }) => {
           for (let key in data.ratings) {
@@ -88,28 +72,15 @@ export class RatingsComponent implements OnInit {
   }
 
   private getPOIProfile(): void {
-    this.apiService.request("get", `${environment.autonomy_api_url}api/autonomy_profile?poi_id=${this.poiID}`, null, null, ApiService.DSTarget.CDS).subscribe(
+    this.apiService.request('get', `${environment.autonomy_api_url}api/points-of-interest/${this.poiID}`, null, null, ApiService.DSTarget.CDS).subscribe(
       (data: any) => {
         this.poi = data;
-        this.getPoiScore();
       },
       (err: any) => {
         console.log(err);
         // TODO: do something
       }
     );
-  }
-
-  private getPoiScore() {
-    if (this.poi.resources.length) {
-      let scoresTotal = 0;
-      let ratingsTotal = 1;
-      for (let i = 0; i < this.poi.resources.length; i++) {
-        scoresTotal += this.poi.resources[i].score * this.poi.resources[i].ratings;
-        ratingsTotal += this.poi.resources[i].ratings;
-      }
-      this.poiScore = scoresTotal / ratingsTotal;
-    }
   }
 
   private openBottomSheet(): void {

@@ -14,7 +14,7 @@ export class ReportScorePipe implements PipeTransform {
       obj = `<div style="color: #2A6D0C;">${value}</div>`;
     } else if (value <= 3.3 && value > 1.6 ) {
       obj = `<div style="color: #E7B416;">${value}</div>`;
-    } else if (value <= 1.6 && value > 0) {
+    } else if (value <= 1.6 && value >= 0) {
       obj = `<div style="color: #CC3232;">${value}</div>`;
     } else {
       obj = `<div>--</div>`;

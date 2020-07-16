@@ -47,6 +47,7 @@ import { CommunityComponent } from './home/community/community.component';
 import { ResourcesComponent } from './home/resources/resources.component';
 import { SettingComponent } from './home/setting/setting.component';
 import { BottomSheetAlertComponent } from "./bottom-sheet-alert/bottom-sheet-alert.component";
+import { RelativeDatePipe } from './pipes/relative-date.pipe';
 
 declare var window: any;
 window.isProduction = environment.production;
@@ -70,6 +71,7 @@ window.isProduction = environment.production;
     ResourcesComponent,
     SettingComponent,
     BottomSheetAlertComponent,
+    RelativeDatePipe,
   ],
   imports: [
     BrowserModule,

@@ -6,15 +6,15 @@
       </mat-card>
       <mat-card>
         <div class="poi-score">
-          <p class="font-24 mono gap-right-15" *ngIf="poiScore" [innerHTML]="poiScore | reportScore"></p>
-          <p class="font-24 mono gap-right-15" *ngIf="!poiScore">{{poiScore | number:'1.1-1'}}</p>
-          <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group" [(ngModel)]="poiScore">
-            <div *ngIf="poiScore == 0" class="group-radios">
+          <p class="font-24 mono gap-right-15" *ngIf="poi.resource_score" [innerHTML]="poi.resource_score | reportScore"></p>
+          <p class="font-24 mono gap-right-15" *ngIf="!poi.resource_score">{{poi.resource_score | number:'1.1-1'}}</p>
+          <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group" [(ngModel)]="poi.resource_score">
+            <div *ngIf="poi.resource_score == 0" class="group-radios">
               <div class="default-color">
                 <mat-radio-button class="example-radio-button" *ngFor="let i of [1,2,3,4,5]" [value]="i"></mat-radio-button>
               </div>
             </div>
-            <div *ngIf="poiScore > 0 && poiScore <= 1" class="group-radios">
+            <div *ngIf="poi.resource_score > 0 && poi.resource_score <= 1" class="group-radios">
               <div class="risk-color">
                 <mat-radio-button class="example-radio-button" [value]="1"></mat-radio-button>
               </div>
@@ -22,7 +22,7 @@
                 <mat-radio-button class="example-radio-button" *ngFor="let i of [2,3,4,5]" [value]="i"></mat-radio-button>
               </div>
             </div>
-            <div *ngIf="poiScore > 1 && poiScore <= 1.6" class="group-radios">
+            <div *ngIf="poi.resource_score > 1 && poi.resource_score <= 1.6" class="group-radios">
               <div class="risk-color">
                 <mat-radio-button class="example-radio-button" *ngFor="let i of [1,2]" [value]="i"></mat-radio-button>
               </div>
@@ -30,7 +30,7 @@
                 <mat-radio-button class="example-radio-button" *ngFor="let i of [3,4,5]" [value]="i"></mat-radio-button>
               </div>
             </div>
-            <div *ngIf="poiScore > 1.6 && poiScore <= 2" class="group-radios">
+            <div *ngIf="poi.resource_score > 1.6 && poi.resource_score <= 2" class="group-radios">
               <div class="warn-color">
                 <mat-radio-button class="example-radio-button" *ngFor="let i of [1,2]" [value]="i"></mat-radio-button>
               </div>
@@ -38,7 +38,7 @@
                 <mat-radio-button class="example-radio-button" *ngFor="let i of [3,4,5]" [value]="i"></mat-radio-button>
               </div>
             </div>
-            <div *ngIf="poiScore > 2 && poiScore <= 3" class="group-radios">
+            <div *ngIf="poi.resource_score > 2 && poi.resource_score <= 3" class="group-radios">
               <div class="warn-color">
                 <mat-radio-button class="example-radio-button" *ngFor="let i of [1,2,3]" [value]="i"></mat-radio-button>
               </div>
@@ -46,7 +46,7 @@
                 <mat-radio-button class="example-radio-button" *ngFor="let i of [4,5]" [value]="i"></mat-radio-button>
               </div>
             </div>
-            <div *ngIf="poiScore > 3 && poiScore <= 3.3" class="group-radios">
+            <div *ngIf="poi.resource_score > 3 && poi.resource_score <= 3.3" class="group-radios">
               <div class="warn-color">
                 <mat-radio-button class="example-radio-button" *ngFor="let i of [1,2,3,4]" [value]="i"></mat-radio-button>
               </div>
@@ -54,7 +54,7 @@
                 <mat-radio-button class="example-radio-button" [value]="5"></mat-radio-button>
               </div>
             </div>
-            <div *ngIf="poiScore > 3.3 && poiScore <= 4" class="group-radios">
+            <div *ngIf="poi.resource_score > 3.3 && poi.resource_score <= 4" class="group-radios">
               <div class="good-color">
                 <mat-radio-button class="example-radio-button" *ngFor="let i of [1,2,3,4]" [value]="i"></mat-radio-button>
               </div>
@@ -62,15 +62,15 @@
                 <mat-radio-button class="example-radio-button" [value]="5"></mat-radio-button>
               </div>
             </div>
-            <div *ngIf="poiScore > 4 && poiScore <= 5" class="group-radios">
+            <div *ngIf="poi.resource_score > 4 && poi.resource_score <= 5" class="group-radios">
               <div class="good-color">
                 <mat-radio-button class="example-radio-button" *ngFor="let i of [1,2,3,4,5]" [value]="i"></mat-radio-button>
               </div>
             </div>
           </mat-radio-group>
         </div>
-        <div class="content-center small-direction p-t-10">
-          <p>Last rated: 2 days ago</p>
+        <div *ngIf="poi.resource_score" class="content-center small-direction p-t-10">
+          <p>Last rated: {{poi.last_updated | relativeDate}}</p>
         </div>
       </mat-card>
       <mat-card>

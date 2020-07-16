@@ -5,110 +5,65 @@ import { Router } from "@angular/router";
 import { environment } from 'src/environments/environment';
 
 @Component({
-  selector: 'app-poi',
-  templateUrl: './poi.component.html',
-  styleUrls: ['./poi.component.scss']
+  selector: "app-poi",
+  templateUrl: "./poi.component.html",
+  styleUrls: ["./poi.component.scss"],
 })
 export class PoiComponent implements OnInit {
   public id: string;
-  public lat: number;
-  public long: number;
 
   public poi: {
-    id: string,
-    alias: string,
-    address: string,
-    owned: boolean,
-    rating: boolean,
-    has_more_resources: boolean,
-    neighbor: {
-      confirm: number,
-      confirm_delta: number,
-      symptom: number,
-      symptom_delta: number,
-      behavior: number,
-      behavior_delta: number,
-      score: number,
-      score_delta: number
-    },
-    resources: {
-      resource: {
-        id: string,
-        name: string
-      },
-      score: number,
-      ratings: number
-    }[],
-    autonomy_score: number,
-    autonomy_score_delta: number
+    id: string;
+    alias: string;
+    address: string;
+    last_updated: number;
+    has_more_resources: boolean;
+    location: {
+      latitude: number;
+      longitude: number;
+    };
+    resource_ratings: {};
+    resource_score: number;
+    score: number;
   };
 
   public resources: {
-    resource: {
-      id: string,
-      name: string
-    },
-    score: number,
-    ratings: number
-  }[];
+    name: string;
+    score: number;
+    ratings: number;
+  }[] = [];
 
-  public poiScore: number = 0;
+  public isRated: boolean = false;
 
-  constructor(private activatedRoute: ActivatedRoute, private apiService: ApiService, public router: Router) {
+  constructor(
+    private activatedRoute: ActivatedRoute,
+    private apiService: ApiService,
+    public router: Router
+  ) {
     this.activatedRoute.params.subscribe((params) => {
       if (params.id) {
         this.id = params.id;
-      } else if (params.lat) {
-        this.lat = params.lat;
-        this.long = params.long;
       }
       this.getPOIProfile();
+      this.checkRated();
     });
   }
 
   ngOnInit() {}
 
   private getPOIProfile(): void {
-    let url: string;
-    if (this.id) {
-      url = `${environment.autonomy_api_url}api/autonomy_profile?poi_id=${this.id}&all_resources=true`;
-    } else {
-      url = `${environment.autonomy_api_url}api/autonomy_profile?lat=${this.lat}&lng=${this.long}&all_resources=true`;
-    }
-
     this.apiService
       .request('get', `${environment.autonomy_api_url}api/points-of-interest/${this.id}`, null, null, ApiService.DSTarget.CDS)
       .subscribe(
         (data: any) => {
           this.poi = data;
-          this.resources = this.poi.resources;
-          this.getPoiScore();
-        },
-        (err: any) => {
-          console.log(err);
-          // TODO: do something
-        }
-      )
-  }
-
-  private getPoiScore() {
-    if (this.resources.length) {
-      let scoresTotal = 0;
-      let ratingsTotal = 1;
-      for (let i = 0; i < this.resources.length; i++) {
-        scoresTotal += (this.resources[i].score * this.resources[i].ratings);
-        ratingsTotal += this.resources[i].ratings;
-      }
-      this.poiScore = scoresTotal / ratingsTotal;
-    }
-  }
-
-  public monitor() {
-    this.apiService
-      .request('post', 'api/accounts/me/pois', {poi_id: this.poi.id})
-      .subscribe(
-        (data) => {
-          this.poi.owned = true;
+          for (let key in this.poi.resource_ratings) {
+            this.resources.push({
+              name: key.replace(/_/g, " "),
+              score: this.poi.resource_ratings[key].score,
+              ratings: this.poi.resource_ratings[key].counts,
+            });
+          }
         },
         (err: any) => {
           console.log(err);
@@ -117,21 +72,22 @@ export class PoiComponent implements OnInit {
       );
   }
 
-  public forgetPOI() {
+  private checkRated(): void {
     this.apiService
-      .request("delete", `api/accounts/me/pois/${this.poi.id}`)
+      .request("get", `${environment.autonomy_api_url}api/points-of-interest/${this.id}/ratings`, null, null, ApiService.DSTarget.PDS)
       .subscribe(
-        (data) => {
-          this.poi.owned = false;
+        (data: { ratings: any }) => {
+          for (let key in data.ratings) {
+            if(data.ratings[key] > 0) {
+              this.isRated = true;
+              break;
+            }
+          }
         },
         (err: any) => {
           console.log(err);
           // TODO: do something
         }
       );
-  }
-
-  public showMore() {
-    this.resources = this.poi.resources;
   }
 }
