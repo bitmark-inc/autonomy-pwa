@@ -92,19 +92,19 @@
         <!-- resource Column -->
         <ng-container matColumnDef="resource">
           <mat-header-cell class="small-title" *matHeaderCellDef> resource </mat-header-cell>
-          <mat-cell class="row-items" *matCellDef="let element" (click)="this.router.navigate(['/rating', poi.id], { queryParams: { highlight_id: element.name } })"> {{element.name}} </mat-cell>
+          <mat-cell class="row-items clickable" *matCellDef="let element" (click)="this.router.navigate(['/rating', poi.id], { queryParams: { highlight_id: element.name } })"> {{element.name}} </mat-cell>
         </ng-container>
       
         <!-- score Column -->
         <ng-container matColumnDef="score">
           <mat-header-cell class="small-title" *matHeaderCellDef> score (1-5) </mat-header-cell>
-          <mat-cell class="row-items mono" *matCellDef="let element" (click)="this.router.navigate(['/rating', poi.id], { queryParams: { highlight_id: element.name } })" [innerHTML]="element.score | reportScore"></mat-cell>
+          <mat-cell class="row-items mono clickable" *matCellDef="let element" (click)="this.router.navigate(['/rating', poi.id], { queryParams: { highlight_id: element.name } })" [innerHTML]="element.score | reportScore"></mat-cell>
         </ng-container>
       
         <!-- ratings Column -->
         <ng-container matColumnDef="ratings">
           <mat-header-cell class="small-title" *matHeaderCellDef> ratings </mat-header-cell>
-          <mat-cell class="row-items mono" *matCellDef="let element" (click)="this.router.navigate(['/rating', poi.id], { queryParams: { highlight_id: element.name } })"> {{element.ratings}} </mat-cell>
+          <mat-cell class="row-items mono clickable" *matCellDef="let element" (click)="this.router.navigate(['/rating', poi.id], { queryParams: { highlight_id: element.name } })"> {{element.ratings}} </mat-cell>
         </ng-container>
       
         <mat-header-row *matHeaderRowDef="['resource', 'score', 'ratings']"></mat-header-row>

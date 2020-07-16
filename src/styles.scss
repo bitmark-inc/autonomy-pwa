@@ -308,6 +308,7 @@ textarea {
     display: flex;
     align-items: center;
     text-decoration: none;
+    cursor: pointer;
   }
 
   .next {
@@ -509,6 +510,10 @@ textarea {
       }
     }
   }
+}
+
+.clickable {
+  cursor: pointer;
 }
 
 .no-bottom {

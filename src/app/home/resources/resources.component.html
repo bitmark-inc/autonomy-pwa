@@ -21,7 +21,7 @@
       or enter a local name or address in the search field above.</p>
     </mat-card>
     <mat-card class="resources-list">
-      <div class="resource-item font-14" *ngFor="let type of placeTypes"
+      <div class="resource-item font-14 clickable" *ngFor="let type of placeTypes"
         (click)="searchByPlaceType(type)">
         {{type}}
       </div>
@@ -29,12 +29,12 @@
   </div>
   <div *ngIf="(keyword || resourceSearching) && poisByType && poisByType.length">
     <mat-card class="no-bottom" *ngFor="let place of poisByType">
-      <div class="place-found" (click)="navigateToPOI(place.id)">
+      <div class="place-found clickable" (click)="navigateToPOI(place.id)">
         <p>{{place.alias}}</p>
         <p class="small-address p-t-5 line-height-120">{{place.address}}</p>
 
         <div class="resource-score search-resource p-t-5">
-          <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group" [(ngModel)]="place.resource_score">
+          <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group" [disabled]="true">
             <div *ngIf="!place.resource_score" class="group-radios">
               <div class="default-color gap-right-10">
                 <mat-radio-button class="example-radio-button" *ngFor="let i of [1,2,3,4,5]" [value]="i"></mat-radio-button>

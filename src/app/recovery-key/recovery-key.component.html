@@ -47,9 +47,9 @@
     </div>
   </mat-card>
   <mat-card class="word-count" [ngClass]="{'content-center': !isDesktop()}">
-    <a *ngIf="isDesktop()" (click)="onSwipeRight()"><img src="/assets/img/back-icon.svg" alt=""></a>
+    <a class="clickable" *ngIf="isDesktop()" (click)="onSwipeRight()"><img src="/assets/img/back-icon.svg" alt=""></a>
     <p class="direction">Word {{indexShowing + 1}} of {{words.length}}</p>
-    <a *ngIf="isDesktop()" (click)="onSwipeLeft()"><img src="/assets/img/next-icon.svg" alt=""></a>
+    <a class="clickable" *ngIf="isDesktop()" (click)="onSwipeLeft()"><img src="/assets/img/next-icon.svg" alt=""></a>
   </mat-card>
   <div class="bottom-buttons">
     <div class="back">

@@ -25,7 +25,7 @@
       <!-- chek Column -->
       <ng-container matColumnDef="check">
         <mat-header-cell class="small-title" *matHeaderCellDef></mat-header-cell>
-        <mat-cell class="row-items" *matCellDef="let element" (click)="selectSymptom(element)">
+        <mat-cell class="row-items clickable" *matCellDef="let element" (click)="selectSymptom(element)">
           <div class="checkRadio" [ngClass]="{ 'unCheckRadio': !element.chartShown }" [ngStyle]="{ 'background': element.chartColor }"></div>
         </mat-cell>
       </ng-container>
@@ -33,7 +33,7 @@
       <!-- symptom Column -->
       <ng-container matColumnDef="symptom">
         <mat-header-cell class="small-title" *matHeaderCellDef> symptom </mat-header-cell>
-        <mat-cell class="row-items" *matCellDef="let element" (click)="selectSymptom(element)">
+        <mat-cell class="row-items clickable" *matCellDef="let element" (click)="selectSymptom(element)">
           {{element.name}}
         </mat-cell>
       </ng-container>
@@ -41,13 +41,13 @@
       <!-- count Column -->
       <ng-container matColumnDef="count">
         <mat-header-cell class="small-title" *matHeaderCellDef> count </mat-header-cell>
-        <mat-cell class="row-items mono" *matCellDef="let element" (click)="selectSymptom(element)">{{element.value}}</mat-cell>
+        <mat-cell class="row-items mono clickable" *matCellDef="let element" (click)="selectSymptom(element)">{{element.value}}</mat-cell>
       </ng-container>
 
       <!-- change Column -->
       <ng-container matColumnDef="change">
         <mat-header-cell class="small-title" *matHeaderCellDef> change </mat-header-cell>
-        <mat-cell class="row-items mono" *matCellDef="let element" [innerHTML]="element.change_rate | symptomDelta" (click)="selectSymptom(element)"></mat-cell>
+        <mat-cell class="row-items mono clickable" *matCellDef="let element" [innerHTML]="element.change_rate | symptomDelta" (click)="selectSymptom(element)"></mat-cell>
       </ng-container>
 
       <mat-header-row *matHeaderRowDef="['check', 'symptom', 'count', 'change']"></mat-header-row>
