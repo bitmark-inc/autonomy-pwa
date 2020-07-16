@@ -7,7 +7,7 @@
       <div class="poi-score">
         <p class="font-24 mono gap-right-15" *ngIf="poi.resource_score" [innerHTML]="poi.resource_score | reportScore"></p>
         <p class="font-24 mono gap-right-15" *ngIf="!poi.resource_score">{{poi.resource_score | number:'1.1-1'}}</p>
-        <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group" [(ngModel)]="poi.resource_score">
+        <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group" [disabled]="true">
           <div *ngIf="poi.resource_score == 0" class="group-radios">
             <div class="default-color">
               <mat-radio-button class="example-radio-button" *ngFor="let i of [1,2,3,4,5]" [value]="i"></mat-radio-button>
