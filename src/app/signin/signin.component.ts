@@ -53,7 +53,7 @@ export class SigninComponent implements OnInit {
     if (this.clickable && this.key) {
       this.clickable = false;
       this.openBottomSheet("ok");
-      this.userService.signin(this.key).subscribe(
+      this.userService.signin(this.key.trim()).subscribe(
         (data) => {
           setTimeout(() => {
             this.bottomSheetRef.afterDismissed().subscribe(() => {

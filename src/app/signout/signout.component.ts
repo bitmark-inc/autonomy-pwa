@@ -61,7 +61,7 @@ export class SignoutComponent implements OnInit {
   }
 
   public signout() {
-    if (this.clickable && this.key && this.key.split(' ').length === 13) {
+    if (this.clickable && this.key && this.key.trim().split(' ').length === 13) {
       this.clickable = false;
       if (this.checkRecoveryWords()) {
         this.openBottomSheet('ok');
