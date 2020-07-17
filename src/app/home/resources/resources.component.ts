@@ -20,14 +20,9 @@ export class ResourcesComponent implements OnInit, OnDestroy {
   @ViewChild("placeSearchInput", { static: true }) placeSearchInput: ElementRef;
 
   public keyword: string = "";
-  public placesByKeyword: {
-    name: string;
-    formatted_address: string;
-    place_id: string;
-  }[];
-
   public placeTypes: string[];
-  public resourceSearching: string;
+  public placeType: string;
+  public isSearching: boolean = false;
   public poisByType: {
     id: string;
     alias: string;
@@ -82,18 +77,20 @@ export class ResourcesComponent implements OnInit, OnDestroy {
   }
 
   public onInputFocusOut() {
-    if (!(this.keyword || this.resourceSearching)) {
+    if (!(this.keyword || this.placeType)) {
       ParentContainerState.fullscreen.next(false);
     }
   }
 
   public searchByPlaceType(type: string) {
+    this.isSearching = true;
     ParentContainerState.fullscreen.next(true);
-    this.resourceSearching = type;
+    this.placeType = type;
     this.apiService
       .request('get', `${environment.autonomy_api_url}api/points-of-interest?place_type=${type}`, null, null, ApiService.DSTarget.CDS)
       .subscribe(
         (data) => {
+          this.isSearching = false;
           this.poisByType = data;
         },
         (err) => {
@@ -104,9 +101,11 @@ export class ResourcesComponent implements OnInit, OnDestroy {
   }
 
   public clearAll() {
-    if (this.keyword || this.resourceSearching) {
+    if (this.keyword || this.placeType) {
       this.keyword = "";
-      this.resourceSearching = "";
+      this.placeType = "";
+      this.isSearching = false;
+      this.poisByType.splice(0, this.poisByType.length);
       ParentContainerState.fullscreen.next(false);
     }
   }

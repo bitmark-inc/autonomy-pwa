@@ -2,17 +2,17 @@
   <div class="sticky-box">
     <mat-toolbar class="search-bar">
       <mat-icon matPrefix class="search-icon"><img src="/assets/img/search.svg" alt=""></mat-icon>
-      <input [hidden]="resourceSearching" #placeSearchInput [(ngModel)]="keyword" (focusout)="onInputFocusOut()" (focus)="onInputFocus()" class="search-input" matInput type="text" placeholder="Enter local name or address ...">
-      <div [hidden]="!resourceSearching" class="search-input">
-        <p class="resource-on-searching">{{resourceSearching}}</p>
+      <input [hidden]="placeType" #placeSearchInput [(ngModel)]="keyword" (focusout)="onInputFocusOut()" (focus)="onInputFocus()" class="search-input" matInput type="text" placeholder="Enter local name or address ...">
+      <div [hidden]="!placeType" class="search-input">
+        <p class="resource-on-searching">{{placeType}}</p>
       </div>
-      <button mat-button *ngIf="keyword || resourceSearching" matSuffix mat-icon-button aria-label="Clear" (click)="clearAll()">
+      <button mat-button *ngIf="keyword || placeType" matSuffix mat-icon-button aria-label="Clear" (click)="clearAll()">
         <img src="/assets/img/clear-search.svg" alt="">
       </button>
     </mat-toolbar>
     <mat-card class="no-top search-bar-line"><hr></mat-card>
   </div>
-  <div *ngIf="(!keyword) && (!resourceSearching)">
+  <div *ngIf="(!keyword) && (!placeType)">
     <mat-card class="main-direction direction-color content-center no-bottom">
       <div class="p-t-10 p-b-20"><p>Find safe resources</p></div>
     </mat-card>
@@ -27,7 +27,7 @@
       </div>
     </mat-card>
   </div>
-  <div *ngIf="(keyword || resourceSearching) && poisByType && poisByType.length">
+  <div *ngIf="(keyword || placeType) && poisByType && poisByType.length">
     <mat-card class="no-bottom" *ngFor="let place of poisByType">
       <div class="place-found clickable" (click)="navigateToPOI(place.id)">
         <p>{{place.alias}}</p>
@@ -102,7 +102,7 @@
       <div class="p-t-10"><hr></div>
     </mat-card>
   </div>
-  <mat-card class="non-places-found" *ngIf="resourceSearching && poisByType && !poisByType.length">
+  <mat-card class="non-places-found" *ngIf="!isSearching && placeType && poisByType && !poisByType.length">
     <p>Sorry, there aren’t currently any places in our system offering that resource. Be the first to add it for places you know!</p>
   </mat-card>
 </div>
