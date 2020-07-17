@@ -318,6 +318,7 @@ textarea {
     padding-right: 1rem;
     .command {
       padding-right: 0.5rem;
+      width: max-content;
     }
     img {
       width: 45px;
@@ -332,6 +333,7 @@ textarea {
     padding-left: 1rem;
     .command {
       padding-left: 0.5rem;
+      width: max-content;
     }
     img {
       width: 45px;
@@ -884,5 +886,17 @@ textarea {
 @media screen and (max-width: 767px) {
 }
 
-@media screen and (max-width: 575px) {
+@media screen and (max-width: 347px) {
+  .bottom-buttons {
+    .next {
+      .command {
+        padding-right: .2em;
+      }
+    }
+    .back {
+      .command {
+        padding-left: .2em;
+      }
+    }
+  }
 }

@@ -28,12 +28,21 @@
         .autonomy-logo {
           width: 100%;
           height: 70%;
-          object-fit: scale-down;
+          img {
+            width: 100%;
+            height: 100%;
+            object-fit: scale-down;
+          }
         }
         .ucl-logo {
           width: 100%;
           height: 27%;
           margin-top: 15px;
+          img {
+            // width: 100%;
+            height: 100%;
+            object-fit: scale-down;
+          }
         }
 
         .height-67 {
@@ -114,5 +123,35 @@
 
   .ucl-logo {
     margin-top: 5px !important;
+  }
+}
+
+@media screen and (max-height: 568px) and (orientation: portrait) {
+  .header {
+    height: 40px;
+  }
+
+  .autonomy-logo {
+    height: 67% !important;
+  }
+
+  .ucl-logo {
+    margin-top: 5px !important;
+    height: 25% !important;
+  }
+}
+
+@media screen and (max-height: 568px) and (orientation: landscape) {
+  .header {
+    height: 40px;
+  }
+
+  .autonomy-logo {
+    height: 67% !important;
+  }
+
+  .ucl-logo {
+    margin-top: 5px !important;
+    height: 25% !important;
   }
 }

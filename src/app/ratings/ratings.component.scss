@@ -38,3 +38,15 @@
   justify-content: flex-end;
   padding-right: 0;
 }
+
+@media screen and (max-width: 347px) {
+  .mat-column-resource {
+    flex: 0 0 55% !important;
+    width: 55% !important;
+  }
+
+  .mat-column-score {
+    flex: 0 0 45% !important;
+    width: 45% !important;
+  }
+}
