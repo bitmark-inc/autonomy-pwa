@@ -100,7 +100,7 @@
         <ng-container matColumnDef="score">
           <mat-cell class="row-items" [ngClass]="{'highlight-resource': element.name === highlightID}" *matCellDef="let element">
             <mat-card class="col no-left no-top no-bottom">
-              <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group" (click)="submitable = true" [(ngModel)]="element.score">
+              <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group" (change)="changeRating()" (click)="clickRating(element)" [(ngModel)]="element.score">
                 <div *ngIf="element.score == 0" class="group-radios">
                   <div class="default-color">
                     <mat-radio-button class="example-radio-button" *ngFor="let i of [1,2,3,4,5]" [value]="i"></mat-radio-button>

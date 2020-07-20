@@ -35,8 +35,9 @@ export class RatingsComponent implements OnInit {
     score: number;
   };
 
-  public submitable: boolean;
+  public submitable: boolean = false;
   public clickable: boolean = true;
+  private isChangeRating: boolean = false;
 
   constructor(private activatedRoute: ActivatedRoute, private location: Location, private apiService: ApiService, private bottomSheet: MatBottomSheet, private bottomSheetRef: MatBottomSheetRef<BottomSheetAlertComponent>, public router: Router
   ) {
@@ -138,6 +139,20 @@ export class RatingsComponent implements OnInit {
           }
         );
     }
+  }
+
+  public changeRating() {
+    this.isChangeRating = true;
+  }
+
+  public clickRating(el) {
+    this.submitable = true;
+    setTimeout(() => {
+      if (!this.isChangeRating) {
+        el.score = 0;
+      }
+      this.isChangeRating = false;
+    }, 0);
   }
 
   public back(): void {
