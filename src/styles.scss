@@ -188,6 +188,22 @@ textarea {
   }
 }
 
+.header-btn {
+  font-family: 'Domaine Sans Text';
+  font-weight: 300;
+  font-style: normal;
+  .back {
+    display: flex;
+    justify-content: flex-start;
+    font-size: 12px;
+
+    img {
+      width: 15px;
+      height: 15px;
+    }
+  }
+}
+
 .title-page {
   display: flex;
   justify-content: center;
@@ -373,16 +389,35 @@ textarea {
   }
 }
 
-.onboarding-footer {
-  background: linear-gradient(0deg, #ffffff 60%, rgba(27, 27, 27, 0) 100%);
-  padding-top: 30px;
-}
-
 .footer {
   position: fixed;
   bottom: 0;
   background-color: $sub-background;
   width: 100%;
+}
+
+.footer-btn {
+  position: fixed;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  max-width: $max-width;
+  .next {
+    display: flex;
+    align-items: center;
+    text-transform: uppercase;
+    font-size: 24px;
+    padding: 12px 23px;
+    background: $neutral-background;
+    color: $direction-color;
+    border-radius: 65px;
+    margin-bottom: 10px;
+    img {
+      width: 45px;
+      height: 45px;
+    }
+  }
 }
 
 .bottom-sheet-alert {
@@ -646,6 +681,10 @@ textarea {
 
 .p-t-30 {
   padding-top: 30px;
+}
+
+.p-t-45 {
+  padding-top: 45px;
 }
 
 .p-b-5 {
