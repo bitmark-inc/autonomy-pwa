@@ -9,7 +9,58 @@ import {
   distinctUntilChanged,
   filter,
 } from "rxjs/operators";
-import { fromEvent } from "rxjs";
+import { Observable, fromEvent, Subscriber } from "rxjs";
+import { Util } from '../../services/util/util.service';
+
+let FakePOIS = [
+  {
+    "id": "5e992e1b0c30685ba05cc4b5",
+    "alias": "Raohe Night Market",
+    "address": "Raohe Night Market, Raohe Street, Songshan District, Taipei City, Taiwan",
+    "score": 0,
+    "location": {
+      "latitude": 37.871580,
+      "longitude": -122.263214
+    },
+    "resource_score": 2,
+    "resource_ratings": null,
+    "last_updated": 0,
+    "selected": false,
+    "filtered": false,
+    "color": ''
+  },
+  {
+    "id": "5f110ca368bf494d8a61b282",
+    "alias": "蜥蜴咖哩",
+    "address": "號, No. 3南港路一段136巷6弄南港區台北市台灣 115",
+    "score": 0,
+    "location": {
+      "latitude": 37.871427,
+      "longitude": -122.255264
+    },
+    "resource_score": 5,
+    "resource_ratings": null,
+    "last_updated": 1594969910069,
+    "selected": false,
+    "filtered": false,
+    "color": ''
+  }
+];
+
+interface POI {
+  id: string,
+  alias: string,
+  address: string,
+  location: {
+    latitude: number,
+    longitude: number
+  },
+  resource_score: number,
+  last_updated: number,
+  filtered: boolean,
+  selected: boolean,
+  color: string
+}
 
 @Component({
   selector: "app-resources",
@@ -23,15 +74,31 @@ export class ResourcesComponent implements OnInit, OnDestroy {
   public placeTypes: string[];
   public placeType: string;
   public isSearching: boolean = false;
-  public poisByType: {
-    id: string;
-    alias: string;
-    address: string;
-    resource_score: number;
-    last_updated: number;
-  }[];
+  public filteredPois: POI[];
+  public allPois: POI[];
 
-  constructor(private apiService: ApiService, public router: Router, private ngZone: NgZone) {}
+  private UCBekerleyLatlng: google.maps.LatLngLiteral = {
+    lat: 37.871971,
+    lng: -122.258529
+  }
+  public mapCenter: google.maps.LatLngLiteral;
+  public mapIconSVGPath: string = 'M0.5 10.8975C0.5 5.09246 5.195 0.397461 11 0.397461C16.805 0.397461 21.5 5.09246 21.5 10.8975C21.5 17.1525 14.87 25.7775 12.155 29.0625C11.555 29.7825 10.46 29.7825 9.86 29.0625C7.13 25.7775 0.5 17.1525 0.5 10.8975ZM7.25 10.8975C7.25 12.9675 8.93 14.6475 11 14.6475C13.07 14.6475 14.75 12.9675 14.75 10.8975C14.75 8.82746 13.07 7.14746 11 7.14746C8.93 7.14746 7.25 8.82746 7.25 10.8975Z';
+  public mapOptions: google.maps.MapOptions = {
+    zoom: 17,
+    styles: [{featureType: 'poi', stylers: [{visibility: 'off'}]}]
+  };
+  // public symbol: google.maps.Symbol = {
+  //   path: 'M0.5 10.8975C0.5 5.09246 5.195 0.397461 11 0.397461C16.805 0.397461 21.5 5.09246 21.5 10.8975C21.5 17.1525 14.87 25.7775 12.155 29.0625C11.555 29.7825 10.46 29.7825 9.86 29.0625C7.13 25.7775 0.5 17.1525 0.5 10.8975ZM7.25 10.8975C7.25 12.9675 8.93 14.6475 11 14.6475C13.07 14.6475 14.75 12.9675 14.75 10.8975C14.75 8.82746 13.07 7.14746 11 7.14746C8.93 7.14746 7.25 8.82746 7.25 10.8975Z'
+  // };
+
+  constructor(private apiService: ApiService, public router: Router, private ngZone: NgZone) {
+    this.mapCenter = this.UCBekerleyLatlng;
+    this.getResourcesForSearching();
+    this.search().subscribe((data) => {
+      this.allPois = data;
+      this.updatePlacesState();
+    });
+  }
 
   ngOnInit() {
     fromEvent(this.placeSearchInput.nativeElement, "keyup")
@@ -46,26 +113,10 @@ export class ResourcesComponent implements OnInit, OnDestroy {
       .subscribe(() => {
         this.searchByKeyword();
       });
-
-    this.getResourcesForSearching();
   }
 
   ngOnDestroy() {
     ParentContainerState.fullscreen.next(false);
-  }
-
-  private searchByKeyword() {
-    this.apiService
-      .request('get', `${environment.autonomy_api_url}api/points-of-interest?text=${this.keyword}`, null, null, ApiService.DSTarget.CDS)
-      .subscribe(
-        (data) => {
-          this.poisByType = data;
-        },
-        (err) => {
-          console.log(err);
-          // TODO: do something
-        }
-      );
   }
 
   private getResourcesForSearching() {
@@ -82,22 +133,62 @@ export class ResourcesComponent implements OnInit, OnDestroy {
     }
   }
 
+  private searchByKeyword() {
+    this.search().subscribe((data) => this.updatePlacesState());
+  }
+
   public searchByPlaceType(type: string) {
-    this.isSearching = true;
     ParentContainerState.fullscreen.next(true);
     this.placeType = type;
-    this.apiService
-      .request('get', `${environment.autonomy_api_url}api/points-of-interest?place_type=${type}`, null, null, ApiService.DSTarget.CDS)
+    this.search().subscribe((data) => this.updatePlacesState());
+  }
+
+  public search() {
+    this.isSearching = true;
+    let url = `${environment.autonomy_api_url}api/points-of-interest`;
+    let params: string[] = [];
+
+    // Fake the keywork for now, TODO: remove this later
+    if (!this.keyword) {
+      params.push(`text=Berkeley`);
+    }
+
+    if (this.keyword) {
+      params.push(`text=${this.keyword}`);
+    }
+    if (this.placeType) {
+      params.push(`place_type=${this.placeType}`);
+    }
+    if (params.length) {
+      url += `?${params.join('&')}`;
+    }
+
+    return Observable.create(observer => {
+      this.apiService
+      .request('get', url, null, null, ApiService.DSTarget.CDS)
       .subscribe(
         (data) => {
           this.isSearching = false;
-          this.poisByType = data;
+          // this.filteredPois = data;
+          this.filteredPois = FakePOIS;
+          observer.next(this.filteredPois);
+          observer.complete();
         },
         (err) => {
-          console.log(err);
-          // TODO: do something
+          this.isSearching = false;
+          observer.error(err);
         }
       );
+    });
+  }
+
+  public updatePlacesState() {
+    this.allPois.forEach((poi) => {
+      let filteredOne = this.filteredPois.find(item => item.id === poi.id);
+      poi.filtered = !!filteredOne;
+      poi.color = Util.scoreToColor(poi.resource_score, !filteredOne);
+    });
+    console.log(this.allPois);
   }
 
   public clearAll() {
@@ -105,33 +196,33 @@ export class ResourcesComponent implements OnInit, OnDestroy {
       this.keyword = "";
       this.placeType = "";
       this.isSearching = false;
-      this.poisByType.splice(0, this.poisByType.length);
+      this.filteredPois.splice(0, this.filteredPois.length);
       ParentContainerState.fullscreen.next(false);
     }
   }
 
-  public navigateToPlace(place: any) {
-    this.apiService
-      .request("post", "api/points-of-interest", {
-        alias: place.name,
-        address: place.formatted_address,
-        location: {
-          latitude: place.geometry.location.lat(),
-          longitude: place.geometry.location.lng(),
-        },
-      })
-      .subscribe(
-        (data: { id: string }) => {
-          this.ngZone.run(() => {
-            this.navigateToPOI(data.id);
-          });
-        },
-        (err) => {
-          console.log(err);
-          // TODO: do something
-        }
-      );
-  }
+  // public navigateToPlace(place: any) {
+  //   this.apiService
+  //     .request("post", "api/points-of-interest", {
+  //       alias: place.name,
+  //       address: place.formatted_address,
+  //       location: {
+  //         latitude: place.geometry.location.lat(),
+  //         longitude: place.geometry.location.lng(),
+  //       },
+  //     })
+  //     .subscribe(
+  //       (data: { id: string }) => {
+  //         this.ngZone.run(() => {
+  //           this.navigateToPOI(data.id);
+  //         });
+  //       },
+  //       (err) => {
+  //         console.log(err);
+  //         // TODO: do something
+  //       }
+  //     );
+  // }
 
   public navigateToPOI(id: string) {
     this.router.navigate(["/pois", id]);

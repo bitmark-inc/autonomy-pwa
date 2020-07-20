@@ -12,7 +12,7 @@ import { MatIconModule } from "@angular/material/icon";
 import { MatListModule } from "@angular/material/list";
 import { MatRadioModule } from "@angular/material/radio";
 import { MatProgressBarModule } from "@angular/material/progress-bar";
-
+import { GoogleMapsModule } from '@angular/google-maps'
 import { TextFieldModule } from "@angular/cdk/text-field";
 
 import { AppRoutingModule } from './app-routing.module';
@@ -84,6 +84,7 @@ window.isProduction = environment.production;
     TextFieldModule,
     MatBottomSheetModule,
     MatProgressBarModule,
+    GoogleMapsModule,
   ],
   providers: [
     UserService,

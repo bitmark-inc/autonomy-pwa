@@ -1,10 +1,25 @@
-import { Injectable } from '@angular/core';
+import { AppSettings } from '../../app-settings';
 
-@Injectable({
-  providedIn: 'root'
-})
-export class UtilService {
+export class Util {
   constructor() {}
+
+  public static scoreToColor(score: number, isLight: boolean): string {
+    if (!score) {
+      return AppSettings.PLACE_NONE_COLOR;
+    }
+
+    let colorSet = isLight ? AppSettings.PLACE_LIGHT_COLORS : AppSettings.PLACE_DARK_COLORS;
+    let colorCode = AppSettings.PLACE_NONE_COLOR;
+
+    score = parseFloat(score.toFixed(1));
+    for (let i = 0; i < colorSet.length; i++) {
+      if (colorSet[i].from <= score && colorSet[i].to >= score) {
+        colorCode = colorSet[i].code;
+        break;
+      }
+    }
+    return colorCode;
+  }
 
   // Time format example: 2020-06-21T00:00:00+07:00
   public static toISOStringWithLocalTimezone(date: Date): string {

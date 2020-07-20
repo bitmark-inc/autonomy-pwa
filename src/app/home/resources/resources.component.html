@@ -27,8 +27,19 @@
       </div>
     </mat-card>
   </div>
-  <div *ngIf="(keyword || placeType) && poisByType && poisByType.length">
-    <mat-card class="no-bottom" *ngFor="let place of poisByType">
+
+  <google-map [center]="mapCenter" [options]="mapOptions">
+    <map-marker
+      *ngFor="let poi of allPois"
+      [position]="{lat: poi.location.latitude, lng: poi.location.longitude}"
+      [title]="poi.alias"
+      [options]="{icon: {path: mapIconSVGPath, strokeColor: poi.color, fillColor: poi.color, fillOpacity: 1}}"
+    >
+    </map-marker>
+  </google-map>
+
+  <div *ngIf="(keyword || placeType) && allPois && allPois.length">
+    <mat-card class="no-bottom" *ngFor="let place of allPois">
       <div class="place-found clickable" (click)="navigateToPOI(place.id)">
         <p>{{place.alias}}</p>
         <p class="small-address p-t-5 line-height-120">{{place.address}}</p>
@@ -102,7 +113,7 @@
       <div class="p-t-10"><hr></div>
     </mat-card>
   </div>
-  <mat-card class="non-places-found" *ngIf="!isSearching && placeType && poisByType && !poisByType.length">
+  <mat-card class="non-places-found" *ngIf="!isSearching && placeType && allPois && !allPois.length">
     <p>Sorry, there aren’t currently any places in our system offering that resource. Be the first to add it for places you know!</p>
   </mat-card>
 </div>
