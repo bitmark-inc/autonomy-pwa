@@ -2,21 +2,17 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, APP_INITIALIZER } from '@angular/core';
 
 import { FormsModule } from "@angular/forms";
-import {
-  MatToolbarModule,
-  MatCardModule,
-  MatGridListModule,
-  MatDialogModule,
-  MatButtonModule,
-  MatIconModule,
-  MatTableModule,
-  MatListModule,
-  MatRadioModule,
-  MatCheckboxModule,
-  MatBottomSheetModule,
-  MatProgressBarModule,
-  MatBottomSheetRef,
-} from "@angular/material";
+
+import { MatBottomSheetModule, MatBottomSheetRef } from "@angular/material/bottom-sheet";
+import { MatTableModule } from "@angular/material/table";
+import { MatToolbarModule } from "@angular/material/toolbar";
+import { MatCardModule } from "@angular/material/card";
+import { MatButtonModule } from "@angular/material/button";
+import { MatIconModule } from "@angular/material/icon";
+import { MatListModule } from "@angular/material/list";
+import { MatRadioModule } from "@angular/material/radio";
+import { MatProgressBarModule } from "@angular/material/progress-bar";
+
 import { TextFieldModule } from "@angular/cdk/text-field";
 
 import { AppRoutingModule } from './app-routing.module';
@@ -36,7 +32,6 @@ import { PoiComponent } from './poi/poi.component';
 import { RatingsComponent } from './ratings/ratings.component';
 import { SigninComponent } from './signin/signin.component';
 import { SignupComponent } from './signup/signup.component';
-import { AlertDialogComponent } from "./alert-dialog/alert-dialog.component";
 import { PlaceDeltaPipe } from './pipes/place-delta.pipe';
 import { SymptomDeltaPipe } from './pipes/symptom-delta.pipe';
 import { ReportScorePipe } from './pipes/report-score.pipe';
@@ -59,7 +54,6 @@ window.isProduction = environment.production;
     SigninComponent,
     SignupComponent,
     PoiComponent,
-    AlertDialogComponent,
     RatingsComponent,
     PlaceDeltaPipe,
     SymptomDeltaPipe,
@@ -82,8 +76,6 @@ window.isProduction = environment.production;
     FormsModule,
     MatToolbarModule,
     MatCardModule,
-    MatGridListModule,
-    MatDialogModule,
     MatButtonModule,
     MatIconModule,
     MatTableModule,
@@ -91,7 +83,6 @@ window.isProduction = environment.production;
     MatRadioModule,
     TextFieldModule,
     MatBottomSheetModule,
-    MatCheckboxModule,
     MatProgressBarModule,
   ],
   providers: [
@@ -104,7 +95,7 @@ window.isProduction = environment.production;
     {provide: MatBottomSheetRef, useValue: {}}
   ],
   bootstrap: [AppComponent],
-  entryComponents: [AlertDialogComponent, BottomSheetAlertComponent]
+  entryComponents: [BottomSheetAlertComponent]
 })
 export class AppModule { }
 
