@@ -199,7 +199,7 @@ export class CommunityComponent implements OnInit {
     this.buildDataByDays();
     
     let viewWidth = window.innerWidth > 768 ? 768 : window.innerWidth;
-    let margin = {top: 20, right: 20, bottom: 30, left: 40};
+    let margin = {top: 20, right: 40, bottom: 30, left: 20};
     let chartSize = { width: viewWidth - margin.left - margin.right, height: 270 };
     let g = d3.select(this.chartEl.nativeElement)
       .append('svg')
@@ -252,7 +252,8 @@ export class CommunityComponent implements OnInit {
     // Draw left axis
     g.append('g')
         .attr('class', 'axis chart-text left')
-        .call(d3.axisLeft(y).ticks(5, 's'));
+        .attr('transform', `translate(${chartSize.width}, 0)`)
+        .call(d3.axisRight(y).ticks(5, 's'));
     
     this.chartEl.nativeElement.querySelector('svg .left path').remove();
     this.chartEl.nativeElement.querySelector('svg .left g').remove();
