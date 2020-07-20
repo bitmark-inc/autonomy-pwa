@@ -1,12 +1,12 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA } from "@angular/material";
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 enum EnumAlertType { Info = 'info', Warn = 'warning' }
 
 @Component({
-  selector: "app-alert-dialog",
-  templateUrl: "./alert-dialog.component.html",
-  styleUrls: ["./alert-dialog.component.scss"],
+  selector: 'app-alert-dialog',
+  templateUrl: './alert-dialog.component.html',
+  styleUrls: ['./alert-dialog.component.scss'],
 })
 export class AlertDialogComponent implements OnInit {
   public modalTitle: string;

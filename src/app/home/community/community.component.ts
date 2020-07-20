@@ -1,6 +1,6 @@
 declare var window: any;
 
-import { Component, OnInit, ViewChild, ElementRef, Renderer } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Renderer2 } from '@angular/core';
 import { AppSettings } from "../../app-settings";
 import { ApiService } from 'src/app/services/api/api.service';
 import * as moment from 'moment';
@@ -13,7 +13,7 @@ import { environment } from 'src/environments/environment';
   styleUrls: ["./community.component.scss"],
 })
 export class CommunityComponent implements OnInit {
-  @ViewChild("chartEl", { static: false }) public chartEl: ElementRef;
+  @ViewChild("chartEl") public chartEl: ElementRef;
 
   public dataBySymptoms: any = [];
   public dataByDays: any = [];
@@ -27,7 +27,7 @@ export class CommunityComponent implements OnInit {
 
   public colorsInUse: string[] = [];
 
-  constructor(private apiService: ApiService, private renderer: Renderer) {
+  constructor(private apiService: ApiService, private renderer: Renderer2) {
     this.checkedInPerson = 1234;
     // this.dataBySymptoms = [
     //   {
