@@ -1,33 +1,26 @@
 <div class="main-content">
-  <mat-toolbar class="header" layout="fill">
-    <div class="header-line"><hr><hr></div>
-    <div class="header-title">sign in</div>
-    <div class="header-line"><hr><hr></div>
-  </mat-toolbar>
-  <div class="content">
+  <mat-card class="header-btn" layout="fill">
+    <a [routerLink]="['/landing']" class="back upcase">
+      <img class="gap-right-5" src="/assets/img/back-small.svg" alt="back-arrow">
+      <span>back</span>
+    </a>
+  </mat-card>
+  <div class="header-page-title direction-color">
+    <span class="page-title">Sign in</span>
+  </div>
+  <div class="content p-t-30 p-b-30">
     <mat-card>
-      <div class="onboarding-words direction-color">
-        <p>Welcome back! To sign in, please enter your 13-word recovery key:</p>
+      <div class="onboarding-words sub-direction-color">
+        <p>Welcome back! Please enter your 13-word recovery key:</p>
       </div>
-    </mat-card>
-    <mat-card><hr></mat-card>
-    <mat-card>
-      <div class="p-b-30">
-        <textarea matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="1" cdkAutosizeMaxRows="5"
-        id="recoveryKey" [(ngModel)]="key" placeholder="Enter your recovery key here ..."></textarea>
+      <div class="key-area mono">
+        <textarea #recoveryKey matInput rows="5" id="recoveryKey" [(ngModel)]="key"></textarea>
       </div>
     </mat-card>
   </div>
-  <div class="bottom-buttons">
-    <div class="back">
-      <a [routerLink]="['/landing']"><img src="/assets/img/back-icon.svg" alt=""><span
-          class="command">Back</span></a>
-    </div>
-    <div class="next">
-      <a (click)="signin()" [ngClass]="{'disable-btns': !key}">
-        <span class="command">Sign in</span>
-        <img src="/assets/img/signin.svg" alt="">
-      </a>
-    </div>
+  <div class="footer-btn">
+    <a class="next" [ngClass]="{'disable-btns': !key}" (click)="signin()">
+      <span class="gap-right-15">Sign in</span><img src="/assets/img/signin.svg" alt="">
+    </a>
   </div>
 </div>

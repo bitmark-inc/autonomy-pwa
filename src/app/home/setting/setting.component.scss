@@ -18,14 +18,7 @@
     vertical-align: top;
 
   }
-  .big-words {
-    font-family: 'Domaine Sans Text';
-    font-size: 36px;
-    font-weight: 300;
-    line-height: 100%;
-    text-transform: uppercase;
-  }
-  
+
   .section-child {
     text-transform: uppercase;
 
@@ -33,9 +26,21 @@
       display: flex;
       align-items: center;
       justify-content: flex-end;
-      color: #000000 !important;
+      color: #303030 !important;
+    }
+
+    .long-child {
+      align-items: start;
     }
   }
+}
+
+.big-words {
+  font-family: 'Domaine Sans Text';
+  font-size: 36px;
+  font-weight: 300;
+  line-height: 100%;
+  text-transform: uppercase;
 }
 
 .donation {
@@ -58,7 +63,7 @@
   height: auto;
   position: absolute;
   bottom: 0;
-  background-color: #EEEEEE;
+  // background-color: #EEEEEE;
   color: #545454;
   width: 100%;
 

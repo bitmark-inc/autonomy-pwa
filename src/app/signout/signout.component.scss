@@ -13,14 +13,26 @@
     }
   }
 
-  #recoveryKey {
-    width: 100%;
-    background-color: unset;
-    border: none;
-    font-size: 18px;
-    color: #000000;
-    overflow: hidden;
+  .key-area {
+    border-top: 1px solid #003262;
+    border-bottom: 1px solid #003262;
+    margin-top: 30px;
+    background: #EEEEEE;
+    #recoveryKey {
+      width: 100%;
+      background: #EEEEEE;
+      border: none;
+      font-size: 18px;
+      color: #303030;
+      resize: unset;
+      padding: 16px;
+    }
   }
+}
+
+.signout {
+  color: #ffffff;
+  background: #CC3232;
 }
 
 @media screen and (max-width: 347px) {

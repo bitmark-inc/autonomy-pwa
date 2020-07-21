@@ -1,12 +1,15 @@
 <div class="main-content" [hidden]="stage != PageStage.Direction">
-  <mat-card></mat-card>
-  <mat-card layout="fill">
-    <div class="col content-left">
-      <p class="direction direction-color">Recovery key</p>
-    </div>
+  <mat-card class="header-btn" layout="fill">
+    <a (click)="back()" class="back upcase">
+      <img class="gap-right-5" src="/assets/img/back-small.svg" alt="back-arrow">
+      <span>back</span>
+    </a>
   </mat-card>
+  <div class="header-page-title direction-color">
+    <span class="page-title">Recovery key</span>
+  </div>
   <mat-card>
-    <div class="p-t-5 p-b-10">
+    <div class="p-t-30 p-b-10">
       <p>Your recovery key allows you to fully recover your Autonomy account even if your device is lost or damaged. It is the only way to recover your account.</p>
       <p>Autonomy does not have access to your recovery key or store it anywhere for you.</p>
     </div>
@@ -14,25 +17,25 @@
       <p>Please make sure you are in a safe location then write down your recovery key on a piece of paper and keep it safe.</p>
     </div>
   </mat-card>
-  <div class="bottom-buttons">
-    <div class="back">
-      <a (click)="back()"><img src="/assets/img/back-icon.svg" alt=""><span class="command">Back</span></a>
-    </div>
-    <div class="next">
-      <a (click)="setStage(PageStage.Keys)"><span class="command">Next</span><img src="/assets/img/next-icon.svg" alt=""></a>
-    </div>
+  <div class="footer-btn">
+    <a class="next" (click)="setStage(PageStage.Keys)">
+      <span class="gap-right-15">next</span><img src="/assets/img/next-icon.svg" alt="">
+    </a>
   </div>
 </div>
 
 <div class="main-content" [hidden]="stage != PageStage.Keys">
-  <mat-card></mat-card>
-  <mat-card layout="fill">
-    <div class="col content-left">
-      <p class="direction direction-color">Recovery key</p>
-    </div>
+  <mat-card class="header-btn" layout="fill">
+    <a (click)="back()" class="back upcase">
+      <img class="gap-right-5" src="/assets/img/back-small.svg" alt="back-arrow">
+      <span>back</span>
+    </a>
   </mat-card>
+  <div class="header-page-title direction-color">
+    <span class="page-title">Recovery key</span>
+  </div>
   <mat-card>
-    <div class="p-t-5">
+    <div class="p-t-30">
       <p>Write down the following words in order:</p>
     </div>
   </mat-card>
@@ -51,9 +54,4 @@
     <p class="direction">Word {{indexShowing + 1}} of {{words.length}}</p>
     <a class="clickable" *ngIf="isDesktop()" (click)="onSwipeLeft()"><img src="/assets/img/next-icon.svg" alt=""></a>
   </mat-card>
-  <div class="bottom-buttons">
-    <div class="back">
-      <a (click)="back()"><img src="/assets/img/back-icon.svg" alt=""><span class="command">Back</span></a>
-    </div>
-  </div>
 </div>
