@@ -15,25 +15,6 @@ import { Observable, fromEvent, Subscriber } from "rxjs";
 import { Util } from '../../services/util/util.service';
 import { AppSettings } from '../../app-settings';
 
-let FakeFilteredPOIS = [
-  {
-    "id": "5e992e1b0c30685ba05cc4b5",
-    "alias": "Raohe Night Market",
-    "address": "Raohe Night Market, Raohe Street, Songshan District, Taipei City, Taiwan",
-    "score": 0,
-    "location": {
-      "latitude": 37.871580,
-      "longitude": -122.263214
-    },
-    "resource_score": 2,
-    "resource_ratings": null,
-    "last_updated": 0,
-    "focused": false,
-    "filtered": false,
-    "color": ''
-  },
-];
-
 let FakePOIS = [
   {
     "id": "5e992e1b0c30685ba05cc4b5",
@@ -48,7 +29,6 @@ let FakePOIS = [
     "resource_ratings": null,
     "last_updated": 0,
     "focused": false,
-    "filtered": false,
     "color": ''
   },
   {
@@ -64,7 +44,6 @@ let FakePOIS = [
     "resource_ratings": null,
     "last_updated": 1594969910069,
     "focused": false,
-    "filtered": false,
     "color": ''
   }
 ];
@@ -79,7 +58,6 @@ interface POI {
   },
   resource_score: number,
   last_updated: number,
-  filtered: boolean,
   focused: boolean,
   color: string
 }
@@ -90,19 +68,18 @@ interface POI {
   styleUrls: ["./resources.component.scss"],
 })
 export class ResourcesComponent implements OnInit, OnDestroy {
-  @ViewChild("placeSearchInput", { static: true }) placeSearchInput: ElementRef;
+  @ViewChild("poiSearchInput", { static: true }) poiSearchInput: ElementRef;
 
   // Searching settings
   public keyword: string = "";
 
-  public placeType: string;
-  public placeTypes: string[];
+  public poiType: string;
+  public poiTypes: string[];
 
-  public focusedPlace: POI;
+  public focusedPOI: POI;
 
   public isSearching: boolean = false;
-  public filteredPois: POI[];
-  public allPois: POI[];
+  public pois: POI[];
 
   // Map settings
   private UCBekerleyLatlng: google.maps.LatLngLiteral = {
@@ -119,14 +96,11 @@ export class ResourcesComponent implements OnInit, OnDestroy {
   constructor(private apiService: ApiService, public router: Router, private ngZone: NgZone) {
     this.mapCenter = this.UCBekerleyLatlng;
     this.getResourcesForSearching();
-    this.search().subscribe((data) => {
-      this.allPois = data;
-      this.updatePlacesState();
-    });
+    this.search();
   }
 
   ngOnInit() {
-    fromEvent(this.placeSearchInput.nativeElement, "keyup")
+    fromEvent(this.poiSearchInput.nativeElement, "keyup")
       .pipe(
         map((event: any) => {
           return this.keyword;
@@ -145,7 +119,7 @@ export class ResourcesComponent implements OnInit, OnDestroy {
   }
 
   private getResourcesForSearching() {
-    this.placeTypes = ['restaurants', 'groceries', 'coffee', 'pharmacies', 'gyms', 'parks'];
+    this.poiTypes = ['restaurants', 'groceries', 'coffee', 'pharmacies', 'gyms', 'parks'];
   }
 
   public onInputFocus() {
@@ -153,19 +127,19 @@ export class ResourcesComponent implements OnInit, OnDestroy {
   }
 
   public onInputFocusOut() {
-    if (!(this.keyword || this.placeType)) {
+    if (!(this.keyword || this.poiType)) {
       ParentContainerState.fullscreen.next(false);
     }
   }
 
   private searchByKeyword() {
-    this.search().subscribe((data) => this.updatePlacesState());
+    this.search();
   }
 
   public searchByPlaceType(type: string) {
     ParentContainerState.fullscreen.next(true);
-    this.placeType = type;
-    this.search().subscribe((data) => this.updatePlacesState());
+    this.poiType = type;
+    this.search();
   }
 
   public search() {
@@ -181,63 +155,52 @@ export class ResourcesComponent implements OnInit, OnDestroy {
     if (this.keyword) {
       params.push(`text=${this.keyword}`);
     }
-    if (this.placeType) {
-      params.push(`place_type=${this.placeType}`);
+    if (this.poiType) {
+      params.push(`place_type=${this.poiType}`);
     }
     if (params.length) {
       url += `?${params.join('&')}`;
     }
 
-    return Observable.create(observer => {
-      this.apiService
-      .request('get', url, null, null, ApiService.DSTarget.CDS)
-      .subscribe(
-        (data) => {
-          this.isSearching = false;
-          this.filteredPois = FakePOIS;
-          observer.next(this.filteredPois);
-          observer.complete();
-        },
-        (err) => {
-          this.isSearching = false;
-          observer.error(err);
-        }
-      );
+    this.apiService
+    .request('get', url, null, null, ApiService.DSTarget.CDS)
+    .subscribe(
+      (data) => {
+        this.isSearching = false;
+        this.pois = FakePOIS;
+        this.updatePlaceColors();
+      },
+      (err) => {
+        this.isSearching = false;
+      }
+    );
+  }
+
+  public updatePlaceColors() {
+    this.pois.forEach((poi) => {
+      // TODO: detect if place is opening
+      poi.color = Util.scoreToColor(poi.resource_score, false);
     });
   }
 
-  public updatePlacesState() {
-    if (this.focusedPlace) {
-      this.focusedPlace.focused = true;
-      this.focusedPlace.color = AppSettings.PLACE_FOCUSED_COLOR;
-    }
-
-    this.allPois.forEach((poi) => {
-      let filteredOne = this.filteredPois.find(item => item.id === poi.id);
-      poi.filtered = !!filteredOne;
-      poi.color = Util.scoreToColor(poi.resource_score, !filteredOne);
-    });
+  public focusToPlace(poi: POI) {
+    this.focusedPOI = poi;
+    this.focusedPOI.focused = true;
+    this.updatePlaceColors();
   }
 
-  public focusToPlace(poi) {
-    this.focusedPlace = poi;
-    this.focusedPlace.focused = true;
-    this.filteredPois = [];
-    this.updatePlacesState();
-  }
-
-  public focusoutPlace(poi) {
-    this.focusedPlace.focused = false;
-    this.focusedPlace = null;
-    this.updatePlacesState();
+  public unfocusPlace(poi: POI) {
+    this.focusedPOI.focused = false;
+    this.focusedPOI = null;
+    this.updatePlaceColors();
   }
 
   public clearAll() {
-    if (this.keyword || this.placeType) {
+    if (this.keyword || this.poiType) {
       this.keyword = "";
-      this.placeType = "";
+      this.poiType = "";
       this.isSearching = false;
-      this.filteredPois.splice(0, this.filteredPois.length);
+      this.search();
       ParentContainerState.fullscreen.next(false);
     }
   }

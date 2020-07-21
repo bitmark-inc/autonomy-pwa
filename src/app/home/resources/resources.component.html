@@ -2,17 +2,17 @@
   <div class="sticky-box">
     <mat-toolbar class="search-bar">
       <mat-icon matPrefix class="search-icon"><img src="/assets/img/search.svg" alt=""></mat-icon>
-      <input [hidden]="placeType" #placeSearchInput [(ngModel)]="keyword" (focusout)="onInputFocusOut()" (focus)="onInputFocus()" class="search-input" matInput type="text" placeholder="Enter local name or address ...">
-      <div [hidden]="!placeType" class="search-input">
-        <p class="resource-on-searching">{{placeType}}</p>
+      <input [hidden]="poiType" #placeSearchInput [(ngModel)]="keyword" (focusout)="onInputFocusOut()" (focus)="onInputFocus()" class="search-input" matInput type="text" placeholder="Enter local name or address ...">
+      <div [hidden]="!poiType" class="search-input">
+        <p class="resource-on-searching">{{poiType}}</p>
       </div>
-      <button mat-button *ngIf="keyword || placeType" matSuffix mat-icon-button aria-label="Clear" (click)="clearAll()">
+      <button mat-button *ngIf="keyword || poiType" matSuffix mat-icon-button aria-label="Clear" (click)="clearAll()">
         <img src="/assets/img/clear-search.svg" alt="">
       </button>
     </mat-toolbar>
     <mat-card class="no-top search-bar-line"><hr></mat-card>
   </div>
-  <div *ngIf="(!keyword) && (!placeType)">
+  <div *ngIf="(!keyword) && (!poiType)">
     <mat-card class="main-direction direction-color content-center no-bottom">
       <div class="p-t-10 p-b-20"><p>Find safe resources</p></div>
     </mat-card>
@@ -21,7 +21,7 @@
       or enter a local name or address in the search field above.</p>
     </mat-card>
     <mat-card class="resources-list">
-      <div class="resource-item font-14 clickable" *ngFor="let type of placeTypes"
+      <div class="resource-item font-14 clickable" *ngFor="let type of poiTypes"
         (click)="searchByPlaceType(type)">
         {{type}}
       </div>
@@ -30,17 +30,17 @@
 
   <google-map [center]="mapCenter" [options]="mapOptions">
     <map-marker
-      *ngFor="let poi of allPois"
+      *ngFor="let poi of pois"
       [position]="{lat: poi.location.latitude, lng: poi.location.longitude}"
       [title]="poi.alias"
-      [options]="{icon: {path: mapIconSVGPath, strokeColor: poi.color, fillColor: poi.color, fillOpacity: 1}}",
+      [options]="{icon: {path: mapIconSVGPath, strokeColor: poi.color, fillColor: poi.color, fillOpacity: 1, scale: poi.id === focusedPOI.id ? 2 : 1}}",
       (click)="focusToPlace(poi)"
     >
     </map-marker>
   </google-map>
 
-  <div *ngIf="(keyword || placeType) && allPois && allPois.length">
-    <mat-card class="no-bottom" *ngFor="let place of allPois">
+  <div *ngIf="(keyword || poiType) && pois && pois.length">
+    <mat-card class="no-bottom" *ngFor="let place of pois">
       <div class="place-found clickable" (click)="navigateToPOI(place.id)">
         <p>{{place.alias}}</p>
         <p class="small-address p-t-5 line-height-120">{{place.address}}</p>
@@ -114,7 +114,7 @@
       <div class="p-t-10"><hr></div>
     </mat-card>
   </div>
-  <mat-card class="non-places-found" *ngIf="!isSearching && placeType && allPois && !allPois.length">
+  <mat-card class="non-places-found" *ngIf="!isSearching && poiType && pois && !pois.length">
     <p>Sorry, there aren’t currently any places in our system offering that resource. Be the first to add it for places you know!</p>
   </mat-card>
 </div>
