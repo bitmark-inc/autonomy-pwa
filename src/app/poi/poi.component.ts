@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ApiService } from '../services/api/api.service';
-import { Router } from "@angular/router";
+import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
+import { Util } from '../services/util/util.service';
 
 @Component({
   selector: "app-poi",
@@ -31,9 +32,11 @@ export class PoiComponent implements OnInit {
     name: string;
     score: number;
     ratings: number;
+    color: string;
   }[] = [];
 
   public isRated: boolean = false;
+  public poiBackground: string = '';
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -57,11 +60,13 @@ export class PoiComponent implements OnInit {
       .subscribe(
         (data: any) => {
           this.poi = data;
+          this.poiBackground = Util.scoreToColor(this.poi.resource_score, false);
           for (let key in this.poi.resource_ratings) {
             this.resources.push({
               name: key.replace(/_/g, " "),
               score: this.poi.resource_ratings[key].score,
               ratings: this.poi.resource_ratings[key].counts,
+              color: Util.scoreToColor(this.poi.resource_ratings[key].score, false),
             });
           }
         },
