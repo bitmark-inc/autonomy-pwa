@@ -1,4 +1,4 @@
-$base-color: #000000;
+$base-color: #303030;
 $direction-color: #003262;
 $sub-direction-color: #303030;
 $title-color: #545454;
@@ -93,15 +93,15 @@ button {
 }
 
 input {
-  caret-color: $base-color;
+  caret-color: $sub-direction-color;
   &:focus {
     outline: unset;
   }
 }
 
 textarea {
-  caret-color: $base-color;
-  font-family: 'Atlas Grotesk';
+  caret-color: $sub-direction-color;
+  font-family: 'IBM Plex Mono';
   overflow: hidden;
   &:focus {
     outline: unset;
@@ -192,6 +192,7 @@ textarea {
   font-family: 'Domaine Sans Text';
   font-weight: 300;
   font-style: normal;
+  padding-bottom: 20px !important;
   .back {
     display: flex;
     justify-content: flex-start;
@@ -201,6 +202,16 @@ textarea {
       width: 15px;
       height: 15px;
     }
+  }
+}
+
+.header-page-title {
+  width: 100%;
+  border-left: 5px solid $direction-color;
+  .page-title {
+    font-size: 30px;
+    line-height: 120%;
+    padding-left: 11px;
   }
 }
 
@@ -403,6 +414,7 @@ textarea {
   justify-content: center;
   width: 100%;
   max-width: $max-width;
+  font-family: 'Domaine Sans Text';
   .next {
     display: flex;
     align-items: center;
@@ -701,6 +713,10 @@ textarea {
 
 .p-b-30 {
   padding-bottom: 30px;
+}
+
+.m-b-30 {
+  margin-bottom: 30px;
 }
 
 .green {

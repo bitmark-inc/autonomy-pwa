@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserService } from '../services/user/user.service';
 import { MatBottomSheet, MatBottomSheetRef } from '@angular/material/bottom-sheet';
@@ -10,12 +10,16 @@ import { BottomSheetAlertComponent } from "../bottom-sheet-alert/bottom-sheet-al
   styleUrls: ["./signin.component.scss"],
 })
 export class SigninComponent implements OnInit {
+  @ViewChild('recoveryKey', { static: true }) recoveryKey: ElementRef;
+
   public key: string;
   public clickable: boolean = true;
 
   constructor(private router: Router, private userService: UserService, private bottomSheet: MatBottomSheet, private bottomSheetRef: MatBottomSheetRef) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.recoveryKey.nativeElement.focus();
+  }
 
   private openBottomSheet(type): void {
     if (type === 'error') {
