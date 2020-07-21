@@ -2,6 +2,7 @@ export class AppSettings {
   public static DEFAULT_CHART_COLOR = '#EEEEEE';
   public static CHART_COLORS: string[] = ['#00B0DA', '#FDB515', '#EE1F60','#CFDD45', '#D9661F', '#00A598'];
   public static PLACE_NONE_COLOR: string = '#DDD5C7';
+  public static PLACE_FOCUSED_COLOR: string = '#00B0DA';
   public static PLACE_LIGHT_COLORS: {from: number, to: number, code: string}[] = [
     {from: 0, to: 1.5, code: '#E59898'},
     {from: 1.6, to: 2.5, code: '#EDBD95'},

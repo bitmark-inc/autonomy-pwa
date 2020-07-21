@@ -33,7 +33,8 @@
       *ngFor="let poi of allPois"
       [position]="{lat: poi.location.latitude, lng: poi.location.longitude}"
       [title]="poi.alias"
-      [options]="{icon: {path: mapIconSVGPath, strokeColor: poi.color, fillColor: poi.color, fillOpacity: 1}}"
+      [options]="{icon: {path: mapIconSVGPath, strokeColor: poi.color, fillColor: poi.color, fillOpacity: 1}}",
+      (click)="focusToPlace(poi)"
     >
     </map-marker>
   </google-map>
