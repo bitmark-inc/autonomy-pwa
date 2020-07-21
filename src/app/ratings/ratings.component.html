@@ -1,106 +1,64 @@
-<div *ngIf="ratings" class="main-content">
+<div [hidden]="stage != PageStage.Ratings" *ngIf="ratings && poi" class="main-content">
   <div class="content p-b-30">
-    <div *ngIf="poi" class="resource-info">
-      <mat-card class="font-24 upcase direction-color content-center" layout="fill">
-        <p class="sans-text p-t-10">{{poi.alias}}</p>
+    <div [ngStyle]="{ 'background': poiBackground }" class="base-info">
+      <mat-card class="header-btn light-color" layout="fill">
+        <a (click)="back()" class="back upcase">
+          <img class="gap-right-5" src="/assets/img/back-small-white.svg" alt="back-arrow">
+          <span>back</span>
+        </a>
       </mat-card>
-      <mat-card>
-        <div class="poi-score">
-          <p class="font-24 mono gap-right-15" *ngIf="poi.resource_score" [innerHTML]="poi.resource_score | reportScore"></p>
-          <p class="font-24 mono gap-right-15" *ngIf="!poi.resource_score">{{poi.resource_score | number:'1.1-1'}}</p>
-          <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group" [disabled]="true">
-            <div *ngIf="poi.resource_score == 0" class="group-radios">
-              <div class="default-color">
-                <mat-radio-button class="example-radio-button" *ngFor="let i of [1,2,3,4,5]" [value]="i"></mat-radio-button>
-              </div>
-            </div>
-            <div *ngIf="poi.resource_score > 0 && poi.resource_score <= 1" class="group-radios">
-              <div class="risk-color">
-                <mat-radio-button class="example-radio-button" [value]="1"></mat-radio-button>
-              </div>
-              <div class="default-color">
-                <mat-radio-button class="example-radio-button" *ngFor="let i of [2,3,4,5]" [value]="i"></mat-radio-button>
-              </div>
-            </div>
-            <div *ngIf="poi.resource_score > 1 && poi.resource_score <= 1.6" class="group-radios">
-              <div class="risk-color">
-                <mat-radio-button class="example-radio-button" *ngFor="let i of [1,2]" [value]="i"></mat-radio-button>
-              </div>
-              <div class="default-color">
-                <mat-radio-button class="example-radio-button" *ngFor="let i of [3,4,5]" [value]="i"></mat-radio-button>
-              </div>
-            </div>
-            <div *ngIf="poi.resource_score > 1.6 && poi.resource_score <= 2" class="group-radios">
-              <div class="warn-color">
-                <mat-radio-button class="example-radio-button" *ngFor="let i of [1,2]" [value]="i"></mat-radio-button>
-              </div>
-              <div class="default-color">
-                <mat-radio-button class="example-radio-button" *ngFor="let i of [3,4,5]" [value]="i"></mat-radio-button>
-              </div>
-            </div>
-            <div *ngIf="poi.resource_score > 2 && poi.resource_score <= 3" class="group-radios">
-              <div class="warn-color">
-                <mat-radio-button class="example-radio-button" *ngFor="let i of [1,2,3]" [value]="i"></mat-radio-button>
-              </div>
-              <div class="default-color">
-                <mat-radio-button class="example-radio-button" *ngFor="let i of [4,5]" [value]="i"></mat-radio-button>
-              </div>
-            </div>
-            <div *ngIf="poi.resource_score > 3 && poi.resource_score <= 3.3" class="group-radios">
-              <div class="warn-color">
-                <mat-radio-button class="example-radio-button" *ngFor="let i of [1,2,3,4]" [value]="i"></mat-radio-button>
-              </div>
-              <div class="default-color">
-                <mat-radio-button class="example-radio-button" [value]="5"></mat-radio-button>
-              </div>
-            </div>
-            <div *ngIf="poi.resource_score > 3.3 && poi.resource_score <= 4" class="group-radios">
-              <div class="good-color">
-                <mat-radio-button class="example-radio-button" *ngFor="let i of [1,2,3,4]" [value]="i"></mat-radio-button>
-              </div>
-              <div class="default-color">
-                <mat-radio-button class="example-radio-button" [value]="5"></mat-radio-button>
-              </div>
-            </div>
-            <div *ngIf="poi.resource_score > 4 && poi.resource_score <= 5" class="group-radios">
-              <div class="good-color">
-                <mat-radio-button class="example-radio-button" *ngFor="let i of [1,2,3,4,5]" [value]="i"></mat-radio-button>
-              </div>
-            </div>
-          </mat-radio-group>
-        </div>
-        <div *ngIf="poi.resource_score" class="content-center small-direction p-t-10">
-          <p>Last rated: {{poi.last_updated | relativeDate}}</p>
+      <div class="header-page-title upcase content-center">
+        <span class="page-title">{{poi.alias}}</span>
+      </div>
+      <mat-card class="rate">
+        <p *ngIf="poi.resource_score"><strong>345</strong><span class="light-color"> ratings</span></p>
+        <p *ngIf="poi.resource_score" class="light-color">{{poi.last_updated | relativeDate}}</p>
+      </mat-card>
+      <div [ngStyle]="{ 'background': poiBackground }" class="content-center poi-score">
+        <p class="font-24">{{poi.resource_score | number:'1.1-1'}}</p>
+      </div>
+    </div>
+    <div class="col detail-info">
+      <mat-card class="col-50 left">
+        <p class="small-title direction-color p-b-10">open hours</p>
+        <div style="max-width: 150px;" class="content-left col font-12 line-height-120">
+          <p class="col-50 content-left">Today</p>
+          <p class="col-50 content-right">11am-4pm</p>
         </div>
       </mat-card>
-      <mat-card>
-        <p class="small-title p-b-10">ADDRESS</p>
-        <div *ngIf="poi.address" class="content-left">
-          <p class="font-14 line-height-120 col-90 gap-right-10">{{poi.address}}</p>
-          <a class="content-right col-10 address-link" [href]="'https://www.google.com/maps/search/?api=1&query=' + poi.address" target="_blank"><img src="/assets/img/related-url.svg" alt=""></a>
+      <mat-card class="col-50 right">
+        <p class="small-title direction-color p-b-10">CURRENT SERVICES</p>
+        <div class="col font-12 line-height-120 p-b-10">
+          <p class="content-left">Drive-through</p>
+          <p class="content-left">Delivery</p>
+          <p class="content-left none-serve">Takeout</p>
         </div>
+        <a *ngIf="poi.address" class="content-left address-link"
+          [href]="'https://www.google.com/maps/search/?api=1&query=' + poi.address" target="_blank">
+          <p class="font-10 line-height-120 gap-right-5">Open in <span class="normal-link">Google Maps</span></p>
+          <img src="/assets/img/related-url.svg" alt="">
+        </a>
       </mat-card>
     </div>
 
-    <mat-card class="content-center">
-      <p class="small-direction">Tap below to rate this place for each resource then submit.</p>
-    </mat-card>
-    <div *ngIf="ratings.length">
+    <mat-card *ngIf="ratings.length">
       <mat-table [dataSource]="ratings" class="mat-elevation-z8">
         <!-- resource Column -->
         <ng-container matColumnDef="resource">
+          <mat-header-cell class="small-title" *matHeaderCellDef>measures</mat-header-cell>
           <mat-cell class="row-items" [ngClass]="{'highlight-resource': element.name === highlightID}" *matCellDef="let element">
-            <mat-card class="col no-right no-top no-bottom">
+            <div class="col no-right no-top no-bottom">
               {{element.name}}
-            </mat-card>
+            </div>
           </mat-cell>
         </ng-container>
 
         <!-- score Column -->
         <ng-container matColumnDef="score">
+          <mat-header-cell class="small-title" *matHeaderCellDef>ratings (1-5)</mat-header-cell>
           <mat-cell class="row-items" [ngClass]="{'highlight-resource': element.name === highlightID}" *matCellDef="let element">
-            <mat-card class="col no-left no-top no-bottom">
-              <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group" (change)="changeRating()" (click)="clickRating(element)" [(ngModel)]="element.score">
+            <div class="col no-left no-right no-top no-bottom">
+              <mat-radio-group aria-labelledby="example-radio-group-label" class="rating-group example-radio-group" (change)="changeRating()" (click)="clickRating(element)" [(ngModel)]="element.score">
                 <div *ngIf="element.score == 0" class="group-radios">
                   <div class="default-color">
                     <mat-radio-button class="example-radio-button" *ngFor="let i of [1,2,3,4,5]" [value]="i"></mat-radio-button>
@@ -115,7 +73,7 @@
                   </div>
                 </div>
                 <div *ngIf="element.score == 2" class="group-radios">
-                  <div class="risk-color">
+                  <div class="risk-second-color">
                     <mat-radio-button class="example-radio-button" *ngFor="let i of [1,2]" [value]="i"></mat-radio-button>
                   </div>
                   <div class="default-color">
@@ -131,7 +89,7 @@
                   </div>
                 </div>
                 <div *ngIf="element.score == 4" class="group-radios">
-                  <div class="good-color">
+                  <div class="good-second-color">
                     <mat-radio-button class="example-radio-button" *ngFor="let i of [1,2,3,4]" [value]="i"></mat-radio-button>
                   </div>
                   <div class="default-color">
@@ -144,25 +102,64 @@
                   </div>
                 </div>
               </mat-radio-group>
-            </mat-card>
+            </div>
           </mat-cell>
         </ng-container>
 
+        <mat-header-row *matHeaderRowDef="['resource', 'score']"></mat-header-row>
         <mat-row *matRowDef="let row; columns: ['resource', 'score'];"></mat-row>
       </mat-table>
-    </div>
+    </mat-card>
   </div>
-  <!-- button footer -->
-  <div class="bottom-buttons p-t-10">
-    <div class="back">
-      <a (click)="back()"><img src="/assets/img/back-icon.svg" alt=""><span
-          class="command">Back</span></a>
+  <div *ngIf="submitable" class="footer-btn">
+    <a class="next" (click)="stage = PageStage.Rights">
+      <span class="gap-right-15">next</span>
+      <img src="/assets/img/next-icon.svg" alt="">
+    </a>
+  </div>
+</div>
+<div [hidden]="stage != PageStage.Rights" class="main-content">
+  <mat-card class="header-btn" layout="fill">
+    <a (click)="stage = PageStage.Ratings" class="back upcase">
+      <img class="gap-right-5" src="/assets/img/back-small.svg" alt="back-arrow">
+      <span>back</span>
+    </a>
+  </mat-card>
+  <div class="header-page-title direction-color">
+    <span class="page-title">Know your rights</span>
+  </div>
+  <mat-card>
+    <p class="font-18 line-height-120 p-b-10">Submitting this rating information will exercise your rights to:</p>
+    <div class="col content-left">
+      <div class="gap-right-5"><img src="/assets/img/arrow.svg" alt=""></div>
+      <div class="col">
+        <p class="font-18 line-height-120 p-b-10">Save Autonomy data to your personal data enclave (PDE).</p>
+        <p class="font-14 line-height-120 p-b-10 direction-color">Your raw ratings data for this location will be saved to your PDE. No one other than you will ever be able to save data to your PDE or access the data you're stored there. You can change your ratings for this location at any time by editing your rating scores and re-submitting them.</p>
+        <p class="content-left command-img"><span class="font-14 upcase direction-color gap-right-5 p-b-20">view data</span><img src="/assets/img/next-icon-small.svg" alt=""></p>
+        <div class="light-line"><hr></div>
+      </div>
     </div>
-    <div class="next">
-      <a [ngClass]="{'disable-btns': !submitable}" (click)="submitRatings()">
-        <span class="command">submit</span>
-        <img src="/assets/img/submit.svg" alt="">
-      </a>
+    <div class="col content-left p-t-20">
+      <div class="gap-right-5"><img src="/assets/img/arrow.svg" alt=""></div>
+      <div class="col">
+        <p class="font-18 line-height-120 p-b-10">Submit anonymized, non-personally-identifiable Autonomy data to the UC Berkeley community data enclave (CDE) for community-level pooling and research.</p>
+        <p class="font-14 line-height-120 p-b-10 direction-color">Autonomy will submit scores for each rating category to the CDE. This data will be anonymized, will contain no personally identifiable information about you, and can never be traceable back to you. Your scores will only be added to the aggregate community scores for this location.</p>
+        <p class="content-left command-img"><span class="font-14 upcase direction-color gap-right-5 p-b-20">view data</span><img src="/assets/img/next-icon-small.svg" alt=""></p>
+        <div class="light-line"><hr></div>
+      </div>
     </div>
+  </mat-card>
+  <mat-card>
+    <p class="font-18 p-b-10">You can always view your full list of rights in <a class="normal-link" [routerLink]="['/home/setting']">Account > Rights capabilities</a>.</p>
+    <div class="reference p-b-20">
+      <div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div>
+      <p class="font-18">Got it. Don’t show again.</p>
+    </div>
+  </mat-card>
+  <div *ngIf="submitable" class="footer-btn">
+    <a class="next" (click)="submitRatings()">
+      <span class="gap-right-15">submit</span>
+      <img src="/assets/img/submit.svg" alt="">
+    </a>
   </div>
 </div>

@@ -579,6 +579,12 @@ textarea {
   }
 }
 
+// align for text and image group
+.command-img {
+  display: flex;
+  align-items: start;
+}
+
 .text-start {
   text-align: start;
 }
@@ -661,6 +667,10 @@ textarea {
 
 .font-14 {
   font-size: 14px;
+}
+
+.font-18 {
+  font-size: 18px;
 }
 
 .font-24 {
@@ -817,6 +827,21 @@ textarea {
   }
 }
 
+.risk-second-color {
+  display: flex;
+  .mat-radio-button.mat-accent .mat-radio-outer-circle {
+    background-color: #DB7B2B;
+    border-color: $base-background;
+  }
+  .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle{
+    background-color: #DB7B2B;
+  }
+  .mat-radio-button.mat-accent .mat-radio-inner-circle{
+    color: #DB7B2B;
+    background-color: #DB7B2B ;
+  }
+}
+
 .warn-color {
   display: flex;
   .mat-radio-button.mat-accent .mat-radio-outer-circle {
@@ -832,18 +857,33 @@ textarea {
   }
 }
 
-.good-color {
+.good-second-color {
   display: flex;
   .mat-radio-button.mat-accent .mat-radio-outer-circle {
-    background-color: #2A6D0C;
+    background-color: #99C140;
     border-color: $base-background;
   }
   .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle{
-    background-color: #2A6D0C;
+    background-color: #99C140;
   }
   .mat-radio-button.mat-accent .mat-radio-inner-circle{
-    color: #2A6D0C;
-    background-color: #2A6D0C;
+    color: #99C140;
+    background-color: #99C140;
+  }
+}
+
+.good-color {
+  display: flex;
+  .mat-radio-button.mat-accent .mat-radio-outer-circle {
+    background-color: #2DC937;
+    border-color: $base-background;
+  }
+  .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle{
+    background-color: #2DC937;
+  }
+  .mat-radio-button.mat-accent .mat-radio-inner-circle{
+    color: #2DC937;
+    background-color: #2DC937;
   }
 }
 
