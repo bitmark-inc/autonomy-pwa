@@ -2,7 +2,7 @@
   <div class="sticky-box">
     <mat-toolbar class="search-bar">
       <mat-icon matPrefix class="search-icon"><img src="/assets/img/search.svg" alt=""></mat-icon>
-      <input [hidden]="poiType" #placeSearchInput [(ngModel)]="keyword" (focusout)="onInputFocusOut()" (focus)="onInputFocus()" class="search-input" matInput type="text" placeholder="Enter local name or address ...">
+      <input [hidden]="poiType" #poiSearchInput [(ngModel)]="keyword" (focusout)="onInputFocusOut()" (focus)="onInputFocus()" class="search-input" matInput type="text" placeholder="Enter local name or address ...">
       <div [hidden]="!poiType" class="search-input">
         <p class="resource-on-searching">{{poiType}}</p>
       </div>
