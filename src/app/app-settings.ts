@@ -1,5 +1,5 @@
 export class AppSettings {
-  public static DEFAULT_CHART_COLOR = '#DDD5C7';
+  public static DEFAULT_CHART_COLOR = '#EEEEEE';
   public static CHART_COLORS: string[] = ['#00B0DA', '#FDB515', '#EE1F60','#CFDD45', '#D9661F', '#00A598'];
   public static PLACE_NONE_COLOR: string = '#DDD5C7';
   public static PLACE_LIGHT_COLORS: {from: number, to: number, code: string}[] = [

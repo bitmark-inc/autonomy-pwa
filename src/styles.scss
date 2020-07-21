@@ -7,6 +7,7 @@ $sub-background: #DDD5C7; // selection background
 $neutral-background: #EEEEEE;
 $bottom-background: #EDF0F4;
 $line-color: #828180;
+$light-line-color: #EDEDED;
 $max-width: 768px;
 
 @font-face {
@@ -84,6 +85,12 @@ hr {
   height: 0.75px;
   border: none;
   background-color: $line-color;
+}
+
+.light-line {
+  hr {
+    background-color: $light-line-color;
+  }
 }
 
 button {
@@ -213,6 +220,13 @@ textarea {
     line-height: 120%;
     padding-left: 11px;
   }
+  .big-words {
+    font-family: 'Domaine Sans Text';
+    font-size: 36px;
+    font-weight: 300;
+    line-height: 100%;
+    text-transform: uppercase;
+  }
 }
 
 .title-page {
@@ -249,7 +263,7 @@ textarea {
   }
 
   .unCheckRadio {
-    background: $sub-background !important;
+    background: $neutral-background !important;
   }
 }
 
@@ -384,19 +398,23 @@ textarea {
   max-width: $max-width;
   font-family: 'Domaine Sans Text';
   font-weight: 300;
-  font-size: 12px;
+  font-size: 14px;
   line-height: 100%;
-  padding-bottom: 1rem;
   display: flex;
   align-items: center;
   justify-content: space-around;
   color: $direction-color;
-  background: $base-background;
-  border-top: 1px solid #EDEDED;
+  background: $neutral-background;
+  border-top: 1px solid $light-line-color;
 
+  a {
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
   a.active {
-    border-top: 1.5px solid #0060F2;
-    color: #0060F2;
+    border-top: 2px solid $direction-color;
   }
 }
 
@@ -561,6 +579,10 @@ textarea {
   }
 }
 
+.text-start {
+  text-align: start;
+}
+
 .clickable {
   cursor: pointer;
 }
@@ -641,6 +663,10 @@ textarea {
   font-size: 24px;
 }
 
+.font-36 {
+  font-size: 36px;
+}
+
 .gap-right-5 {
   margin-right: 5px;
 }
@@ -713,6 +739,10 @@ textarea {
 
 .p-b-30 {
   padding-bottom: 30px;
+}
+
+.m-t-30 {
+  margin-top: 30px;
 }
 
 .m-b-30 {
