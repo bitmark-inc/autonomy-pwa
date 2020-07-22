@@ -597,6 +597,12 @@ textarea {
   cursor: pointer;
 }
 
+.hovering {
+  &:hover {
+    background: $neutral-background;
+  }
+}
+
 .no-bottom {
   padding-bottom: unset !important;
 }

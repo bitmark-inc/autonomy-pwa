@@ -19,7 +19,7 @@
         {{type}}
       </div>
     </mat-card>
-    <google-map class="map-view" [height]="mapHeight" width="100vw" [center]="mapCenter" [options]="mapOptions">
+    <google-map class="map-view" [height]="mapHeight" [width]="mapWidth" [center]="mapCenter" [options]="mapOptions">
       <map-marker
         *ngFor="let poi of pois"
         [position]="{lat: poi.location.latitude, lng: poi.location.longitude}"
@@ -32,11 +32,11 @@
     </google-map>
   </div>
 
-  <div class="result-place-list">
+  <div [ngClass]="{'list-not-standalone': !isStandalone()}" class="result-place-list">
     <div class="line-icon"><span (click)="isViewListShow = !isViewListShow"></span></div>
     <div [hidden]="!isSearching && (focusState || !isViewListShow)" class="p-t-10" *ngIf="pois && pois.length">
       <div *ngFor="let poi of pois">
-        <mat-card (click)="focusToPlace(poi)" class="no-bottom col content-left" [ngClass]="{'grey-text-color': !poi.resource_score}">
+        <mat-card (click)="focusToPlace(poi)" class="hovering clickable no-bottom col content-left" [ngClass]="{'grey-text-color': !poi.resource_score}">
           <div class="col-30">
             <div [ngStyle]="{'background': poi.color}" class="content-center place-score"><span class="score-num">{{poi.resource_score ? (poi.resource_score | number:'1.1-1') : '--'}}</span></div>
             <p *ngIf="poi.resource_score && poi.last_updated" class="content-center font-10 line-height-120 p-t-10">Last rated: {{poi.last_updated | relativeDate}}</p>
@@ -48,7 +48,7 @@
               <p class="font-12 grey-text-color p-b-5">Restaurant</p> <!-- category -->
               <p [ngClass]="{'grey-text-color': !poi.resource_score, 'direction-color': poi.resource_score}" class="font-12 p-b-5">Open 5pm-8pm today</p> <!-- open hours -->
               <p [ngClass]="{'grey-text-color': !poi.resource_score, 'direction-color': poi.resource_score}" class="font-12 p-b-5">Social distancing</p> <!-- services -->
-              <p class="font-10 content-right"><a class="normal-link" (click)="navigateToPOI(poi.id)">More details</a></p>
+              <p class="font-10 content-right"><a class="normal-link clickable" (click)="navigateToPOI(poi.id)">More details</a></p>
             </mat-card>
           </div>
         </mat-card>

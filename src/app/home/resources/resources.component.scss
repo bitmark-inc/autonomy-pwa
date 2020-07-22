@@ -17,6 +17,7 @@
 .content-view {
   position: absolute;
   z-index: -1;
+  max-width: 768px;
 
   .resources-list {
     position: absolute;
@@ -41,8 +42,13 @@
   }
 }
 
+.list-not-standalone {
+  max-height: calc(100vh - 56px - 185px) !important;
+}
+
 .result-place-list {
   width: 100%;
+  max-width: 768px;
   background: #ffffff;
   position: absolute;
   z-index: 0;

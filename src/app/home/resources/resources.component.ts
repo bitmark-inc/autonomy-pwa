@@ -106,6 +106,7 @@ export class ResourcesComponent implements OnInit, OnDestroy {
   public mapCenter: google.maps.LatLngLiteral;
   public mapIconSVGPath: string = 'M0.5 10.8975C0.5 5.09246 5.195 0.397461 11 0.397461C16.805 0.397461 21.5 5.09246 21.5 10.8975C21.5 17.1525 14.87 25.7775 12.155 29.0625C11.555 29.7825 10.46 29.7825 9.86 29.0625C7.13 25.7775 0.5 17.1525 0.5 10.8975ZM7.25 10.8975C7.25 12.9675 8.93 14.6475 11 14.6475C13.07 14.6475 14.75 12.9675 14.75 10.8975C14.75 8.82746 13.07 7.14746 11 7.14746C8.93 7.14746 7.25 8.82746 7.25 10.8975Z';
   public mapHeight: string;
+  public mapWidth: string;
   public mapOptions: google.maps.MapOptions = {
     zoom: 17,
     disableDefaultUI: true,
@@ -115,6 +116,7 @@ export class ResourcesComponent implements OnInit, OnDestroy {
   constructor(private apiService: ApiService, public router: Router, private ngZone: NgZone) {
     this.mapCenter = this.UCBekerleyLatlng;
     this.mapHeight = `${window.innerHeight - 56 -60}px`;
+    this.mapWidth = `${window.innerWidth > 768 ? 768 : window.innerWidth}px`;
     this.getResourcesForSearching();
     this.search();
   }
@@ -222,7 +224,6 @@ export class ResourcesComponent implements OnInit, OnDestroy {
   }
 
   public unfocusPlace(poi: POI) {
-    console.log('unfocus');
     this.focusState = false;
     this.focusedPOI.focused = false;
     this.focusedPOI = null;
@@ -264,5 +265,9 @@ export class ResourcesComponent implements OnInit, OnDestroy {
 
   public navigateToPOI(id: string) {
     this.router.navigate(["/pois", id]);
+  }
+
+  public isStandalone(): boolean {
+    return (window.matchMedia('(display-mode: standalone)').matches);
   }
 }
