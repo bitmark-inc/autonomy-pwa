@@ -1,6 +1,6 @@
 declare var window: any;
 
-import { Component, OnInit, ViewChild, ElementRef, Renderer2 } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { AppSettings } from "../../app-settings";
 import { ApiService } from 'src/app/services/api/api.service';
 import * as moment from 'moment';
@@ -27,7 +27,7 @@ export class CommunityComponent implements OnInit {
 
   public colorsInUse: string[] = [];
 
-  constructor(private apiService: ApiService, private renderer: Renderer2) {
+  constructor(private apiService: ApiService) {
     this.checkedInPerson = 345;
   }
 

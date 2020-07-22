@@ -131,6 +131,10 @@ textarea {
   color: $sub-direction-color !important;
 }
 
+.grey-text-color {
+  color: #888888 !important;
+}
+
 .mat-table,
 .mat-card {
   background-color: inherit;
@@ -478,7 +482,7 @@ textarea {
   }
 
   input::placeholder {
-    color: $base-color;
+    // color: $base-color;
   }
 
 }
@@ -582,7 +586,7 @@ textarea {
 // align for text and image group
 .command-img {
   display: flex;
-  align-items: start;
+  align-items: flex-start;
 }
 
 .text-start {
@@ -753,6 +757,10 @@ textarea {
 
 .p-b-30 {
   padding-bottom: 30px;
+}
+
+.p-b-60 {
+  padding-bottom: 60px;
 }
 
 .m-t-30 {
