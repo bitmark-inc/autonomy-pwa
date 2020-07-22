@@ -12,10 +12,13 @@
       </div>
       <mat-card class="rate">
         <p *ngIf="poi.resource_score"><strong>345</strong><span class="light-color"> ratings</span></p>
-        <p *ngIf="poi.resource_score" class="light-color">{{poi.last_updated | relativeDate}}</p>
+        <p *ngIf="poi.resource_score" class="light-color">Rated {{poi.last_updated | relativeDate}}</p>
+        <p *ngIf="!poi.resource_score"><strong>0</strong><span class="light-color"> ratings</span></p>
+        <p *ngIf="!poi.resource_score" class="light-color">Not yet rated</p>
       </mat-card>
       <div [ngStyle]="{ 'background': poiBackground }" class="content-center poi-score">
-        <p class="font-24">{{poi.resource_score | number:'1.1-1'}}</p>
+        <p *ngIf="poi.resource_score" class="font-24">{{poi.resource_score | number:'1.1-1'}}</p>
+        <p *ngIf="!poi.resource_score" class="font-24">--</p>
       </div>
     </div>
     <div class="col detail-info">
@@ -125,7 +128,7 @@
       <span>back</span>
     </a>
   </mat-card>
-  <div class="header-page-title direction-color">
+  <div class="header-page-title direction-color m-b-30">
     <span class="page-title">Know your rights</span>
   </div>
   <mat-card>
@@ -135,7 +138,7 @@
       <div class="col">
         <p class="font-18 line-height-120 p-b-10">Save Autonomy data to your personal data enclave (PDE).</p>
         <p class="font-14 line-height-120 p-b-10 direction-color">Your raw ratings data for this location will be saved to your PDE. No one other than you will ever be able to save data to your PDE or access the data you're stored there. You can change your ratings for this location at any time by editing your rating scores and re-submitting them.</p>
-        <p class="content-left command-img"><span class="font-14 upcase direction-color gap-right-5 p-b-20">view data</span><img src="/assets/img/next-icon-small.svg" alt=""></p>
+        <p (click)="stage = PageStage.DataPDE" class="content-left command-img"><span class="font-14 upcase direction-color gap-right-5 p-b-20">view data</span><img src="/assets/img/next-icon-small.svg" alt=""></p>
         <div class="light-line"><hr></div>
       </div>
     </div>
@@ -144,15 +147,15 @@
       <div class="col">
         <p class="font-18 line-height-120 p-b-10">Submit anonymized, non-personally-identifiable Autonomy data to the UC Berkeley community data enclave (CDE) for community-level pooling and research.</p>
         <p class="font-14 line-height-120 p-b-10 direction-color">Autonomy will submit scores for each rating category to the CDE. This data will be anonymized, will contain no personally identifiable information about you, and can never be traceable back to you. Your scores will only be added to the aggregate community scores for this location.</p>
-        <p class="content-left command-img"><span class="font-14 upcase direction-color gap-right-5 p-b-20">view data</span><img src="/assets/img/next-icon-small.svg" alt=""></p>
+        <p (click)="stage = PageStage.DataCDE" class="content-left command-img"><span class="font-14 upcase direction-color gap-right-5 p-b-20">view data</span><img src="/assets/img/next-icon-small.svg" alt=""></p>
         <div class="light-line"><hr></div>
       </div>
     </div>
   </mat-card>
   <mat-card>
     <p class="font-18 p-b-10">You can always view your full list of rights in <a class="normal-link" [routerLink]="['/home/setting']">Account > Rights capabilities</a>.</p>
-    <div class="reference p-b-20">
-      <div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div>
+    <div (click)="checkRightsKnown()" class="reference p-b-20">
+      <div class="check gap-right-5"><img [ngClass]="{'disable-btns': !gotRights}" src="/assets/img/check-symbol.svg" alt=""></div>
       <p class="font-18">Got it. Don’t show again.</p>
     </div>
   </mat-card>
@@ -162,4 +165,34 @@
       <img src="/assets/img/submit.svg" alt="">
     </a>
   </div>
+</div>
+<div [hidden]="stage != PageStage.DataPDE" class="main-content">
+  <mat-card class="header-btn" layout="fill">
+    <a (click)="stage = PageStage.Rights" class="back upcase">
+      <img class="gap-right-5" src="/assets/img/back-small.svg" alt="back-arrow">
+      <span>back</span>
+    </a>
+  </mat-card>
+  <div class="header-page-title direction-color m-b-30">
+    <span class="page-title">View data (PDE)</span>
+  </div>
+  <mat-card>
+    <p class="font-18 line-height-120 p-b-30">Autonomy will save the following data to your personal data enclave (PDE):</p>
+    <p class="data-json direction-color mono">{{demoRatings}}</p>
+  </mat-card>
+</div>
+<div [hidden]="stage != PageStage.DataCDE" class="main-content">
+  <mat-card class="header-btn" layout="fill">
+    <a (click)="stage = PageStage.Rights" class="back upcase">
+      <img class="gap-right-5" src="/assets/img/back-small.svg" alt="back-arrow">
+      <span>back</span>
+    </a>
+  </mat-card>
+  <div class="header-page-title direction-color m-b-30">
+    <span class="page-title">View data (CDE)</span>
+  </div>
+  <mat-card>
+    <p class="font-18 line-height-120 p-b-30">Autonomy will save the following data to the UC Berkeley community data enclave (PDE):</p>
+    <p class="data-json direction-color mono">{{demoRatings}}</p>
+  </mat-card>
 </div>

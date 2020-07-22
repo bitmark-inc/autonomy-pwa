@@ -212,6 +212,10 @@ textarea {
     img {
       width: 15px;
       height: 15px;
+      cursor: pointer;
+    }
+    span {
+      cursor: pointer;
     }
   }
 }
@@ -447,6 +451,7 @@ textarea {
     color: $direction-color;
     border-radius: 65px;
     margin-bottom: 10px;
+    cursor: pointer;
     img {
       width: 45px;
       height: 45px;

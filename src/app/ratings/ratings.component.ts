@@ -6,8 +6,9 @@ import { ApiService } from '../services/api/api.service';
 import { MatBottomSheet, MatBottomSheetRef } from '@angular/material/bottom-sheet';
 import { BottomSheetAlertComponent } from "../bottom-sheet-alert/bottom-sheet-alert.component";
 import { Util } from '../services/util/util.service';
+import { UserService } from '../services/user/user.service';
 
-enum EnumPageStage { Ratings, Rights }
+enum EnumPageStage { Ratings, Rights, DataPDE, DataCDE }
 
 @Component({
   selector: "app-ratings",
@@ -41,6 +42,9 @@ export class RatingsComponent implements OnInit {
     score: number;
   };
 
+  public demoRatings: string;
+  public gotRights: boolean = false;
+
   public poiBackground: string;
   public submitable: boolean = false;
   public clickable: boolean = true;
@@ -52,7 +56,8 @@ export class RatingsComponent implements OnInit {
     private apiService: ApiService,
     private bottomSheet: MatBottomSheet,
     private bottomSheetRef: MatBottomSheetRef<BottomSheetAlertComponent>,
-    public router: Router
+    public router: Router,
+    private userService: UserService
   ) {
     this.activatedRoute.params.subscribe((params) => {
       this.poiID = params.id;
@@ -62,6 +67,9 @@ export class RatingsComponent implements OnInit {
     this.activatedRoute.queryParams.subscribe((params) => {
       this.highlightID = params["highlight_id"];
     });
+    this.demoRatings = JSON.stringify(
+      { ratings: { equipment_disinfected: 0, face_coverings_required: 0, good_air_circulation: 3, hand_sanitizer: 5, hand_washing_facilities: 2, outdoor_options: 4, social_distancing: 1, surfaces_disinfected: 0, temperature_checks: 0, } }, undefined, 2);
+    this.gotRights = this.userService.getPreference('rights-known') || false;
   }
 
   ngOnInit() {}
@@ -142,6 +150,11 @@ export class RatingsComponent implements OnInit {
       tmp[el.name.replace(/ /g, "_")] = el.score;
       this.ratingsParam = Object.assign(this.ratingsParam, tmp);
     });
+  }
+
+  public checkRightsKnown() {
+    this.gotRights = !this.gotRights;
+    this.userService.setPreference('rights-known', this.gotRights);
   }
 
   public submitRatings(): void {

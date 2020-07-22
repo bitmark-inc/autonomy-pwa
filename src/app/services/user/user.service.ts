@@ -283,6 +283,6 @@ export class UserService extends BaseService {
   }
 
   public getPreference(key: string) {
-    return this.user.preferences ? null : this.user.preferences[key];
+    return this.user.preferences ? this.user.preferences[key] : null;
   }
 }
