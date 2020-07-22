@@ -6,53 +6,95 @@ import { Injectable } from '@angular/core';
 import { Observable, BehaviorSubject, Observer, forkJoin, interval } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { BaseService } from '../base.service';
+import { ObserveOnMessage } from 'rxjs/internal/operators/observeOn';
 
-interface AccountInfo {
+export interface AccountInfo {
   account_number: string,
   recovery_phrase: string,
   encryption_pubkey: string
 }
-
 export interface DSTokens { r: string, w: string }
 export interface AllDSTokens { PDS: DSTokens, CDS: DSTokens }
+
+export interface UserData {
+  account: AccountInfo,
+  agentJWT: string,
+  dstokens: AllDSTokens,
+  preferences: any
+}
+
+export interface UserCacheData {
+  dstokens: AllDSTokens,
+  preferences: any
+}
+
+const RECOVERY_STORAGE_KEY: string = 'user-key';
+const DATA_STORAGE_KEY: string = 'user-data';
+class UserCache {
+  public userKey: string;
+  public userData: UserCacheData;
+
+  constructor() {}
+
+  public load(): boolean {
+    this.userKey = window.localStorage.getItem(RECOVERY_STORAGE_KEY);
+
+    if (this.userKey) {
+      let data = window.localStorage.getItem(DATA_STORAGE_KEY);
+      if (data) {
+        this.userData = JSON.parse(data);
+      }
+      return true;
+    }
+    return false;
+  }
+
+  public save(key: string, data: UserCacheData) {
+    this.userKey = key;
+    this.userData = data;
+    window.localStorage.setItem(RECOVERY_STORAGE_KEY, this.userKey);
+    window.localStorage.setItem(DATA_STORAGE_KEY, JSON.stringify(this.userData));
+  }
+
+  public clean() {
+    window.localStorage.removeItem(RECOVERY_STORAGE_KEY);
+    window.localStorage.removeItem(DATA_STORAGE_KEY);
+  }
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService extends BaseService {
-
-  private userStorageKey: string = 'user-data';
   private statusSubject = new BehaviorSubject(false);
-  private user: {
-    jwt: string,
-    account: AccountInfo,
-    tokens: AllDSTokens
-  }
+  private user: UserData;
+  private cache: UserCache;
 
   constructor(protected http: HttpClient) {
     super(http);
     this.initService();
   }
 
+  public getStatus = () => this.statusSubject;
+  public getUser = () => this.user;
+  public getAgentJWT = () => this.user ? this.user.agentJWT : null;
+  public getAccountNumber = (): string => this.user ? this.user.account.account_number : null;
+  public getRecoveryPhrase = (): string => this.user? this.user.account.recovery_phrase : null;
+  public getDSTokens = () : AllDSTokens => this.user? this.user.dstokens : null;
+
   private async initService() {
     await this.initBitmarkSDK();
     window.BitmarkSdk.setup('my api token', environment.bitmark_network); // TODO: replace this with real configuration
 
-    let recoveryPhrase = window.localStorage.getItem(this.userStorageKey);
-    if (recoveryPhrase) {
-      this.signin(recoveryPhrase).subscribe(
-        (data) => {
-          this.statusSubject.next(true);
-        },
-        (err) => {
-          console.log(err);
-          this.statusSubject.error(err);
-        }
-      );
-    } else {
-      this.statusSubject.next(true);
+    this.cache = new UserCache();
+    if (this.cache.load()) {
+      this.user = <any>{};
+      this.user.account = window.BitmarkSdk.parseAccount(this.cache.userKey);
+      this.user.dstokens = this.cache.userData.dstokens;
+      this.user.preferences = this.cache.userData.preferences;
+      await this.makeAccount({needRegisterWithAgent: false});
     }
-    this.resetJWTPeriodically();
+    this.statusSubject.next(true);
   }
 
   private async initBitmarkSDK() {
@@ -68,213 +110,123 @@ export class UserService extends BaseService {
     }
   }
 
-  public getStatus = () => this.statusSubject;
-  public getUser = () => this.user;
-  public getJWT = () => this.user ? this.user.jwt : null;
-  public getAccountNumber = (): string => this.user ? this.user.account.account_number : null;
-  public getRecoveryPhrase = (): string => this.user? this.user.account.recovery_phrase : null;
-  public getTokens = () : AllDSTokens => this.user? this.user.tokens : null;
-
-  private authenticateWithAgent(accountInfo: AccountInfo) {
-    return Observable.create(observer => {
-      let currentTimestamp = (new Date()).getTime() + '';
-      let signature = window.BitmarkSdk.signMessage(accountInfo.recovery_phrase, currentTimestamp);
-
-      this.sendHttpRequest('post', `${environment.autonomy_api_url}api/auth`, {
-        signature: signature,
-        timestamp: currentTimestamp,
-        requester: accountInfo.account_number,
-      }).subscribe(
-        (data: {jwt_token: string}) => {
-          observer.next(data.jwt_token);
-          observer.complete();
-        },
-        (err) => { observer.error(err); }
-      );
-    });
-  }
-
   public validateAccount(recoveryPhrase: string) {
     return !!window.BitmarkSdk.parseAccount(recoveryPhrase);
   }
 
-  //=========== WORK WITH AGENT SERVER ==============
-
-  // Signup with a new 13-word phrase or just auto create a new one
-  public signup(recoveryPhrase?: string) {
-    let accountInfo: AccountInfo;
-
-    return Observable.create(observer => {
-      if (recoveryPhrase) {
-        accountInfo = window.BitmarkSdk.parseAccount(recoveryPhrase);
-        if (!accountInfo) {
-          observer.error(new Error('invalid recovery phrase for bitmark account'));
-          return;
-        }
-      } else {
-        accountInfo = window.BitmarkSdk.createNewAccount();
-      }
-
-      this.authenticateWithAgent(accountInfo).subscribe(
-        (jwt: string) => {
-          this.register(accountInfo, jwt).subscribe(
-            (result) => {
-              this.user = {
-                jwt: jwt,
-                account: accountInfo,
-                tokens: null
-              };
-              this.user.account = accountInfo;
-              this.user.jwt = jwt;
-              this.authenticateWithDSs(accountInfo).subscribe(
-                (result: AllDSTokens) => {
-                  this.user.tokens = result;
-                  this.saveUser();
-                  observer.next(this.user);
-                  observer.complete();
-                },
-                (err) => { observer.error(err); }
-              );
-            },
-            (err) => { observer.error(err); }
-          );
-        },
-        (err) => { observer.error(err); }
-      );
-    });
-  }
-
-  private register(accountInfo: AccountInfo, jwt: string) {
-    return Observable.create(observer => {
-      this.sendHttpRequest('post', `${environment.autonomy_api_url}api/accounts`, {
-        enc_pub_key: accountInfo.encryption_pubkey,
-        metadata: {source: 'pwa'}
-      }, {
-        headers: {
-          Authorization: 'Bearer ' + jwt
-        }
-      }).subscribe(
-        (data: {result: any}) => {
-          observer.next(data.result);
-          observer.complete();
-        },
-        (err) => {
-          observer.error(err);
-        });
-    });
-  }
-
   public signin(recoveryPhrase: string) {
-    return Observable.create(observer => {
-      let accountInfo = window.BitmarkSdk.parseAccount(recoveryPhrase);
-      if (!accountInfo) {
-        observer.error(new Error('invalid recovery phrase'));
+    return Observable.create(async (observer) => {
+      this.user = <any>{};
+      this.user.account = window.BitmarkSdk.parseAccount(recoveryPhrase);
+      await this.makeAccount({});
+      observer.next();
+      observer.complete();
+    });
+  }
+
+  public signup() {
+    return Observable.create(async (observer) => {
+      this.user = <any>{};
+      this.user.account = window.BitmarkSdk.createNewAccount();
+      await this.makeAccount({needRegisterWithAgent: true});
+      observer.next();
+      observer.complete();
+    });
+  }
+
+  private async makeAccount(options?: {needRegisterWithAgent?: boolean}) {
+    await this.prepareAgentData(options || {});
+    await this.prepareAllDataStoresData();
+    this.saveCache();
+    this.resetAgentJWTPeriodically();
+  }
+
+  //=========== WORK WITH AGENT SERVER ==============
+  private async prepareAgentData(options: {needRegisterWithAgent?: boolean}) {
+    await this.resetAgentJWT();
+    if (options.needRegisterWithAgent) {
+      await this.registerWithAgent();
+    } else {
+      let agentData = this.getExistingInfoFromAgent();
+      if (!agentData) {
+        await this.registerWithAgent();
       }
-
-      this.authenticateWithAgent(accountInfo)
-        .subscribe(
-        (jwt: string) => {
-          this.me(jwt).subscribe(
-            (result) => {
-              this.user = result;
-              this.user.account = accountInfo;
-              this.user.jwt = jwt;
-              this.authenticateWithDSs(accountInfo).subscribe(
-                (result: AllDSTokens) => {
-                  this.user.tokens = result;
-                  this.saveUser();
-                  observer.next(this.user);
-                  observer.complete();
-                },
-                (err) => { observer.error(err); }
-              );
-            },
-            (err) => { observer.error(err); }
-          )
-        },
-        (err) => { observer.error(err); }
-      );
-    });
+    }
   }
 
-  private me(jwt: string) {
-    return Observable.create(observer => {
-      this.sendHttpRequest('get', 'api/accounts/me', {}, {
-        headers: {
-          Authorization: `Bearer ${jwt}`
-        }
-      }).subscribe(
-        (data: {result: any}) => {
-          observer.next(data.result);
-          observer.complete();
-        },
-        (err) => { observer.error(err); }
-      );
-    });
+  private async resetAgentJWT() {
+    let accountInfo = this.user.account;
+    let currentTimestamp = (new Date()).getTime() + '';
+    let signature = window.BitmarkSdk.signMessage(accountInfo.recovery_phrase, currentTimestamp);
+
+    let response: {jwt_token: string} = await this.sendHttpRequest('post', `${environment.autonomy_api_url}api/auth`, {
+      signature: signature,
+      timestamp: currentTimestamp,
+      requester: accountInfo.account_number,
+    }).toPromise();
+
+    this.user.agentJWT = response.jwt_token;
   }
 
-  private resetJWTPeriodically() {
+  private async getExistingInfoFromAgent() {
+    try {
+      let myData = await this.sendHttpRequest('get', 'api/accounts/me', {}, {
+        headers: {Authorization: `Bearer ${this.user.agentJWT}`}
+      }).toPromise();
+      return myData;
+    } catch (err) {
+      return null;
+    }
+  }
+
+  private async registerWithAgent() {
+    return this.sendHttpRequest('post', `${environment.autonomy_api_url}api/accounts`, {
+      enc_pub_key: this.user.account.encryption_pubkey,
+      metadata: {source: 'pwa'}
+    }, {
+      headers: {Authorization: `Bearer ${this.user.agentJWT}`}
+    }).toPromise();
+  }
+
+  private resetAgentJWTPeriodically() {
     interval(30*60*1000).subscribe(
-      () => {
-        if (!this.user) {
-          return;
+      async () => {
+        if (this.user.account) {
+          await this.resetAgentJWT();
         }
-        this.authenticateWithAgent(this.user.account).subscribe(
-          (jwt: string) => {
-            this.user.jwt = jwt;
-          }
-        );
       }
     );
   }
 
   //=========== WORK WITH DATA STORE ==============
-  private authenticateWithDSs(accountInfo: AccountInfo) {
-    return Observable.create(observer => {
-      forkJoin([
-        this.registerWithDS(accountInfo, `${environment.pds_url}`),
-        this.getDSInfo(`${environment.pds_url}`),
-        this.registerWithDS(accountInfo, `${environment.cds_url}`),
-        this.getDSInfo(`${environment.cds_url}`),
-      ]).subscribe(
-        (results: any[]) => {
-          let encryptedPDSTokens = <DSTokens>results[0];
-          let pdsServerInfo = results[1];
-          let encryptedCDSTokens = <DSTokens>results[2];
-          let cdsServerInfo = results[3];
+  private async prepareAllDataStoresData() {
+    if (!this.user.dstokens) {
+      this.user.dstokens = <any>{};
+    }
 
-          let pdsTokens: DSTokens = {
-            r: this.decryptDSToken(accountInfo.recovery_phrase, encryptedPDSTokens.r, pdsServerInfo.server.enc_pub_key),
-            w: this.decryptDSToken(accountInfo.recovery_phrase, encryptedPDSTokens.w, pdsServerInfo.server.enc_pub_key)
-          }
-          let cdsTokens: DSTokens = {
-            r: this.decryptDSToken(accountInfo.recovery_phrase, encryptedCDSTokens.r, cdsServerInfo.server.enc_pub_key),
-            w: this.decryptDSToken(accountInfo.recovery_phrase, encryptedCDSTokens.w, cdsServerInfo.server.enc_pub_key)
-          }
+    if (!this.user.dstokens.PDS) {
+      this.user.dstokens.PDS = await this.getSingleDataStoreData(environment.pds_url);
+    }
 
-          observer.next({
-            PDS: pdsTokens,
-            CDS: cdsTokens
-          });
-          observer.complete();
-        },
-        (err) => {
-          observer.error(err);
-        }
-      )
-    });
+    if (!this.user.dstokens.CDS) {
+      this.user.dstokens.CDS = await this.getSingleDataStoreData(environment.cds_url);
+    }
   }
 
-  private decryptDSToken(recoveryPhrase: string, encryptedToken: string, peerPubkey: string) {
-    let token = window.BitmarkSdk.decryptToBase64Url(recoveryPhrase, encryptedToken, peerPubkey);
-    return token;
+  private async getSingleDataStoreData(endpoint: string): Promise<DSTokens> {
+    let results = await Promise.all([
+      this.registerWithDS(this.user.account, endpoint),
+      this.getDSInfo(endpoint)
+    ]);
+    let encryptedDSTokens = <DSTokens>results[0];
+    let dsServerInfo = results[1];
+    return {
+      r: this.decryptDSToken(this.user.account.recovery_phrase, encryptedDSTokens.r, dsServerInfo.server.enc_pub_key),
+      w: this.decryptDSToken(this.user.account.recovery_phrase, encryptedDSTokens.w, dsServerInfo.server.enc_pub_key)
+    }
   }
 
-  private getDSInfo(dsEndPoint: string) {
-    return this.sendHttpRequest('get', `${dsEndPoint}information`);
-  }
-
-  private registerWithDS(accountInfo: AccountInfo, dsEndPoint: string) {
+  private async registerWithDS(accountInfo: AccountInfo, dsEndPoint: string) {
     let now = (new Date()).getTime();
     let message = `${accountInfo.encryption_pubkey}|${now}`;
     let signature = window.BitmarkSdk.signMessage(accountInfo.recovery_phrase, message);
@@ -284,7 +236,16 @@ export class UserService extends BaseService {
       timestamp: now.toString(),
       encryption_public_key: accountInfo.encryption_pubkey,
       signature: signature
-    });
+    }).toPromise();
+  }
+
+  private async getDSInfo(dsEndPoint: string) {
+    return this.sendHttpRequest('get', `${dsEndPoint}information`).toPromise();
+  }
+
+  private decryptDSToken(recoveryPhrase: string, encryptedToken: string, peerPubkey: string) {
+    let token = window.BitmarkSdk.decryptToBase64Url(recoveryPhrase, encryptedToken, peerPubkey);
+    return token;
   }
 
   public addTimeLimitToMacaroon(macaroonToken: string, seconds: number) {
@@ -298,71 +259,30 @@ export class UserService extends BaseService {
 
     return token.serialize();
   }
-  
-  //=========== WORK WITH ONE SIGNAL ==============
-  // public submitOneSignalTag(): void {
-  //   window.OneSignal.push(() => {
-  //     window.OneSignal.sendTag('account_number', this.getAccountNumber());
-  //   })
-  // }
 
-  // public removeOneSignalTag(): void {
-  //   window.OneSignal.push(() => {
-  //     window.OneSignal.isPushNotificationsEnabled((isEnabled: boolean) => {
-  //       if (isEnabled) {
-  //         window.OneSignal.sendTag('account_number', '');
-  //       }
-  //     });
-  //   });
-  // }
+  //=========== WORK WITH DATA STORE ==============
 
-  private saveUser() {
-    if (this.user) {
-      window.localStorage.setItem(this.userStorageKey, this.user.account.recovery_phrase);
+  public signout() {
+    this.user = null;
+    this.cache.clean();
+  }
+
+  private saveCache() {
+    if (this.user && this.user.account) {
+      this.cache.save(this.user.account.recovery_phrase,  {
+        dstokens: this.user.dstokens,
+        preferences: this.user.preferences
+      })
     }
   }
 
-  public signout() {
-    window.localStorage.removeItem(this.userStorageKey);
-    this.user = null;
-    // this.removeOneSignalTag();
+  public setPreference(key: string, value: any) {
+    this.user.preferences = this.user.preferences || {};
+    this.user.preferences[key] = value;
+    this.saveCache();
   }
 
-  // public startTrackingLocation(): Observable<any> {
-  //   return Observable.create((observer: Observer<any>) => {
-  //     if (this.isTrackingLocation) {
-  //       observer.next(this.currentLocation);
-  //       observer.complete();
-  //       return;
-  //     }
-
-  //     navigator.geolocation.getCurrentPosition(
-  //       (position: {coords: any}) => {
-  //         this.currentLocation = position.coords;
-  //         this.saveUser();
-
-  //         this.isTrackingLocation = true;
-  //         this.updateOnLocationChanged();
-  //         observer.next(this.currentLocation);
-  //         observer.complete();
-  //       },
-  //       (err) => {
-  //         observer.error(err);
-  //       }
-  //     );
-  //   });
-  // }
-
-  // private updateOnLocationChanged() {
-  //   navigator.geolocation.watchPosition(
-  //     (position: {coords: any}) => {
-  //       this.currentLocation = position.coords;
-  //       this.saveUser();
-  //     },
-  //     (err) => {
-  //       console.log(err);
-  //       // TODO: do something
-  //     }
-  //   );
-  // }
+  public getPreference(key: string) {
+    return this.user.preferences ? null : this.user.preferences[key];
+  }
 }

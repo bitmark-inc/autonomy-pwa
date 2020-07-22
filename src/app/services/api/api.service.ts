@@ -22,16 +22,16 @@ export class ApiService extends BaseService {
     options = options || {};
     options.headers = options.headers || {};
     options.headers['Authorization'] =
-      options.headers['Authorization'] || `Bearer ${this.userService.getJWT()}`;
+      options.headers['Authorization'] || `Bearer ${this.userService.getAgentJWT()}`;
 
     if (target === DSTarget.BOTH || target === DSTarget.PDS) {
-      let dsTokens = this.userService.getTokens().PDS;
+      let dsTokens = this.userService.getDSTokens().PDS;
       let dsToken = method === 'get' ? dsTokens.r : dsTokens.w;
       options.headers['X-FORWARD-MACAROON-PDS'] = this.userService.addTimeLimitToMacaroon(dsToken, 10);
     }
 
     if (target === DSTarget.BOTH || target === DSTarget.CDS) {
-      let dsTokens = this.userService.getTokens().CDS;
+      let dsTokens = this.userService.getDSTokens().CDS;
       let dsToken = method === 'get' ? dsTokens.r : dsTokens.w;
       options.headers['X-FORWARD-MACAROON-CDS'] = this.userService.addTimeLimitToMacaroon(dsToken, 10);
     }
