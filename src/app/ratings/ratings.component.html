@@ -114,10 +114,16 @@
       </mat-table>
     </mat-card>
   </div>
-  <div *ngIf="submitable" class="footer-btn">
+  <div *ngIf="submitable && !gotRights" class="footer-btn">
     <a class="next" (click)="stage = PageStage.Rights">
       <span class="gap-right-15">next</span>
       <img src="/assets/img/next-icon.svg" alt="">
+    </a>
+  </div>
+  <div *ngIf="submitable && gotRights" class="footer-btn">
+    <a class="next" (click)="submitRatings()">
+      <span class="gap-right-15">submit</span>
+      <img src="/assets/img/submit.svg" alt="">
     </a>
   </div>
 </div>

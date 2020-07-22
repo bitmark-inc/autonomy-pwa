@@ -57,7 +57,8 @@
     </div>
   </div>
   <div [hidden]="!focusState" *ngIf="focusedPOI" class="result-place-list">
-    <p style="padding-right: 16px;" class="col p-t-10 font-10 upcase content-right" (click)="unfocusPlace(focusedPOI)">dismiss</p>
+    <p *ngIf="!isViewListShow" style="padding-right: 16px;" class="col p-t-10 font-10 upcase content-right" (click)="unfocusPlace(focusedPOI)"><img src="/assets/img/dismiss.svg" alt=""></p>
+    <p *ngIf="isViewListShow" style="padding-right: 16px;" class="col p-t-10 font-10 upcase content-right" (click)="unfocusPlace(focusedPOI)"><img src="/assets/img/list-icon.svg" alt=""></p>
     <mat-card class="no-bottom col content-left" [ngClass]="{'grey-text-color': !focusedPOI.resource_score}">
       <div class="col-30">
         <div [ngStyle]="{'background': focusedPOI.color}" class="content-center place-score"><span class="score-num">{{focusedPOI.resource_score ? (focusedPOI.resource_score | number:'1.1-1') : '--'}}</span></div>
