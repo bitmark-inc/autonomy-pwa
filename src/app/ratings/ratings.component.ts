@@ -67,8 +67,6 @@ export class RatingsComponent implements OnInit {
     this.activatedRoute.queryParams.subscribe((params) => {
       this.highlightID = params["highlight_id"];
     });
-    this.demoRatings = JSON.stringify(
-      { ratings: { equipment_disinfected: 0, face_coverings_required: 0, good_air_circulation: 3, hand_sanitizer: 5, hand_washing_facilities: 2, outdoor_options: 4, social_distancing: 1, surfaces_disinfected: 0, temperature_checks: 0, } }, undefined, 2);
     this.gotRights = this.userService.getPreference('rights-known') || false;
   }
 
@@ -150,6 +148,11 @@ export class RatingsComponent implements OnInit {
       tmp[el.name.replace(/ /g, "_")] = el.score;
       this.ratingsParam = Object.assign(this.ratingsParam, tmp);
     });
+  }
+
+  public getRawJson() {
+    this.formatParams();
+    this.demoRatings = JSON.stringify({ ratings: this.ratingsParam }, undefined,2);
   }
 
   public checkRightsKnown() {

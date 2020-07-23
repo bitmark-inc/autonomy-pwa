@@ -14,10 +14,10 @@
   </div>
   <div *ngIf="pois && poiTypes" class="content-view">
     <mat-card class="resources-list">
-      <div class="resource-item font-14 clickable" *ngFor="let type of poiTypes"
+      <span class="resource-item font-14 clickable" *ngFor="let type of poiTypes"
         (click)="searchByPlaceType(type)">
         {{type}}
-      </div>
+    </span>
     </mat-card>
     <google-map class="map-view" [height]="mapHeight" [width]="mapWidth" [center]="mapCenter" [options]="mapOptions">
       <map-marker
@@ -77,7 +77,7 @@
     </mat-card>
   </div>
 
-  <mat-card class="non-places-found" *ngIf="!isSearching && poiType && pois && !pois.length">
+  <!-- <mat-card class="non-places-found" *ngIf="!isSearching && poiType && pois && !pois.length">
     <p>Sorry, there aren’t currently any places in our system offering that resource. Be the first to add it for places you know!</p>
-  </mat-card>
+  </mat-card> -->
 </div>

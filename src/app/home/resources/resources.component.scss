@@ -24,8 +24,10 @@
     z-index: 1;
     top: 0;
     left: 0;
-    display: flex;
-    flex-wrap: wrap;
+    display: inline-block;
+    white-space: nowrap;
+    overflow-x: auto;
+    width: 100%;
   
     .resource-item {
       background: #EEEEEE;
@@ -34,6 +36,10 @@
       padding: 5px 15px;
       word-break: break-word;
       box-shadow: 0 1px 1px #888888;
+
+      &:last-child {
+        margin-right: 0;
+      }
     }
   }
 
@@ -43,7 +49,7 @@
 }
 
 .list-not-standalone {
-  max-height: calc(100vh - 56px - 185px) !important;
+  max-height: calc(100vh - 56px - 175px) !important;
 }
 
 .result-place-list {
@@ -54,7 +60,7 @@
   z-index: 0;
   bottom: 0;
   padding-bottom: 70px;
-  max-height: calc(100vh - 56px - 100px);
+  max-height: calc(100vh - 56px - 57px);
   min-height: 80px;
   overflow-y: scroll;
 

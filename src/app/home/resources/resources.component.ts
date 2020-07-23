@@ -141,7 +141,7 @@ export class ResourcesComponent implements OnInit, OnDestroy {
   }
 
   private getResourcesForSearching() {
-    this.poiTypes = ['restaurants', 'groceries', 'coffee', 'pharmacies', 'gyms', 'parks'];
+    this.poiTypes = ['Restaurants', 'Coffee', 'Groceries', 'Pharmacies', 'Laundromats'];
   }
 
   public onInputFocus() {

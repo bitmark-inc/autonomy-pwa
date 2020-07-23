@@ -12,8 +12,8 @@
     <mat-card class="rate">
       <p *ngIf="poi.resource_score"><strong>345</strong><span class="light-color"> ratings</span></p>
       <p *ngIf="!poi.resource_score"><strong>0</strong><span class="light-color"> ratings</span></p>
-      <p *ngIf="poi.resource_score" class="light-color">Rated {{poi.last_updated | relativeDate}}</p>
-      <p *ngIf="!poi.resource_score" class="light-color">Not yet rated</p>
+      <p *ngIf="poi.resource_score" class="last-updated light-color">Rated {{poi.last_updated | relativeDate}}</p>
+      <p *ngIf="!poi.resource_score" class="last-updated light-color">Not yet rated</p>
     </mat-card>
     <div [ngStyle]="{ 'background': poiBackground }" class="content-center poi-score">
       <p *ngIf="poi.resource_score" class="font-24">{{poi.resource_score | number:'1.1-1'}}</p>
