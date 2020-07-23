@@ -38,4 +38,28 @@ export class ApiService extends BaseService {
 
     return this.sendHttpRequest(method, url, params, options);
   }
+
+  public requestToDS(method: string, url: string, params?, options?, target = DSTarget.PDS) {
+    options = options || {};
+    options.headers = options.headers || {};
+
+    let token;
+    switch (target) {
+      case DSTarget.PDS:
+        token = this.userService.getDSTokens().PDS;
+        break;
+      case DSTarget.CDS:
+        token = this.userService.getDSTokens().CDS;
+        break;
+      default:
+        break;
+    }
+
+    if (token) {
+      let dsToken = method === 'get' ? token.r : token.w;
+      options.headers['Authorization'] = options.headers['Authorization'] || `Bearer ${dsToken}`;
+    }
+
+    return this.sendHttpRequest(method, url, params, options);
+  }
 }
