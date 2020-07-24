@@ -97,7 +97,7 @@ export class PersonalDataComponent implements OnInit {
   public deleteData() {
     if (this.clickable) {
       this.clickable = false;
-      if (window.confirm('All of your data will be permanently deleted from your data vault.')) {
+      if (window.confirm('All of your data will be permanently deleted from your PDE.')) {
         this.openBottomSheet('delete');
         this.apiService.requestToDS('delete', `${environment.pds_url}data/delete`, null, {responseType: 'arraybuffer'}, ApiService.DSTarget.PDS)
             .subscribe(() => {
