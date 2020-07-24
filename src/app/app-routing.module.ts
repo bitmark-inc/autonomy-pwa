@@ -11,6 +11,8 @@ import { HomeComponent } from './home/home.component';
 import { SettingComponent } from './home/setting/setting.component';
 import { CommunityComponent } from './home/community/community.component';
 import { ResourcesComponent } from './home/resources/resources.component';
+import { PersonalDataComponent } from './personal-data/personal-data.component';
+import { CommunityDataComponent } from './community-data/community-data.component';
 import { AuthGuard, GuestGuard } from './url-guard';
 
 const routes: Routes = [
@@ -28,6 +30,14 @@ const routes: Routes = [
   {path: 'locations/:lat/:long', component: PoiComponent, canActivate: [AuthGuard]},
   {path: 'recovery-key', component: RecoveryKeyComponent, canActivate: [AuthGuard]},
   {path: 'signout', component: SignoutComponent, canActivate: [AuthGuard]},
+  {path: 'pde', component: PersonalDataComponent, canActivate: [AuthGuard]},
+  {path: 'pde/save', component: PersonalDataComponent, canActivate: [AuthGuard]},
+  {path: 'pde/read', component: PersonalDataComponent, canActivate: [AuthGuard]},
+  {path: 'pde/delete', component: PersonalDataComponent, canActivate: [AuthGuard]},
+  {path: 'cde', component: CommunityDataComponent, canActivate: [AuthGuard]},
+  {path: 'cde/save', component: CommunityDataComponent, canActivate: [AuthGuard]},
+  {path: 'cde/read', component: CommunityDataComponent, canActivate: [AuthGuard]},
+  {path: 'cde/submit', component: CommunityDataComponent, canActivate: [AuthGuard]},
   {path: '**', redirectTo: 'landing'},
 ];
 

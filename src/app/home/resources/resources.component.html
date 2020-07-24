@@ -1,8 +1,8 @@
-<div class="search-page p-b-30">
+<div class="search-page">
   <div class="sticky-box">
     <mat-toolbar class="search-bar">
       <mat-icon matPrefix class="search-icon"><img src="/assets/img/search.svg" alt=""></mat-icon>
-      <input [hidden]="poiType" #poiSearchInput [(ngModel)]="keyword" (focusout)="onInputFocusOut()" (focus)="onInputFocus()" class="search-input" matInput type="text" placeholder="Enter local name or address ...">
+      <input [hidden]="poiType" #poiSearchInput [(ngModel)]="keyword" (focusout)="onInputFocusOut()" (focus)="onInputFocus()" class="search-input" matInput type="text" placeholder="Find your next local resource...">
       <div [hidden]="!poiType" class="search-input">
         <p class="resource-on-searching">{{poiType}}</p>
       </div>
@@ -10,111 +10,82 @@
         <img src="/assets/img/clear-search.svg" alt="">
       </button>
     </mat-toolbar>
-    <mat-card class="no-top search-bar-line"><hr></mat-card>
+    <mat-card class="no-top no-bottom"><hr></mat-card>
   </div>
-  <div *ngIf="(!keyword) && (!poiType)">
-    <mat-card class="main-direction direction-color content-center no-bottom">
-      <div class="p-t-10 p-b-20"><p>Find safe resources</p></div>
-    </mat-card>
-    <mat-card class="font-14 sub-direction-color content-center">
-      <p class="p-b-20">We can help you identify safe resources in and around the Berkeley community. Just tap one of the resource types below
-      or enter a local name or address in the search field above.</p>
-    </mat-card>
+  <div *ngIf="pois && poiTypes" class="content-view">
     <mat-card class="resources-list">
-      <div class="resource-item font-14 clickable" *ngFor="let type of poiTypes"
+      <span class="resource-item font-14 clickable" *ngFor="let type of poiTypes"
         (click)="searchByPlaceType(type)">
         {{type}}
+    </span>
+    </mat-card>
+    <google-map class="map-view" [height]="mapHeight" [width]="mapWidth" [center]="mapCenter" [options]="mapOptions">
+      <map-marker
+        *ngFor="let poi of pois"
+        [position]="{lat: poi.location.latitude, lng: poi.location.longitude}"
+        [title]="poi.alias"
+        [options]="{icon: {path: mapIconSVGPath, strokeColor: poi.color, fillColor: poi.color, fillOpacity: 1, scale: (focusedPOI && poi.id === focusedPOI.id) ? 1.5 : 1},
+                    label: {text: poi.alias, color: '#303030', fontFamily: 'Atlas Grotesk'}}"
+        (mapClick)="focusToPlace(poi)"
+      >
+      </map-marker>
+    </google-map>
+  </div>
+
+  <div [ngClass]="{'list-not-standalone': !isStandalone()}" class="result-place-list">
+    <div class="line-icon"><span (click)="isViewListShow = !isViewListShow"></span></div>
+    <div [hidden]="(focusState || !isViewListShow || (isViewListShow && isSearching))" class="p-t-10" *ngIf="pois && pois.length">
+      <div *ngFor="let poi of pois">
+        <mat-card (click)="focusToPlace(poi)" class="hovering clickable no-bottom col content-left" [ngClass]="{'grey-text-color': !poi.resource_score}">
+          <div class="col-30">
+            <div [ngStyle]="{'background': poi.color}" class="content-center place-score"><span class="score-num">{{poi.resource_score ? (poi.resource_score | number:'1.1-1') : '--'}}</span></div>
+            <p *ngIf="poi.resource_score && poi.rating_last_updated" class="content-center font-10 line-height-120 p-t-10">Last rated: {{poi.rating_last_updated | relativeDate}}</p>
+            <p *ngIf="!poi.resource_score && poi.rating_last_updated === 0" class="content-center font-10 line-height-120 p-t-10">Last rated: --</p>
+          </div>
+          <div class="col-70">
+            <mat-card class="no-top no-bottom no-right">
+              <p class="upcase font-14">{{poi.alias}}</p>
+              <p class="font-12 grey-text-color p-b-5 capital">{{poi.place_type}}</p> <!-- category -->
+              <p *ngIf="poi.todayOpenHour" [ngClass]="{'grey-text-color': !poi.resource_score, 'direction-color': poi.resource_score}" class="font-12 p-b-5">{{poi.todayOpenHour}}</p> <!-- open hours -->
+              <p *ngIf="poi.services_active" [ngClass]="{'grey-text-color': !poi.resource_score, 'direction-color': poi.resource_score}" class="font-12 p-b-5 capital">{{poi.services_active}}</p> <!-- services -->
+              <div *ngIf="!poi.todayOpenHour && !poi.services_active">
+                <p class="font-12 p-b-5 grey-text-color">No data</p>
+                <p class="font-12 p-b-5 grey-text-color">--</p>
+              </div>
+              <p class="font-10 content-right"><a class="normal-link clickable" (click)="navigateToPOI(poi.id)">More details</a></p>
+            </mat-card>
+          </div>
+        </mat-card>
+        <div class="light-line p-t-10"><hr></div>
+      </div>
+    </div>
+  </div>
+  <div [hidden]="!focusState" *ngIf="focusedPOI" class="result-place-list">
+    <p *ngIf="!isViewListShow" style="padding-right: 16px;" class="col p-t-10 font-10 upcase content-right" (click)="unfocusPlace(focusedPOI)"><img src="/assets/img/dismiss.svg" alt=""></p>
+    <p *ngIf="isViewListShow" style="padding-right: 16px;" class="col p-t-10 font-10 upcase content-right" (click)="unfocusPlace(focusedPOI)"><img src="/assets/img/list-icon.svg" alt=""></p>
+    <mat-card class="no-bottom col content-left" [ngClass]="{'grey-text-color': !focusedPOI.resource_score}">
+      <div class="col-30">
+        <div [ngStyle]="{'background': focusedPOI.color}" class="content-center place-score"><span class="score-num">{{focusedPOI.resource_score ? (focusedPOI.resource_score | number:'1.1-1') : '--'}}</span></div>
+        <p *ngIf="focusedPOI.resource_score && focusedPOI.rating_last_updated" class="content-center font-10 line-height-120 p-t-10">Last rated: {{focusedPOI.rating_last_updated | relativeDate}}</p>
+        <p *ngIf="!focusedPOI.resource_score && focusedPOI.rating_last_updated === 0" class="content-center font-10 line-height-120 p-t-10">Last rated: --</p>
+      </div>
+      <div class="col-70">
+        <mat-card class="no-top no-bottom no-right">
+          <p class="upcase font-14">{{focusedPOI.alias}}</p>
+          <p class="font-12 grey-text-color p-b-5 capital">{{focusedPOI.place_type}}</p> <!-- category -->
+          <p *ngIf="focusedPOI.todayOpenHour" [ngClass]="{'grey-text-color': !focusedPOI.resource_score, 'direction-color': focusedPOI.resource_score}" class="font-12 p-b-5">{{focusedPOI.todayOpenHour}}</p> <!-- open hours -->
+          <p *ngIf="focusedPOI.services_active" [ngClass]="{'grey-text-color': !focusedPOI.resource_score, 'direction-color': focusedPOI.resource_score}" class="font-12 p-b-5 capital">{{focusedPOI.services_active}}</p> <!-- services -->
+          <div *ngIf="!focusedPOI.todayOpenHour && !focusedPOI.services_active">
+            <p class="font-12 p-b-5 grey-text-color">No data</p>
+            <p class="font-12 p-b-5 grey-text-color">--</p>
+          </div>
+          <p class="font-10 content-right"><a class="normal-link" (click)="navigateToPOI(focusedPOI.id)">More details</a></p>
+        </mat-card>
       </div>
     </mat-card>
   </div>
 
-  <google-map [center]="mapCenter" [options]="mapOptions">
-    <map-marker
-      *ngFor="let poi of pois"
-      [position]="{lat: poi.location.latitude, lng: poi.location.longitude}"
-      [title]="poi.alias"
-      [options]="{icon: {path: mapIconSVGPath, strokeColor: poi.color, fillColor: poi.color, fillOpacity: 1, scale: poi.id === focusedPOI.id ? 2 : 1}}",
-      (click)="focusToPlace(poi)"
-    >
-    </map-marker>
-  </google-map>
-
-  <div *ngIf="(keyword || poiType) && pois && pois.length">
-    <mat-card class="no-bottom" *ngFor="let place of pois">
-      <div class="place-found clickable" (click)="navigateToPOI(place.id)">
-        <p>{{place.alias}}</p>
-        <p class="small-address p-t-5 line-height-120">{{place.address}}</p>
-
-        <div class="resource-score search-resource p-t-5">
-          <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group" [disabled]="true">
-            <div *ngIf="!place.resource_score" class="group-radios">
-              <div class="default-color gap-right-10">
-                <mat-radio-button class="example-radio-button" *ngFor="let i of [1,2,3,4,5]" [value]="i"></mat-radio-button>
-              </div>
-              <span class="small-address line-height-120">(not yet rated)</span>
-            </div>
-            <div *ngIf="place.resource_score > 0 && place.resource_score <= 1" class="group-radios">
-              <div class="risk-color">
-                <mat-radio-button class="example-radio-button" [value]="1"></mat-radio-button>
-              </div>
-              <div class="default-color">
-                <mat-radio-button class="example-radio-button" *ngFor="let i of [2,3,4,5]" [value]="i"></mat-radio-button>
-              </div>
-            </div>
-            <div *ngIf="place.resource_score > 1 && place.resource_score <= 1.6" class="group-radios">
-              <div class="risk-color">
-                <mat-radio-button class="example-radio-button" *ngFor="let i of [1,2]" [value]="i"></mat-radio-button>
-              </div>
-              <div class="default-color">
-                <mat-radio-button class="example-radio-button" *ngFor="let i of [3,4,5]" [value]="i"></mat-radio-button>
-              </div>
-            </div>
-            <div *ngIf="place.resource_score > 1.6 && place.resource_score <= 2" class="group-radios">
-              <div class="warn-color">
-                <mat-radio-button class="example-radio-button" *ngFor="let i of [1,2]" [value]="i"></mat-radio-button>
-              </div>
-              <div class="default-color">
-                <mat-radio-button class="example-radio-button" *ngFor="let i of [3,4,5]" [value]="i"></mat-radio-button>
-              </div>
-            </div>
-            <div *ngIf="place.resource_score > 2 && place.resource_score <= 3" class="group-radios">
-              <div class="warn-color">
-                <mat-radio-button class="example-radio-button" *ngFor="let i of [1,2,3]" [value]="i"></mat-radio-button>
-              </div>
-              <div class="default-color">
-                <mat-radio-button class="example-radio-button" *ngFor="let i of [4,5]" [value]="i"></mat-radio-button>
-              </div>
-            </div>
-            <div *ngIf="place.resource_score > 3 && place.resource_score <= 3.3" class="group-radios">
-              <div class="warn-color">
-                <mat-radio-button class="example-radio-button" *ngFor="let i of [1,2,3,4]" [value]="i"></mat-radio-button>
-              </div>
-              <div class="default-color">
-                <mat-radio-button class="example-radio-button" [value]="5"></mat-radio-button>
-              </div>
-            </div>
-            <div *ngIf="place.resource_score > 3.3 && place.resource_score <= 4" class="group-radios">
-              <div class="good-color">
-                <mat-radio-button class="example-radio-button" *ngFor="let i of [1,2,3,4]" [value]="i"></mat-radio-button>
-              </div>
-              <div class="default-color">
-                <mat-radio-button class="example-radio-button" [value]="5"></mat-radio-button>
-              </div>
-            </div>
-            <div *ngIf="place.resource_score > 4 && place.resource_score <= 5" class="group-radios">
-              <div class="good-color">
-                <mat-radio-button class="example-radio-button" *ngFor="let i of [1,2,3,4,5]" [value]="i"></mat-radio-button>
-              </div>
-            </div>
-          </mat-radio-group>
-          <p *ngIf="place.resource_score" class="resource-rating gap-right-15" [innerHTML]="place.resource_score | reportScore"></p>
-          <span *ngIf="place.resource_score && place.last_updated" class="small-address line-height-120">({{place.last_updated | relativeDate}})</span>
-        </div>
-      </div>
-      <div class="p-t-10"><hr></div>
-    </mat-card>
-  </div>
-  <mat-card class="non-places-found" *ngIf="!isSearching && poiType && pois && !pois.length">
+  <!-- <mat-card class="non-places-found" *ngIf="!isSearching && poiType && pois && !pois.length">
     <p>Sorry, there aren’t currently any places in our system offering that resource. Be the first to add it for places you know!</p>
-  </mat-card>
+  </mat-card> -->
 </div>

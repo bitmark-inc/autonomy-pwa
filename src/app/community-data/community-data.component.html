@@ -1,0 +1,131 @@
+<div [hidden]="stage != PageStage.CDE" class="main-content">
+  <mat-card class="header-btn" layout="fill">
+    <a [routerLink]="['/home/setting']" class="back upcase">
+      <img class="gap-right-5" src="/assets/img/back-small.svg" alt="back-arrow">
+      <span>back</span>
+    </a>
+  </mat-card>
+  <div class="header-page-title direction-color m-b-30">
+    <span class="page-title">UC Berkeley community data enclave (CDE)</span>
+  </div>
+  <mat-card>
+    <p class="font-18 line-height-120 p-b-20">Your account has been granted Bitmark rights capabilities to:</p>
+    <div class="col content-left">
+      <div class="gap-right-5"><img src="/assets/img/arrow.svg" alt=""></div>
+      <div class="col">
+        <p class="font-18 line-height-120 p-b-10">Submit anonymized, non-personally-identifiable Autonomy data to the UC Berkeley community data enclave (CDE) for community-level pooling and research</p>
+        <a [routerLink]="['/cde/submit']" class="content-left command-img"><span
+            class="font-14 upcase direction-color gap-right-5 p-b-20">learn more</span><img
+            src="/assets/img/next-icon-small.svg" alt=""></a>
+        <div class="light-line">
+          <hr>
+        </div>
+      </div>
+    </div>
+    <div class="col content-left p-t-20">
+      <div class="gap-right-5"><img src="/assets/img/arrow.svg" alt=""></div>
+      <div class="col">
+        <p class="font-18 line-height-120 p-b-10">Read all Autonomy data you're submitted to the CDE</p>
+        <a [routerLink]="['/cde/read']" class="content-left command-img"><span
+            class="font-14 upcase direction-color gap-right-5 p-b-20">learn more</span><img
+            src="/assets/img/next-icon-small.svg" alt=""></a>
+        <div class="light-line">
+          <hr>
+        </div>
+      </div>
+    </div>
+    <div class="col content-left p-t-20">
+      <div class="gap-right-5"><img src="/assets/img/arrow.svg" alt=""></div>
+      <div class="col">
+        <p class="font-18 line-height-120 p-b-10">View community-level data in the CDE</p>
+        <a [routerLink]="['/cde/save']" class="content-left command-img"><span
+            class="font-14 upcase direction-color gap-right-5 p-b-20">learn more</span><img
+            src="/assets/img/next-icon-small.svg" alt=""></a>
+        <div class="light-line">
+          <hr>
+        </div>
+      </div>
+    </div>
+    <p class="font-18 line-height-120 p-t-30">The UC Berkeley CDE is an ecrypted data store that is only accessible by members who have been granted rights capabilities to it.</p>
+  </mat-card>
+</div>
+<div [hidden]="stage != PageStage.Submit" class="main-content">
+  <mat-card class="header-btn" layout="fill">
+    <a [routerLink]="['/cde']" class="back upcase">
+      <img class="gap-right-5" src="/assets/img/back-small.svg" alt="back-arrow">
+      <span>back</span>
+    </a>
+  </mat-card>
+  <div class="header-page-title direction-color m-b-30">
+    <span class="page-title">Submitting data to Berkeley CDE</span>
+  </div>
+  <mat-card>
+    <p class="font-18 line-height-120 p-b-20">When you submit data in Autonomy, an anonymized, non-personally-identifiable version will be automatically submitted to the UC Berkeley community data enclave (CDE) for community-level pooling and rsearch. Currently, you can only save Autonomy data to the Berkeley CDE via the Autonomy app interface.</p>
+    <p class="font-18 line-height-120 p-b-20">The Autonomy app presently supports the following types of data to be submitted to the Berkeley CDE:</p>
+    <div class="col content-left">
+      <div class="gap-right-5"><img src="/assets/img/arrow.svg" alt=""></div>
+      <div class="col">
+        <p class="font-18 line-height-120 p-b-10">Resource ratings</p>
+        <div class="light-line">
+          <hr>
+        </div>
+      </div>
+    </div>
+    <p class="font-18 line-height-120 p-t-30">You can view all Autonomy data you have submitted to the Berkeley CDE, <a class="normal-link" [routerLink]="['/cde/read']">by exercising your right to do so</a>.</p>
+  </mat-card>
+</div>
+<div [hidden]="stage != PageStage.Read" class="main-content">
+  <mat-card class="header-btn" layout="fill">
+    <a [routerLink]="['/cde']" class="back upcase">
+      <img class="gap-right-5" src="/assets/img/back-small.svg" alt="back-arrow">
+      <span>back</span>
+    </a>
+  </mat-card>
+  <div class="header-page-title direction-color m-b-30">
+    <span class="page-title">Reading your Autonomy data from the CDE</span>
+  </div>
+  <mat-card>
+    <p class="font-18 line-height-120 p-b-20">If you exercise your right to read your Autonomy data from the UC Berkeley central data enclave (CDE), Autonolmy will prepare a .zip file containing all data you have contributed to the CDE for you to download.</p>
+    <p class="font-18 line-height-120 p-b-20">Depending on how much data you’ve submitted, the export will take a little time to process. After the export process has finished, you will be prompted to download the file.</p>
+  </mat-card>
+  <a #saveFile></a>
+  <div class="footer-btn">
+    <a (click)="exportData()" [ngClass]="{'disable-btns': !clickable}" class="next">
+      <span class="gap-right-15 long-cmd">EXERCISE RIGHT</span><img src="/assets/img/next-icon.svg" alt="">
+    </a>
+  </div>
+</div>
+<div [hidden]="stage != PageStage.Save" class="main-content">
+  <mat-card class="header-btn" layout="fill">
+    <a [routerLink]="['/cde']" class="back upcase">
+      <img class="gap-right-5" src="/assets/img/back-small.svg" alt="back-arrow">
+      <span>back</span>
+    </a>
+  </mat-card>
+  <div class="header-page-title direction-color m-b-30">
+    <span class="page-title">Viewing community-level data from the CDE</span>
+  </div>
+  <mat-card>
+    <p class="font-18 line-height-120 p-b-20">As a contributor to the UC Berkeley community data store, you have the right to view community-level data from the CDE. You currently have rights capabilities to view the following types of community-level data in Autonomy:</p>
+    <div class="col content-left">
+      <div class="gap-right-5"><img src="/assets/img/arrow.svg" alt=""></div>
+      <div class="col">
+        <p class="font-18 line-height-120 p-b-10">Community-level survey trends</p>
+        <a [routerLink]="['/home/community']" class="content-left command-img">
+          <span class="font-14 upcase direction-color gap-right-5 p-b-20">view data</span>
+          <img src="/assets/img/next-icon-small.svg" alt=""></a>
+        <div class="light-line"><hr></div>
+      </div>
+    </div>
+    <div class="col content-left">
+      <div class="gap-right-5"><img src="/assets/img/arrow.svg" alt=""></div>
+      <div class="col">
+        <p class="font-18 line-height-120 p-b-10">Community-level resource ratings</p>
+        <a [routerLink]="['home/resources']" class="content-left command-img">
+          <span class="font-14 upcase direction-color gap-right-5 p-b-20">view data</span>
+          <img src="/assets/img/next-icon-small.svg" alt=""></a>
+        <div class="light-line"><hr></div>
+      </div>
+    </div>
+  </mat-card>
+</div>

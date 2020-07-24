@@ -43,6 +43,8 @@ import { ResourcesComponent } from './home/resources/resources.component';
 import { SettingComponent } from './home/setting/setting.component';
 import { BottomSheetAlertComponent } from "./bottom-sheet-alert/bottom-sheet-alert.component";
 import { RelativeDatePipe } from './pipes/relative-date.pipe';
+import { PersonalDataComponent } from './personal-data/personal-data.component';
+import { CommunityDataComponent } from './community-data/community-data.component';
 
 declare var window: any;
 window.isProduction = environment.production;
@@ -66,6 +68,8 @@ window.isProduction = environment.production;
     SettingComponent,
     BottomSheetAlertComponent,
     RelativeDatePipe,
+    PersonalDataComponent,
+    CommunityDataComponent,
   ],
   imports: [
     BrowserModule,

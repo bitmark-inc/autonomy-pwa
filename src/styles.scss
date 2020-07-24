@@ -131,6 +131,10 @@ textarea {
   color: $sub-direction-color !important;
 }
 
+.grey-text-color {
+  color: #888888 !important;
+}
+
 .mat-table,
 .mat-card {
   background-color: inherit;
@@ -208,6 +212,10 @@ textarea {
     img {
       width: 15px;
       height: 15px;
+      cursor: pointer;
+    }
+    span {
+      cursor: pointer;
     }
   }
 }
@@ -443,6 +451,7 @@ textarea {
     color: $direction-color;
     border-radius: 65px;
     margin-bottom: 10px;
+    cursor: pointer;
     img {
       width: 45px;
       height: 45px;
@@ -478,7 +487,7 @@ textarea {
   }
 
   input::placeholder {
-    color: $base-color;
+    // color: $base-color;
   }
 
 }
@@ -579,12 +588,24 @@ textarea {
   }
 }
 
+// align for text and image group
+.command-img {
+  display: flex;
+  align-items: flex-start;
+}
+
 .text-start {
   text-align: start;
 }
 
 .clickable {
   cursor: pointer;
+}
+
+.hovering {
+  &:hover {
+    background: $neutral-background;
+  }
 }
 
 .no-bottom {
@@ -655,8 +676,16 @@ textarea {
   font-size: 10px;
 }
 
+.font-12 {
+  font-size: 12px;
+}
+
 .font-14 {
   font-size: 14px;
+}
+
+.font-18 {
+  font-size: 18px;
 }
 
 .font-24 {
@@ -705,6 +734,10 @@ textarea {
   text-transform: uppercase;
 }
 
+.capital {
+  text-transform: capitalize;
+}
+
 .p-t-5 {
   padding-top: 5px;
 }
@@ -739,6 +772,10 @@ textarea {
 
 .p-b-30 {
   padding-bottom: 30px;
+}
+
+.p-b-60 {
+  padding-bottom: 60px;
 }
 
 .m-t-30 {
@@ -813,6 +850,21 @@ textarea {
   }
 }
 
+.risk-second-color {
+  display: flex;
+  .mat-radio-button.mat-accent .mat-radio-outer-circle {
+    background-color: #DB7B2B;
+    border-color: $base-background;
+  }
+  .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle{
+    background-color: #DB7B2B;
+  }
+  .mat-radio-button.mat-accent .mat-radio-inner-circle{
+    color: #DB7B2B;
+    background-color: #DB7B2B ;
+  }
+}
+
 .warn-color {
   display: flex;
   .mat-radio-button.mat-accent .mat-radio-outer-circle {
@@ -828,18 +880,33 @@ textarea {
   }
 }
 
-.good-color {
+.good-second-color {
   display: flex;
   .mat-radio-button.mat-accent .mat-radio-outer-circle {
-    background-color: #2A6D0C;
+    background-color: #99C140;
     border-color: $base-background;
   }
   .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle{
-    background-color: #2A6D0C;
+    background-color: #99C140;
   }
   .mat-radio-button.mat-accent .mat-radio-inner-circle{
-    color: #2A6D0C;
-    background-color: #2A6D0C;
+    color: #99C140;
+    background-color: #99C140;
+  }
+}
+
+.good-color {
+  display: flex;
+  .mat-radio-button.mat-accent .mat-radio-outer-circle {
+    background-color: #2DC937;
+    border-color: $base-background;
+  }
+  .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle{
+    background-color: #2DC937;
+  }
+  .mat-radio-button.mat-accent .mat-radio-inner-circle{
+    color: #2DC937;
+    background-color: #2DC937;
   }
 }
 

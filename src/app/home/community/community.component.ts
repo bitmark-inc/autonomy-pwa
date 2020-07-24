@@ -1,6 +1,6 @@
 declare var window: any;
 
-import { Component, OnInit, ViewChild, ElementRef, Renderer2 } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { AppSettings } from "../../app-settings";
 import { ApiService } from 'src/app/services/api/api.service';
 import * as moment from 'moment';
@@ -27,7 +27,7 @@ export class CommunityComponent implements OnInit {
 
   public colorsInUse: string[] = [];
 
-  constructor(private apiService: ApiService, private renderer: Renderer2) {
+  constructor(private apiService: ApiService) {
     this.checkedInPerson = 345;
   }
 
@@ -48,6 +48,14 @@ export class CommunityComponent implements OnInit {
       .subscribe(
         (data: {report_items: any}) => {
           this.dataBySymptoms = data.report_items;
+
+          // default fill color for first 6 symptoms
+          for (let i = 0; i < AppSettings.CHART_COLORS.length; i++) {
+            if (this.dataBySymptoms[i]) {
+              this.dataBySymptoms[i].chartColor = this.addColor();
+              this.dataBySymptoms[i].chartShown = true;
+            }
+          }
           this.renderChart();
         },
         (err) => {
@@ -148,7 +156,7 @@ export class CommunityComponent implements OnInit {
       let dayData = {day};
       let totalSymptom = 0;
       this.dataBySymptoms.forEach(symptom => {
-        dayData[symptom.name] = symptom.distribution[day] || 0;
+        dayData[symptom.name] = symptom.distribution && symptom.distribution[day] ? symptom.distribution[day] : 0;
         totalSymptom += dayData[symptom.name];
       });
       if (totalSymptom > this.maxSymptomByDay) {
