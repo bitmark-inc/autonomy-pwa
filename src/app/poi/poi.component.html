@@ -12,7 +12,7 @@
     <mat-card class="rate">
       <p *ngIf="poi.resource_score"><strong>345</strong><span class="light-color"> ratings</span></p>
       <p *ngIf="!poi.resource_score"><strong>0</strong><span class="light-color"> ratings</span></p>
-      <p *ngIf="poi.resource_score" class="last-updated light-color">Rated {{poi.last_updated | relativeDate}}</p>
+      <p *ngIf="poi.resource_score" class="last-updated light-color">Rated {{poi.rating_last_updated | relativeDate}}</p>
       <p *ngIf="!poi.resource_score" class="last-updated light-color">Not yet rated</p>
     </mat-card>
     <div [ngStyle]="{ 'background': poiBackground }" class="content-center poi-score">
@@ -23,18 +23,27 @@
   <div class="col detail-info">
     <mat-card class="col-50 left">
       <p class="small-title direction-color p-b-10">open hours</p>
-      <div style="max-width: 150px;" class="content-left col font-12 line-height-120">
-        <p class="col-50 content-left">Today</p>
-        <p class="col-50 content-right">11am-4pm</p>
+      <div *ngIf="poi.opening_hours">
+        <div style="max-width: 150px;" class="content-left col font-12 line-height-120 p-b-5">
+          <p class="col-40 content-left">Today</p>
+          <p class="col-60 content-right">{{todayOpenHour}}</p>
+        </div>
+        <div *ngFor="let item of openHours" style="max-width: 150px; padding-bottom: 2px;" [ngClass]="{'grey-text-color': item.openHour.toLowerCase() === 'closed'}" class="content-left col font-10 line-height-120">
+          <p class="col-40 content-left">{{item.dates}}</p>
+          <p class="col-60 content-right">{{item.openHour}}</p>
+        </div>
       </div>
+      <div *ngIf="!poi.opening_hours" class="content-left col font-12 line-height-120 grey-text-color">No data</div>
+      <p *ngIf="poi.info_last_updated" class="font-10 line-height-120 content-left col p-t-10">Last updated: {{poi.info_last_updated | relativeDate}}</p>
     </mat-card>
     <mat-card class="col-50 right">
       <p class="small-title direction-color p-b-10">CURRENT SERVICES</p>
-      <div class="col font-12 line-height-120 p-b-10">
-        <p class="content-left">Drive-through</p>
-        <p class="content-left">Delivery</p>
-        <p class="content-left none-serve">Takeout</p>
+      <div *ngIf="poi.service_options" class="col font-12 line-height-120 p-b-10">
+        <p *ngFor="let service of poi.service_options" [ngClass]="{'none-serve': !service.active}" class="content-left">{{service.name}}</p>
+        <!-- <p class="content-left">Delivery</p> -->
+        <!-- <p class="content-left none-serve">Takeout</p> -->
       </div>
+      <div *ngIf="!poi.service_options" class="col font-12 line-height-120 p-b-10 grey-text-color">No data</div>
       <a *ngIf="poi.address" class="content-left address-link" [href]="'https://www.google.com/maps/search/?api=1&query=' + poi.address" target="_blank">
         <p class="font-10 line-height-120 gap-right-5">Open in <span class="normal-link">Google Maps</span></p>
         <img src="/assets/img/related-url.svg" alt="">

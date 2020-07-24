@@ -17,7 +17,8 @@ export class PoiComponent implements OnInit {
     id: string;
     alias: string;
     address: string;
-    last_updated: number;
+    info_last_updated: number;
+    rating_last_updated: number;
     has_more_resources: boolean;
     location: {
       latitude: number;
@@ -26,6 +27,8 @@ export class PoiComponent implements OnInit {
     resource_ratings: {};
     resource_score: number;
     score: number;
+    opening_hours: any;
+    service_options: any;
   };
 
   public resources: {
@@ -37,6 +40,11 @@ export class PoiComponent implements OnInit {
 
   public isRated: boolean = false;
   public poiBackground: string = '';
+  public todayOpenHour: string = '';
+  public openHours: {
+    openHour: string;
+    dates: string;
+  }[] = null;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -68,6 +76,21 @@ export class PoiComponent implements OnInit {
               ratings: this.poi.resource_ratings[key].counts,
               color: Util.scoreToColor(this.poi.resource_ratings[key].score, false),
             });
+          }
+          if (this.poi.opening_hours) {
+            this.openHours = Util.openHoursFormat(this.poi.opening_hours);
+            this.todayOpenHour = Util.openHoursFormat(this.poi.opening_hours, true);
+          }
+          if (this.poi.service_options) {
+            let tmp = [];
+            let services = Object.keys(this.poi.service_options);
+            for (let i = 0; i < services.length; i++) {
+              tmp.push({
+                name: services[i],
+                active: Object.values(this.poi.service_options)[i]
+              })
+            }
+            this.poi.service_options = tmp;
           }
         },
         (err: any) => {
