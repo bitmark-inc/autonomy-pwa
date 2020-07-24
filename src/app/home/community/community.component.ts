@@ -48,6 +48,14 @@ export class CommunityComponent implements OnInit {
       .subscribe(
         (data: {report_items: any}) => {
           this.dataBySymptoms = data.report_items;
+
+          // default fill color for first 6 symptoms
+          for (let i = 0; i < AppSettings.CHART_COLORS.length; i++) {
+            if (this.dataBySymptoms[i]) {
+              this.dataBySymptoms[i].chartColor = this.addColor();
+              this.dataBySymptoms[i].chartShown = true;
+            }
+          }
           this.renderChart();
         },
         (err) => {

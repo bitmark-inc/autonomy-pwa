@@ -34,7 +34,7 @@
 
   <div [ngClass]="{'list-not-standalone': !isStandalone()}" class="result-place-list">
     <div class="line-icon"><span (click)="isViewListShow = !isViewListShow"></span></div>
-    <div [hidden]="!isSearching && (focusState || !isViewListShow)" class="p-t-10" *ngIf="pois && pois.length">
+    <div [hidden]="(focusState || !isViewListShow || (isViewListShow && isSearching))" class="p-t-10" *ngIf="pois && pois.length">
       <div *ngFor="let poi of pois">
         <mat-card (click)="focusToPlace(poi)" class="hovering clickable no-bottom col content-left" [ngClass]="{'grey-text-color': !poi.resource_score}">
           <div class="col-30">

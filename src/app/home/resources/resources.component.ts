@@ -14,6 +14,7 @@ import {
 import { Observable, fromEvent, Subscriber } from "rxjs";
 import { Util } from '../../services/util/util.service';
 import { AppSettings } from '../../app-settings';
+import * as moment from 'moment';
 
 let FakePOIS = [
   {
@@ -167,6 +168,13 @@ export class ResourcesComponent implements OnInit, OnDestroy {
     })
   }
 
+  private fakeResourceScore() {
+    this.pois.forEach(poi => {
+      poi.resource_score = Math.floor(Math.random() * 5.0);
+      poi.rating_last_updated = 1595402179094;
+    })
+  }
+
   public onInputFocus() {
     ParentContainerState.fullscreen.next(true);
     this.isViewListShow = true;
@@ -197,15 +205,15 @@ export class ResourcesComponent implements OnInit, OnDestroy {
     let params: string[] = [];
 
     // get all at first from ucberkeley is center of map
-    // if (!this.keyword && !this.poiType) {
+    if (!this.keyword && !this.poiType) {
       params.push(`lat=${this.mapCenter.lat}&lng=${this.mapCenter.lng}&radius=1000`);
-    // }
+    }
 
     if (this.keyword) {
-      params.push(`text=${this.keyword}`);
+      params.push(`lat=${this.mapCenter.lat}&lng=${this.mapCenter.lng}&radius=3000&text=${this.keyword}`);
     }
     if (this.poiType) {
-      params.push(`place_type=${this.poiType}`);
+      params.push(`lat=${this.mapCenter.lat}&lng=${this.mapCenter.lng}&radius=3000&place_type=${this.poiType}`);
     }
     if (params.length) {
       url += `?profile=berkeley&${params.join("&")}`;
@@ -217,6 +225,7 @@ export class ResourcesComponent implements OnInit, OnDestroy {
       (data) => {
         this.isSearching = false;
         this.pois = data;
+        this.fakeResourceScore();
         this.formatPOI();
         this.updatePlaceColors();
       },
@@ -258,6 +267,7 @@ export class ResourcesComponent implements OnInit, OnDestroy {
     if (this.keyword || this.poiType) {
       this.keyword = "";
       this.poiType = "";
+      this.isViewListShow = false;
       this.isSearching = false;
       this.search();
       ParentContainerState.fullscreen.next(false);
