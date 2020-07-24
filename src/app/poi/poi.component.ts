@@ -68,36 +68,40 @@ export class PoiComponent implements OnInit {
       .subscribe(
         (data: any) => {
           this.poi = data;
-          this.poiBackground = Util.scoreToColor(this.poi.resource_score, false);
-          for (let key in this.poi.resource_ratings) {
-            this.resources.push({
-              name: key.replace(/_/g, " "),
-              score: this.poi.resource_ratings[key].score,
-              ratings: this.poi.resource_ratings[key].counts,
-              color: Util.scoreToColor(this.poi.resource_ratings[key].score, false),
-            });
-          }
-          if (this.poi.opening_hours) {
-            this.openHours = Util.openHoursFormat(this.poi.opening_hours);
-            this.todayOpenHour = Util.openHoursFormat(this.poi.opening_hours, true);
-          }
-          if (this.poi.service_options) {
-            let tmp = [];
-            let services = Object.keys(this.poi.service_options);
-            for (let i = 0; i < services.length; i++) {
-              tmp.push({
-                name: services[i],
-                active: Object.values(this.poi.service_options)[i]
-              })
-            }
-            this.poi.service_options = tmp;
-          }
+          this.formatPOI();
         },
         (err: any) => {
           console.log(err);
           // TODO: do something
         }
       );
+  }
+
+  private formatPOI() {
+    this.poiBackground = Util.scoreToColor(this.poi.resource_score, false);
+    for (let key in this.poi.resource_ratings) {
+      this.resources.push({
+        name: key.replace(/_/g, " "),
+        score: this.poi.resource_ratings[key].score,
+        ratings: this.poi.resource_ratings[key].counts,
+        color: Util.scoreToColor(this.poi.resource_ratings[key].score, false),
+      });
+    }
+    if (this.poi.opening_hours && Object.keys(this.poi.opening_hours).length != 0) {
+      this.openHours = Util.openHoursFormat(this.poi.opening_hours);
+      this.todayOpenHour = Util.openHoursFormat(this.poi.opening_hours, true);
+    }
+    if (this.poi.service_options && Object.keys(this.poi.service_options).length != 0) {
+      let tmp = [];
+      let services = Object.keys(this.poi.service_options);
+      for (let i = 0; i < services.length; i++) {
+        tmp.push({
+          name: services[i],
+          active: Object.values(this.poi.service_options)[i]
+        })
+      }
+      this.poi.service_options = tmp;
+    }
   }
 
   private checkRated(): void {
