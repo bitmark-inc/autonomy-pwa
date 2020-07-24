@@ -71,9 +71,15 @@ interface POI {
     latitude: number,
     longitude: number
   },
+  rating_last_updated: number,
+  opening_hours: any,
+  place_types: [],
+  service_options: any,
   resource_score: number,
-  last_updated: number,
   focused: boolean,
+  place_type: string,
+  todayOpenHour: string,
+  services_active: string,
   color: string
 }
 
@@ -144,6 +150,23 @@ export class ResourcesComponent implements OnInit, OnDestroy {
     this.poiTypes = ['Restaurants', 'Coffee', 'Groceries', 'Pharmacies', 'Laundromats'];
   }
 
+  private formatPOI() {
+    this.pois.forEach(poi => {
+      poi.place_type = poi.place_types.join(', ');
+      if (poi.opening_hours && Object.keys(poi.opening_hours).length != 0) {
+        let time = Util.openHoursFormat(poi.opening_hours, true);
+        poi.todayOpenHour = time === 'Closed' ? 'Closed today' : `Open ${time} today`;
+      } else {
+        poi.todayOpenHour = '';
+      }
+      if (poi.service_options && Object.keys(poi.service_options).length != 0) {
+        poi.services_active = Object.keys(poi.service_options).map(e => poi.service_options[e] ? e : '').filter(s => s != '').join(', ');
+      } else {
+        poi.services_active = '';
+      }
+    })
+  }
+
   public onInputFocus() {
     ParentContainerState.fullscreen.next(true);
     this.isViewListShow = true;
@@ -153,7 +176,6 @@ export class ResourcesComponent implements OnInit, OnDestroy {
   public onInputFocusOut() {
     if (!(this.keyword || this.poiType)) {
       ParentContainerState.fullscreen.next(false);
-      // this.isViewListShow = false;
     }
   }
 
@@ -174,10 +196,10 @@ export class ResourcesComponent implements OnInit, OnDestroy {
     let url = `${environment.autonomy_api_url}api/points-of-interest`;
     let params: string[] = [];
 
-    // Fake the keywork for now to avoid API error, TODO: remove this later
-    if (!this.keyword) {
-      params.push(`text=Berkeley`);
-    }
+    // get all at first from ucberkeley is center of map
+    // if (!this.keyword && !this.poiType) {
+      params.push(`lat=${this.mapCenter.lat}&lng=${this.mapCenter.lng}&radius=1000`);
+    // }
 
     if (this.keyword) {
       params.push(`text=${this.keyword}`);
@@ -186,7 +208,7 @@ export class ResourcesComponent implements OnInit, OnDestroy {
       params.push(`place_type=${this.poiType}`);
     }
     if (params.length) {
-      url += `?${params.join('&')}`;
+      url += `?profile=berkeley&${params.join("&")}`;
     }
 
     this.apiService
@@ -195,9 +217,8 @@ export class ResourcesComponent implements OnInit, OnDestroy {
       (data) => {
         this.isSearching = false;
         this.pois = data;
-        // this.pois = FakePOIS;
+        this.formatPOI();
         this.updatePlaceColors();
-        // console.log(this.pois);
       },
       (err) => {
         this.isSearching = false;
@@ -207,8 +228,11 @@ export class ResourcesComponent implements OnInit, OnDestroy {
 
   public updatePlaceColors() {
     this.pois.forEach((poi) => {
-      // TODO: detect if place is opening
-      poi.color = Util.scoreToColor(poi.resource_score, false);
+      if (poi.todayOpenHour && poi.todayOpenHour != 'Closed today') {
+        poi.color = Util.scoreToColor(poi.resource_score, false);
+      } else {
+        poi.color = Util.scoreToColor(poi.resource_score, true);
+      }
     });
   }
 

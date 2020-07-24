@@ -39,15 +39,19 @@
         <mat-card (click)="focusToPlace(poi)" class="hovering clickable no-bottom col content-left" [ngClass]="{'grey-text-color': !poi.resource_score}">
           <div class="col-30">
             <div [ngStyle]="{'background': poi.color}" class="content-center place-score"><span class="score-num">{{poi.resource_score ? (poi.resource_score | number:'1.1-1') : '--'}}</span></div>
-            <p *ngIf="poi.resource_score && poi.last_updated" class="content-center font-10 line-height-120 p-t-10">Last rated: {{poi.last_updated | relativeDate}}</p>
-            <p *ngIf="!poi.resource_score && poi.last_updated === 0" class="content-center font-10 line-height-120 p-t-10">Last rated: --</p>
+            <p *ngIf="poi.resource_score && poi.rating_last_updated" class="content-center font-10 line-height-120 p-t-10">Last rated: {{poi.rating_last_updated | relativeDate}}</p>
+            <p *ngIf="!poi.resource_score && poi.rating_last_updated === 0" class="content-center font-10 line-height-120 p-t-10">Last rated: --</p>
           </div>
           <div class="col-70">
             <mat-card class="no-top no-bottom no-right">
               <p class="upcase font-14">{{poi.alias}}</p>
-              <p class="font-12 grey-text-color p-b-5">Restaurant</p> <!-- category -->
-              <p [ngClass]="{'grey-text-color': !poi.resource_score, 'direction-color': poi.resource_score}" class="font-12 p-b-5">Open 5pm-8pm today</p> <!-- open hours -->
-              <p [ngClass]="{'grey-text-color': !poi.resource_score, 'direction-color': poi.resource_score}" class="font-12 p-b-5">Social distancing</p> <!-- services -->
+              <p class="font-12 grey-text-color p-b-5 capital">{{poi.place_type}}</p> <!-- category -->
+              <p *ngIf="poi.todayOpenHour" [ngClass]="{'grey-text-color': !poi.resource_score, 'direction-color': poi.resource_score}" class="font-12 p-b-5">{{poi.todayOpenHour}}</p> <!-- open hours -->
+              <p *ngIf="poi.services_active" [ngClass]="{'grey-text-color': !poi.resource_score, 'direction-color': poi.resource_score}" class="font-12 p-b-5 capital">{{poi.services_active}}</p> <!-- services -->
+              <div *ngIf="!poi.todayOpenHour && !poi.services_active">
+                <p class="font-12 p-b-5 grey-text-color">No data</p>
+                <p class="font-12 p-b-5 grey-text-color">--</p>
+              </div>
               <p class="font-10 content-right"><a class="normal-link clickable" (click)="navigateToPOI(poi.id)">More details</a></p>
             </mat-card>
           </div>
@@ -62,15 +66,19 @@
     <mat-card class="no-bottom col content-left" [ngClass]="{'grey-text-color': !focusedPOI.resource_score}">
       <div class="col-30">
         <div [ngStyle]="{'background': focusedPOI.color}" class="content-center place-score"><span class="score-num">{{focusedPOI.resource_score ? (focusedPOI.resource_score | number:'1.1-1') : '--'}}</span></div>
-        <p *ngIf="focusedPOI.resource_score && focusedPOI.last_updated" class="content-center font-10 line-height-120 p-t-10">Last rated: {{focusedPOI.last_updated | relativeDate}}</p>
-        <p *ngIf="!focusedPOI.resource_score && focusedPOI.last_updated === 0" class="content-center font-10 line-height-120 p-t-10">Last rated: --</p>
+        <p *ngIf="focusedPOI.resource_score && focusedPOI.rating_last_updated" class="content-center font-10 line-height-120 p-t-10">Last rated: {{focusedPOI.rating_last_updated | relativeDate}}</p>
+        <p *ngIf="!focusedPOI.resource_score && focusedPOI.rating_last_updated === 0" class="content-center font-10 line-height-120 p-t-10">Last rated: --</p>
       </div>
       <div class="col-70">
         <mat-card class="no-top no-bottom no-right">
           <p class="upcase font-14">{{focusedPOI.alias}}</p>
-          <p class="font-12 grey-text-color p-b-5">Restaurant</p> <!-- category -->
-          <p [ngClass]="{'grey-text-color': !focusedPOI.resource_score, 'direction-color': focusedPOI.resource_score}" class="font-12 p-b-5">Open 5pm-8pm today</p> <!-- open hours -->
-          <p [ngClass]="{'grey-text-color': !focusedPOI.resource_score, 'direction-color': focusedPOI.resource_score}" class="font-12 p-b-5">Social distancing</p> <!-- services -->
+          <p class="font-12 grey-text-color p-b-5 capital">{{focusedPOI.place_type}}</p> <!-- category -->
+          <p *ngIf="focusedPOI.todayOpenHour" [ngClass]="{'grey-text-color': !focusedPOI.resource_score, 'direction-color': focusedPOI.resource_score}" class="font-12 p-b-5">{{focusedPOI.todayOpenHour}}</p> <!-- open hours -->
+          <p *ngIf="focusedPOI.services_active" [ngClass]="{'grey-text-color': !focusedPOI.resource_score, 'direction-color': focusedPOI.resource_score}" class="font-12 p-b-5 capital">{{focusedPOI.services_active}}</p> <!-- services -->
+          <div *ngIf="!focusedPOI.todayOpenHour && !focusedPOI.services_active">
+            <p class="font-12 p-b-5 grey-text-color">No data</p>
+            <p class="font-12 p-b-5 grey-text-color">--</p>
+          </div>
           <p class="font-10 content-right"><a class="normal-link" (click)="navigateToPOI(focusedPOI.id)">More details</a></p>
         </mat-card>
       </div>

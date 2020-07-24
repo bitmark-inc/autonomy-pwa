@@ -148,7 +148,7 @@ export class CommunityComponent implements OnInit {
       let dayData = {day};
       let totalSymptom = 0;
       this.dataBySymptoms.forEach(symptom => {
-        dayData[symptom.name] = symptom.distribution[day] || 0;
+        dayData[symptom.name] = symptom.distribution && symptom.distribution[day] ? symptom.distribution[day] : 0;
         totalSymptom += dayData[symptom.name];
       });
       if (totalSymptom > this.maxSymptomByDay) {
