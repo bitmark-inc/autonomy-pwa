@@ -19,7 +19,7 @@
         {{type}}
     </span>
     </mat-card>
-    <google-map class="map-view" [height]="mapHeight" [width]="mapWidth" [center]="mapCenter" [options]="mapOptions" (zoomChanged)="zoomHandle()">
+    <google-map class="map-view" [height]="mapHeight" [width]="mapWidth" [center]="mapCenter" [options]="mapOptions" (zoomChanged)="zoomHandle()" (mapDragend)="dragEndHandle()">
       <map-marker
         *ngFor="let poi of pois"
         [position]="{lat: poi.location.latitude, lng: poi.location.longitude}"
@@ -48,7 +48,7 @@
           <div class="col-30">
             <div [ngStyle]="{'background': poi.color}" class="content-center place-score"><span class="score-num">{{poi.resource_score ? (poi.resource_score | number:'1.1-1') : '--'}}</span></div>
             <p *ngIf="poi.resource_score && poi.rating_last_updated" class="content-center font-10 line-height-120 p-t-10">Last rated: {{poi.rating_last_updated | relativeDate}}</p>
-            <p *ngIf="!poi.resource_score && poi.rating_last_updated === 0" class="content-center font-10 line-height-120 p-t-10">Last rated: --</p>
+            <p *ngIf="!poi.resource_score || poi.rating_last_updated === 0" class="content-center font-10 line-height-120 p-t-10">Last rated: --</p>
           </div>
           <div class="col-70">
             <mat-card class="no-top no-bottom no-right">
