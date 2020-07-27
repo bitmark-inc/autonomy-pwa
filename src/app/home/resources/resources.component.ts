@@ -186,7 +186,7 @@ export class ResourcesComponent implements OnInit, OnDestroy {
   public zoomHandle() {
     if (this.mapRef) {
       this.mapZoomLevel = this.mapRef.getZoom();
-      this.labelShown = this.mapZoomLevel < 18;
+      this.labelShown = this.mapZoomLevel >= 18;
     }
   }
 
