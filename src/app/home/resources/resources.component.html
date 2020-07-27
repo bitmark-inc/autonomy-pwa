@@ -14,18 +14,26 @@
   </div>
   <div *ngIf="pois && poiTypes" class="content-view">
     <mat-card class="resources-list">
-      <span class="resource-item font-14 clickable" *ngFor="let type of poiTypes"
+      <span class="resource-item font-14 capital clickable" *ngFor="let type of poiTypes"
         (click)="searchByPlaceType(type)">
         {{type}}
     </span>
     </mat-card>
-    <google-map class="map-view" [height]="mapHeight" [width]="mapWidth" [center]="mapCenter" [options]="mapOptions">
+    <google-map class="map-view" [height]="mapHeight" [width]="mapWidth" [center]="mapCenter" [options]="mapOptions" (zoomChanged)="zoomHandle()">
       <map-marker
         *ngFor="let poi of pois"
         [position]="{lat: poi.location.latitude, lng: poi.location.longitude}"
         [title]="poi.alias"
-        [options]="{icon: {path: mapIconSVGPath, strokeColor: poi.color, fillColor: poi.color, fillOpacity: 1, scale: (focusedPOI && poi.id === focusedPOI.id) ? 1.5 : 1},
-                    label: {text: poi.alias, color: '#303030', fontFamily: 'Atlas Grotesk'}}"
+        [options]="{
+          icon: {
+            path: mapIconSVGPath,
+            strokeColor: poi.color,
+            fillColor: poi.color,
+            fillOpacity: 1,
+            labelOrigin: labelPosition,
+            scale: (focusedPOI && poi.id === focusedPOI.id) ? 1.5 : 1
+          },
+          label: labelShow ? {text: poi.alias, color: '#303030', fontFamily: 'Atlas Grotesk'} : ''}"
         (mapClick)="focusToPlace(poi)"
       >
       </map-marker>

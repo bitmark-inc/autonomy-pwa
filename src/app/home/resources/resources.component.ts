@@ -15,6 +15,7 @@ import { Observable, fromEvent, Subscriber } from "rxjs";
 import { Util } from '../../services/util/util.service';
 import { AppSettings } from '../../app-settings';
 import * as moment from 'moment';
+import { GoogleMap } from '@angular/google-maps';
 
 let FakePOIS = [
   {
@@ -91,6 +92,7 @@ interface POI {
 })
 export class ResourcesComponent implements OnInit, OnDestroy {
   @ViewChild("poiSearchInput", { static: true }) poiSearchInput: ElementRef;
+  @ViewChild(GoogleMap) mapRef: GoogleMap;
 
   // Searching settings
   public keyword: string = "";
@@ -115,10 +117,15 @@ export class ResourcesComponent implements OnInit, OnDestroy {
   public mapHeight: string;
   public mapWidth: string;
   public mapOptions: google.maps.MapOptions = {
-    zoom: 17,
+    zoom: 18,
+    maxZoom: 25,
+    minZoom: 16,
     disableDefaultUI: true,
     styles: [{featureType: 'poi', stylers: [{visibility: 'off'}]}]
   };
+
+  public labelPosition = new google.maps.Point(0,37);
+  public labelShow: boolean = true;
 
   constructor(private apiService: ApiService, public router: Router, private ngZone: NgZone) {
     this.mapCenter = this.UCBekerleyLatlng;
@@ -148,7 +155,7 @@ export class ResourcesComponent implements OnInit, OnDestroy {
   }
 
   private getResourcesForSearching() {
-    this.poiTypes = ['Restaurants', 'Coffee', 'Groceries', 'Pharmacies', 'Laundromats'];
+    this.poiTypes = ['restaurants', 'coffee', 'groceries', 'pharmacies', 'laundromats'];
   }
 
   private formatPOI() {
@@ -173,6 +180,14 @@ export class ResourcesComponent implements OnInit, OnDestroy {
       poi.resource_score = Math.floor(Math.random() * 5.0);
       poi.rating_last_updated = 1595402179094;
     })
+  }
+
+  public zoomHandle() {
+    if (this.mapRef && this.mapRef.getZoom() < 17) {
+      this.labelShow = false;
+    } else {
+      this.labelShow = true;
+    }
   }
 
   public onInputFocus() {
