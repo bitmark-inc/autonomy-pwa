@@ -116,16 +116,17 @@ export class ResourcesComponent implements OnInit, OnDestroy {
   public mapIconSVGPath: string = 'M0.5 10.8975C0.5 5.09246 5.195 0.397461 11 0.397461C16.805 0.397461 21.5 5.09246 21.5 10.8975C21.5 17.1525 14.87 25.7775 12.155 29.0625C11.555 29.7825 10.46 29.7825 9.86 29.0625C7.13 25.7775 0.5 17.1525 0.5 10.8975ZM7.25 10.8975C7.25 12.9675 8.93 14.6475 11 14.6475C13.07 14.6475 14.75 12.9675 14.75 10.8975C14.75 8.82746 13.07 7.14746 11 7.14746C8.93 7.14746 7.25 8.82746 7.25 10.8975Z';
   public mapHeight: string;
   public mapWidth: string;
+  public mapZoomLevel: number = 18;
   public mapOptions: google.maps.MapOptions = {
-    zoom: 18,
+    zoom: this.mapZoomLevel,
     maxZoom: 25,
-    minZoom: 16,
+    minZoom: 17,
     disableDefaultUI: true,
     styles: [{featureType: 'poi', stylers: [{visibility: 'off'}]}]
   };
 
   public labelPosition = new google.maps.Point(0,37);
-  public labelShow: boolean = true;
+  public labelShown: boolean = true;
 
   constructor(private apiService: ApiService, public router: Router, private ngZone: NgZone) {
     this.mapCenter = this.UCBekerleyLatlng;
@@ -183,10 +184,9 @@ export class ResourcesComponent implements OnInit, OnDestroy {
   }
 
   public zoomHandle() {
-    if (this.mapRef && this.mapRef.getZoom() < 17) {
-      this.labelShow = false;
-    } else {
-      this.labelShow = true;
+    if (this.mapRef) {
+      this.mapZoomLevel = this.mapRef.getZoom();
+      this.labelShown = this.mapZoomLevel < 18;
     }
   }
 
@@ -239,6 +239,8 @@ export class ResourcesComponent implements OnInit, OnDestroy {
     .subscribe(
       (data) => {
         this.isSearching = false;
+        this.mapZoomLevel = 19;
+        this.labelShown = true;
         this.pois = data;
         this.fakeResourceScore();
         this.formatPOI();
@@ -264,6 +266,8 @@ export class ResourcesComponent implements OnInit, OnDestroy {
     this.focusState = true;
     this.focusedPOI = poi;
     this.focusedPOI.focused = true;
+    this.mapZoomLevel = 19;
+    this.labelShown = true;
     this.mapCenter = {
       lat: this.focusedPOI.location.latitude,
       lng: this.focusedPOI.location.longitude,

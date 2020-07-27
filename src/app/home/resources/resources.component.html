@@ -33,7 +33,7 @@
             labelOrigin: labelPosition,
             scale: (focusedPOI && poi.id === focusedPOI.id) ? 1.5 : 1
           },
-          label: labelShow ? {text: poi.alias, color: '#303030', fontFamily: 'Atlas Grotesk'} : ''}"
+          label: labelShown ? {text: poi.alias, color: '#303030', fontFamily: 'Atlas Grotesk'} : ''}"
         (mapClick)="focusToPlace(poi)"
       >
       </map-marker>
