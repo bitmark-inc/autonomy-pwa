@@ -120,7 +120,7 @@ export class ResourcesComponent implements OnInit, OnDestroy {
   public mapOptions: google.maps.MapOptions = {
     zoom: this.mapZoomLevel,
     maxZoom: 25,
-    minZoom: 17,
+    minZoom: 16,
     disableDefaultUI: true,
     styles: [{featureType: 'poi', stylers: [{visibility: 'off'}]}]
   };
