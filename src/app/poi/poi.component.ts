@@ -4,6 +4,7 @@ import { ApiService } from '../services/api/api.service';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { Util } from '../services/util/util.service';
+import * as moment from "moment";
 
 @Component({
   selector: "app-poi",
@@ -25,6 +26,7 @@ export class PoiComponent implements OnInit {
       longitude: number;
     };
     resource_ratings: {};
+    resource_rating_count: number;
     resource_score: number;
     score: number;
     opening_hours: any;

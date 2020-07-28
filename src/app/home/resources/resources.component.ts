@@ -15,7 +15,7 @@ import { Observable, fromEvent, Subscriber } from "rxjs";
 import { Util } from '../../services/util/util.service';
 import { AppSettings } from '../../app-settings';
 import * as moment from 'moment';
-import { GoogleMap, MapMarker } from '@angular/google-maps';
+import { GoogleMap } from '@angular/google-maps';
 
 let FakePOIS = [
   {
@@ -119,8 +119,8 @@ export class ResourcesComponent implements OnInit, OnDestroy {
   public mapZoomLevel: number = 18;
   public mapOptions: google.maps.MapOptions = {
     zoom: this.mapZoomLevel,
-    maxZoom: 25,
-    minZoom: 17,
+    maxZoom: 30,
+    minZoom: 16,
     disableDefaultUI: true,
     styles: [{featureType: 'poi', stylers: [{visibility: 'off'}]}]
   };
@@ -153,6 +153,10 @@ export class ResourcesComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     ParentContainerState.fullscreen.next(false);
+  }
+
+  public trackByPoiID(index, item) {
+    return item.id
   }
 
   private getResourcesForSearching() {
@@ -271,7 +275,9 @@ export class ResourcesComponent implements OnInit, OnDestroy {
         this.mapZoomLevel = 19;
         this.labelShown = true;
         this.pois = data;
-        this.fakeResourceScore();
+        if (environment.bitmark_network === 'testnet') {
+          this.fakeResourceScore();
+        }
         this.formatPOI();
         this.updatePlaceColors();
       },
@@ -282,12 +288,20 @@ export class ResourcesComponent implements OnInit, OnDestroy {
   }
 
   public updatePlaceColors() {
+    let colorLight: boolean = false;
     this.pois.forEach((poi) => {
       if (poi.todayOpenHour && poi.todayOpenHour != 'Closed today') {
-        poi.color = Util.scoreToColor(poi.resource_score, false);
+        let open = poi.todayOpenHour.split(' ')[1].trim();
+        let closed = poi.todayOpenHour.split(' ')[3].trim();
+
+        let currentTime = moment().hours() * 60 + moment().minutes();
+        let startTime = moment(open, 'hh:mm A').hours() * 60 + moment(open, 'hh:mm A').minutes()
+        let endTime = moment(closed, 'hh:mm A').hours() * 60 + moment(closed, 'hh:mm A').minutes()
+        colorLight = !(startTime < currentTime && currentTime < endTime);
       } else {
-        poi.color = Util.scoreToColor(poi.resource_score, true);
+        colorLight = true
       }
+      poi.color = Util.scoreToColor(poi.resource_score, colorLight);
     });
   }
 
@@ -295,7 +309,7 @@ export class ResourcesComponent implements OnInit, OnDestroy {
     this.focusState = true;
     this.focusedPOI = poi;
     this.focusedPOI.focused = true;
-    this.mapZoomLevel = 19;
+    this.mapZoomLevel = 20;
     this.labelShown = true;
     this.mapCenter = {
       lat: this.focusedPOI.location.latitude,

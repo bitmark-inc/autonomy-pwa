@@ -39,6 +39,7 @@ export class RatingsComponent implements OnInit {
       longitude: number;
     };
     resource_ratings: {};
+    resource_rating_count: number;
     resource_score: number;
     score: number;
     opening_hours: any;
