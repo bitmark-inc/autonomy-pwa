@@ -28,7 +28,6 @@ export class CommunityComponent implements OnInit {
   public colorsInUse: string[] = [];
 
   constructor(private apiService: ApiService) {
-    this.checkedInPerson = 345;
   }
 
   ngOnInit() {
@@ -46,7 +45,8 @@ export class CommunityComponent implements OnInit {
     this.apiService
       .request('get', endpoint, null, null, ApiService.DSTarget.CDS)
       .subscribe(
-        (data: {report_items: any}) => {
+        (data: {checkins_num_past_three_days: number,report_items: any}) => {
+          this.checkedInPerson = data.checkins_num_past_three_days;
           this.dataBySymptoms = data.report_items;
 
           // default fill color for first 6 symptoms
@@ -137,6 +137,11 @@ export class CommunityComponent implements OnInit {
       .attr("stroke", "#EDEDED")
       .attr("stroke-width", 1)
       .attr("fill", "#EDEDED");
+
+    this.dataBySymptoms.forEach(sym => {
+      sym.chartColor = sym.chartColor || AppSettings.DEFAULT_CHART_COLOR;
+      d3.select(sym.chartControl).attr('fill', sym.chartColor);
+    })
   }
 
   private buildKeyLists() {
