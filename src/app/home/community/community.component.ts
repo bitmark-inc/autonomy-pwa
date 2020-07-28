@@ -41,7 +41,7 @@ export class CommunityComponent implements OnInit {
     let start = encodeURIComponent(this.reportStart.toISOString(true));
     let end = encodeURIComponent(this.reportEnd.toISOString(true));
 
-    let endpoint = `${environment.autonomy_api_url}api/report-items?scope=individual&type=symptom&granularity=day&start=${start}&end=${end}`;
+    let endpoint = `${environment.autonomy_api_url}api/report-items?scope=individual&type=symptom&granularity=day`;
     this.apiService
       .request('get', endpoint, null, null, ApiService.DSTarget.CDS)
       .subscribe(
@@ -145,8 +145,20 @@ export class CommunityComponent implements OnInit {
   }
 
   private buildKeyLists() {
+    // render 7 days from the last day had data
+    let reportEndDay: any = Object.keys(this.dataBySymptoms[0].distribution)[0];
+    this.dataBySymptoms.forEach(symp => {
+      Object.keys(symp.distribution).forEach(day => {
+        if (moment(day).isAfter(reportEndDay, 'day')) {
+          reportEndDay = day;
+        }
+      })
+    })
+
+    let reportStartDay = moment(reportEndDay).add(-6, 'days');
+
     this.listOfDays = [];
-    let dayCounter = moment(this.reportStart);
+    let dayCounter = moment(reportStartDay);
     for (let i = 0; i < 7; i++) {
       this.listOfDays.push(dayCounter.format('YYYY-MM-DD'));
       dayCounter.add(1, 'days');
