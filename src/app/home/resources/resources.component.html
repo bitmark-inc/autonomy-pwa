@@ -31,7 +31,7 @@
             fillColor: poi.color,
             fillOpacity: 1,
             labelOrigin: labelPosition,
-            scale: 1
+            scale: (focusedPOI && poi.id == focusedPOI.id) ? 1.5 : 1
           },
           zIndex: (focusedPOI && poi.id == focusedPOI.id) ? 9999 : 9,
           label: (focusedPOI && poi.id === focusedPOI.id) ? {text: poi.alias, color: '#303030', fontFamily: 'Atlas Grotesk', fontWeight: '600'} : (labelShown && !(focusedPOI)) ? {text: poi.alias, color: '#303030', fontFamily: 'Atlas Grotesk', fontWeight: '300'} : ''}"
