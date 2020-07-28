@@ -10,7 +10,7 @@
       <span class="page-title">{{poi.alias}}</span>
     </div>
     <mat-card class="rate">
-      <p *ngIf="poi.resource_score"><strong>345</strong><span class="light-color"> ratings</span></p>
+      <p *ngIf="poi.resource_score"><strong>{{poi.resource_rating_count}}</strong><span class="light-color"> ratings</span></p>
       <p *ngIf="!poi.resource_score"><strong>0</strong><span class="light-color"> ratings</span></p>
       <p *ngIf="poi.resource_score" class="last-updated light-color">Rated {{poi.rating_last_updated | relativeDate}}</p>
       <p *ngIf="!poi.resource_score" class="last-updated light-color">Not yet rated</p>

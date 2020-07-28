@@ -119,7 +119,7 @@ export class ResourcesComponent implements OnInit, OnDestroy {
   public mapZoomLevel: number = 18;
   public mapOptions: google.maps.MapOptions = {
     zoom: this.mapZoomLevel,
-    maxZoom: 25,
+    maxZoom: 30,
     minZoom: 16,
     disableDefaultUI: true,
     styles: [{featureType: 'poi', stylers: [{visibility: 'off'}]}]
@@ -155,6 +155,10 @@ export class ResourcesComponent implements OnInit, OnDestroy {
     ParentContainerState.fullscreen.next(false);
   }
 
+  public trackByPoiID(index, item) {
+    return item.id
+  }
+
   private getResourcesForSearching() {
     this.poiTypes = ['restaurants', 'coffee', 'groceries', 'pharmacies', 'laundromats'];
   }
@@ -183,10 +187,39 @@ export class ResourcesComponent implements OnInit, OnDestroy {
     })
   }
 
+  private deg2rad(deg) {
+    return deg * (Math.PI/180)
+  }
+
+  private getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2) {
+    let R = 6371; // Radius of the earth in km
+    let dLat = this.deg2rad(lat2-lat1);  // deg2rad below
+    let dLon = this.deg2rad(lon2-lon1);
+    let a = Math.sin(dLat/2) * Math.sin(dLat/2) + Math.cos(this.deg2rad(lat1)) * Math.cos(this.deg2rad(lat2)) * Math.sin(dLon/2) * Math.sin(dLon/2);
+    let c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    let d = R * c; // Distance in km
+    return d;
+  }
+
   public zoomHandle() {
     if (this.mapRef) {
       this.mapZoomLevel = this.mapRef.getZoom();
       this.labelShown = this.mapZoomLevel >= 18;
+    }
+  }
+
+  public dragEndHandle() {
+    if (this.mapRef) {
+      let dragDistance = this.getDistanceFromLatLonInKm(
+        this.mapCenter.lat,
+        this.mapCenter.lng,
+        this.mapRef.getBounds().getCenter().lat(),
+        this.mapRef.getBounds().getCenter().lng()
+      );
+      if (dragDistance > 1) {
+        this.mapCenter = { lat: this.mapRef.getCenter().lat(), lng: this.mapRef.getCenter().lng() };
+        this.search();
+      }
     }
   }
 
@@ -242,7 +275,9 @@ export class ResourcesComponent implements OnInit, OnDestroy {
         this.mapZoomLevel = 19;
         this.labelShown = true;
         this.pois = data;
-        this.fakeResourceScore();
+        if (environment.bitmark_network === 'testnet') {
+          this.fakeResourceScore();
+        }
         this.formatPOI();
         this.updatePlaceColors();
       },
@@ -253,12 +288,20 @@ export class ResourcesComponent implements OnInit, OnDestroy {
   }
 
   public updatePlaceColors() {
+    let colorLight: boolean = false;
     this.pois.forEach((poi) => {
       if (poi.todayOpenHour && poi.todayOpenHour != 'Closed today') {
-        poi.color = Util.scoreToColor(poi.resource_score, false);
+        let open = poi.todayOpenHour.split(' ')[1].trim();
+        let closed = poi.todayOpenHour.split(' ')[3].trim();
+
+        let currentTime = moment().hours() * 60 + moment().minutes();
+        let startTime = moment(open, 'hh:mm A').hours() * 60 + moment(open, 'hh:mm A').minutes()
+        let endTime = moment(closed, 'hh:mm A').hours() * 60 + moment(closed, 'hh:mm A').minutes()
+        colorLight = !(startTime < currentTime && currentTime < endTime);
       } else {
-        poi.color = Util.scoreToColor(poi.resource_score, true);
+        colorLight = true
       }
+      poi.color = Util.scoreToColor(poi.resource_score, colorLight);
     });
   }
 
@@ -266,7 +309,7 @@ export class ResourcesComponent implements OnInit, OnDestroy {
     this.focusState = true;
     this.focusedPOI = poi;
     this.focusedPOI.focused = true;
-    this.mapZoomLevel = 19;
+    this.mapZoomLevel = 20;
     this.labelShown = true;
     this.mapCenter = {
       lat: this.focusedPOI.location.latitude,

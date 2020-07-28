@@ -28,7 +28,6 @@ export class CommunityComponent implements OnInit {
   public colorsInUse: string[] = [];
 
   constructor(private apiService: ApiService) {
-    this.checkedInPerson = 345;
   }
 
   ngOnInit() {
@@ -42,11 +41,12 @@ export class CommunityComponent implements OnInit {
     let start = encodeURIComponent(this.reportStart.toISOString(true));
     let end = encodeURIComponent(this.reportEnd.toISOString(true));
 
-    let endpoint = `${environment.autonomy_api_url}api/report-items?scope=individual&type=symptom&granularity=day&start=${start}&end=${end}`;
+    let endpoint = `${environment.autonomy_api_url}api/report-items?scope=individual&type=symptom&granularity=day`;
     this.apiService
       .request('get', endpoint, null, null, ApiService.DSTarget.CDS)
       .subscribe(
-        (data: {report_items: any}) => {
+        (data: {checkins_num_past_three_days: number,report_items: any}) => {
+          this.checkedInPerson = data.checkins_num_past_three_days;
           this.dataBySymptoms = data.report_items;
 
           // default fill color for first 6 symptoms
@@ -137,11 +137,28 @@ export class CommunityComponent implements OnInit {
       .attr("stroke", "#EDEDED")
       .attr("stroke-width", 1)
       .attr("fill", "#EDEDED");
+
+    this.dataBySymptoms.forEach(sym => {
+      sym.chartColor = sym.chartColor || AppSettings.DEFAULT_CHART_COLOR;
+      d3.select(sym.chartControl).attr('fill', sym.chartColor);
+    })
   }
 
   private buildKeyLists() {
+    // render 7 days from the last day had data
+    let reportEndDay: any = Object.keys(this.dataBySymptoms[0].distribution)[0];
+    this.dataBySymptoms.forEach(symp => {
+      Object.keys(symp.distribution).forEach(day => {
+        if (moment(day).isAfter(reportEndDay, 'day')) {
+          reportEndDay = day;
+        }
+      })
+    })
+
+    let reportStartDay = moment(reportEndDay).add(-6, 'days');
+
     this.listOfDays = [];
-    let dayCounter = moment(this.reportStart);
+    let dayCounter = moment(reportStartDay);
     for (let i = 0; i < 7; i++) {
       this.listOfDays.push(dayCounter.format('YYYY-MM-DD'));
       dayCounter.add(1, 'days');
