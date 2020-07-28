@@ -70,11 +70,17 @@ export class PersonalDataComponent implements OnInit {
   private downloadFile(data) {
     const aFile = new Blob([data], { type: 'application/zip'});
     const url = window.URL.createObjectURL(aFile);
-    this.saveFlieEl.nativeElement.href = url;
-    this.saveFlieEl.nativeElement.download = `PDS-export-${Date.now()}`;
-    this.saveFlieEl.nativeElement.click();
-    window.URL.revokeObjectURL(url);
-    this.saveFlieEl.nativeElement.href = '#';
+
+    let reader = new FileReader();
+
+    reader.onload = () => {
+      this.saveFlieEl.nativeElement.href = url;
+      this.saveFlieEl.nativeElement.target = '_blank';
+      this.saveFlieEl.nativeElement.download = `PDS-export-${Date.now()}`;
+      this.saveFlieEl.nativeElement.click();
+      this.saveFlieEl.nativeElement.href = '#';
+    }
+    reader.readAsDataURL(aFile);
   }
 
   public exportData() {

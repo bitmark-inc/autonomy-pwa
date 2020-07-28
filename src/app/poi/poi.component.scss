@@ -57,7 +57,8 @@
 .last-updated {
   width: 50%;
   padding-left: 40px;
-  display: contents;
+  display: flex;
+  justify-content: flex-end;
 }
 
 .address-link {
