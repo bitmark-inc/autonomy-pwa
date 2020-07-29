@@ -25,7 +25,10 @@
             "aot": true,
             "assets": [
               "src/favicon.ico",
-              "src/assets",
+              "src/assets/fonts",
+              "src/assets/img",
+              "src/assets/js",
+              {"glob": "**/*", "input": "src/assets/icons/dev-app-icons", "output": "assets/icons/app-icons"},
               "src/manifest.webmanifest",
               {"glob": "main.wasm", "input": "src/bitmarksdk/src", "output": "/"}
             ],
@@ -50,6 +53,15 @@
                   "replace": "src/environments/environment.ts",
                   "with": "src/environments/environment.stg.ts"
                 }
+              ],
+              "assets": [
+                "src/favicon.ico",
+                "src/assets/fonts",
+                "src/assets/img",
+                "src/assets/js",
+                {"glob": "**/*", "input": "src/assets/icons/dev-app-icons", "output": "assets/icons/app-icons"},
+                "src/manifest.webmanifest",
+                {"glob": "main.wasm", "input": "src/bitmarksdk/src", "output": "/"}
               ],
               "optimization": true,
               "outputHashing": "all",
@@ -81,6 +93,15 @@
                   "with": "src/environments/environment.prod.ts"
                 }
               ],
+              "assets": [
+                "src/favicon.ico",
+                "src/assets/fonts",
+                "src/assets/img",
+                "src/assets/js",
+                {"glob": "**/*", "input": "src/assets/icons/prd-app-icons", "output": "assets/icons/app-icons"},
+                "src/manifest.webmanifest",
+                {"glob": "main.wasm", "input": "src/bitmarksdk/src", "output": "/"}
+              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -103,6 +124,7 @@
               ],
               "serviceWorker": true,
               "ngswConfigPath": "ngsw-config.json"
+
             }
           }
         },
