@@ -1,29 +1,56 @@
 .content {
-  display: block;
   text-align: center;
-  position: relative;
-  padding-bottom: 140px;
+  position: fixed;
   height: 100vh;
+  width: 100%;
+  max-width: 768px;
 
   .landing-content {
+    position: relative;
     height: calc(100vh - 140px - 56px);
 
     .landing-words {
-      height: calc(((100vh - 140px - 56px) / 100 * 35) - 16px);
-      font-size: 18vw;
+      font-size: 8vh;
       font-weight: 300;
       line-height: 120%;
     }
 
     .logo {
-      height: calc(((100vh - 140px - 56px) / 100 * 60) - 16px);
+      height: calc(((100vh - 140px - 56px) / 100 * 52));
       display: flex;
       justify-content: center;
       align-items: center;
-      img {
-        // width: 100%;
-        height: calc(((100vh - 140px - 56px) / 100 * 45) - 16px);
-        object-fit: scale-down;
+      margin-bottom: 10px;
+      .imgs {
+        height: calc(((100vh - 140px - 56px) / 100 * 50));;
+        width: 100%;
+        display: block;
+        .autonomy-logo {
+          width: 100%;
+          height: 70%;
+          img {
+            width: 100%;
+            height: 120%;
+            object-fit: scale-down;
+          }
+        }
+        .ucl-logo {
+          width: 100%;
+          height: 27%;
+          img {
+            // width: 100%;
+            height: 100%;
+            object-fit: scale-down;
+          }
+        }
+
+        .height-67 {
+          height: 67%;
+        }
+
+        .height-80 {
+          height: 80%;
+        }
       }
     }
   }
@@ -36,26 +63,36 @@
   left: 50%;
   transform: translateX(-50%);
   text-align: center;
-  color: grey;
-  background-color: #000000;
+  color: #888888;
+  background-color: #ffffff;
   width: 100%;
   height: 140px;
 
   .start-landing {
+    font-family: 'Domaine Sans Text';
     font-weight: 300;
-    font-size: 36px;
+    font-size: 24px;
     line-height: 100%;
     text-transform: uppercase;
-    padding-bottom: 1rem;
-    
+    margin-top: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
     a {
       display: flex;
       align-items: center;
       justify-content: center;
-      color: #ffffff;
       text-decoration: none;
+      border-radius: 65px;
+      background: #EEEEEE;
+      padding: 8px 15px;
       .command {
         padding-right: 1rem;
+      }
+      img {
+        width: 45px;
+        height: 45px;
       }
     }
   }
@@ -66,9 +103,48 @@
   }
 
   p {
-    padding-bottom: 1em;
+    font-size: 14px;
+    padding-bottom: .5em;
     &:nth-child(1) {
-      padding: 1em;
+      padding: .5em;
     }
+  }
+}
+
+@media screen and (max-width: 768px) and (orientation: landscape) {
+  .header {
+    height: 45px;
+  }
+
+  .autonomy-logo {
+    height: 95% !important;
+  }
+}
+
+@media screen and (max-height: 568px) and (orientation: portrait) {
+  .header {
+    height: 40px;
+  }
+
+  .autonomy-logo {
+    height: 75% !important;
+  }
+
+  .ucl-logo {
+    height: 25% !important;
+  }
+}
+
+@media screen and (max-height: 568px) and (orientation: landscape) {
+  .header {
+    height: 40px;
+  }
+
+  .autonomy-logo {
+    height: 75% !important;
+  }
+
+  .ucl-logo {
+    height: 25% !important;
   }
 }

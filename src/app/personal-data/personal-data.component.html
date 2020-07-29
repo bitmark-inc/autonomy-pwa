@@ -1,0 +1,110 @@
+<div [hidden]="stage != PageStage.PDE" class="main-content">
+  <mat-card class="header-btn" layout="fill">
+    <a [routerLink]="['/home/setting']" class="back upcase">
+      <img class="gap-right-5" src="/assets/img/back-small.svg" alt="back-arrow">
+      <span>back</span>
+    </a>
+  </mat-card>
+  <div class="header-page-title direction-color m-b-30">
+    <span class="page-title">Personal data enclave (PDE)</span>
+  </div>
+  <mat-card>
+    <p class="font-18 line-height-120 p-b-10">Your PDE is an ecrypted data store that only you can access.</p>
+    <p class="font-18 line-height-120 p-b-20">Your account has been granted Bitmark rights capabilities to:</p>
+    <div class="col content-left">
+      <div class="gap-right-5"><img src="/assets/img/arrow.svg" alt=""></div>
+      <div class="col">
+        <p class="font-18 line-height-120 p-b-10">Save Autonomy data to your PDE</p>
+        <a [routerLink]="['/pde/save']" class="content-left command-img"><span
+            class="font-14 upcase direction-color gap-right-5 p-b-20">learn more</span><img
+            src="/assets/img/next-icon-small.svg" alt=""></a>
+        <div class="light-line"><hr></div>
+      </div>
+    </div>
+    <div class="col content-left p-t-20">
+      <div class="gap-right-5"><img src="/assets/img/arrow.svg" alt=""></div>
+      <div class="col">
+        <p class="font-18 line-height-120 p-b-10">Read Autonomy data from your PDE</p>
+        <a [routerLink]="['/pde/read']" class="content-left command-img"><span
+            class="font-14 upcase direction-color gap-right-5 p-b-20">learn more</span><img
+            src="/assets/img/next-icon-small.svg" alt=""></a>
+        <div class="light-line"><hr></div>
+      </div>
+    </div>
+    <div class="col content-left p-t-20">
+      <div class="gap-right-5"><img src="/assets/img/arrow.svg" alt=""></div>
+      <div class="col">
+        <p class="font-18 line-height-120 p-b-10">Delete all of your Autonomy data from your PDE</p>
+        <a [routerLink]="['/pde/delete']" class="content-left command-img"><span
+            class="font-14 upcase direction-color gap-right-5 p-b-20">learn more</span><img
+            src="/assets/img/next-icon-small.svg" alt=""></a>
+        <div class="light-line"><hr></div>
+      </div>
+    </div>
+  </mat-card>
+</div>
+<div [hidden]="stage != PageStage.Save" class="main-content">
+  <mat-card class="header-btn" layout="fill">
+    <a [routerLink]="['/pde']" class="back upcase">
+      <img class="gap-right-5" src="/assets/img/back-small.svg" alt="back-arrow">
+      <span>back</span>
+    </a>
+  </mat-card>
+  <div class="header-page-title direction-color m-b-30">
+    <span class="page-title">Saving Autonomy data to your PDE</span>
+  </div>
+  <mat-card>
+    <p class="font-18 line-height-120 p-b-20">All data that you submit in the Autonomy app will be saved automatically to your personal data enclae (PDE).</p>
+    <p class="font-18 line-height-120 p-b-20">The Autonomy app presently supports the following types of data to be saved to your PDE:</p>
+    <div class="col content-left">
+      <div class="gap-right-5"><img src="/assets/img/arrow.svg" alt=""></div>
+      <div class="col">
+        <p class="font-18 line-height-120 p-b-10">Resource ratings</p>
+        <div class="light-line"><hr></div>
+      </div>
+    </div>
+    <p>You can view all Autonomy data that has been saved to your PDE, <a class="normal-link" [routerLink]="['/pde/read']">by exercising your right to do so</a>.</p>
+  </mat-card>
+</div>
+<div [hidden]="stage != PageStage.Read" class="main-content">
+  <mat-card class="header-btn" layout="fill">
+    <a [routerLink]="['/pde']" class="back upcase">
+      <img class="gap-right-5" src="/assets/img/back-small.svg" alt="back-arrow">
+      <span>back</span>
+    </a>
+  </mat-card>
+  <div class="header-page-title direction-color m-b-30">
+    <span class="page-title">Reading Autonomy data from your PDE</span>
+  </div>
+  <mat-card>
+    <p class="font-18 line-height-120 p-b-20">If you exercise your right to read your Autonomy data from your personal data enclave (PDE), Autonolmy will prepare a .zip file containing all data secured in your PDE for you to download.</p>
+    <p class="font-18 line-height-120 p-b-20">Depending on how much data you’ve accumulated, the export will take a little time to process. After the export process has finished, you will be prompted to download the file.</p>
+  </mat-card>
+  <a #saveFile></a>
+  <div class="footer-btn">
+    <a (click)="exportData()" [ngClass]="{'disable-btns': !clickable}" class="next">
+      <span class="gap-right-15 long-cmd">EXERCISE RIGHT</span><img src="/assets/img/next-icon.svg" alt="">
+    </a>
+  </div>
+</div>
+<div [hidden]="stage != PageStage.Delete" class="main-content">
+  <mat-card class="header-btn" layout="fill">
+    <a [routerLink]="['/pde']" class="back upcase">
+      <img class="gap-right-5" src="/assets/img/back-small.svg" alt="back-arrow">
+      <span>back</span>
+    </a>
+  </mat-card>
+  <div class="header-page-title direction-color m-b-30">
+    <span class="page-title">Deleting your Autonomy data from your PDE</span>
+  </div>
+  <mat-card>
+    <p class="font-18 line-height-120 p-b-20">Deleting your data will completely erase all Autonolmy data secured in your personal data enclave (PDE).</p>
+    <p class="font-18 line-height-120 p-b-20">Since there will v no way for Bitmark or anyone else to recover your data after you’ve deleted it, we highly recommend that you first <a class="normal-link" [routerLink]="['/pde/read']">export your data</a> before deleting it.</p>
+    <p class="font-18 line-height-120 p-b-20">After deleting your data, you will automatically be signed out of Autonomy.</p>
+  </mat-card>
+  <div class="footer-btn">
+    <a (click)="deleteData()" [ngClass]="{'disable-btns': !clickable}" class="next">
+      <span class="gap-right-15 long-cmd">EXERCISE RIGHT</span><img src="/assets/img/next-icon.svg" alt="">
+    </a>
+  </div>
+</div>

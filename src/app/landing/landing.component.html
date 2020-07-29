@@ -1,29 +1,21 @@
 <div class="content">
-  <mat-toolbar class="header" layout="fill">
-    <div class="header-line"><hr><hr></div>
-    <div class="header-title">Autonomy</div>
-    <div class="header-line"><hr><hr></div>
-  </mat-toolbar>
-  <div class="landing-content">
-    <mat-card class="no-top">
-      <div class="landing-words">
-        <p>Get better.</p>
-        <p>Together.</p>
-      </div>
+  <div class="landing-content p-t-45">
+    <mat-card class="landing-words direction-color no-top">
+      <p>Get better.</p>
+      <p>Together.</p>
     </mat-card>
-    <mat-card class="no-top">
-      <div class="logo">
-        <img src="/assets/img/Polygon.svg" alt="">
+    <mat-card class="logo no-top">
+      <div class="imgs">
+        <div class="autonomy-logo" [ngClass]="[ isStandalone() ? 'height-80' : 'height-67' ]"><img src="/assets/img/Polygon.svg" alt=""></div>
+        <div class="ucl-logo"><img src="/assets/img/UCBerkeley_wordmark_blue_1.svg" alt=""></div>
       </div>
     </mat-card>
   </div>
   <div class="footer landing-footer">
-    <!-- <mat-card> -->
-      <div class="start-landing">
-        <a [routerLink]="['/signup']"><span class="command">Start</span><img src="/assets/img/next-icon.svg" alt=""></a>
-      </div>
-      <p>Or <a [routerLink]="['/signin']">sign back in >></a></p>
-      <p>We protect your <a href="https://bitmark.com/privacy">Digital Rights</a>.</p>
-    <!-- </mat-card> -->
+    <div class="start-landing p-b-10">
+      <a [routerLink]="['/signup']"><span class="command direction-color">Start</span><img src="/assets/img/next-icon.svg" alt=""></a>
+    </div>
+    <p>Or <a [routerLink]="['/signin']">sign back in »</a></p>
+    <p><a href="https://bitmark.com/privacy">We protect your rights.</a></p>
   </div>
 </div>

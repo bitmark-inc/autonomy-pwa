@@ -1,98 +1,76 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ApiService } from '../services/api/api.service';
-import { Router } from "@angular/router";
+import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
+import { Util } from '../services/util/util.service';
+import * as moment from "moment";
 
 @Component({
-  selector: 'app-poi',
-  templateUrl: './poi.component.html',
-  styleUrls: ['./poi.component.scss']
+  selector: "app-poi",
+  templateUrl: "./poi.component.html",
+  styleUrls: ["./poi.component.scss"],
 })
 export class PoiComponent implements OnInit {
   public id: string;
-  public lat: number;
-  public long: number;
 
   public poi: {
-    id: string,
-    alias: string,
-    address: string,
-    owned: boolean,
-    rating: boolean,
-    has_more_resources: boolean,
-    neighbor: {
-      confirm: number,
-      confirm_delta: number,
-      symptom: number,
-      symptom_delta: number,
-      behavior: number,
-      behavior_delta: number,
-      score: number,
-      score_delta: number
-    },
-    resources: {
-      resource: {
-        id: string,
-        name: string
-      },
-      score: number,
-      ratings: number
-    }[],
-    autonomy_score: number,
-    autonomy_score_delta: number
+    id: string;
+    alias: string;
+    address: string;
+    info_last_updated: number;
+    rating_last_updated: number;
+    has_more_resources: boolean;
+    location: {
+      latitude: number;
+      longitude: number;
+    };
+    resource_ratings: {};
+    resource_rating_count: number;
+    resource_score: number;
+    score: number;
+    opening_hours: any;
+    service_options: any;
   };
 
   public resources: {
-    resource: {
-      id: string,
-      name: string
-    },
-    score: number,
-    ratings: number
-  }[];
+    name: string;
+    score: number;
+    ratings: number;
+    color: string;
+  }[] = [];
 
-  constructor(private activatedRoute: ActivatedRoute, private apiService: ApiService, public router: Router) {
+  public isRated: boolean = false;
+  public poiBackground: string = '';
+  public todayOpenHour: string = '';
+  public openHours: {
+    openHour: string;
+    dates: string;
+  }[] = null;
+
+  constructor(
+    private activatedRoute: ActivatedRoute,
+    private apiService: ApiService,
+    public router: Router
+  ) {
     this.activatedRoute.params.subscribe((params) => {
       if (params.id) {
         this.id = params.id;
-      } else if (params.lat) {
-        this.lat = params.lat;
-        this.long = params.long;
       }
       this.getPOIProfile();
+      this.checkRated();
     });
   }
 
   ngOnInit() {}
 
   private getPOIProfile(): void {
-    let url: string;
-    if (this.id) {
-      url = `api/autonomy_profile?poi_id=${this.id}&all_resources=true`;
-    } else {
-      url = `api/autonomy_profile?lat=${this.lat}&lng=${this.long}&all_resources=true`;
-    }
-
     this.apiService
-      .request('get', url)
+      .request('get', `${environment.autonomy_api_url}api/points-of-interest/${this.id}`, null, null, ApiService.DSTarget.CDS)
       .subscribe(
         (data: any) => {
           this.poi = data;
-          this.resources = this.poi.resources.slice(0, 10);
-        },
-        (err: any) => {
-          console.log(err);
-          // TODO: do something
-        }
-      )
-  }
-
-  public monitor() {
-    this.apiService
-      .request('post', 'api/accounts/me/pois', {poi_id: this.poi.id})
-      .subscribe(
-        (data) => {
-          this.poi.owned = true;
+          this.formatPOI();
         },
         (err: any) => {
           console.log(err);
@@ -101,21 +79,49 @@ export class PoiComponent implements OnInit {
       );
   }
 
-  public forgetPOI() {
+  private formatPOI() {
+    this.poiBackground = Util.scoreToColor(this.poi.resource_score, false);
+    for (let key in this.poi.resource_ratings) {
+      this.resources.push({
+        name: key.replace(/_/g, " "),
+        score: this.poi.resource_ratings[key].score,
+        ratings: this.poi.resource_ratings[key].counts,
+        color: Util.scoreToColor(this.poi.resource_ratings[key].score, false),
+      });
+    }
+    if (this.poi.opening_hours && Object.keys(this.poi.opening_hours).length != 0) {
+      this.openHours = Util.openHoursFormat(this.poi.opening_hours);
+      this.todayOpenHour = Util.openHoursFormat(this.poi.opening_hours, true);
+    }
+    if (this.poi.service_options && Object.keys(this.poi.service_options).length != 0) {
+      let tmp = [];
+      let services = Object.keys(this.poi.service_options);
+      for (let i = 0; i < services.length; i++) {
+        tmp.push({
+          name: services[i],
+          active: Object.values(this.poi.service_options)[i]
+        })
+      }
+      this.poi.service_options = tmp;
+    }
+  }
+
+  private checkRated(): void {
     this.apiService
-      .request("delete", `api/accounts/me/pois/${this.poi.id}`)
+      .request("get", `${environment.autonomy_api_url}api/points-of-interest/${this.id}/ratings`, null, null, ApiService.DSTarget.PDS)
       .subscribe(
-        (data) => {
-          this.poi.owned = false;
+        (data: { ratings: any }) => {
+          for (let key in data.ratings) {
+            if(data.ratings[key] > 0) {
+              this.isRated = true;
+              break;
+            }
+          }
         },
         (err: any) => {
           console.log(err);
           // TODO: do something
         }
       );
-  }
-
-  public showMore() {
-    this.resources = this.poi.resources;
   }
 }

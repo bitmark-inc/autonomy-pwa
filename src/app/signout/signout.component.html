@@ -1,0 +1,51 @@
+<div class="main-content" [hidden]="stage != PageStage.Direction">
+  <mat-card class="header-btn" layout="fill">
+    <a [routerLink]="['/home/setting']" class="back upcase">
+      <img class="gap-right-5" src="/assets/img/back-small.svg" alt="back-arrow">
+      <span>back</span>
+    </a>
+  </mat-card>
+  <div class="header-page-title direction-color">
+    <span class="page-title">Sign out</span>
+  </div>
+  <mat-card>
+    <div class="p-t-30 p-b-10">
+      <p>When you sign out, you will need your 13-word recovery key to unlock your data vault on this device again.</p>
+    </div>
+    <div class="p-t-5 p-b-30">
+      <p>To ensure that you have recorded your recovery key correctly, you will be asked to enter it before you can sign out. If
+      you haven’t already written down your recovery key, <a class="normal-link" [routerLink]="['/recovery-key']">please do so now</a>.</p>
+    </div>
+  </mat-card>
+  <div class="footer-btn">
+    <a class="next" (click)="stage = PageStage.Keys">
+      <span class="gap-right-15">Next</span><img src="/assets/img/next-icon.svg" alt="">
+    </a>
+  </div>
+</div>
+<div class="main-content" [hidden]="stage != PageStage.Keys">
+  <mat-card class="header-btn" layout="fill">
+    <a [routerLink]="['/home/setting']" class="back upcase">
+      <img class="gap-right-5" src="/assets/img/back-small.svg" alt="back-arrow">
+      <span>back</span>
+    </a>
+  </mat-card>
+  <div class="header-page-title direction-color">
+    <span class="page-title">Sign out</span>
+  </div>
+  <div class="content p-t-30 p-b-30">
+    <mat-card>
+      <div class="onboarding-words sub-direction-color">
+        <p>To sign out, enter your 13-word recovery key:</p>
+      </div>
+      <div class="key-area mono">
+        <textarea #recoveryKey matInput rows="5" id="recoveryKey" [(ngModel)]="key"></textarea>
+      </div>
+    </mat-card>
+  </div>
+  <div class="footer-btn">
+    <a class="next signout" (click)="signout()" [ngClass]="{'disable-btns': !(key && key.trim().split(' ').length === 13)}">
+      <span class="gap-right-15">Sign out</span><img src="/assets/img/signout.svg" alt="">
+    </a>
+  </div>
+</div>

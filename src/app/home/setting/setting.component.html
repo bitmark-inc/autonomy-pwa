@@ -1,0 +1,53 @@
+<div class="main-content">
+  <div class="profile-content">
+    <mat-card></mat-card>
+    <div class="header-page-title direction-color m-b-30">
+      <span class="big-words page-title">account</span>
+    </div>
+    <mat-card class="no-bottom"><hr></mat-card>
+    <mat-card class="section-row">
+      <div class="col-50 content-left">
+        <div>
+          <p class="direction">Rights capabilities</p>
+        </div>
+      </div>
+      <div class="col-50 content-right section-child">
+        <div>
+          <a class="link-detail p-b-10 sub-direction upcase long-child" [routerLink]="['/pde']"><span class="gap-right-10">PERSONAL DATA ENCLAVE</span><img src="/assets/img/next-small.svg" alt=""></a>
+          <a class="link-detail p-b-10 sub-direction upcase long-child" [routerLink]="['/cde']"><span class="gap-right-10">UC BERKELEY community DATA ENCLAVE</span><img src="/assets/img/next-small.svg" alt=""></a>
+        </div>
+      </div>
+    </mat-card>
+    <mat-card class="no-bottom"><hr></mat-card>
+    <mat-card class="section-row">
+      <div class="col-50 content-left">
+        <p class="direction">Security</p>
+      </div>
+      <div class="col-50 content-right section-child">
+        <div>
+          <a class="link-detail p-b-10 sub-direction upcase" [routerLink]="['/signout']"><span class="gap-right-10">sign out</span><img src="/assets/img/next-small.svg" alt=""></a>
+          <a class="link-detail p-b-10 sub-direction upcase" [routerLink]="['/recovery-key']"><span class="gap-right-10">recovery key</span><img src="/assets/img/next-small.svg" alt=""></a>
+        </div>
+      </div>
+    </mat-card>
+    <mat-card class="no-bottom"><hr></mat-card>
+    <mat-card class="section-row">
+      <div class="col-50 content-left">
+        <p class="direction">Support</p>
+      </div>
+      <div class="col-50 content-right section-child">
+        <div>
+          <a class="link-detail p-b-10 sub-direction upcase"><span class="gap-right-10">faq</span><img src="/assets/img/next-small.svg" alt=""></a>
+          <a class="link-detail p-b-10 sub-direction upcase" (click)="openIntercom()"><span class="gap-right-10">Contact</span><img src="/assets/img/next-small.svg" alt=""></a>
+        </div>
+      </div>
+    </mat-card>
+    <mat-card class="profile-footer">
+      <div class="p-t-10">
+        <p class="version p-b-10">Version {{appVersion}}</p>
+        <p class="privacy p-b-10"><a href="">EULA</a> and <a href="https://bitmark.com/privacy" target="_blank">Privacy Policy</a></p>
+        <p><img src="/assets/img/security-bitmark.svg" alt=""></p>
+      </div>
+    </mat-card>
+  </div>
+</div>

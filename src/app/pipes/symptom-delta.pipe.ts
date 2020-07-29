@@ -9,13 +9,13 @@ export class SymptomDeltaPipe implements PipeTransform {
 
   transform(value: any): any {
     let obj: any;
-    value = parseFloat(value).toFixed(2);
+    value = parseFloat(value);
     if (value > 0) {
-      obj = `<div class="red"><img src="/assets/img/arrow-up-red.svg" alt="">${value}%</div>`;
+      obj = `<div class="red"><img src="/assets/img/arrow-up-red.svg" alt=""> ${Math.abs(value).toFixed(2)}%</div>`;
     } else if (value < 0) {
-      obj = `<div class="green"><img src="/assets/img/arrow-down-green.svg" alt="">${value}%</div>`;
+      obj = `<div class="green"><img src="/assets/img/arrow-down-green.svg" alt=""> ${Math.abs(value).toFixed(2)}%</div>`;
     } else {
-      obj = `<div class="grey">${value}%</div>`;
+      obj = `<div class="grey">${Math.abs(value).toFixed(2)}%</div>`;
     }
     return this.domSanitizer.bypassSecurityTrustHtml(obj);
   }

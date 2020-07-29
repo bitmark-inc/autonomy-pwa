@@ -1,10 +1,30 @@
-$base-color: #ffffff;
-$title-color: #BFBFBF;
-$base-background: #000000;
-$sub-background: #2B2B2B;
+$base-color: #303030;
+$direction-color: #003262;
+$sub-direction-color: #303030;
+$title-color: #545454;
+$base-background: #ffffff;
+$sub-background: #DDD5C7; // selection background
+$neutral-background: #EEEEEE;
+$bottom-background: #EDF0F4;
+$line-color: #828180;
+$light-line-color: #EDEDED;
+$max-width: 768px;
+
+@font-face {
+  font-family: 'Atlas Grotesk';
+  src: url(assets/fonts/Atlas-Grotesk/Atlas-Grotesk-Web.otf);
+}
+@font-face {
+  font-family: 'Domaine Sans Text';
+  src: url(assets/fonts/Domaine-Sans-Text/Domaine_Sans_Text.otf);
+}
+@font-face {
+  font-family: 'IBM Plex Mono';
+  src: url(assets/fonts/IBM-Plex-Mono/IBM-Plex-Mono.otf);
+}
 
 html {
-  font-family: 'Atlas Grotesk', 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI',
+  font-family: 'Atlas Grotesk', 'Domaine Sans Text','Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI',
     Roboto, 'Helvetica Neue', Arial, sans-serif;
   font-weight: 300;
 	-ms-text-size-adjust: 100%;
@@ -22,8 +42,12 @@ html {
 }
 
 body {
-  color: #ffffff;
-  background-color: #000000;
+  color: $base-color;
+  background-color: $base-background;
+  max-width: $max-width;
+  // display: flex;
+  // justify-content: center;
+  margin: 0 auto;
 }
 
 h1,
@@ -51,12 +75,22 @@ a:hover {
   // color: #125699;
 }
 
+.normal-link {
+  text-decoration: underline;
+}
+
 hr {
   color: inherit;
   height: 0.5px;
   height: 0.75px;
   border: none;
-  background-color: grey;
+  background-color: $line-color;
+}
+
+.light-line {
+  hr {
+    background-color: $light-line-color;
+  }
 }
 
 button {
@@ -65,10 +99,65 @@ button {
   border: unset;
 }
 
-textarea {
+input {
+  caret-color: $sub-direction-color;
   &:focus {
     outline: unset;
   }
+}
+
+textarea {
+  caret-color: $sub-direction-color;
+  font-family: 'IBM Plex Mono';
+  overflow: hidden;
+  &:focus {
+    outline: unset;
+  }
+}
+
+.sans-text {
+  font-family: 'Domaine Sans Text';
+}
+
+.mono {
+  font-family: 'IBM Plex Mono';
+}
+
+.direction-color {
+  color: $direction-color !important;
+}
+
+.sub-direction-color {
+  color: $sub-direction-color !important;
+}
+
+.grey-text-color {
+  color: #888888 !important;
+}
+
+.mat-table,
+.mat-card {
+  background-color: inherit;
+  color: inherit;
+  font-family: inherit;
+  box-shadow: none !important;
+}
+
+.mat-table {
+  .mat-row {
+    border-style: unset;
+    border-bottom: 1px solid #EDEDED;
+  }
+}
+
+.mat-bottom-sheet-container {
+  padding: unset !important;
+  background: $sub-background;
+}
+
+.desktop-view {
+  display: flex;
+  justify-content: center;
 }
 
 .main-content {
@@ -81,31 +170,70 @@ textarea {
 }
 
 .header {
-  color: grey;
   background-color: inherit;
   font-family: 'Domaine Sans Text';
   font-weight: 300;
   font-size: 14px;
   font-style: normal;
+  display: flex !important;
+  align-items: center;
+  width: 100%;
 
   .header-line {
-    width: 30%;
+    width: 32%;
     hr {
       color: inherit;
-      margin-bottom: .1rem;
-      height: 0.5px;
+      margin-bottom: .15rem;
       height: 0.75px;
       border: none;
-      background-color: grey;
+      background-color: $line-color;
     }
   }
 
   .header-title {
-    width: 40%;
+    width: 36%;
     text-align: center;
     text-transform: uppercase;
     display: flex;
     justify-content: space-evenly;
+  }
+}
+
+.header-btn {
+  font-family: 'Domaine Sans Text';
+  font-weight: 300;
+  font-style: normal;
+  padding-bottom: 20px !important;
+  .back {
+    display: flex;
+    justify-content: flex-start;
+    font-size: 12px;
+
+    img {
+      width: 15px;
+      height: 15px;
+      cursor: pointer;
+    }
+    span {
+      cursor: pointer;
+    }
+  }
+}
+
+.header-page-title {
+  width: 100%;
+  border-left: 5px solid $direction-color;
+  .page-title {
+    font-size: 30px;
+    line-height: 120%;
+    padding-left: 11px;
+  }
+  .big-words {
+    font-family: 'Domaine Sans Text';
+    font-size: 36px;
+    font-weight: 300;
+    line-height: 100%;
+    text-transform: uppercase;
   }
 }
 
@@ -135,11 +263,25 @@ textarea {
   color: $base-color;
   font-size: 14px;
   text-transform: uppercase;
-  border-bottom: 1px solid $sub-background;
+
+  .checkRadio {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+  }
+
+  .unCheckRadio {
+    background: $neutral-background !important;
+  }
 }
 
 .last-item {
   border-bottom: unset;
+}
+
+.main-direction {
+  font-size: 36px;
+  line-height: 43px;
 }
 
 .direction {
@@ -148,9 +290,16 @@ textarea {
 }
 
 .sub-direction {
+  font-family: 'Domaine Sans Text';
   color: $title-color !important;
   font-size: 14px;
-  text-transform: uppercase;
+}
+
+.small-direction {
+  font-size: 12px;
+  font-weight: 300;
+  line-height: 120%;
+  color: #404040;
 }
 
 .resource-footer {
@@ -168,6 +317,7 @@ textarea {
 
 .resource-footer-items {
   color: $title-color;
+  font-family: inherit;
   font-size: 14px;
   text-transform: uppercase;
   display: flex;
@@ -184,32 +334,30 @@ textarea {
   }
 }
 
-.mat-card {
-  background-color: inherit;
-  color: inherit;
-  box-shadow: none !important;
-}
-
 .bottom-buttons {
   position: fixed;
   bottom: 0;
   text-align: center;
   width: 100%;
+  max-width: $max-width;
+  font-family: 'Domaine Sans Text';
   font-weight: 300;
   font-size: 24px;
   line-height: 100%;
   text-transform: uppercase;
-  padding-bottom: 1rem;
-  padding-top: 10px;
+  padding-bottom: 1.2rem;
+  padding-top: .7rem;
   display: flex;
   align-items: center;
-  background: #1B1B1B;;
+  background: $base-background;
+  color: $direction-color;
+  border-top: 1px solid #EDEDED;
 
   a {
     display: flex;
     align-items: center;
-    color: #ffffff;
     text-decoration: none;
+    cursor: pointer;
   }
 
   .next {
@@ -219,6 +367,11 @@ textarea {
     padding-right: 1rem;
     .command {
       padding-right: 0.5rem;
+      width: max-content;
+    }
+    img {
+      width: 45px;
+      height: 45px;
     }
   }
 
@@ -229,46 +382,138 @@ textarea {
     padding-left: 1rem;
     .command {
       padding-left: 0.5rem;
+      width: max-content;
+    }
+    img {
+      width: 45px;
+      height: 45px;
     }
   }
 
   .command-long {
     font-size: 0.75em;
   }
+  .command-long-medium {
+    font-size: 0.95em;
+  }
+}
+
+.home-tabs {
+  position: fixed;
+  bottom: 0;
+  text-align: center;
+  width: 100%;
+  max-width: $max-width;
+  font-family: 'Domaine Sans Text';
+  font-weight: 300;
+  font-size: 14px;
+  line-height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  color: $direction-color;
+  background: $neutral-background;
+  border-top: 1px solid $light-line-color;
+
+  a {
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  a.active {
+    border-top: 2px solid $direction-color;
+  }
 }
 
 .footer {
   position: fixed;
   bottom: 0;
-  background-color: #2B2B2B;
+  background-color: $sub-background;
   width: 100%;
 }
 
+.footer-btn {
+  position: fixed;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  max-width: $max-width;
+  font-family: 'Domaine Sans Text';
+  .next {
+    display: flex;
+    align-items: center;
+    text-transform: uppercase;
+    font-size: 24px;
+    padding: 12px 23px;
+    background: $neutral-background;
+    color: $direction-color;
+    border-radius: 65px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    img {
+      width: 45px;
+      height: 45px;
+    }
+  }
+}
+
+.bottom-sheet-alert {
+  background: $neutral-background;
+  font-size: 18px;
+}
+
+// --------- search ---------
 .search-bar {
-  background-color: #2B2B2B;
+  background-color: $base-background;
 
   .search-icon {
-    color: grey;
     margin-right: 5px;
+    display: flex;
+  }
 
-    img {
-      width: inherit;
-    }
+  .search-clear {
+    height: auto;
+    width: auto;
   }
 
   .search-input {
     width: 100%;
     background-color: inherit;
     border: unset;
-    font-size: 18px;
-    color: #ffffff;
+    font: 300 18px 'Atlas Grotesk';
+    color: $base-color;
   }
+
+  input::placeholder {
+    // color: $base-color;
+  }
+
+}
+
+.search-bar-line {
+  hr {
+    background-color: $base-color;
+  }
+}
+
+.search-view {
+  position: sticky;
+  top: 0;
+  z-index: 1;
 }
 
 .search-item {
   padding-left: unset;
   padding-right: unset;
   border-bottom: 1px solid $base-color;
+}
+
+// ----------- end search ----------
+
+.chart {
+  min-height: 300px;
 }
 
 .triangle {
@@ -283,6 +528,7 @@ textarea {
     left: 50%;
     top: 50%;
     transform: translate(-50%, -10%);
+    font-family: 'IBM Plex Mono';
     font-weight: normal;
 
     .score {
@@ -291,10 +537,74 @@ textarea {
     .delta {
       font-size: 1.75ex;
       img {
-        width: 100%;
-        height: 100%;
+        width: 0.9em;
+        height: 0.9em;
       }
     }
+  }
+}
+
+.resource-info {
+  background: $neutral-background;
+  padding-bottom: 15px;
+
+  .poi-score {
+    display: flex;
+    justify-content: center;
+    line-height: 100%;
+
+    .mat-radio-button.mat-accent {
+      background-color: $neutral-background;
+    }
+
+    .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle{
+      border-color: $neutral-background;
+    }
+    .risk-color,
+    .warn-color,
+    .good-color,
+    .default-color {
+      .mat-radio-button.mat-accent .mat-radio-outer-circle {
+        border-color: $neutral-background;
+      }
+    }
+
+    .default-color {
+      display: flex;
+      .mat-radio-button.mat-accent .mat-radio-outer-circle {
+        background-color: #C1C1C1;
+      }
+      .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle{
+        background-color: #C1C1C1;
+      }
+      .mat-radio-button.mat-accent .mat-radio-inner-circle{
+        color: #C1C1C1;
+        background-color: #C1C1C1;
+      }
+      .mat-radio-button.mat-accent .mat-radio-label{
+        background-color: $neutral-background;
+      }
+    }
+  }
+}
+
+// align for text and image group
+.command-img {
+  display: flex;
+  align-items: flex-start;
+}
+
+.text-start {
+  text-align: start;
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+.hovering {
+  &:hover {
+    background: $neutral-background;
   }
 }
 
@@ -358,8 +668,48 @@ textarea {
   width: 100%;
 }
 
+.line-height-120 {
+  line-height: 120%;
+}
+
+.font-10 {
+  font-size: 10px;
+}
+
+.font-12 {
+  font-size: 12px;
+}
+
+.font-14 {
+  font-size: 14px;
+}
+
+.font-18 {
+  font-size: 18px;
+}
+
+.font-24 {
+  font-size: 24px;
+}
+
+.font-36 {
+  font-size: 36px;
+}
+
+.gap-right-5 {
+  margin-right: 5px;
+}
+
 .gap-right-10 {
   margin-right: 10px;
+}
+
+.gap-right-15 {
+  margin-right: 15px;
+}
+
+.gap-right-20 {
+  margin-right: 20px;
 }
 
 .content-left {
@@ -377,11 +727,15 @@ textarea {
 .content-center {
   text-align: center;
   display: flex !important;
-  justify-content: center;
+  justify-content: center !important;
 }
 
 .upcase {
   text-transform: uppercase;
+}
+
+.capital {
+  text-transform: capitalize;
 }
 
 .p-t-5 {
@@ -400,6 +754,10 @@ textarea {
   padding-top: 30px;
 }
 
+.p-t-45 {
+  padding-top: 45px;
+}
+
 .p-b-5 {
   padding-bottom: 5px;
 }
@@ -408,26 +766,57 @@ textarea {
   padding-bottom: 10px;
 }
 
+.p-b-20 {
+  padding-bottom: 20px;
+}
+
 .p-b-30 {
   padding-bottom: 30px;
 }
 
+.p-b-60 {
+  padding-bottom: 60px;
+}
+
+.m-t-30 {
+  margin-top: 30px;
+}
+
+.m-b-30 {
+  margin-bottom: 30px;
+}
+
 .green {
   display: flex;
-  color: green;
+  color: #2A6D0C;
   align-items: center;
+  justify-content: center;
+
+  img {
+    padding-right: 3px;
+  }
 }
 
 .red {
   display: flex;
-  color: red;
+  color: #CC3232;
   align-items: center;
+  justify-content: center;
+
+  img {
+    padding-right: 3px;
+  }
 }
 
 .grey {
   display: flex;
   color: $title-color;
   align-items: center;
+  justify-content: center;
+
+  img {
+    padding-right: 3px;
+  }
 }
 
 .mat-radio-button.mat-accent .mat-radio-inner-circle{
@@ -439,6 +828,7 @@ textarea {
 .group-radios {
   display: flex;
   width: 100%;
+  align-items: baseline;
 }
 
 .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle{
@@ -448,149 +838,217 @@ textarea {
 .risk-color {
   display: flex;
   .mat-radio-button.mat-accent .mat-radio-outer-circle {
-    background-color: red;
+    background-color: #CC3232;
     border-color: $base-background;
   }
   .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle{
-    background-color: red;
+    background-color: #CC3232;
   }
   .mat-radio-button.mat-accent .mat-radio-inner-circle{
-    color: red;
-    background-color: red ;
+    color: #CC3232;
+    background-color: #CC3232 ;
+  }
+}
+
+.risk-second-color {
+  display: flex;
+  .mat-radio-button.mat-accent .mat-radio-outer-circle {
+    background-color: #DB7B2B;
+    border-color: $base-background;
+  }
+  .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle{
+    background-color: #DB7B2B;
+  }
+  .mat-radio-button.mat-accent .mat-radio-inner-circle{
+    color: #DB7B2B;
+    background-color: #DB7B2B ;
   }
 }
 
 .warn-color {
   display: flex;
   .mat-radio-button.mat-accent .mat-radio-outer-circle {
-    background-color: gold;
+    background-color: #E7B416;
     border-color: $base-background;
   }
   .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle{
-    background-color: gold;
+    background-color: #E7B416;
   }
   .mat-radio-button.mat-accent .mat-radio-inner-circle{
-    color: gold;
-    background-color: gold ;
+    color: #E7B416;
+    background-color: #E7B416 ;
+  }
+}
+
+.good-second-color {
+  display: flex;
+  .mat-radio-button.mat-accent .mat-radio-outer-circle {
+    background-color: #99C140;
+    border-color: $base-background;
+  }
+  .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle{
+    background-color: #99C140;
+  }
+  .mat-radio-button.mat-accent .mat-radio-inner-circle{
+    color: #99C140;
+    background-color: #99C140;
   }
 }
 
 .good-color {
   display: flex;
   .mat-radio-button.mat-accent .mat-radio-outer-circle {
-    background-color: green;
+    background-color: #2DC937;
     border-color: $base-background;
   }
   .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle{
-    background-color: green;
+    background-color: #2DC937;
   }
   .mat-radio-button.mat-accent .mat-radio-inner-circle{
-    color: green;
-    background-color: green ;
+    color: #2DC937;
+    background-color: #2DC937;
   }
 }
 
 .default-color {
   display: flex;
   .mat-radio-button.mat-accent .mat-radio-outer-circle {
-    background-color: $sub-background;
+    background-color: #F1F1F1;
     border-color: $base-background;
   }
   .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle{
-    background-color: $sub-background;
+    background-color: #F1F1F1;
   }
   .mat-radio-button.mat-accent .mat-radio-inner-circle{
-    color: $sub-background;
-    background-color: $sub-background;
+    color: #F1F1F1;
+    background-color: #F1F1F1;
   }
 }
 
 .highlight-resource {
-  background-color: #282B32;
+  background-color: $neutral-background;
 
   .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle{
-    border-color: #282B32;
+    border-color: $neutral-background;
   }
   .risk-color,
   .warn-color,
   .good-color,
   .default-color {
     .mat-radio-button.mat-accent .mat-radio-outer-circle {
-      border-color: #282B32;
+      border-color: $neutral-background;
     }
   }
 
   .default-color {
     display: flex;
     .mat-radio-button.mat-accent .mat-radio-outer-circle {
-      background-color: $base-background;
+      background-color: #C1C1C1;
     }
     .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle{
-      background-color: $base-background;
+      background-color: #C1C1C1;
     }
     .mat-radio-button.mat-accent .mat-radio-inner-circle{
-      color: $base-background;
-      background-color: $base-background;
+      color: #C1C1C1;
+      background-color: #C1C1C1;
     }
     .mat-radio-button.mat-accent .mat-radio-label{
-      background-color: #282B32;
+      background-color: $neutral-background;
     }
   }
 }
 
 .search-resource {
-  background-color: $sub-background;
 
   .mat-radio-container {
-    width: 12px;
-    height: 12px;
+    width: 9px;
+    height: 9px;
+  }
+
+  .mat-radio-label-content {
+    padding-left: 2px;
   }
 
   .mat-radio-button.mat-accent {
-    background-color: $sub-background;
+    background-color: $base-background;
   }
 
   .mat-radio-button.mat-accent .mat-radio-outer-circle,
   .mat-radio-button.mat-accent .mat-radio-inner-circle {
-    width: 11px;
-    height: 11px;
+    width: 9px;
+    height: 9px;
   }
 
   .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle{
-    border-color: $sub-background;
+    border-color: $base-background;
   }
   .risk-color,
   .warn-color,
   .good-color,
   .default-color {
     .mat-radio-button.mat-accent .mat-radio-outer-circle {
-      border-color: $sub-background;
+      border-color: $base-background;
     }
   }
 
   .default-color {
     display: flex;
     .mat-radio-button.mat-accent .mat-radio-outer-circle {
-      background-color: $base-background;
+      background-color: #EDF0F4;
     }
     .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle{
-      background-color: $base-background;
+      background-color: #EDF0F4;
     }
     .mat-radio-button.mat-accent .mat-radio-inner-circle{
-      color: $base-background;
-      background-color: $base-background;
+      color: #EDF0F4;
+      background-color: #EDF0F4;
     }
     .mat-radio-button.mat-accent .mat-radio-label{
-      background-color: $sub-background;
+      background-color: $base-background;
     }
   }
 }
 
 // ------------- end rating score style ---------------
 
+// ---------- progress bar ----------
+.mat-progress-bar {
+  height: 1px !important;
+}
+
+.mat-progress-bar-buffer {
+  background: #C1C1C1;
+}
+
+.mat-progress-bar-fill::after {
+  background-color: #2A6D0C;
+}
+// ---------- end progress bar ----------
+
+// ------------- chart ---------------
+.chart-text {
+  font-family: 'IBM Plex Mono';
+  font-size: 14px;
+  color: $title-color;
+  line-height: 100%;
+}
+// ------------- end chart -----------
+
 /* Responsive Styles */
 @media screen and (max-width: 767px) {
 }
 
-@media screen and (max-width: 575px) {
+@media screen and (max-width: 347px) {
+  .bottom-buttons {
+    .next {
+      .command {
+        padding-right: .2em;
+      }
+    }
+    .back {
+      .command {
+        padding-left: .2em;
+      }
+    }
+  }
 }

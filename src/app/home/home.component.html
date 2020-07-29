@@ -1,0 +1,15 @@
+<div [ngClass]="{'fullscreen': isFullscreen}">
+  <router-outlet></router-outlet>
+
+  <div class="home-tabs">
+    <a class="col upcase" [routerLink]="['./community']" routerLinkActive="active">
+      <p>trends</p>
+    </a>
+    <a class="col upcase" [routerLink]="['./resources']" routerLinkActive="active">
+      <p>Resources</p>
+    </a>
+    <a class="col upcase" [routerLink]="['./setting']" routerLinkActive="active">
+      <p>account</p>
+    </a>
+  </div>
+</div>

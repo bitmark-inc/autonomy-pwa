@@ -1,0 +1,57 @@
+<div class="main-content" [hidden]="stage != PageStage.Direction">
+  <mat-card class="header-btn" layout="fill">
+    <a (click)="back()" class="back upcase">
+      <img class="gap-right-5" src="/assets/img/back-small.svg" alt="back-arrow">
+      <span>back</span>
+    </a>
+  </mat-card>
+  <div class="header-page-title direction-color">
+    <span class="page-title">Recovery key</span>
+  </div>
+  <mat-card>
+    <div class="p-t-30 p-b-10">
+      <p>Your recovery key allows you to fully recover your Autonomy account even if your device is lost or damaged. It is the only way to recover your account.</p>
+      <p>Autonomy does not have access to your recovery key or store it anywhere for you.</p>
+    </div>
+    <div class="p-t-5 p-b-30">
+      <p>Please make sure you are in a safe location then write down your recovery key on a piece of paper and keep it safe.</p>
+    </div>
+  </mat-card>
+  <div class="footer-btn">
+    <a class="next" (click)="setStage(PageStage.Keys)">
+      <span class="gap-right-15">next</span><img src="/assets/img/next-icon.svg" alt="">
+    </a>
+  </div>
+</div>
+
+<div class="main-content" [hidden]="stage != PageStage.Keys">
+  <mat-card class="header-btn" layout="fill">
+    <a (click)="back()" class="back upcase">
+      <img class="gap-right-5" src="/assets/img/back-small.svg" alt="back-arrow">
+      <span>back</span>
+    </a>
+  </mat-card>
+  <div class="header-page-title direction-color">
+    <span class="page-title">Recovery key</span>
+  </div>
+  <mat-card>
+    <div class="p-t-30">
+      <p>Write down the following words in order:</p>
+    </div>
+  </mat-card>
+  <mat-card class="slide-words">
+    <div (swipeleft)="onSwipeLeft()" (swiperight)="onSwipeRight()">
+      <div class="keys" [@wordsSlide]="{value: indexShowing, params: {pos: (6-indexShowing)*(100/words.length)}}">
+        <p class="word" *ngFor="let word of words; index as i"
+          [ngClass]="{'left': i === indexShowing-1, 'center': i === indexShowing, 'right': i === indexShowing+1}">
+          {{word}}
+        </p>
+      </div>
+    </div>
+  </mat-card>
+  <mat-card class="word-count" [ngClass]="{'content-center': !isDesktop()}">
+    <a class="clickable" *ngIf="isDesktop()" (click)="onSwipeRight()"><img src="/assets/img/back-icon.svg" alt=""></a>
+    <p class="direction">Word {{indexShowing + 1}} of {{words.length}}</p>
+    <a class="clickable" *ngIf="isDesktop()" (click)="onSwipeLeft()"><img src="/assets/img/next-icon.svg" alt=""></a>
+  </mat-card>
+</div>

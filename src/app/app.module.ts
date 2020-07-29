@@ -1,18 +1,19 @@
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, HammerModule } from '@angular/platform-browser';
 import { NgModule, APP_INITIALIZER } from '@angular/core';
 
 import { FormsModule } from "@angular/forms";
-import {
-  MatToolbarModule,
-  MatCardModule,
-  MatGridListModule,
-  MatDialogModule,
-  MatButtonModule,
-  MatIconModule,
-  MatTableModule,
-  MatListModule,
-  MatRadioModule,
-} from "@angular/material";
+
+import { MatBottomSheetModule, MatBottomSheetRef } from "@angular/material/bottom-sheet";
+import { MatTableModule } from "@angular/material/table";
+import { MatToolbarModule } from "@angular/material/toolbar";
+import { MatCardModule } from "@angular/material/card";
+import { MatButtonModule } from "@angular/material/button";
+import { MatIconModule } from "@angular/material/icon";
+import { MatListModule } from "@angular/material/list";
+import { MatRadioModule } from "@angular/material/radio";
+import { MatProgressBarModule } from "@angular/material/progress-bar";
+import { GoogleMapsModule } from '@angular/google-maps'
+import { TextFieldModule } from "@angular/cdk/text-field";
 
 import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule }    from '@angular/common/http';
@@ -27,44 +28,52 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LandingComponent } from './landing/landing.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
 import { PoiComponent } from './poi/poi.component';
 import { RatingsComponent } from './ratings/ratings.component';
 import { SigninComponent } from './signin/signin.component';
 import { SignupComponent } from './signup/signup.component';
-import { ProfileComponent } from './profile/profile.component';
-import { ReportSymptomComponent } from './report-symptom/report-symptom.component';
-import { ReportBehaviorComponent } from './report-behavior/report-behavior.component';
-import { MyAutonomyComponent } from './my-autonomy/my-autonomy.component';
-import { AlertDialogComponent } from "./alert-dialog/alert-dialog.component";
-import { PoiSearchComponent } from './poi-search/poi-search.component';
-import { ResourcesAddingComponent } from './resources-adding/resources-adding.component';
 import { PlaceDeltaPipe } from './pipes/place-delta.pipe';
 import { SymptomDeltaPipe } from './pipes/symptom-delta.pipe';
 import { ReportScorePipe } from './pipes/report-score.pipe';
+import { RecoveryKeyComponent } from './recovery-key/recovery-key.component';
+import { SignoutComponent } from './signout/signout.component';
+import { HomeComponent } from './home/home.component';
+import { CommunityComponent } from './home/community/community.component';
+import { ResourcesComponent } from './home/resources/resources.component';
+import { SettingComponent } from './home/setting/setting.component';
+import { BottomSheetAlertComponent } from "./bottom-sheet-alert/bottom-sheet-alert.component";
+import { RelativeDatePipe } from './pipes/relative-date.pipe';
+import { PersonalDataComponent } from './personal-data/personal-data.component';
+import { CommunityDataComponent } from './community-data/community-data.component';
+
+declare var window: any;
+window.isProduction = environment.production;
 
 @NgModule({
   declarations: [
     AppComponent,
     LandingComponent,
-    DashboardComponent,
     SigninComponent,
     SignupComponent,
-    ProfileComponent,
     PoiComponent,
-    ReportSymptomComponent,
-    ReportBehaviorComponent,
-    MyAutonomyComponent,
-    AlertDialogComponent,
-    PoiSearchComponent,
     RatingsComponent,
-    ResourcesAddingComponent,
     PlaceDeltaPipe,
     SymptomDeltaPipe,
     ReportScorePipe,
+    RecoveryKeyComponent,
+    SignoutComponent,
+    HomeComponent,
+    CommunityComponent,
+    ResourcesComponent,
+    SettingComponent,
+    BottomSheetAlertComponent,
+    RelativeDatePipe,
+    PersonalDataComponent,
+    CommunityDataComponent,
   ],
   imports: [
     BrowserModule,
+    HammerModule,
     AppRoutingModule,
     HttpClientModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
@@ -72,13 +81,15 @@ import { ReportScorePipe } from './pipes/report-score.pipe';
     FormsModule,
     MatToolbarModule,
     MatCardModule,
-    MatGridListModule,
-    MatDialogModule,
     MatButtonModule,
     MatIconModule,
     MatTableModule,
     MatListModule,
-    MatRadioModule
+    MatRadioModule,
+    TextFieldModule,
+    MatBottomSheetModule,
+    MatProgressBarModule,
+    GoogleMapsModule,
   ],
   providers: [
     UserService,
@@ -86,10 +97,11 @@ import { ReportScorePipe } from './pipes/report-score.pipe';
     EventEmitterService,
     AuthGuard,
     GuestGuard,
-    {provide: APP_INITIALIZER, useFactory: InitServices, deps: [UserService], multi: true}
+    {provide: APP_INITIALIZER, useFactory: InitServices, deps: [UserService], multi: true},
+    {provide: MatBottomSheetRef, useValue: {}}
   ],
   bootstrap: [AppComponent],
-  entryComponents: [AlertDialogComponent]
+  entryComponents: [BottomSheetAlertComponent]
 })
 export class AppModule { }
 

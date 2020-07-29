@@ -1,56 +1,62 @@
 {
-  "name": "autonomy",
-  "short_name": "autonomy",
-  "theme_color": "#1976d2",
-  "background_color": "#fafafa",
+  "name": "Autonomy",
+  "short_name": "Autonomy",
+  "theme_color": "#ffffff",
+  "background_color": "#ffffff",
   "display": "standalone",
   "scope": "./",
   "start_url": "./",
   "icons": [
     {
-      "src": "assets/icons/dev/72.png",
+      "src": "assets/icons/app-icons/72.png",
       "sizes": "72x72",
       "type": "image/png",
       "purpose": "maskable any"
     },
     {
-      "src": "assets/icons/dev/100.png",
+      "src": "assets/icons/app-icons/100.png",
       "sizes": "100x100",
       "type": "image/png",
       "purpose": "maskable any"
     },
     {
-      "src": "assets/icons/dev/128.png",
+      "src": "assets/icons/app-icons/128.png",
       "sizes": "128x128",
       "type": "image/png",
       "purpose": "maskable any"
     },
     {
-      "src": "assets/icons/dev/144.png",
+      "src": "assets/icons/app-icons/144.png",
       "sizes": "144x144",
       "type": "image/png",
       "purpose": "maskable any"
     },
     {
-      "src": "assets/icons/dev/152.png",
+      "src": "assets/icons/app-icons/152.png",
       "sizes": "152x152",
       "type": "image/png",
       "purpose": "maskable any"
     },
     {
-      "src": "assets/icons/dev/196.png",
+      "src": "assets/icons/app-icons/192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "assets/icons/app-icons/196.png",
       "sizes": "196x196",
       "type": "image/png",
       "purpose": "maskable any"
     },
     {
-      "src": "assets/icons/dev/256.png",
+      "src": "assets/icons/app-icons/256.png",
       "sizes": "256x256",
       "type": "image/png",
       "purpose": "maskable any"
     },
     {
-      "src": "assets/icons/dev/512.png",
+      "src": "assets/icons/app-icons/512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable any"

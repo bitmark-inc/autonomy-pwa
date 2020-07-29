@@ -1,14 +1,17 @@
 .content {
   text-align: center;
-  position: relative;
+  position: fixed;
   height: 100vh;
+  width: 100%;
+  max-width: 768px;
 
   .onboarding-content {
     height: calc(100vh -70px - 56px);
+    position: relative;
 
     .onboarding-words {
       height: calc(((100vh - 70px - 56px) / 100 * 35) - 16px);
-      font-size: 9vw;
+      font-size: 5.2vh;
       font-weight: 300;
       line-height: 120%;
       display: flex;
@@ -16,56 +19,59 @@
       justify-content: center;
     }
 
+    .dots {
+      display: flex;
+      justify-content: space-between;
+      width: 75px;
+      .dot {
+        width: 15px;
+        height: 15px;
+        border-radius: 50%;
+        background: #EEEEEE;
+      }
+      .viewable {
+        background: #003262;
+      }
+    }
+
     .img-groups{
       position: relative;
-      height: calc(((100vh - 49px - 56px) / 100 * 65) - 16px);
       display: flex;
       justify-content: center;
       align-items: center;
 
       .device {
-        padding-top: calc(((100vh + 70px + 56px) / 100 * 5) + 16px);
-        width: 100%;
+        padding-top: 70px;
+        width: 115%;
       }
 
         .intro {
+          width: 83%;
           position: absolute;
-          top: 12vh;
+          top: 32%;
           left: 50%;
           transform: translateX(-50%);
-          object-fit: scale-down;
+          // object-fit: scale-down;
+
+          .intro-a {
+            width: 100%;
+            padding-bottom: 15px;
+          }
+          .intro-b {
+            width: 100%;
+            padding-bottom: 15px;
+          }
         }
 
         .intro2 {
-          width: 90%;
+          width: 85%;
         }
-    }
-  }
-}
 
-.highlight {
-  color: #ffffff;
-}
-
-.permission-scope {
-  display: flex;
-
-  .brief-des {
-    padding-right: 0.5rem;
-    text-align: left;
-
-    p {
-      font-size: 24px;
-    }
-
-    span {
-      color: grey;
-    }
-  }
-  .access-btns {
-    button {
-      background-color: unset;
-      border: none;
+        .intro3 {
+          img {
+            width: 100%;
+          }
+        }
     }
   }
 }

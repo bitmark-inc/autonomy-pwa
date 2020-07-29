@@ -1,0 +1,126 @@
+.sticky-box {
+  position: sticky;
+  top: 0;
+  z-index: 99;
+  background: #ffffff;
+}
+
+.direction {
+  color: #000000;
+}
+
+.non-places-found {
+  color: #000000;
+  text-align: center;
+}
+
+.content-view {
+  position: absolute;
+  z-index: -1;
+  max-width: 768px;
+
+  .resources-list {
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    display: inline-block;
+    white-space: nowrap;
+    overflow-x: auto;
+    width: 100%;
+  
+    .resource-item {
+      background: #EEEEEE;
+      margin-right: 15px;
+      margin-bottom: 15px;
+      padding: 5px 15px;
+      word-break: break-word;
+      box-shadow: 0 1px 1px #888888;
+
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+  }
+
+  .map-view {
+    position: relative;
+  }
+}
+
+.list-not-standalone {
+  max-height: calc(100vh - 56px - 175px) !important;
+}
+
+.result-place-list {
+  width: 100%;
+  max-width: 768px;
+  background: #ffffff;
+  position: absolute;
+  z-index: 0;
+  bottom: 0;
+  padding-bottom: 70px;
+  max-height: calc(100vh - 56px - 57px);
+  min-height: 80px;
+  overflow-y: scroll;
+
+  .line-icon {
+    position: fixed;
+    z-index: 1;
+    width: 100vw;
+    background: #ffffff;
+    height: 20px;
+    left: 50%;
+    transform: translate(-50%, -10%);
+
+    span {
+      width: 50px;
+      height: 10px;
+      border-bottom: 1px solid #c1c1c1;
+      position: fixed;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+  }
+
+  .place-score {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    position: relative;
+    margin: 0 auto;
+
+    .score-num {
+      color: #ffffff;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 20px;
+    }
+  }
+}
+
+
+.small-address {
+  color: #000000;
+  font-size: 0.75em;
+}
+
+.resource-score {
+  display: flex;
+  align-items: baseline;
+}
+
+.resource-on-searching {
+  background: #EEEEEE;
+  width: fit-content;
+  padding: 5px 15px;
+  font-size: 14px;
+  word-break: break-word;
+}
+
+.resource-rating {
+  font-family: 'IBM Plex Mono';
+  font-size: 14px;
+}

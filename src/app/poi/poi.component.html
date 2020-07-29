@@ -1,113 +1,83 @@
 <div *ngIf="poi" class="main-content">
-  <mat-toolbar class="title-page" layout="fill">
-    <p>{{poi.alias}}</p>
-  </mat-toolbar>
-  <mat-card>
-    <div class="triangle">
-      <a>
-        <img class="triangle-boder" src="/assets/img/triangles/triangle_{{poi.autonomy_score | number:'1.0-0'}}.svg"
-          [alt]="poi.autonomy_score">
-        <div class="inside-triangle">
-          <span class="score">{{poi.autonomy_score | number:'1.0-0'}}</span>
-          <span class="delta" [innerHTML]="poi.autonomy_score_delta | placeDelta"></span>
-        </div>
+  <div [ngStyle]="{ 'background': poiBackground }" class="base-info">
+    <mat-card class="header-btn light-color" layout="fill">
+      <a (click)="this.router.navigate(['/home/resources'])" class="back upcase">
+        <img class="gap-right-5" src="/assets/img/back-small-white.svg" alt="back-arrow">
+        <span>back</span>
       </a>
+    </mat-card>
+    <div class="header-page-title upcase content-center">
+      <span class="page-title">{{poi.alias}}</span>
     </div>
-  </mat-card>
-  <mat-card>
-    <p class="small-title p-b-10">ADDRESS</p>
-    <div *ngIf="poi.address" class="content-left">
-      <p class="col-90 gap-right-10">{{poi.address}}</p>
-      <a class="content-right col-10" [href]="'https://www.google.com/maps/search/?api=1&query=' + poi.address" target="_blank"><img src="/assets/img/related-url.svg" alt=""></a>
+    <mat-card class="rate">
+      <p *ngIf="poi.resource_score"><strong>{{poi.resource_rating_count}}</strong><span class="light-color"> ratings</span></p>
+      <p *ngIf="!poi.resource_score"><strong>0</strong><span class="light-color"> ratings</span></p>
+      <p *ngIf="poi.resource_score" class="last-updated light-color">Rated {{poi.rating_last_updated | relativeDate}}</p>
+      <p *ngIf="!poi.resource_score" class="last-updated light-color">Not yet rated</p>
+    </mat-card>
+    <div [ngStyle]="{ 'background': poiBackground }" class="content-center poi-score">
+      <p *ngIf="poi.resource_score" class="font-24">{{poi.resource_score | number:'1.1-1'}}</p>
+      <p *ngIf="!poi.resource_score" class="font-24">--</p>
     </div>
-  </mat-card>
+  </div>
+  <div class="col detail-info">
+    <mat-card class="col-50 left">
+      <p class="small-title direction-color p-b-10">open hours</p>
+      <div *ngIf="todayOpenHour">
+        <div style="max-width: 150px;" class="content-left col font-12 line-height-120 p-b-5">
+          <p class="col-40 content-left">Today</p>
+          <p class="col-60 content-right">{{todayOpenHour}}</p>
+        </div>
+        <div *ngFor="let item of openHours" style="max-width: 150px; padding-bottom: 2px;" [ngClass]="{'grey-text-color': item.openHour.toLowerCase() === 'closed'}" class="content-left col font-10 line-height-120">
+          <p class="col-40 content-left">{{item.dates}}</p>
+          <p class="col-60 content-right">{{item.openHour}}</p>
+        </div>
+      </div>
+      <div *ngIf="!todayOpenHour" class="content-left col font-12 line-height-120 grey-text-color">No data</div>
+      <p *ngIf="poi.info_last_updated" class="font-10 line-height-120 content-left col p-t-10">Last updated: {{poi.info_last_updated | relativeDate}}</p>
+    </mat-card>
+    <mat-card class="col-50 right">
+      <p class="small-title direction-color p-b-10">CURRENT SERVICES</p>
+      <div *ngIf="poi.service_options && poi.service_options.length" class="col font-12 line-height-120 p-b-10">
+        <p *ngFor="let service of poi.service_options" [ngClass]="{'none-serve': !service.active}" class="content-left capital">{{service.name}}</p>
+      </div>
+      <div *ngIf="!(poi.service_options && poi.service_options.length)" class="col font-12 line-height-120 p-b-10 grey-text-color">No data</div>
+      <a *ngIf="poi.address" class="content-left address-link" [href]="'https://www.google.com/maps/search/?api=1&query=' + poi.address" target="_blank">
+        <p class="font-10 line-height-120 gap-right-5">Open in <span class="normal-link">Google Maps</span></p>
+        <img src="/assets/img/related-url.svg" alt="">
+      </a>
+    </mat-card>
+  </div>
 
-  <!-- report card -->
-  <mat-card class="header" layout="fill">
-    <div class="header-line"><hr><hr></div>
-    <div class="header-title"><span>report card</span></div>
-    <div class="header-line"><hr><hr>
-    </div>
-  </mat-card>
   <mat-card>
     <div *ngIf="resources && resources.length">
       <mat-table [dataSource]="resources" class="mat-elevation-z8">
         <!-- resource Column -->
         <ng-container matColumnDef="resource">
-          <mat-header-cell class="small-title" *matHeaderCellDef> resource </mat-header-cell>
-          <mat-cell class="row-items" *matCellDef="let element" (click)="this.router.navigate(['/rating', poi.id], { queryParams: { highlight_id: element.resource.id } })"> {{element.resource.name}} </mat-cell>
+          <mat-header-cell class="small-title" *matHeaderCellDef> measures </mat-header-cell>
+          <mat-cell class="row-items font-14" *matCellDef="let element"> {{element.name}} </mat-cell>
         </ng-container>
-      
+
         <!-- score Column -->
         <ng-container matColumnDef="score">
-          <mat-header-cell class="small-title" *matHeaderCellDef> score (1-5) </mat-header-cell>
-          <mat-cell class="row-items" *matCellDef="let element" (click)="this.router.navigate(['/rating', poi.id], { queryParams: { highlight_id: element.resource.id } })" [innerHTML]="element.score | reportScore"></mat-cell>
+          <mat-header-cell class="small-title" *matHeaderCellDef> ratings (1-5) </mat-header-cell>
+          <mat-cell class="row-items mono" *matCellDef="let element">
+            <span *ngIf="element.score" [ngStyle]="{ 'background': element.color }" class="score-lable">{{element.score | number:'1.1-1'}}</span>
+            <span *ngIf="!element.score" [ngStyle]="{ 'background': element.color }" class="score-lable">--</span>
+          </mat-cell>
         </ng-container>
-      
-        <!-- ratings Column -->
-        <ng-container matColumnDef="ratings">
-          <mat-header-cell class="small-title" *matHeaderCellDef> ratings </mat-header-cell>
-          <mat-cell class="row-items" *matCellDef="let element" (click)="this.router.navigate(['/rating', poi.id], { queryParams: { highlight_id: element.resource.id } })"> {{element.ratings}} </mat-cell>
-        </ng-container>
-      
-        <mat-header-row *matHeaderRowDef="['resource', 'score', 'ratings']"></mat-header-row>
-        <mat-row *matRowDef="let row; columns: ['resource', 'score', 'ratings'];"></mat-row>
+
+        <mat-header-row *matHeaderRowDef="['resource', 'score']"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: ['resource', 'score'];"></mat-row>
       </mat-table>
     </div>
-    <div *ngIf="!(resources && resources.length)" class="resource-empty">
-      <p>You can be the first to add resources provided by this place by tapping below.</p>
-      <div class="content-right">
-        <img src="/assets/img/arrow-down.svg" alt="">
-      </div>
-    </div>
-    <mat-card class="resource-footer">
-      <button *ngIf="(poi.resources && poi.resources.length > 10 && resources != poi.resources)" (click)="showMore()" class="resource-footer-items left"><img src="/assets/img/done.svg" alt=""><span>More</span></button>
-      <button (click)="this.router.navigate(['/resources-adding', poi.id])" class="resource-footer-items right"><span>add resource</span><img src="/assets/img/plus.svg" alt=""></button>
-    </mat-card>
   </mat-card>
-
-  <!-- neighborhood -->
-  <mat-card class="header p-t-30" layout="fill">
-    <div class="header-line"><hr><hr></div>
-    <div class="header-title"><span>NEIGHBORHOOD</span></div>
-    <div class="header-line"><hr><hr>
-    </div>
-  </mat-card>
-  <div class="p-b-30" *ngIf="poi.neighbor">
-    <mat-list>
-      <mat-list-item class="row-items">
-        <p class="default-color col-60 content-left">ACTIVE CASES</p>
-        <p class="default-color col-20 content-center">{{poi.neighbor.confirm}}</p>
-        <p class="col-20 content-right" [innerHTML]="poi.neighbor.confirm_delta | symptomDelta"></p>
-      </mat-list-item>
-      <mat-list-item class="row-items">
-        <p class="default-color col-60 content-left">SYMPTOMS</p>
-        <p class="default-color col-20 content-center">{{poi.neighbor.symptom}}</p>
-        <p class="col-20 content-right" [innerHTML]="poi.neighbor.symptom_delta | symptomDelta"></p>
-      </mat-list-item>
-      <mat-list-item class="row-items last-item">
-        <p class="default-color col-60 content-left">HEALTHY BEHAVIORS</p>
-        <p class="default-color col-20 content-center">{{poi.neighbor.behavior}}</p>
-        <p class="col-20 content-right" [innerHTML]="poi.neighbor.behavior_delta | placeDelta"></p>
-      </mat-list-item>
-    </mat-list>
-  </div>
-  <div class="bottom-buttons">
-    <div class="back">
-      <a (click)="this.router.navigate(['/dashboard'])"><img src="/assets/img/back-icon.svg" alt=""><span
-          class="command">Back</span></a>
-    </div>
-    <div *ngIf="!poi.owned" class="next">
-      <a (click)="monitor()">
-        <span class="command">monitor</span>
-        <img src="/assets/img/plus.svg" alt="">
-      </a>
-    </div>
-    <div *ngIf="poi.owned" class="next">
-      <a (click)="forgetPOI()">
-        <span class="command command-long">monitoring</span>
-        <img src="/assets/img/checked.svg" alt="">
-      </a>
-    </div>
+  <div class="p-b-30"></div>
+  <div class="footer-btn">
+    <a class="next" (click)="this.router.navigate(['/rating', poi.id])">
+      <span *ngIf="isRated" class="gap-right-15 change-rating">change your ratings</span>
+      <span *ngIf="!isRated" class="gap-right-15">rate</span>
+      <img src="/assets/img/next-icon.svg" alt="">
+    </a>
   </div>
 </div>

@@ -1,0 +1,60 @@
+.keys {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 20vh;
+}
+
+.keys-out {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 20vh;
+  width: 10vw;
+}
+
+.slide-words {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.word-count {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  overflow: hidden;
+
+  img {
+    width: 25px;
+    height: 25px;
+  }
+}
+
+.left {
+  font-size: 1.5em;
+  // opacity: 0.5;
+}
+
+.center {
+  font-size: 2.25em;
+  // opacity: 1;
+}
+
+.right {
+  font-size: 1.5em;
+  // opacity: 0.5;
+}
+
+.word {
+  width: calc(768px / 2);
+  display: flex;
+  justify-content: center;
+}
+
+@media screen and (max-width: 768px) {
+  .word {
+    width: 50vw;
+  }
+}

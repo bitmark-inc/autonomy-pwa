@@ -1,8 +1,10 @@
-import { Component, ViewChild, ElementRef } from '@angular/core';
+import { environment } from '../environments/environment';
+import { Component } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { MatDialog, MatDialogConfig } from "@angular/material";
-import { AlertDialogComponent } from "./alert-dialog/alert-dialog.component";
-import { EventEmitterService } from "./services/event-emitter.service";
+import { interval } from 'rxjs';
+import { SwUpdate } from '@angular/service-worker';
+import { MatBottomSheet, MatBottomSheetRef } from '@angular/material/bottom-sheet';
+import { BottomSheetAlertComponent } from "./bottom-sheet-alert/bottom-sheet-alert.component";
 
 @Component({
   selector: 'app-root',
@@ -12,46 +14,39 @@ import { EventEmitterService } from "./services/event-emitter.service";
 export class AppComponent {
   title = 'autonomy';
 
-  @ViewChild('modalAlert', {static: false}) public modalAlert: ElementRef;
-
-  constructor(public dialog: MatDialog, public breakpointObserver: BreakpointObserver) {
+  constructor(public breakpointObserver: BreakpointObserver, private swUpdate: SwUpdate, private bottomSheet: MatBottomSheet, private bottomSheetRef: MatBottomSheetRef) {
     const isSmallScreen = breakpointObserver.isMatched('(max-width: 599px)');
-
-    EventEmitterService.getEventEmitter(EventEmitterService.Events.ModalDialog).subscribe((data) => {
-      if (data.open) {
-        this.openModal(data.title, data.subTitle || '', data.message, data.type, data.cancel || null, data.retry || null);
-      } else {
-        this.dialog.closeAll();
-      }
-    });
+    
+    if (environment.production) {
+      this.autoupdateApp();
+    }
   }
 
-  public openModal(title:string, subTitle: string, message:string, type:string = 'info', yes:Function = null, no:Function = null) {
-    const dialogConfig = new MatDialogConfig();
+  private autoupdateApp() {
+    interval(1000 * 60 * 2).subscribe(() => {
+      this.swUpdate.checkForUpdate();
+    });
 
-    if (type == 'warning') {
-      dialogConfig.disableClose = true;
-    }
-    dialogConfig.autoFocus = true;
-    dialogConfig.data = {
-        title: title,
-        subTitle: subTitle,
-        message: message,
-        type: type
-    };
-    dialogConfig.minWidth = 400;
+    this.swUpdate.available.subscribe(
+      () => {
+        console.log('Checking for update...');
+        this.swUpdate.activateUpdate().then(() => {
+          console.log('Update downloaded!');
+          this.openBottomSheet();
+        });
+      }
+    );
+  }
 
-    const dialogRef = this.dialog.open(AlertDialogComponent, dialogConfig);
-
-    dialogRef.afterClosed().subscribe(result => {
-      if(result){
-        if(yes){
-          yes();
-        }
-      }else{
-        if(no){
-          no();
-        }
+  private openBottomSheet(): void {
+    this.bottomSheetRef = this.bottomSheet.open(BottomSheetAlertComponent, {
+      disableClose: true,
+      data: {
+        error: false,
+        header: 'updated',
+        mainContent: 'We’ve updated Autonomy to improve performance and stability.',
+        leftBtn: 'reload',
+        leftBtnAction: () => { location.reload(); },
       }
     });
   }

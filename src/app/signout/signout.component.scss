@@ -1,0 +1,42 @@
+.content {
+  display: block;
+  text-align: center;
+  height: max-content;
+
+  .onboarding-words {
+    font-size: 36px;
+    font-weight: 300;
+    line-height: 120%;
+
+    p {
+      font-size: 24px;
+    }
+  }
+
+  .key-area {
+    border-top: 1px solid #003262;
+    border-bottom: 1px solid #003262;
+    margin-top: 30px;
+    background: #EEEEEE;
+    #recoveryKey {
+      width: 100%;
+      background: #EEEEEE;
+      border: none;
+      font-size: 18px;
+      color: #303030;
+      resize: unset;
+      padding: 16px;
+    }
+  }
+}
+
+.signout {
+  color: #ffffff;
+  background: #CC3232;
+}
+
+@media screen and (max-width: 347px) {
+  .command-long-medium {
+    font-size: .85em;
+  }
+}
