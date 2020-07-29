@@ -37,7 +37,7 @@ deploy:
   provider: s3
   access_key_id: $AWS_ACCESS_KEY_ID
   secret_access_key: $AWS_SECRET_ACCESS_KEY
-  bucket: autonomy-pwa.test.bitmark.com
+  bucket: $S3_BUCKET
   local_dir: "./dist/autonomy"
   region: ap-northeast-1
   edge: true
@@ -46,7 +46,8 @@ deploy:
   detect_encoding: true
   cache_control: "max-age=31536000: *.jpg, *.svg, *.gif, *.png, *.webp, *.css, *.js, *.ico, *wasm"
   on:
-    branch: dev
+    condition: $S3_BUCKET != ''
+
 after_deploy:
 - aws configure set preview.cloudfront true
-- test $TRAVIS_BRANCH = "dev" && aws cloudfront create-invalidation --distribution-id $CLOUDFRONT_STAGING_DISTRIBUTION_ID --paths "/*"
+- aws cloudfront create-invalidation --distribution-id $CLOUDFRONT_DISTRIBUTION_ID --paths "/*"
