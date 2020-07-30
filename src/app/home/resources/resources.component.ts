@@ -81,6 +81,7 @@ interface POI {
   focused: boolean,
   place_type: string,
   todayOpenHour: string,
+  todayOpenHourForView: string,
   services_active: string,
   color: string
 }
@@ -168,9 +169,11 @@ export class ResourcesComponent implements OnInit, OnDestroy {
       poi.place_type = poi.place_types.join(', ');
       if (poi.opening_hours && Object.keys(poi.opening_hours).length != 0) {
         let time = Util.openHoursFormat(poi.opening_hours, true);
-        poi.todayOpenHour = time === 'Closed' ? 'Closed today' : `Open ${time} today`;
+        poi.todayOpenHour = time;
+        poi.todayOpenHourForView = time === 'Closed' ? 'Closed today' : `Open ${time} today`;
       } else {
         poi.todayOpenHour = '';
+        poi.todayOpenHourForView = '';
       }
       if (poi.service_options && Object.keys(poi.service_options).length != 0) {
         poi.services_active = Object.keys(poi.service_options).map(e => poi.service_options[e] ? e : '').filter(s => s != '').join(', ');
@@ -185,6 +188,17 @@ export class ResourcesComponent implements OnInit, OnDestroy {
       poi.resource_score = Math.floor(Math.random() * 5.0);
       poi.rating_last_updated = 1595402179094;
     })
+  }
+
+  private isPlaceClosed(open, closed): boolean {
+    let isClosed: boolean = false;
+    if (open && closed) {
+      let currentTime = moment().hours() * 60 + moment().minutes();
+      let startTime = moment(open, 'hh:mm A').hours() * 60 + moment(open, 'hh:mm A').minutes()
+      let endTime = moment(closed, 'hh:mm A').hours() * 60 + moment(closed, 'hh:mm A').minutes()
+      isClosed = !(startTime < currentTime && currentTime < endTime);
+    }
+    return isClosed;
   }
 
   private deg2rad(deg) {
@@ -290,14 +304,30 @@ export class ResourcesComponent implements OnInit, OnDestroy {
   public updatePlaceColors() {
     let colorLight: boolean = false;
     this.pois.forEach((poi) => {
-      if (poi.todayOpenHour && poi.todayOpenHour != 'Closed today') {
-        let open = poi.todayOpenHour.split(' ')[1].trim();
-        let closed = poi.todayOpenHour.split(' ')[3].trim();
-
-        let currentTime = moment().hours() * 60 + moment().minutes();
-        let startTime = moment(open, 'hh:mm A').hours() * 60 + moment(open, 'hh:mm A').minutes()
-        let endTime = moment(closed, 'hh:mm A').hours() * 60 + moment(closed, 'hh:mm A').minutes()
-        colorLight = !(startTime < currentTime && currentTime < endTime);
+      if (poi.todayOpenHour && poi.todayOpenHour != 'Closed') {
+        let open;
+        let closed;
+        if (poi.todayOpenHour.includes(',')) { // multiple period of time
+          poi.todayOpenHour.split(',').forEach(times => {
+            if (times.split(' ').length === 3) { // ... to ...
+              open = times.split(' ')[0].trim();
+              closed = times.split(' ')[2].trim();
+            } else if (times.split(' ').length === 1 && times.split('-').length === 2) { // ...-...
+              open = times.split('-')[0].trim();
+              closed = times.split('-')[1].trim();
+            }
+            colorLight = colorLight || this.isPlaceClosed(open, closed);
+          })
+        } else { // single period of time
+          if (poi.todayOpenHour.split(' ').length === 3) {
+            open = poi.todayOpenHour.split(' ')[0].trim();
+            closed = poi.todayOpenHour.split(' ')[2].trim();
+          } else if (poi.todayOpenHour.split(' ').length === 1 && poi.todayOpenHour.split('-').length === 2) {
+            open = poi.todayOpenHour.split('-')[0].trim();
+            closed = poi.todayOpenHour.split('-')[1].trim();
+          }
+          colorLight = this.isPlaceClosed(open, closed); // dark mode for unknown format hours
+        }
       } else {
         colorLight = true
       }

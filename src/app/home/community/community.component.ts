@@ -41,7 +41,7 @@ export class CommunityComponent implements OnInit {
     let start = encodeURIComponent(this.reportStart.toISOString(true));
     let end = encodeURIComponent(this.reportEnd.toISOString(true));
 
-    let endpoint = `${environment.autonomy_api_url}api/report-items?scope=individual&type=symptom&granularity=day`;
+    let endpoint = `${environment.autonomy_api_url}api/report-items?type=symptom&granularity=day`;
     this.apiService
       .request('get', endpoint, null, null, ApiService.DSTarget.CDS)
       .subscribe(
