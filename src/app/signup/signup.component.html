@@ -1,3 +1,4 @@
+<button [hidden]="!isShowAddBtn" #addBtn class="add-button">Add to home screen</button>
 <div class="content" [hidden]="stage != PageStage.Intro01">
   <mat-card class="header-btn" layout="fill">
     <a [routerLink]="['/landing']" class="back upcase">
