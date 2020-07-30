@@ -1,8 +1,4 @@
 .add-button {
-  position: absolute;
-  top: 45px;
-  left: 1px;
-  z-index: 99;
   height: 20px;
   width: max-content;
 }
@@ -37,9 +33,6 @@
         height: 15px;
         border-radius: 50%;
         background: #EEEEEE;
-      }
-      .viewable {
-        background: #003262;
       }
     }
 
