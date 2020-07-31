@@ -161,7 +161,7 @@ export class ResourcesComponent implements OnInit, OnDestroy {
   }
 
   private getResourcesForSearching() {
-    this.poiTypes = ['restaurants', 'coffee', 'groceries', 'pharmacies', 'laundromats'];
+    this.poiTypes = ['restaurants', 'coffee', 'groceries', 'pharmacies'];
   }
 
   private formatPOI() {
