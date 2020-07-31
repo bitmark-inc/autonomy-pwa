@@ -13,7 +13,7 @@
     </mat-card>
     <mat-card class="content-center no-bottom">
       <div class="dots">
-        <div class="dot viewable"></div>
+        <div class="dot" style="background: #00B0DA;"></div>
         <div class="dot"></div>
         <div class="dot"></div>
       </div>
@@ -28,8 +28,8 @@
     </mat-card>
   </div>
   <div class="footer-btn">
-    <a class="next" (click)="setStage(PageStage.Intro02)">
-      <span class="gap-right-15">Next</span><img src="/assets/img/next-icon.svg" alt="">
+    <a style="color: #ffffff; background: #00B0DA;" class="next" (click)="setStage(PageStage.Intro02)">
+      <span class="gap-right-15">Next</span><img src="/assets/img/next-landing.svg" alt="">
     </a>
   </div>
 </div>
@@ -51,7 +51,7 @@
     <mat-card class="content-center no-bottom">
       <div class="dots">
         <div class="dot"></div>
-        <div class="dot viewable"></div>
+        <div class="dot" style="background: #FDB515;"></div>
         <div class="dot"></div>
       </div>
     </mat-card>
@@ -63,8 +63,8 @@
     </mat-card>
   </div>
   <div class="footer-btn">
-    <a class="next" (click)="setStage(PageStage.Intro03)">
-      <span class="gap-right-15">Next</span><img src="/assets/img/next-icon.svg" alt="">
+    <a style="color: #ffffff; background: #FDB515;" class="next" (click)="setStage(PageStage.Intro03)">
+      <span class="gap-right-15">Next</span><img src="/assets/img/next-landing.svg" alt="">
     </a>
   </div>
 </div>
@@ -85,7 +85,7 @@
       <div class="dots">
         <div class="dot"></div>
         <div class="dot"></div>
-        <div class="dot viewable"></div>
+        <div class="dot" style="background: #EE1F60;"></div>
       </div>
     </mat-card>
     <mat-card class="no-top no-bottom">
@@ -99,8 +99,47 @@
     </mat-card>
   </div>
   <div class="footer-btn">
-    <a class="next" (click)="signup()">
-      <span class="gap-right-15">Next</span><img src="/assets/img/next-icon.svg" alt="">
+    <a style="color: #ffffff; background: #EE1F60;" class="next" (click)="setStage(PageStage.OnInstall)">
+      <span class="gap-right-15">install</span><img src="/assets/img/done.svg" alt="">
     </a>
+  </div>
+</div>
+<div [ngStyle]="{'height': viewHeight}" class="content-fixed" [hidden]="stage != PageStage.OnInstall">
+  <mat-card class="header-btn" layout="fill">
+    <a (click)="setStage(PageStage.Intro03)" class="back upcase">
+      <img class="gap-right-5" src="/assets/img/back-small.svg" alt="back-arrow">
+      <span>back</span>
+    </a>
+  </mat-card>
+  <div class="header-page-title direction-color">
+    <span class="page-title">Install Autonomy</span>
+  </div>
+  <div *ngIf="isMobileExceptIOS">
+    <p>is Android</p>
+    <button [hidden]="!isShowAddBtn" #addBtn (click)="addToHomeScreen()" class="add-button">Add to home screen</button>
+  </div>
+  <mat-card *ngIf="isIOSSafari" style="font-size: 2.3vh; margin-top: 3vh;" class="no-top no-bottom">
+    <p class="p-b-10"><span class="highlight-words">Autonomy is a new kind of app </span>(a progressive web app) that combines the lightness and efficiency of a website with the convenience and security of a mobile app.</p>
+    <p>
+      <span>To install Autonomy:</span><br/>
+      <span>1. Tap the share button <img src="/assets/img/ios-share.svg" alt=""> below in Safari.</span><br/>
+      <span>2. Then tap “Add to Home Screen.”</span><br/>
+      <span>3. To use Autonomy, just tap the icon on your home screen like a regular app.</span>
+    </p>
+    <div class="install-imgs">
+      <img class="device" src="/assets/img/device.svg" alt="">
+      <div class="desciption">
+        <img class="app-icon" src="/assets/img/autonomy-app-icon.svg" alt="">
+        <div class="draft-btn-banner">
+          <div class="draft-btn"><p class="upcase p-b-5">tap</p><img src="/assets/img/done.svg" alt=""></div>
+        </div>
+      </div>
+    </div>
+  </mat-card>
+  <div *ngIf="isIOSOther">
+    <p>is IOS others</p>
+  </div>
+  <div *ngIf="isDesktop">
+    <p>is Desktop</p>
   </div>
 </div>

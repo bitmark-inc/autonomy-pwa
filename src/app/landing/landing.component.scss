@@ -4,109 +4,180 @@
   height: 100vh;
   width: 100%;
   max-width: 768px;
+}
+
+.landing-browser {
+  background-image: url('./../../assets/img/landing_background.svg');
 
   .landing-content {
     position: relative;
-    height: calc(100vh - 140px - 56px);
+    height: calc(100vh - 110px - 30px);
+    color: #ffffff;
+    text-shadow: 5px 5px 4px rgba(0, 0, 0, 0.4);
+
+    .app-name {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-transform: uppercase;
+      font-size: 3.2vh;
+      padding-bottom: 2px;
+    }
 
     .landing-words {
-      font-size: 8vh;
+      font-size: 7.3vh;
       font-weight: 300;
       line-height: 120%;
     }
 
     .logo {
-      height: calc(((100vh - 140px - 56px) / 100 * 52));
+      height: calc(((100vh - 110px - 30px) / 100 * 52));
       display: flex;
       justify-content: center;
       align-items: center;
       margin-bottom: 10px;
       .imgs {
-        height: calc(((100vh - 140px - 56px) / 100 * 50));;
+        height: calc(((100vh - 110px - 30px) / 100 * 50));;
         width: 100%;
         display: block;
         .autonomy-logo {
           width: 100%;
-          height: 70%;
+          height: 80%;
           img {
             width: 100%;
-            height: 120%;
-            object-fit: scale-down;
+            height: 100%;
+            // object-fit: scale-down;
           }
         }
         .ucl-logo {
           width: 100%;
-          height: 27%;
+          height: 29%;
           img {
-            // width: 100%;
+            width: 100%;
             height: 100%;
             object-fit: scale-down;
           }
         }
-
-        .height-67 {
-          height: 67%;
-        }
-
-        .height-80 {
-          height: 80%;
-        }
       }
     }
   }
 
-}
+  .landing-footer {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    color: #ffffff;
+    background-color: unset;
+    width: 100%;
+    height: 110px;
 
-.landing-footer {
-  position: fixed;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  text-align: center;
-  color: #888888;
-  background-color: #ffffff;
-  width: 100%;
-  height: 140px;
-
-  .start-landing {
-    font-family: 'Domaine Sans Text';
-    font-weight: 300;
-    font-size: 24px;
-    line-height: 100%;
-    text-transform: uppercase;
-    margin-top: 5px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    a {
+    .start-landing {
+      font-family: 'Domaine Sans Text';
+      font-weight: 300;
+      font-size: 24px;
+      line-height: 100%;
+      text-transform: uppercase;
+      margin-top: 5px;
       display: flex;
       align-items: center;
       justify-content: center;
-      text-decoration: none;
-      border-radius: 65px;
-      background: #EEEEEE;
-      padding: 8px 15px;
-      .command {
-        padding-right: 1rem;
+
+      a {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        border-radius: 65px;
+        background: #EEEEEE;
+        padding: 8px 15px;
+        .command {
+          padding-right: 1rem;
+        }
+        img {
+          width: 45px;
+          height: 45px;
+        }
       }
-      img {
-        width: 45px;
-        height: 45px;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: underline;
+    }
+
+    p {
+      font-size: 14px;
+      text-shadow: 4px 4px 4px rgba(0, 0, 0, 0.4);
+      padding-bottom: .5em;
+      &:nth-child(1) {
+        padding: .5em;
       }
     }
   }
+}
 
-  a {
-    color: inherit;
-    text-decoration: underline;
+.landing-pwa {
+  .landing-content-pwa {
+    position: relative;
+    padding-bottom: 100px;
   }
 
-  p {
-    font-size: 14px;
-    padding-bottom: .5em;
-    &:nth-child(1) {
-      padding: .5em;
+  .landing-footer {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    color: #00B0DA;
+    background-color: unset;
+    width: 100%;
+    height: 110px;
+
+    .start-landing {
+      font-family: 'Domaine Sans Text';
+      font-weight: 300;
+      font-size: 24px;
+      line-height: 100%;
+      text-transform: uppercase;
+      margin-top: 5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      a {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        border-radius: 65px;
+        background: #00B0DA;
+        color: #ffffff;
+        padding: 8px 15px;
+        .command {
+          padding-right: 1rem;
+          max-width: 165px;
+          text-align: end;
+        }
+        img {
+          width: 45px;
+          height: 45px;
+        }
+      }
+    }
+
+    a {
+      color: inherit;
+      text-decoration: underline;
+    }
+
+    p {
+      font-size: 14px;
+      padding-bottom: .7em;
+      &:nth-child(1) {
+        padding: .5em;
+      }
     }
   }
 }

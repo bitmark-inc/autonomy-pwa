@@ -1,21 +1,54 @@
-<div class="content">
-  <div class="landing-content p-t-45">
-    <mat-card class="landing-words direction-color no-top">
+<div [hidden]="isStandalone()" class="content landing-browser">
+  <div class="landing-content p-t-20">
+    <p class="app-name">autonomy</p>
+    <mat-card class="landing-words no-top">
       <p>Get better.</p>
       <p>Together.</p>
     </mat-card>
     <mat-card class="logo no-top">
       <div class="imgs">
-        <div class="autonomy-logo" [ngClass]="[ isStandalone() ? 'height-80' : 'height-67' ]"><img src="/assets/img/Polygon.svg" alt=""></div>
-        <div class="ucl-logo"><img src="/assets/img/UCBerkeley_wordmark_blue_1.svg" alt=""></div>
+        <div class="autonomy-logo"><img src="/assets/img/heart.svg" alt=""></div>
+        <div class="ucl-logo"><img src="/assets/img/UCBerkeley_wordmark_white.svg" alt=""></div>
       </div>
     </mat-card>
   </div>
-  <div class="footer landing-footer">
+  <div class="landing-footer">
     <div class="start-landing p-b-10">
-      <a [routerLink]="['/signup']"><span class="command direction-color">Start</span><img src="/assets/img/next-icon.svg" alt=""></a>
+      <a [routerLink]="['/signup']"><span class="command direction-color">start</span><img src="/assets/img/next-icon.svg" alt=""></a>
     </div>
-    <p>Or <a [routerLink]="['/signin']">sign back in »</a></p>
-    <p><a href="https://bitmark.com/privacy">We protect your rights.</a></p>
+    <p><a class="normal-link" href="https://bitmark.com/privacy">We protect your rights.</a></p>
+  </div>
+</div>
+<div [hidden]="!isStandalone()" class="landing-pwa">
+  <div class="landing-content-pwa">
+    <div class="header-page-title direction-color m-t-30 m-b-30">
+      <span style="padding-left: 10px;" class="big-words">Your account</span>
+    </div>
+    <mat-card>
+      <p class="content-left font-18 line-height-120 p-b-20">Creating an Autonomy account does not require an email address or any other personal information.</p>
+      <p class="content-left font-18 line-height-120 p-b-20">Your account gives you rights to:</p>
+      <div class="col content-left">
+        <div class="gap-right-5"><img src="/assets/img/arrow.svg" alt=""></div>
+        <div class="col">
+          <p class="font-18 line-height-120 p-b-10">Save, read, and delete Autonomy data from your personal data enclave (PDE)</p>
+          <p class="font-14 direction-color gap-right-5 p-b-20">No one other than you will ever be able to access your PDE or the data you've stored there.</p>
+          <div class="light-line"><hr></div>
+        </div>
+      </div>
+      <div class="col content-left p-t-20">
+        <div class="gap-right-5"><img src="/assets/img/arrow.svg" alt=""></div>
+        <div class="col">
+          <p class="font-18 line-height-120 p-b-10">Submit and read anonymized, non-personally-identifiable Autonomy data from the UC Berkeley community data enclave (CDE) for community-level pooling and research.</p>
+          <p class="font-14 direction-color gap-right-5 p-b-20">The data you share with the Berkely community can never be traced back to you.</p>
+          <div class="light-line"><hr></div>
+        </div>
+      </div>
+    </mat-card>
+  </div>
+  <div class="landing-footer">
+    <div class="start-landing p-b-10">
+      <a (click)="signup()" [ngClass]="{'disable-btns': !clickable}"><span class="command">create account</span><img src="/assets/img/next-landing.svg" alt=""></a>
+    </div>
+    <p>Or <a class="normal-link" [routerLink]="['/signin']">sign back in »</a></p>
   </div>
 </div>

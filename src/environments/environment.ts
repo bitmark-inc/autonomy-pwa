@@ -9,6 +9,7 @@ export const environment = {
   autonomy_api_url: 'https://autonomy-web.test.bitmark.com/',
   pds_url: 'https://pds.test.bitmark.com/',
   cds_url: 'https://cds.test.bitmark.com/',
+  onesignal_app_id: '79c26871-a112-4112-bd7b-cd2d0dab0b12',
 };
 
 /*
