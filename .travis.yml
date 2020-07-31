@@ -46,7 +46,7 @@ deploy:
   detect_encoding: true
   cache_control: "max-age=31536000: *.jpg, *.svg, *.gif, *.png, *.webp, *.css, *.js, *.ico, *wasm"
   on:
-    condition: $S3_BUCKET != ''
+    all_branches: true
 
 after_deploy:
 - aws configure set preview.cloudfront true
