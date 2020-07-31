@@ -3,6 +3,12 @@
   width: max-content;
 }
 
+.content-fixed {
+  position: fixed;
+  width: 100%;
+  max-width: 768px;
+}
+
 .content {
   text-align: center;
   position: fixed;
@@ -74,6 +80,56 @@
             width: 100%;
           }
         }
+    }
+  }
+}
+
+.highlight-words {
+  background-color: #FDB515;
+}
+
+.install-imgs {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .device {
+    padding-top: 1.5vh;
+    width: 115%;
+  }
+
+  .desciption {
+    position: absolute;
+    padding-top: 10.5vh;
+    height: 65vh;
+
+    .app-icon {
+      width: auto;
+      max-height: 10vh;
+      object-fit: scale-down;
+    }
+
+    .draft-btn-banner {
+      position: relative;
+      // height: 100%;
+
+      .draft-btn {
+        position: fixed;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        background: #EE1F60;
+        color: #ffffff;
+        border-radius: 65px;
+        padding: 2vh 1vh 0 1vh;
+        font-size: 3vh;
+        max-height: 18vh;
+        text-align: center;
+        img {
+          height: 8vh;
+        }
+      }
     }
   }
 }

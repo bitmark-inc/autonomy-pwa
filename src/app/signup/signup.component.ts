@@ -26,10 +26,13 @@ export class SignupComponent implements OnInit, OnDestroy {
   public isMobileExceptIOS: boolean;
   public isDesktop: boolean;
 
+  public viewHeight: string;
+
   constructor(private router: Router, private userService: UserService) {
     if (window.matchMedia('(display-mode: standalone)').matches) {
       this.router.navigate(['/landing']);
     }
+    this.viewHeight = `${window.innerHeight}px`;
   }
   
   ngOnInit() {
