@@ -263,6 +263,7 @@ export class UserService extends BaseService {
   //=========== WORK WITH DATA STORE ==============
 
   public signout() {
+    this.removeOneSignalTag();
     this.user = null;
     this.cache.clean();
   }
@@ -284,5 +285,22 @@ export class UserService extends BaseService {
 
   public getPreference(key: string) {
     return this.user.preferences ? this.user.preferences[key] : null;
+  }
+
+  //=========== WORK WITH ONE SIGNAL ==============
+  public submitOneSignalTag(): void {
+    window.OneSignal.push(() => {
+      window.OneSignal.sendTag('account_number', this.getAccountNumber());
+    })
+  }
+
+  public removeOneSignalTag(): void {
+    window.OneSignal.push(() => {
+      window.OneSignal.isPushNotificationsEnabled((isEnabled: boolean) => {
+        if (isEnabled) {
+          window.OneSignal.sendTag('account_number', '');
+        }
+      });
+    });
   }
 }

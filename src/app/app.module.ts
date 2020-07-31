@@ -76,7 +76,7 @@ window.isProduction = environment.production;
     HammerModule,
     AppRoutingModule,
     HttpClientModule,
-    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
+    ServiceWorkerModule.register('OneSignalSDKWorker.js', { enabled: environment.production }),
     BrowserAnimationsModule,
     FormsModule,
     MatToolbarModule,

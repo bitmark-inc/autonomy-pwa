@@ -1,3 +1,5 @@
+declare var window: any;
+
 import { environment } from '../environments/environment';
 import { Component } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
@@ -19,6 +21,13 @@ export class AppComponent {
     
     if (environment.production) {
       this.autoupdateApp();
+      window.OneSignal = window.OneSignal || [];
+      window.OneSignal.push(() => {
+        window.OneSignal.init({
+          appId: environment.onesignal_app_id,
+          notifyButton: { enable: false },
+        });
+      });
     }
   }
 
