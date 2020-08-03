@@ -8,7 +8,7 @@ import * as d3 from 'd3'
 import { environment } from 'src/environments/environment';
 import { UserService } from 'src/app/services/user/user.service';
 
-enum NotificationPermissionState { None, Allowed, Denied, NotSupported };
+enum NotificationPermissionState { None, Allowed, Denied, NotSupported, NoThanks };
 
 @Component({
   selector: "app-trend",
@@ -232,34 +232,37 @@ export class CommunityComponent implements OnInit {
 
   // ======== WORK WITH ONESIGNAL
   private initOneSignal() {
-    this.notificationPermissionState = NotificationPermissionState.None;
+    this.notificationPermissionState = this.userService.getPreference('notification-permission') || NotificationPermissionState.None;
+    console.log(this.notificationPermissionState);
 
-    window.OneSignal.push(() => {
-      var isPushSupported = window.OneSignal.isPushNotificationsSupported();
-      console.log(`Push notification is ${isPushSupported ? '' : 'not '}supported`);
-
-      if (!isPushSupported) {
-        this.notificationPermissionState = NotificationPermissionState.NotSupported;
-        return;
-      }
-      // getNotificationPermission from OneSignal has a bug that return `default` if users denied
-
-      switch (Notification.permission) {
-        case 'default':
-          this.notificationPermissionState = NotificationPermissionState.None;
-          this.listenOnSubscriptionChange();
-          break;
-        case 'granted':
-          this.notificationPermissionState = NotificationPermissionState.Allowed;
-          break;
-        case 'denied':
-          this.notificationPermissionState = NotificationPermissionState.Denied;
-          break;  
-      }
-    });
+    if (this.notificationPermissionState != NotificationPermissionState.NoThanks) {
+      window.OneSignal.push(() => {
+        var isPushSupported = window.OneSignal.isPushNotificationsSupported();
+        console.log(`Push notification is ${isPushSupported ? '' : 'not '}supported`);
+  
+        if (!isPushSupported) {
+          this.notificationPermissionState = NotificationPermissionState.NotSupported;
+          return;
+        }
+        // getNotificationPermission from OneSignal has a bug that return `default` if users denied
+  
+        switch (Notification.permission) {
+          case 'default':
+            this.notificationPermissionState = NotificationPermissionState.None;
+            this.listenOnSubscriptionChange();
+            break;
+          case 'granted':
+            this.notificationPermissionState = NotificationPermissionState.Allowed;
+            break;
+          case 'denied':
+            this.notificationPermissionState = NotificationPermissionState.Denied;
+            break;  
+        }
+      });
+    }
   }
 
-  public grantNotificationPermission() {
+  public askForNotificationPermission() {
     window.OneSignal.push(() => {
       window.OneSignal.showNativePrompt();
     });
@@ -276,6 +279,12 @@ export class CommunityComponent implements OnInit {
         this.ref.detectChanges();
       });
     });
+  }
+
+  public declinedNotificationPermission() {
+    console.log('declined');
+    this.notificationPermissionState = NotificationPermissionState.NoThanks;
+    this.userService.setPreference('notification-permission', this.notificationPermissionState);
   }
 
 }

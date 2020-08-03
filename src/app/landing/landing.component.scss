@@ -242,14 +242,22 @@
         background: #EE1F60;
         color: #ffffff;
         border-radius: 65px;
-        padding: 2vh 1vh 0 1vh;
         font-size: 3vh;
-        max-height: 18vh;
         text-align: center;
         img {
           height: 8vh;
           max-height: 45px;
         }
+      }
+      .vertical-btn {
+        padding: 2vh 1vh 0 1vh;
+        max-height: 18vh;
+      }
+      .horizal-btn {
+        padding: 1vh 2vh;
+        display: flex;
+        align-items: center;
+        bottom: 10px;
       }
     }
 
