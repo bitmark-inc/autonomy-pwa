@@ -1,92 +1,60 @@
 declare var window: any;
 
-import { Component, OnInit, OnDestroy, ViewChild, ElementRef, HostListener } from '@angular/core';
-import { UserService } from '../services/user/user.service';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-
-enum EnumPageStage { Intro01, Intro02, Intro03, OnInstall }
+import { UserService } from '../services/user/user.service';
+import { MatBottomSheet, MatBottomSheetRef } from '@angular/material/bottom-sheet';
+import { BottomSheetAlertComponent } from "../bottom-sheet-alert/bottom-sheet-alert.component";
 
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',
   styleUrls: ['./signup.component.scss']
 })
-export class SignupComponent implements OnInit, OnDestroy {
-  @ViewChild('addBtn') private promoptBtn: ElementRef;
-
-  public PageStage = EnumPageStage;
-  public stage: EnumPageStage = EnumPageStage.Intro01;
+export class SignupComponent implements OnInit {
   public clickable: boolean = true;
-  public deferredPrompt: any;
-  public isShowAddBtn: boolean = false;
 
-  // detect browser
-  public isIOSSafari: boolean;
-  public isIOSOther: boolean;
-  public isMobileExceptIOS: boolean;
-  public isDesktop: boolean;
+  constructor(private router: Router, private userService: UserService, private bottomSheet: MatBottomSheet, private bottomSheetRef: MatBottomSheetRef) { }
 
-  public viewHeight: string;
-
-  constructor(private router: Router, private userService: UserService) {
-    if (window.matchMedia('(display-mode: standalone)').matches) {
-      this.router.navigate(['/landing']);
-    }
-    this.viewHeight = `${window.innerHeight}px`;
-  }
-  
   ngOnInit() {
-    this.detectBrowser();
+  }
 
-    if (this.isMobileExceptIOS) {
-      window.addEventListener('beforeinstallprompt', (e) => {
-        // Prevent Chrome 67 and earlier from automatically showing the prompt
-        e.preventDefault();
-        // Stash the event so it can be triggered later.
-        this.deferredPrompt = e;
-        // Update UI to notify the user they can add to home screen
-        this.isShowAddBtn = true;
-      });
+  private openBottomSheet(): void {
+    this.bottomSheetRef = this.bottomSheet.open(BottomSheetAlertComponent, {
+      disableClose: true,
+      data: {
+        error: false,
+        header: 'CREATING',
+        mainContent: 'Creating your Autonomy account ...',
+      }
+    });
+  }
+
+  public isStandalone(): boolean {
+    return (window.matchMedia('(display-mode: standalone)').matches);
+  }
+
+  public signup(): void {
+    if (this.clickable) {
+      this.clickable = false;
+      this.openBottomSheet()
+      this.userService.signup().subscribe(
+        (data) => {
+          setTimeout(() => {
+            this.bottomSheetRef.afterDismissed().subscribe(() => {
+              this.clickable = true;
+              this.router.navigate(['/home/community']);
+            })
+            this.bottomSheetRef.dismiss();
+          }, 3 * 1000);
+        },
+        (err) => {
+          // TODO: do something
+          this.clickable = true;
+          console.log(err);
+        }
+      );
     }
   }
 
-  ngOnDestroy() {
-    if (this.isMobileExceptIOS) {
-      window.removeEventListener('beforeinstallprompt');
-    }
-  }
-
-  private detectBrowser() {
-    this.isIOSSafari = /(iPad|iPhone|iPod)/gi.test(navigator.userAgent) &&
-      !/CriOS/.test(navigator.userAgent) &&
-      !/FxiOS/.test(navigator.userAgent) &&
-      !/OPiOS/.test(navigator.userAgent) &&
-      !/mercury/.test(navigator.userAgent);
-    this.isIOSOther = /(iPad|iPhone|iPod)/gi.test(navigator.userAgent) && !this.isIOSSafari;
-    this.isMobileExceptIOS = /(Android|BlackBerry|IEMobile|Opera Mini)/gi.test(navigator.userAgent);
-    this.isDesktop = !this.isIOSSafari && !this.isIOSOther && !this.isMobileExceptIOS;
-  }
-
-  public addToHomeScreen() {
-    if (this.deferredPrompt) {
-      // hide our user interface that shows our A2HS button
-      this.isShowAddBtn = false;
-      // Show the prompt
-      this.deferredPrompt.prompt();
-      // Wait for the user to respond to the prompt
-      this.deferredPrompt.userChoice
-        .then((choiceResult) => {
-          if (choiceResult.outcome === 'accepted') {
-            console.log('User accepted the A2HS prompt');
-          } else {
-            console.log('User dismissed the A2HS prompt');
-          }
-          this.deferredPrompt = null;
-        });
-    }
-  }
-
-  public setStage(newStage: EnumPageStage) {
-    this.stage = newStage;
-  }
 }

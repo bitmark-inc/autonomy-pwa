@@ -24,9 +24,15 @@ class GuestGuard implements CanActivate {
 
   public canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     if (!this.userService.getUser()) {
+      if (route.routeConfig.path === 'signup' && !window.matchMedia('(display-mode: standalone)').matches) {
+        this.router.navigate(['/landing']);
+      }
+      if (route.routeConfig.path === 'landing' && window.matchMedia('(display-mode: standalone)').matches) {
+        this.router.navigate(['/signup']);
+      }
       return true;
     }
-    this.router.navigate( ['/home']);
+    this.router.navigate(['/home']);
   }
 }
 
