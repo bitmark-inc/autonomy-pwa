@@ -1,9 +1,87 @@
+.add-button {
+  height: 20px;
+  width: max-content;
+}
+
+.content-fixed {
+  position: fixed;
+  width: 100%;
+  max-width: 768px;
+}
+
 .content {
   text-align: center;
   position: fixed;
   height: 100vh;
   width: 100%;
   max-width: 768px;
+
+  .onboarding-content {
+    height: calc(100vh -70px - 56px);
+    position: relative;
+
+    .onboarding-words {
+      height: calc(((100vh - 70px - 56px) / 100 * 35) - 16px);
+      font-size: 5.2vh;
+      font-weight: 300;
+      line-height: 120%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .dots {
+      display: flex;
+      justify-content: space-between;
+      width: 75px;
+      .dot {
+        width: 15px;
+        height: 15px;
+        border-radius: 50%;
+        background: #EEEEEE;
+      }
+    }
+
+    .img-groups{
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      .device {
+        padding-top: 5vh;
+        width: 115%;
+      }
+
+        .intro {
+          width: 83%;
+          position: absolute;
+          top: 25%;
+          left: 50%;
+          transform: translateX(-50%);
+          // object-fit: scale-down;
+
+          .intro-a {
+            width: 100%;
+            padding-bottom: 15px;
+          }
+          .intro-b {
+            width: 100%;
+            padding-bottom: 15px;
+          }
+        }
+
+        .intro2 {
+          width: 85%;
+        }
+
+        .intro3 {
+          img {
+            width: 100%;
+          }
+        }
+    }
+  }
 }
 
 .landing-browser {
@@ -118,66 +196,74 @@
   }
 }
 
-.landing-pwa {
-  .landing-content-pwa {
-    position: relative;
-    padding-bottom: 100px;
+.highlight-words {
+  background-color: #FDB515;
+}
+
+.pwa-url {
+  padding: 5px 16px;
+  border: 1px dashed #003262;
+  box-sizing: border-box;
+  margin: 20px 0;
+}
+
+.install-imgs {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .device {
+    padding-top: 1.5vh;
+    width: 115%;
   }
 
-  .landing-footer {
-    position: fixed;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    text-align: center;
-    color: #00B0DA;
-    background-color: unset;
-    width: 100%;
-    height: 110px;
+  .desciption {
+    position: absolute;
+    top: 17%;
+    // padding-top: 12vh;
+    height: 65vh;
 
-    .start-landing {
-      font-family: 'Domaine Sans Text';
-      font-weight: 300;
-      font-size: 24px;
-      line-height: 100%;
-      text-transform: uppercase;
-      margin-top: 5px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+    .app-icon {
+      width: auto;
+      max-height: 10vh;
+      object-fit: scale-down;
+    }
 
-      a {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        text-decoration: none;
-        border-radius: 65px;
-        background: #00B0DA;
+    .draft-btn-banner {
+      position: relative;
+      // height: 100%;
+
+      .draft-btn {
+        position: fixed;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        background: #EE1F60;
         color: #ffffff;
-        padding: 8px 15px;
-        .command {
-          padding-right: 1rem;
-          max-width: 165px;
-          text-align: end;
-        }
+        border-radius: 65px;
+        padding: 2vh 1vh 0 1vh;
+        font-size: 3vh;
+        max-height: 18vh;
+        text-align: center;
         img {
-          width: 45px;
-          height: 45px;
+          height: 8vh;
+          max-height: 45px;
         }
       }
     }
 
-    a {
-      color: inherit;
-      text-decoration: underline;
-    }
-
-    p {
-      font-size: 14px;
-      padding-bottom: .7em;
-      &:nth-child(1) {
-        padding: .5em;
-      }
+    .copied {
+      position: fixed;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #00B0DA;
+      color: #ffffff;
+      text-align: center;
+      padding: 7px;
+      width: 75vw;
+      max-width: 615px;
     }
   }
 }
@@ -189,6 +275,12 @@
 
   .autonomy-logo {
     height: 95% !important;
+  }
+
+  .install-imgs {
+    .desciption {
+      top: 12%;
+    }
   }
 }
 

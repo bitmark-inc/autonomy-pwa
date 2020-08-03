@@ -1,135 +1,109 @@
-.add-button {
-  height: 20px;
-  width: max-content;
-}
-
-.content-fixed {
-  position: fixed;
-  width: 100%;
-  max-width: 768px;
-}
-
 .content {
   text-align: center;
   position: fixed;
   height: 100vh;
   width: 100%;
   max-width: 768px;
+}
 
-  .onboarding-content {
-    height: calc(100vh -70px - 56px);
+.landing-pwa {
+  .landing-content-pwa {
     position: relative;
+    padding-bottom: 100px;
+  }
 
-    .onboarding-words {
-      height: calc(((100vh - 70px - 56px) / 100 * 35) - 16px);
-      font-size: 5.2vh;
+  .landing-footer {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    color: #00B0DA;
+    background-color: unset;
+    width: 100%;
+    height: 110px;
+
+    .start-landing {
+      font-family: 'Domaine Sans Text';
       font-weight: 300;
-      line-height: 120%;
+      font-size: 24px;
+      line-height: 100%;
+      text-transform: uppercase;
+      margin-top: 5px;
       display: flex;
       align-items: center;
       justify-content: center;
-    }
 
-    .dots {
-      display: flex;
-      justify-content: space-between;
-      width: 75px;
-      .dot {
-        width: 15px;
-        height: 15px;
-        border-radius: 50%;
-        background: #EEEEEE;
-      }
-    }
-
-    .img-groups{
-      position: relative;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-
-      .device {
-        padding-top: 70px;
-        width: 115%;
-      }
-
-        .intro {
-          width: 83%;
-          position: absolute;
-          top: 32%;
-          left: 50%;
-          transform: translateX(-50%);
-          // object-fit: scale-down;
-
-          .intro-a {
-            width: 100%;
-            padding-bottom: 15px;
-          }
-          .intro-b {
-            width: 100%;
-            padding-bottom: 15px;
-          }
-        }
-
-        .intro2 {
-          width: 85%;
-        }
-
-        .intro3 {
-          img {
-            width: 100%;
-          }
-        }
-    }
-  }
-}
-
-.highlight-words {
-  background-color: #FDB515;
-}
-
-.install-imgs {
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  .device {
-    padding-top: 1.5vh;
-    width: 115%;
-  }
-
-  .desciption {
-    position: absolute;
-    padding-top: 10.5vh;
-    height: 65vh;
-
-    .app-icon {
-      width: auto;
-      max-height: 10vh;
-      object-fit: scale-down;
-    }
-
-    .draft-btn-banner {
-      position: relative;
-      // height: 100%;
-
-      .draft-btn {
-        position: fixed;
-        bottom: 0;
-        left: 50%;
-        transform: translateX(-50%);
-        background: #EE1F60;
-        color: #ffffff;
+      a {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
         border-radius: 65px;
-        padding: 2vh 1vh 0 1vh;
-        font-size: 3vh;
-        max-height: 18vh;
-        text-align: center;
+        background: #00B0DA;
+        color: #ffffff;
+        padding: 8px 15px;
+        .command {
+          padding-right: 1rem;
+          max-width: 165px;
+          text-align: end;
+        }
         img {
-          height: 8vh;
+          width: 45px;
+          height: 45px;
         }
       }
     }
+
+    a {
+      color: inherit;
+      text-decoration: underline;
+    }
+
+    p {
+      font-size: 14px;
+      padding-bottom: .7em;
+      &:nth-child(1) {
+        padding: .5em;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 768px) and (orientation: landscape) {
+  .header {
+    height: 45px;
+  }
+
+  .autonomy-logo {
+    height: 95% !important;
+  }
+}
+
+@media screen and (max-height: 568px) and (orientation: portrait) {
+  .header {
+    height: 40px;
+  }
+
+  .autonomy-logo {
+    height: 75% !important;
+  }
+
+  .ucl-logo {
+    height: 25% !important;
+  }
+}
+
+@media screen and (max-height: 568px) and (orientation: landscape) {
+  .header {
+    height: 40px;
+  }
+
+  .autonomy-logo {
+    height: 75% !important;
+  }
+
+  .ucl-logo {
+    height: 25% !important;
   }
 }

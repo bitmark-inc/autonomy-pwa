@@ -1,4 +1,4 @@
-<div [hidden]="isStandalone()" class="content landing-browser">
+<div [hidden]="stage != PageStage.Landing" class="content landing-browser">
   <div class="landing-content p-t-20">
     <p class="app-name">autonomy</p>
     <mat-card class="landing-words no-top">
@@ -14,41 +14,191 @@
   </div>
   <div class="landing-footer">
     <div class="start-landing p-b-10">
-      <a [routerLink]="['/signup']"><span class="command direction-color">start</span><img src="/assets/img/next-icon.svg" alt=""></a>
+      <a class="clickable" (click)="setStage(PageStage.Intro01)"><span class="command direction-color">start</span><img
+          src="/assets/img/next-icon.svg" alt=""></a>
     </div>
     <p><a class="normal-link" href="https://bitmark.com/privacy">We protect your rights.</a></p>
   </div>
 </div>
-<div [hidden]="!isStandalone()" class="landing-pwa">
-  <div class="landing-content-pwa">
-    <div class="header-page-title direction-color m-t-30 m-b-30">
-      <span style="padding-left: 10px;" class="big-words">Your account</span>
-    </div>
-    <mat-card>
-      <p class="content-left font-18 line-height-120 p-b-20">Creating an Autonomy account does not require an email address or any other personal information.</p>
-      <p class="content-left font-18 line-height-120 p-b-20">Your account gives you rights to:</p>
-      <div class="col content-left">
-        <div class="gap-right-5"><img src="/assets/img/arrow.svg" alt=""></div>
-        <div class="col">
-          <p class="font-18 line-height-120 p-b-10">Save, read, and delete Autonomy data from your personal data enclave (PDE)</p>
-          <p class="font-14 direction-color gap-right-5 p-b-20">No one other than you will ever be able to access your PDE or the data you've stored there.</p>
-          <div class="light-line"><hr></div>
-        </div>
+<div class="content" [hidden]="stage != PageStage.Intro01">
+  <mat-card class="header-btn" layout="fill">
+    <a (click)="setStage(PageStage.Landing)" class="back upcase">
+      <img class="gap-right-5" src="/assets/img/back-small.svg" alt="back-arrow">
+      <span>back</span>
+    </a>
+  </mat-card>
+  <div class="onboarding-content">
+    <mat-card class="no-top center-direction">
+      <div class="onboarding-words direction-color">
+        <p>Navigate the Berkeley community during COVID-19.</p>
       </div>
-      <div class="col content-left p-t-20">
-        <div class="gap-right-5"><img src="/assets/img/arrow.svg" alt=""></div>
-        <div class="col">
-          <p class="font-18 line-height-120 p-b-10">Submit and read anonymized, non-personally-identifiable Autonomy data from the UC Berkeley community data enclave (CDE) for community-level pooling and research.</p>
-          <p class="font-14 direction-color gap-right-5 p-b-20">The data you share with the Berkely community can never be traced back to you.</p>
-          <div class="light-line"><hr></div>
+    </mat-card>
+    <mat-card class="content-center no-bottom">
+      <div class="dots">
+        <div class="dot" style="background: #00B0DA;"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+      </div>
+    </mat-card>
+    <mat-card class="no-top no-bottom">
+      <div class="img-groups">
+        <img class="device" src="/assets/img/device.svg" alt="">
+        <div class="intro">
+          <img class="intro-a" src="/assets/img/intro1.png" alt="">
         </div>
       </div>
     </mat-card>
   </div>
-  <div class="landing-footer">
-    <div class="start-landing p-b-10">
-      <a (click)="signup()" [ngClass]="{'disable-btns': !clickable}"><span class="command">create account</span><img src="/assets/img/next-landing.svg" alt=""></a>
-    </div>
-    <p>Or <a class="normal-link" [routerLink]="['/signin']">sign back in »</a></p>
+  <div class="footer-btn">
+    <a style="color: #ffffff; background: #00B0DA;" class="next" (click)="setStage(PageStage.Intro02)">
+      <span class="gap-right-15">Next</span><img src="/assets/img/next-landing.svg" alt="">
+    </a>
   </div>
+</div>
+<div class="content" [hidden]="stage != PageStage.Intro02">
+  <mat-card class="header-btn" layout="fill">
+    <a (click)="setStage(PageStage.Intro01)" class="back upcase">
+      <img class="gap-right-5" src="/assets/img/back-small.svg" alt="back-arrow">
+      <span>back</span>
+    </a>
+  </mat-card>
+  <div class="onboarding-content">
+    <mat-card class="no-top center-direction">
+      <div class="onboarding-words direction-color">
+        <div>
+          <p>Help one another identify safe resources in and around campus.</p>
+        </div>
+      </div>
+    </mat-card>
+    <mat-card class="content-center no-bottom">
+      <div class="dots">
+        <div class="dot"></div>
+        <div class="dot" style="background: #FDB515;"></div>
+        <div class="dot"></div>
+      </div>
+    </mat-card>
+    <mat-card class="no-top no-bottom">
+      <div class="img-groups">
+        <img class="device" src="/assets/img/device.svg" alt="">
+        <img class="intro intro2" src="/assets/img/intro2.svg" alt="">
+      </div>
+    </mat-card>
+  </div>
+  <div class="footer-btn">
+    <a style="color: #ffffff; background: #FDB515;" class="next" (click)="setStage(PageStage.Intro03)">
+      <span class="gap-right-15">Next</span><img src="/assets/img/next-landing.svg" alt="">
+    </a>
+  </div>
+</div>
+<div class="content" [hidden]="stage != PageStage.Intro03">
+  <mat-card class="header-btn" layout="fill">
+    <a (click)="setStage(PageStage.Intro02)" class="back upcase">
+      <img class="gap-right-5" src="/assets/img/back-small.svg" alt="back-arrow">
+      <span>back</span>
+    </a>
+  </mat-card>
+  <div class="onboarding-content">
+    <mat-card class="no-top center-direction">
+      <div class="onboarding-words direction-color">
+        <p>Get community insights without exposing your personal data.</p>
+      </div>
+    </mat-card>
+    <mat-card class="content-center no-bottom">
+      <div class="dots">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot" style="background: #EE1F60;"></div>
+      </div>
+    </mat-card>
+    <mat-card class="no-top no-bottom">
+      <div class="img-groups">
+        <img class="device" src="/assets/img/device.svg" alt="">
+        <div class="intro intro3">
+          <p class="p-b-30 sub-direction-color">1,234 people from Berkeley have checked in this week.</p>
+          <img src="/assets/img/intro3.svg" alt="">
+        </div>
+      </div>
+    </mat-card>
+  </div>
+  <div class="footer-btn">
+    <a style="color: #ffffff; background: #EE1F60;" class="next" (click)="setStage(PageStage.OnInstall)">
+      <span class="gap-right-15">install</span><img src="/assets/img/done.svg" alt="">
+    </a>
+  </div>
+</div>
+<div [ngStyle]="{'height': viewHeight}" class="content-fixed" [hidden]="stage != PageStage.OnInstall">
+  <mat-card class="header-btn" layout="fill">
+    <a (click)="setStage(PageStage.Intro03)" class="back upcase">
+      <img class="gap-right-5" src="/assets/img/back-small.svg" alt="back-arrow">
+      <span>back</span>
+    </a>
+  </mat-card>
+  <div class="header-page-title direction-color">
+    <span class="page-title">Install Autonomy</span>
+  </div>
+  <mat-card *ngIf="isMobileExceptIOS" style="font-size: 2.3vh; margin-top: 3vh;" class="no-top no-bottom">
+    <p class="p-b-10"><span class="highlight-words">Autonomy is a new kind of app </span>(a progressive web app) that combines the lightness and efficiency of a website with the convenience and security of a mobile app.</p>
+    <p>
+      <span>To install Autonomy:</span><br/>
+      <span>1. Tap “Add Autonomy to Home screen.”</span><br/>
+      <span>2. To use Autonomy, just tap the icon on your home screen like a regular app.</span>
+    </p>
+    <div class="install-imgs">
+      <img class="device" src="/assets/img/device.svg" alt="">
+      <div class="desciption">
+        <img class="app-icon" src="/assets/img/autonomy-app-icon.svg" alt="">
+        <div class="draft-btn-banner">
+          <button [hidden]="!isShowAddBtn" #addBtn (click)="addToHomeScreen()" class="draft-btn"><p class="upcase p-b-5">tap</p><img src="/assets/img/done.svg" alt=""></button>
+        </div>
+      </div>
+    </div>
+  </mat-card>
+  <mat-card *ngIf="isIOSSafari" style="font-size: 2.3vh; margin-top: 3vh;" class="no-top no-bottom">
+    <p class="p-b-10"><span class="highlight-words">Autonomy is a new kind of app </span>(a progressive web app) that combines the lightness and efficiency of a website with the convenience and security of a mobile app.</p>
+    <p>
+      <span>To install Autonomy:</span><br/>
+      <span>1. Tap the share button <img style="max-width: 2.3vh;" src="/assets/img/ios-share.svg" alt=""> below in Safari.</span><br/>
+      <span>2. Then tap “Add to Home Screen.”</span><br/>
+      <span>3. To use Autonomy, just tap the icon on your home screen like a regular app.</span>
+    </p>
+    <div class="install-imgs">
+      <img class="device" src="/assets/img/device.svg" alt="">
+      <div class="desciption">
+        <img class="app-icon" src="/assets/img/autonomy-app-icon.svg" alt="">
+        <div class="draft-btn-banner">
+          <div class="draft-btn"><p class="upcase p-b-5">tap</p><img src="/assets/img/done.svg" alt=""></div>
+        </div>
+      </div>
+    </div>
+  </mat-card>
+  <mat-card *ngIf="isIOSOther" style="font-size: 2.3vh; margin-top: 3vh;" class="no-top no-bottom">
+    <p class="p-b-10"><span class="highlight-words">Autonomy is a new kind of app </span>(a progressive web app) that combines the lightness and efficiency of a website with the convenience and security of a mobile app.</p>
+    <p>Currently, iOS only supports web app installation using Safari. To continue installation, tap below to copy the URL then paste it into Safari:</p>
+    <input #appUrl class="pwa-url direction-color">{{webappUrl}}/>
+    <div class="content-center">
+      <img (click)="copy()" class="clickable" style="height: 8vh; max-height: 45px;" src="/assets/img/done-blue.svg" alt="">
+    </div>
+    <div class="install-imgs">
+      <img class="device" src="/assets/img/device.svg" alt="">
+      <div class="desciption">
+        <img class="app-icon" src="/assets/img/iOS-7-Safari-app-icon.png" alt="">
+        <p [hidden]="copyStage != CopyStage.Copied" class="copied">URL copied</p>
+      </div>
+    </div>
+  </mat-card>
+  <mat-card *ngIf="isDesktop" style="font-size: 2.3vh; margin-top: 3vh;" class="no-top no-bottom">
+    <p class="p-b-10"><span class="highlight-words">Autonomy is a new kind of app </span>(a progressive web app) that combines the lightness and efficiency of a website with the convenience and security of a mobile app.</p>
+    <p>Autonomy is currently only supported on mobile devices. To install it, tap below to copy the URL then paste it into your mobile browser:</p>
+    <p #appUrl class="pwa-url direction-color">{{webappUrl}}</p>
+    <div class="content-center">
+      <img (click)="copy()" class="clickable" style="height: 8vh; max-height: 45px;" src="/assets/img/done-blue.svg" alt="">
+    </div>
+    <div class="install-imgs">
+      <img class="device" src="/assets/img/device.svg" alt="">
+      <div class="desciption">
+        <img class="app-icon" src="/assets/img/autonomy-app-icon.svg" alt="">
+        <p [hidden]="copyStage != CopyStage.Copied" class="copied">URL copied</p>
+      </div>
+    </div>
+  </mat-card>
 </div>
