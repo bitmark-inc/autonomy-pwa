@@ -36,7 +36,6 @@ export class CommunityComponent implements OnInit {
 
   constructor(private userService: UserService, private apiService: ApiService, private ref: ChangeDetectorRef) {
     this.initOneSignal();
-    window.aaaa = this;
   }
 
   ngOnInit() {
