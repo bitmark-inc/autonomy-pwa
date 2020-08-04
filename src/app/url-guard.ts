@@ -10,8 +10,10 @@ class AuthGuard implements CanActivate {
   constructor(private router: Router, private userService: UserService) { }
 
   public canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    if (this.userService.getUser()) {
-      return true;
+    if (window.matchMedia('(display-mode: standalone)').matches) {
+      if (this.userService.getUser()) {
+        return true;
+      }
     }
     this.router.navigate(['/landing']);
   }
@@ -23,13 +25,12 @@ class GuestGuard implements CanActivate {
   constructor(private router: Router, private userService: UserService) { }
 
   public canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    if (!this.userService.getUser()) {
-      if (route.routeConfig.path === 'signup' && !window.matchMedia('(display-mode: standalone)').matches) {
+    if (!window.matchMedia('(display-mode: standalone)').matches) {
+      if (route.routeConfig.path !== 'landing') {
         this.router.navigate(['/landing']);
       }
-      if (route.routeConfig.path === 'landing' && window.matchMedia('(display-mode: standalone)').matches) {
-        this.router.navigate(['/signup']);
-      }
+      return true;
+    } else if (window.matchMedia('(display-mode: standalone)').matches && !this.userService.getUser()) {
       return true;
     }
     this.router.navigate(['/home']);

@@ -74,10 +74,11 @@
   </mat-card>
   <div class="p-b-30"></div>
   <div class="footer-btn">
-    <a class="next" (click)="this.router.navigate(['/rating', poi.id])">
+    <a [ngStyle]="{ 'background': poiBackground, 'color': poiBackground === '#DDD5C7' ? '#003262' : '#ffffff' }" class="next" (click)="this.router.navigate(['/rating', poi.id])">
       <span *ngIf="isRated" class="gap-right-15 change-rating">change your ratings</span>
       <span *ngIf="!isRated" class="gap-right-15">rate</span>
-      <img src="/assets/img/next-icon.svg" alt="">
+      <img *ngIf="poiBackground === '#DDD5C7'" src="/assets/img/next-icon.svg" alt="">
+      <img *ngIf="poiBackground !== '#DDD5C7'" src="/assets/img/next-landing.svg" alt="">
     </a>
   </div>
 </div>

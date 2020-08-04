@@ -122,15 +122,17 @@
     </mat-card>
   </div>
   <div *ngIf="submitable && !gotRights" class="footer-btn">
-    <a class="next" (click)="stage = PageStage.Rights">
+    <a [ngStyle]="{ 'background': poiBackground, 'color': poiBackground === '#DDD5C7' ? '#003262' : '#ffffff' }" class="next" (click)="stage = PageStage.Rights">
       <span class="gap-right-15">next</span>
-      <img src="/assets/img/next-icon.svg" alt="">
+      <img *ngIf="poiBackground === '#DDD5C7'" src="/assets/img/next-icon.svg" alt="">
+      <img *ngIf="poiBackground !== '#DDD5C7'" src="/assets/img/next-landing.svg" alt="">
     </a>
   </div>
-  <div *ngIf="submitable && gotRights" class="footer-btn">
+  <div [ngStyle]="{ 'background': poiBackground, 'color': poiBackground === '#DDD5C7' ? '#003262' : '#ffffff' }" *ngIf="submitable && gotRights" class="footer-btn">
     <a class="next" (click)="submitRatings()">
       <span class="gap-right-15">submit</span>
-      <img src="/assets/img/submit.svg" alt="">
+      <img *ngIf="poiBackground === '#DDD5C7'" src="/assets/img/submit.svg" alt="">
+      <img *ngIf="poiBackground !== '#DDD5C7'" src="/assets/img/submit-white.svg" alt="">
     </a>
   </div>
 </div>
@@ -173,9 +175,10 @@
     </div>
   </mat-card>
   <div *ngIf="submitable" class="footer-btn">
-    <a class="next" (click)="submitRatings()">
+    <a [ngStyle]="{ 'background': poiBackground, 'color': poiBackground === '#DDD5C7' ? '#003262' : '#ffffff' }" class="next" (click)="submitRatings()">
       <span class="gap-right-15">submit</span>
-      <img src="/assets/img/submit.svg" alt="">
+      <img *ngIf="poiBackground === '#DDD5C7'" src="/assets/img/submit.svg" alt="">
+      <img *ngIf="poiBackground !== '#DDD5C7'" src="/assets/img/submit-white.svg" alt="">
     </a>
   </div>
 </div>

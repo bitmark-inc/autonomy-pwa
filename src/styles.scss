@@ -457,6 +457,11 @@ textarea {
       height: 45px;
     }
   }
+
+  .dark-btn {
+    background: $direction-color !important;
+    color: $base-background !important;
+  }
 }
 
 .bottom-sheet-alert {
