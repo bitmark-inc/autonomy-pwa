@@ -1,3 +1,3 @@
-<div style="background: #ffffff;">
-  <router-outlet></router-outlet>
+<div [@routerTransition]="getPageTransition(outlet)" style="background: #ffffff;">
+  <router-outlet #outlet="outlet"></router-outlet>
 </div>

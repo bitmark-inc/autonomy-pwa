@@ -2,19 +2,25 @@ declare var window: any;
 
 import { environment } from '../environments/environment';
 import { Component } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { interval } from 'rxjs';
 import { SwUpdate } from '@angular/service-worker';
 import { MatBottomSheet, MatBottomSheetRef } from '@angular/material/bottom-sheet';
 import { BottomSheetAlertComponent } from "./bottom-sheet-alert/bottom-sheet-alert.component";
 
+import { routerTransition } from "./router.transition";
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
+  animations: [routerTransition],
 })
 export class AppComponent {
   title = 'autonomy';
+
+  private previousPath: string = ''
 
   constructor(public breakpointObserver: BreakpointObserver, private swUpdate: SwUpdate, private bottomSheet: MatBottomSheet, private bottomSheetRef: MatBottomSheetRef) {
     const isSmallScreen = breakpointObserver.isMatched('(max-width: 599px)');
@@ -58,5 +64,30 @@ export class AppComponent {
         leftBtnAction: () => { location.reload(); },
       }
     });
+  }
+
+  getPageTransition(routerOutlet: RouterOutlet) {
+    if (routerOutlet.isActivated) {
+      let transitionName = 'section'
+
+      const { path } = routerOutlet.activatedRoute.routeConfig
+      const isSame = this.previousPath === path
+      const isBackward = this.previousPath.startsWith(path)
+      const isForward = path.startsWith(this.previousPath)
+
+      if (isSame) {
+        transitionName = 'none'
+      } else if (isBackward && isForward) {
+        transitionName = 'initial'
+      } else if (isBackward) {
+        transitionName = 'backward'
+      } else if (isForward) {
+        transitionName = 'forward'
+      }
+
+      this.previousPath = path
+
+      return transitionName
+    }
   }
 }
