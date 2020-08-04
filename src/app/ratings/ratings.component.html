@@ -122,7 +122,7 @@
     </mat-card>
   </div>
   <div *ngIf="submitable && !gotRights" class="footer-btn">
-    <a [ngStyle]="{ 'background': poiBackground, 'color': poiBackground === '#DDD5C7' ? '#003262' : '#ffffff' }" class="next" (click)="stage = PageStage.Rights">
+    <a [ngStyle]="{ 'background': poiBackground, 'color': poiBackground === '#DDD5C7' ? '#003262' : '#ffffff' }" class="next" (click)="setStage(PageStage.Rights)">
       <span class="gap-right-15">next</span>
       <img *ngIf="poiBackground === '#DDD5C7'" src="/assets/img/next-icon.svg" alt="">
       <img *ngIf="poiBackground !== '#DDD5C7'" src="/assets/img/next-landing.svg" alt="">
@@ -138,7 +138,7 @@
 </div>
 <div [hidden]="stage != PageStage.Rights" class="main-content">
   <mat-card class="header-btn" layout="fill">
-    <a (click)="stage = PageStage.Ratings" class="back upcase">
+    <a (click)="setStage(PageStage.Ratings)" class="back upcase">
       <img class="gap-right-5" src="/assets/img/back-small.svg" alt="back-arrow">
       <span>back</span>
     </a>

@@ -43,10 +43,8 @@ html {
 
 body {
   color: $base-color;
-  background-color: $base-background;
+  background: $base-background;
   max-width: $max-width;
-  // display: flex;
-  // justify-content: center;
   margin: 0 auto;
 }
 
@@ -113,6 +111,10 @@ textarea {
   &:focus {
     outline: unset;
   }
+}
+
+.base-background {
+  background: $base-background !important;
 }
 
 .sans-text {
