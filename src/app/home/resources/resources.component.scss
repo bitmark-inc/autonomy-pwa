@@ -16,12 +16,12 @@
 
 .content-view {
   position: absolute;
-  z-index: -1;
+  z-index: 90;
   max-width: 768px;
 
   .resources-list {
     position: absolute;
-    z-index: 1;
+    z-index: 99;
     top: 0;
     left: 0;
     display: inline-block;
@@ -45,6 +45,8 @@
 
   .map-view {
     position: relative;
+    z-index: 98;
+    overflow: unset;
   }
 }
 
@@ -57,7 +59,7 @@
   max-width: 768px;
   background: #ffffff;
   position: absolute;
-  z-index: 0;
+  z-index: 99;
   bottom: 0;
   padding-bottom: 70px;
   max-height: calc(100vh - 56px - 57px);
@@ -66,7 +68,7 @@
 
   .line-icon {
     position: fixed;
-    z-index: 1;
+    z-index: 100;
     width: 100vw;
     background: #ffffff;
     height: 20px;

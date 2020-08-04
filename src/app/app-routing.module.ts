@@ -20,7 +20,7 @@ const routes: Routes = [
   {path: 'signin', component: SigninComponent, canActivate: [GuestGuard]},
   {path: 'signup', component: SignupComponent, canActivate: [GuestGuard]},
   {path: 'home', component: HomeComponent, canActivate: [AuthGuard], children: [
-    {path: '', redirectTo: 'community', pathMatch: 'full'},
+    // {path: '', redirectTo: 'community', pathMatch: 'full'},
     {path: 'community', component: CommunityComponent},
     {path: 'resources', component: ResourcesComponent},
     {path: 'setting', component: SettingComponent},

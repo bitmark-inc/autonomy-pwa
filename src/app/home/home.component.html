@@ -1,5 +1,5 @@
 <div [ngClass]="{'fullscreen': isFullscreen}">
-  <router-outlet></router-outlet>
+  <!-- <router-outlet></router-outlet>
 
   <div class="home-tabs">
     <a class="col upcase" [routerLink]="['./community']" routerLinkActive="active">
@@ -11,5 +11,17 @@
     <a class="col upcase" [routerLink]="['./setting']" routerLinkActive="active">
       <p>account</p>
     </a>
-  </div>
+  </div> -->
+
+  <mat-tab-group headerPosition="below" mat-align-tabs="center">
+    <mat-tab class="col upcase" label="Check in">
+      <app-trend></app-trend>
+    </mat-tab>
+    <mat-tab class="col upcase" label="Resources">
+      <app-resources></app-resources>
+    </mat-tab>
+    <mat-tab class="col upcase" label="Account">
+      <app-setting></app-setting>
+    </mat-tab>
+  </mat-tab-group>
 </div>

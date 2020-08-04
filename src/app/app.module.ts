@@ -14,6 +14,7 @@ import { MatRadioModule } from "@angular/material/radio";
 import { MatProgressBarModule } from "@angular/material/progress-bar";
 import { GoogleMapsModule } from '@angular/google-maps'
 import { TextFieldModule } from "@angular/cdk/text-field";
+import { MatTabsModule } from '@angular/material/tabs';
 
 import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule }    from '@angular/common/http';
@@ -90,6 +91,7 @@ window.isProduction = environment.production;
     MatBottomSheetModule,
     MatProgressBarModule,
     GoogleMapsModule,
+    MatTabsModule,
   ],
   providers: [
     UserService,
