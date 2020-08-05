@@ -1,28 +1,3 @@
-.fullscreen {
-  .tabs {
-    display: none;
-  }
-}
-
-:host ::ng-deep .mat-tab-header {
-  position: fixed;
-  bottom: 0;
-  z-index: 99999;
-  text-align: center;
-  width: 100%;
-  max-width: 768px;
-  font-family: 'Domaine Sans Text';
-  font-weight: 300;
-  font-size: 14px;
-  line-height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-  color: #003262;
-  background: #EEEEEE;
-  border-top: 1px solid #EDEDED;
-}
-
 :host ::ng-deep .mat-tab-body.mat-tab-body-active {
   overflow-x: auto;
 }
