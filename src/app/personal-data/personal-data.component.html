@@ -68,7 +68,7 @@
 </div>
 <div [hidden]="stage != PageStage.Read" class="main-content">
   <mat-card class="header-btn" layout="fill">
-    <a [routerLink]="['/home/setting/pde']" class="back upcase">
+    <a (click)="back()" class="back upcase">
       <img class="gap-right-5" src="/assets/img/back-small.svg" alt="back-arrow">
       <span>back</span>
     </a>

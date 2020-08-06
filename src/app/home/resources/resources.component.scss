@@ -104,7 +104,7 @@
 }
 
 .hidden-list {
-  transform: translateY(87%);
+  top: calc(100% - 79px);
   transition-timing-function: ease-in;
   transition: 0.3s;
 }
@@ -112,7 +112,7 @@
 .shown-list {
   transition: 0.45s;
   transition-timing-function: ease-out;
-  transform: translateY(0);
+  top: 120px;
 }
 
 .small-address {

@@ -1,5 +1,6 @@
 declare var window: any;
 
+import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { MatBottomSheet, MatBottomSheetRef } from '@angular/material/bottom-sheet';
@@ -22,7 +23,7 @@ export class PersonalDataComponent implements OnInit {
   public stage: EnumPageStage = EnumPageStage.PDE;
   public clickable: boolean = true;
 
-  constructor(private router: Router, private bottomSheetRef: MatBottomSheetRef, private bottomSheet: MatBottomSheet, private apiService: ApiService, private userService: UserService) {
+  constructor(private router: Router, private bottomSheetRef: MatBottomSheetRef, private bottomSheet: MatBottomSheet, private apiService: ApiService, private userService: UserService, private location: Location) {
     this.setStageByUrl(this.router.url);
   }
 
@@ -120,5 +121,9 @@ export class PersonalDataComponent implements OnInit {
         this.clickable = true;
       }
     }
+  }
+
+  public back(): void {
+    this.location.back();
   }
 }
