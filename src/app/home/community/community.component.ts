@@ -32,10 +32,10 @@ export class CommunityComponent implements OnInit {
 
   public NotificationPermissionState = NotificationPermissionState;
   public notificationPermissionState: NotificationPermissionState;
+  public isNotificationPermissionActive: boolean = false;
 
   constructor(private userService: UserService, private apiService: ApiService, private ref: ChangeDetectorRef) {
     this.initOneSignal();
-    window.aaaa = this;
   }
 
   ngOnInit() {
@@ -264,6 +264,7 @@ export class CommunityComponent implements OnInit {
 
   public askForNotificationPermission() {
     window.OneSignal.push(() => {
+      this.isNotificationPermissionActive = true;
       window.OneSignal.showNativePrompt();
     });
   }
@@ -282,7 +283,6 @@ export class CommunityComponent implements OnInit {
   }
 
   public declinedNotificationPermission() {
-    console.log('declined');
     this.notificationPermissionState = NotificationPermissionState.NoThanks;
     this.userService.setPreference('notification-permission', this.notificationPermissionState);
   }

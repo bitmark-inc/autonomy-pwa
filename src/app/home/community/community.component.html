@@ -2,7 +2,7 @@
   <div class="header-page-title direction-color m-t-30 m-b-30">
     <span class="big-words page-title">trends</span>
   </div>
-  <mat-card *ngIf="notificationPermissionState === NotificationPermissionState.None" class="no-top no-bottom">
+  <mat-card *ngIf="!isNotificationPermissionActive && (notificationPermissionState === NotificationPermissionState.None)" class="no-top no-bottom">
     <div class="notify-alert">
       <p class="main-direction p-b-20">Find out when the latest trends drop</p>
       <div class="light-line p-b-20"><hr></div>

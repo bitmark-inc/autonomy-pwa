@@ -14,7 +14,7 @@
       <div class="gap-right-5"><img src="/assets/img/arrow.svg" alt=""></div>
       <div class="col">
         <p class="font-18 line-height-120 p-b-10">Submit anonymized, non-personally-identifiable Autonomy data to the UC Berkeley community data enclave (CDE) for community-level pooling and research</p>
-        <a [routerLink]="['/cde/submit']" class="content-left command-img"><span
+        <a [routerLink]="['/home/setting/cde/submit']" class="content-left command-img"><span
             class="font-14 upcase direction-color gap-right-5 p-b-20">learn more</span><img
             src="/assets/img/next-icon-small.svg" alt=""></a>
         <div class="light-line">
@@ -26,7 +26,7 @@
       <div class="gap-right-5"><img src="/assets/img/arrow.svg" alt=""></div>
       <div class="col">
         <p class="font-18 line-height-120 p-b-10">Read all Autonomy data you're submitted to the CDE</p>
-        <a [routerLink]="['/cde/read']" class="content-left command-img"><span
+        <a [routerLink]="['/home/setting/cde/read']" class="content-left command-img"><span
             class="font-14 upcase direction-color gap-right-5 p-b-20">learn more</span><img
             src="/assets/img/next-icon-small.svg" alt=""></a>
         <div class="light-line">
@@ -38,7 +38,7 @@
       <div class="gap-right-5"><img src="/assets/img/arrow.svg" alt=""></div>
       <div class="col">
         <p class="font-18 line-height-120 p-b-10">View community-level data in the CDE</p>
-        <a [routerLink]="['/cde/save']" class="content-left command-img"><span
+        <a [routerLink]="['/home/setting/cde/save']" class="content-left command-img"><span
             class="font-14 upcase direction-color gap-right-5 p-b-20">learn more</span><img
             src="/assets/img/next-icon-small.svg" alt=""></a>
         <div class="light-line">
@@ -51,7 +51,7 @@
 </div>
 <div [hidden]="stage != PageStage.Submit" class="main-content">
   <mat-card class="header-btn" layout="fill">
-    <a [routerLink]="['/cde']" class="back upcase">
+    <a [routerLink]="['/home/setting/cde']" class="back upcase">
       <img class="gap-right-5" src="/assets/img/back-small.svg" alt="back-arrow">
       <span>back</span>
     </a>
@@ -71,12 +71,12 @@
         </div>
       </div>
     </div>
-    <p class="font-18 line-height-120 p-t-30">You can view all Autonomy data you have submitted to the Berkeley CDE, <a class="normal-link" [routerLink]="['/cde/read']">by exercising your right to do so</a>.</p>
+    <p class="font-18 line-height-120 p-t-30">You can view all Autonomy data you have submitted to the Berkeley CDE, <a class="normal-link" [routerLink]="['/home/setting/cde/read']">by exercising your right to do so</a>.</p>
   </mat-card>
 </div>
 <div [hidden]="stage != PageStage.Read" class="main-content">
   <mat-card class="header-btn" layout="fill">
-    <a [routerLink]="['/cde']" class="back upcase">
+    <a [routerLink]="['/home/setting/cde']" class="back upcase">
       <img class="gap-right-5" src="/assets/img/back-small.svg" alt="back-arrow">
       <span>back</span>
     </a>
@@ -90,14 +90,14 @@
   </mat-card>
   <a #saveFile></a>
   <div class="footer-btn">
-    <a (click)="exportData()" [ngClass]="{'disable-btns': !clickable}" class="next">
-      <span class="gap-right-15 long-cmd">EXERCISE RIGHT</span><img src="/assets/img/next-icon.svg" alt="">
+    <a (click)="exportData()" [ngClass]="{'disable-btns': !clickable}" class="next dark-btn">
+      <span class="gap-right-15 long-cmd">EXERCISE RIGHT</span><img src="/assets/img/next-landing.svg" alt="">
     </a>
   </div>
 </div>
 <div [hidden]="stage != PageStage.Save" class="main-content">
   <mat-card class="header-btn" layout="fill">
-    <a [routerLink]="['/cde']" class="back upcase">
+    <a [routerLink]="['/home/setting/cde']" class="back upcase">
       <img class="gap-right-5" src="/assets/img/back-small.svg" alt="back-arrow">
       <span>back</span>
     </a>
@@ -111,7 +111,7 @@
       <div class="gap-right-5"><img src="/assets/img/arrow.svg" alt=""></div>
       <div class="col">
         <p class="font-18 line-height-120 p-b-10">Community-level survey trends</p>
-        <a [routerLink]="['/home/community']" class="content-left command-img">
+        <a [routerLink]="['/home/trends']" class="content-left command-img">
           <span class="font-14 upcase direction-color gap-right-5 p-b-20">view data</span>
           <img src="/assets/img/next-icon-small.svg" alt=""></a>
         <div class="light-line"><hr></div>

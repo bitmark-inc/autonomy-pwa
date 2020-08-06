@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ApiService } from '../services/api/api.service';
 import { Router } from '@angular/router';
@@ -11,7 +11,7 @@ import * as moment from "moment";
   templateUrl: "./poi.component.html",
   styleUrls: ["./poi.component.scss"],
 })
-export class PoiComponent implements OnInit {
+export class PoiComponent implements OnInit, OnDestroy {
   public id: string;
 
   public poi: {
@@ -51,7 +51,8 @@ export class PoiComponent implements OnInit {
   constructor(
     private activatedRoute: ActivatedRoute,
     private apiService: ApiService,
-    public router: Router
+    public router: Router,
+    private elementRef: ElementRef
   ) {
     this.activatedRoute.params.subscribe((params) => {
       if (params.id) {
@@ -63,6 +64,10 @@ export class PoiComponent implements OnInit {
   }
 
   ngOnInit() {}
+
+  ngOnDestroy() {
+    this.elementRef.nativeElement.ownerDocument.body.style.background = 'initial';
+  }
 
   private getPOIProfile(): void {
     this.apiService
@@ -81,6 +86,7 @@ export class PoiComponent implements OnInit {
 
   private formatPOI() {
     this.poiBackground = Util.scoreToColor(this.poi.resource_score, false);
+    this.elementRef.nativeElement.ownerDocument.body.style.background = this.poiBackground;
     for (let key in this.poi.resource_ratings) {
       this.resources.push({
         name: key.replace(/_/g, " "),

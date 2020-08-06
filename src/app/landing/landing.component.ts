@@ -1,6 +1,6 @@
 declare var window: any;
 
-import { Component, OnInit, OnDestroy, ViewChild, ElementRef, HostListener } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef, HostListener, AfterViewInit } from '@angular/core';
 import { UserService } from '../services/user/user.service';
 import { Router } from '@angular/router';
 import { environment } from '../../environments/environment';
@@ -14,7 +14,7 @@ enum CopyStage {INIT, Copied};
   templateUrl: './landing.component.html',
   styleUrls: ['./landing.component.scss']
 })
-export class LandingComponent implements OnInit, OnDestroy {
+export class LandingComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('appUrl') private appUrlInput: ElementRef;
 
   public PageStage = EnumPageStage;
@@ -41,9 +41,12 @@ export class LandingComponent implements OnInit, OnDestroy {
   
   ngOnInit() {
     this.detectBrowser();
-  
+    this.webappUrl = environment.bitmark_network === 'livenet' ? 'https://autonomy-pwa.bitmark.com' : 'https://autonomy-pwa.test.bitmark.com'
+  }
+
+  ngAfterViewInit() {
     if (this.isMobileExceptIOS) {
-      window.addEventListener('beforeinstallprompt', (e) => {
+      window.addEventListener("beforeinstallprompt", (e) => {
         // Prevent Chrome 67 and earlier from automatically showing the prompt
         e.preventDefault();
         // Stash the event so it can be triggered later.
@@ -52,8 +55,6 @@ export class LandingComponent implements OnInit, OnDestroy {
         this.isShowAddBtn = true;
       });
     }
-  
-    this.webappUrl = environment.bitmark_network === 'livenet' ? 'https://autonomy-pwa.bitmark.com' : 'https://autonomy-pwa.test.bitmark.com'
   }
 
   ngOnDestroy() {

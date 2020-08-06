@@ -2,21 +2,35 @@ declare var window: any;
 
 import { environment } from '../environments/environment';
 import { Component } from '@angular/core';
+import { RouterOutlet, Router, NavigationStart } from '@angular/router';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { interval } from 'rxjs';
 import { SwUpdate } from '@angular/service-worker';
 import { MatBottomSheet, MatBottomSheetRef } from '@angular/material/bottom-sheet';
 import { BottomSheetAlertComponent } from "./bottom-sheet-alert/bottom-sheet-alert.component";
 
+import { routerTransition } from "./router.transition";
+import { filter } from 'rxjs/operators';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
+  animations: [routerTransition],
 })
 export class AppComponent {
   title = 'autonomy';
 
-  constructor(public breakpointObserver: BreakpointObserver, private swUpdate: SwUpdate, private bottomSheet: MatBottomSheet, private bottomSheetRef: MatBottomSheetRef) {
+  public pageTransition: string = 'none';
+  private previousPath: string = ''
+
+  constructor(
+              public breakpointObserver: BreakpointObserver,
+              private swUpdate: SwUpdate,
+              private bottomSheet: MatBottomSheet,
+              private bottomSheetRef: MatBottomSheetRef,
+              private router: Router) {
+
     const isSmallScreen = breakpointObserver.isMatched('(max-width: 599px)');
     
     if (environment.production) {
@@ -29,6 +43,12 @@ export class AppComponent {
         });
       });
     }
+
+    router.events.subscribe(event => {
+      if(event instanceof NavigationStart) {
+        this.setPageTransition(event.url);
+      }
+    });
   }
 
   private autoupdateApp() {
@@ -58,5 +78,25 @@ export class AppComponent {
         leftBtnAction: () => { location.reload(); },
       }
     });
+  }
+
+  private setPageTransition(path: string) {
+    let transitionName = 'section'
+    let isSame = this.previousPath === path
+    let isBackward = this.previousPath.startsWith(path)
+    let isForward = path.startsWith(this.previousPath)
+
+    if (isSame) {
+      transitionName = 'none'
+    } else if (isBackward && isForward) {
+      transitionName = 'initial'
+    } else if (isBackward) {
+      transitionName = 'backward'
+    } else if (isForward) {
+      transitionName = 'forward'
+    }
+
+    this.previousPath = path;
+    this.pageTransition = transitionName;
   }
 }

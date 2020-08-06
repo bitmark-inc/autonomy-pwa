@@ -32,13 +32,13 @@ export class CommunityDataComponent implements OnInit {
 
   private setStageByUrl(url: string = '') {
     switch (url) {
-      case '/cde/save':
+      case '/home/setting/cde/save':
         this.stage = this.PageStage.Save;
         break;
-      case '/cde/read':
+      case '/home/setting/cde/read':
         this.stage = this.PageStage.Read;
         break;
-      case '/cde/submit':
+      case '/home/setting/cde/submit':
         this.stage = this.PageStage.Submit;
         break;
       default:

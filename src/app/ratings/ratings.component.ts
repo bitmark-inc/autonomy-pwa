@@ -1,5 +1,5 @@
 import { environment } from '../../environments/environment';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef, OnDestroy } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from '../services/api/api.service';
@@ -15,7 +15,7 @@ enum EnumPageStage { Ratings, Rights, DataPDE, DataCDE }
   templateUrl: "./ratings.component.html",
   styleUrls: ["./ratings.component.scss"],
 })
-export class RatingsComponent implements OnInit {
+export class RatingsComponent implements OnInit, OnDestroy {
   public PageStage = EnumPageStage;
   public stage: EnumPageStage = EnumPageStage.Ratings;
 
@@ -67,7 +67,8 @@ export class RatingsComponent implements OnInit {
     private bottomSheet: MatBottomSheet,
     private bottomSheetRef: MatBottomSheetRef<BottomSheetAlertComponent>,
     public router: Router,
-    private userService: UserService
+    private userService: UserService,
+    private elementRef: ElementRef
   ) {
     this.activatedRoute.params.subscribe((params) => {
       this.poiID = params.id;
@@ -81,6 +82,10 @@ export class RatingsComponent implements OnInit {
   }
 
   ngOnInit() {}
+
+  ngOnDestroy() {
+    this.elementRef.nativeElement.ownerDocument.body.style.background = 'initial';
+  }
 
   private getRatings(): void {
     this.apiService
@@ -131,6 +136,7 @@ export class RatingsComponent implements OnInit {
 
   private formatPOI() {
     this.poiBackground = Util.scoreToColor(this.poi.resource_score, false);
+    this.elementRef.nativeElement.ownerDocument.body.style.background = this.poiBackground;
     if (this.poi.opening_hours && Object.keys(this.poi.opening_hours).length != 0) {
       this.openHours = Util.openHoursFormat(this.poi.opening_hours);
       this.todayOpenHour = Util.openHoursFormat(this.poi.opening_hours, true);
@@ -232,6 +238,15 @@ export class RatingsComponent implements OnInit {
       }
       this.isChangeRating = false;
     }, 0);
+  }
+
+  public setStage(newStage: EnumPageStage) {
+    this.stage = newStage;
+    if (this.stage === this.PageStage.Ratings) {
+      this.elementRef.nativeElement.ownerDocument.body.style.background = this.poiBackground;
+    } else {
+      this.elementRef.nativeElement.ownerDocument.body.style.background = 'initial';
+    }
   }
 
   public back(): void {

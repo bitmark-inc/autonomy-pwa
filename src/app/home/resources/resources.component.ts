@@ -75,7 +75,7 @@ interface POI {
   },
   rating_last_updated: number,
   opening_hours: any,
-  place_types: [],
+  place_types: any,
   service_options: any,
   resource_score: number,
   focused: boolean,
@@ -83,7 +83,8 @@ interface POI {
   todayOpenHour: string,
   todayOpenHourForView: string,
   services_active: string,
-  color: string
+  color: string,
+  mapIconUrl: string
 }
 
 @Component({
@@ -115,6 +116,8 @@ export class ResourcesComponent implements OnInit, OnDestroy {
   }
   public mapCenter: google.maps.LatLngLiteral;
   public mapIconSVGPath: string = 'M0.5 10.8975C0.5 5.09246 5.195 0.397461 11 0.397461C16.805 0.397461 21.5 5.09246 21.5 10.8975C21.5 17.1525 14.87 25.7775 12.155 29.0625C11.555 29.7825 10.46 29.7825 9.86 29.0625C7.13 25.7775 0.5 17.1525 0.5 10.8975ZM7.25 10.8975C7.25 12.9675 8.93 14.6475 11 14.6475C13.07 14.6475 14.75 12.9675 14.75 10.8975C14.75 8.82746 13.07 7.14746 11 7.14746C8.93 7.14746 7.25 8.82746 7.25 10.8975Z';
+  public mapIconSize = new google.maps.Size(21,29)
+  public mapIconSizeFocus = new google.maps.Size(25,35)
   public mapHeight: string;
   public mapWidth: string;
   public mapZoomLevel: number = 18;
@@ -126,7 +129,7 @@ export class ResourcesComponent implements OnInit, OnDestroy {
     styles: [{featureType: 'poi', stylers: [{visibility: 'off'}]}]
   };
 
-  public labelPosition = new google.maps.Point(0,37);
+  public labelPosition = new google.maps.Point(15,37);
   public labelShown: boolean = true;
 
   constructor(private apiService: ApiService, public router: Router, private ngZone: NgZone) {
@@ -170,7 +173,7 @@ export class ResourcesComponent implements OnInit, OnDestroy {
       if (poi.opening_hours && Object.keys(poi.opening_hours).length != 0) {
         let time = Util.openHoursFormat(poi.opening_hours, true);
         poi.todayOpenHour = time;
-        poi.todayOpenHourForView = time === 'Closed' ? 'Closed today' : `Open ${time} today`;
+        poi.todayOpenHourForView = time === 'Closed' ? 'Closed today' : `Open ${time.toLowerCase()} today`;
       } else {
         poi.todayOpenHour = '';
         poi.todayOpenHourForView = '';
@@ -194,8 +197,8 @@ export class ResourcesComponent implements OnInit, OnDestroy {
     let isClosed: boolean = false;
     if (open && closed) {
       let currentTime = moment().hours() * 60 + moment().minutes();
-      let startTime = moment(open, 'hh:mm A').hours() * 60 + moment(open, 'hh:mm A').minutes()
-      let endTime = moment(closed, 'hh:mm A').hours() * 60 + moment(closed, 'hh:mm A').minutes()
+      let startTime = moment(open, 'hh:mm a').hours() * 60 + moment(open, 'hh:mm a').minutes()
+      let endTime = moment(closed, 'hh:mm a').hours() * 60 + moment(closed, 'hh:mm a').minutes()
       isClosed = !(startTime < currentTime && currentTime < endTime);
     }
     return isClosed;
@@ -244,7 +247,7 @@ export class ResourcesComponent implements OnInit, OnDestroy {
   }
 
   public onInputFocusOut() {
-    if (!(this.keyword || this.poiType)) {
+    if (!this.keyword) {
       ParentContainerState.fullscreen.next(false);
     }
   }
@@ -331,7 +334,12 @@ export class ResourcesComponent implements OnInit, OnDestroy {
       } else {
         colorLight = true
       }
-      poi.color = Util.scoreToColor(poi.resource_score, colorLight);
+      poi.color = Util.scoreToColor(poi.resource_score, false);
+
+      // update map icon
+      let category = this.poiType ? this.poiType.toLowerCase() : (poi.place_types && poi.place_types.length ? poi.place_types[0].toLowerCase() : 'default');
+      let scoreOrder = Util.scoreToColor(poi.resource_score, false, true);
+      poi.mapIconUrl = `/assets/img/map-marker/${category}/rate_${scoreOrder}.svg`
     });
   }
 
@@ -366,31 +374,15 @@ export class ResourcesComponent implements OnInit, OnDestroy {
     }
   }
 
-  // public navigateToPlace(place: any) {
-  //   this.apiService
-  //     .request("post", "api/points-of-interest", {
-  //       alias: place.name,
-  //       address: place.formatted_address,
-  //       location: {
-  //         latitude: place.geometry.location.lat(),
-  //         longitude: place.geometry.location.lng(),
-  //       },
-  //     })
-  //     .subscribe(
-  //       (data: { id: string }) => {
-  //         this.ngZone.run(() => {
-  //           this.navigateToPOI(data.id);
-  //         });
-  //       },
-  //       (err) => {
-  //         console.log(err);
-  //         // TODO: do something
-  //       }
-  //     );
-  // }
+  public pullListView() {
+    this.isViewListShow = !this.isViewListShow;
+    if (!this.isViewListShow) {
+      ParentContainerState.fullscreen.next(false);
+    }
+  }
 
   public navigateToPOI(id: string) {
-    this.router.navigate(["/pois", id]);
+    this.router.navigate(['/home/resources/pois', id]);
   }
 
   public isStandalone(): boolean {

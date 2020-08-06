@@ -42,14 +42,16 @@
         <p *ngFor="let service of poi.service_options" [ngClass]="{'none-serve': !service.active}" class="content-left capital">{{service.name}}</p>
       </div>
       <div *ngIf="!(poi.service_options && poi.service_options.length)" class="col font-12 line-height-120 p-b-10 grey-text-color">No data</div>
-      <a *ngIf="poi.address" class="content-left address-link" [href]="'https://www.google.com/maps/search/?api=1&query=' + poi.address" target="_blank">
-        <p class="font-10 line-height-120 gap-right-5">Open in <span class="normal-link">Google Maps</span></p>
-        <img src="/assets/img/related-url.svg" alt="">
+      <a *ngIf="poi.address" class="content-left address-link" [href]="'https://maps.google.com/?q='+poi.address">
+        <a *ngIf="poi.address" class="content-left address-link" [href]="'http://maps.apple.com/?q='+poi.address" target="_blank">
+          <p class="font-10 line-height-120 gap-right-5">Open in <span class="normal-link">Maps</span></p>
+          <img src="/assets/img/related-url.svg" alt="">
+        </a>
       </a>
     </mat-card>
   </div>
 
-  <mat-card>
+  <mat-card class="base-background">
     <div *ngIf="resources && resources.length">
       <mat-table [dataSource]="resources" class="mat-elevation-z8">
         <!-- resource Column -->
@@ -74,10 +76,11 @@
   </mat-card>
   <div class="p-b-30"></div>
   <div class="footer-btn">
-    <a class="next" (click)="this.router.navigate(['/rating', poi.id])">
+    <a [ngStyle]="{ 'background': poiBackground, 'color': poiBackground === '#DDD5C7' ? '#003262' : '#ffffff' }" class="next" (click)="this.router.navigate(['/rating', poi.id])">
       <span *ngIf="isRated" class="gap-right-15 change-rating">change your ratings</span>
       <span *ngIf="!isRated" class="gap-right-15">rate</span>
-      <img src="/assets/img/next-icon.svg" alt="">
+      <img *ngIf="poiBackground === '#DDD5C7'" src="/assets/img/next-icon.svg" alt="">
+      <img *ngIf="poiBackground !== '#DDD5C7'" src="/assets/img/next-landing.svg" alt="">
     </a>
   </div>
 </div>
