@@ -41,7 +41,7 @@ export class SignoutComponent implements OnInit {
           rightBtn: 'try again',
           leftBtnAction: () => {
             this.bottomSheetRef.afterDismissed().subscribe(() => {
-              this.router.navigate(['/recovery-key']);
+              this.router.navigate(['/home/setting/recovery-key']);
             })
             this.bottomSheetRef.dismiss();
           },

@@ -70,6 +70,15 @@
   }
 }
 
+.link-link {
+  text-decoration: underline;
+  color: #0066CC;
+}
+
+ul {
+  padding-inline-start: 16px;
+}
+
 @media screen and (max-width: 768px) and (orientation: landscape) {
   .header {
     height: 45px;
