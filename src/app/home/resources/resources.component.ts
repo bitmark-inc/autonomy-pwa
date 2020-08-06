@@ -366,31 +366,8 @@ export class ResourcesComponent implements OnInit, OnDestroy {
     }
   }
 
-  // public navigateToPlace(place: any) {
-  //   this.apiService
-  //     .request("post", "api/points-of-interest", {
-  //       alias: place.name,
-  //       address: place.formatted_address,
-  //       location: {
-  //         latitude: place.geometry.location.lat(),
-  //         longitude: place.geometry.location.lng(),
-  //       },
-  //     })
-  //     .subscribe(
-  //       (data: { id: string }) => {
-  //         this.ngZone.run(() => {
-  //           this.navigateToPOI(data.id);
-  //         });
-  //       },
-  //       (err) => {
-  //         console.log(err);
-  //         // TODO: do something
-  //       }
-  //     );
-  // }
-
   public navigateToPOI(id: string) {
-    this.router.navigate(["/pois", id]);
+    this.router.navigate(['/home/resources/pois', id]);
   }
 
   public isStandalone(): boolean {

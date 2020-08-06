@@ -14,7 +14,7 @@ import { Router } from '@angular/router';
 export class SettingComponent implements OnInit {
   public appVersion: string = environment.version;
 
-  constructor(private location: Location, public router: Router, private userService: UserService) { }
+  constructor(private location: Location, public router: Router, private userService: UserService) {}
 
   ngOnInit() {}
 

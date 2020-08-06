@@ -15,7 +15,7 @@ class AuthGuard implements CanActivate {
         return true;
       }
     }
-    this.router.navigate(['/landing']);
+    this.router.navigate(['/landing/b']);
   }
 }
 
@@ -26,14 +26,14 @@ class GuestGuard implements CanActivate {
 
   public canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     if (!window.matchMedia('(display-mode: standalone)').matches) {
-      if (route.routeConfig.path !== 'landing') {
-        this.router.navigate(['/landing']);
+      if (route.routeConfig.path !== 'landing/b') {
+        this.router.navigate(['/landing/b']);
       }
       return true;
     }
     if (window.matchMedia('(display-mode: standalone)').matches && !this.userService.getUser()) {
-      if (route.routeConfig.path === 'landing') {
-        this.router.navigate(['/signup']);
+      if (route.routeConfig.path === 'landing/b') {
+        this.router.navigate(['/landing/p']);
       }
       return true;
     }

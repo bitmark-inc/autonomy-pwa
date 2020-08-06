@@ -30,13 +30,13 @@ export class PersonalDataComponent implements OnInit {
 
   private setStageByUrl(url: string = '') {
     switch (url) {
-      case '/pde/save':
+      case '/home/setting/pde/save':
         this.stage = this.PageStage.Save;
         break;
-      case '/pde/read':
+      case '/home/setting/pde/read':
         this.stage = this.PageStage.Read;
         break;
-      case '/pde/delete':
+      case '/home/setting/pde/delete':
         this.stage = this.PageStage.Delete;
         break;
       default:

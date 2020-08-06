@@ -1,5 +1,6 @@
 declare var window: any;
 
+import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { HomepageState } from './homepage.state';
@@ -19,7 +20,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   public tabActivated: TabActivated = TabActivated.Trends;
 
-  constructor(public router: Router, private ref: ChangeDetectorRef) {
+  constructor(public router: Router, private ref: ChangeDetectorRef, private location: Location) {
     this.setTabActivatedByUrl(this.router.url);
   }
 
@@ -35,8 +36,10 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   private setTabActivatedByUrl(url: string = '') {
+    console.log('router url')
+    console.log(url);
     switch (url) {
-    case '/home/community':
+    case '/home/trends':
       this.tabActivated = TabActivated.Trends;
       break;
     case '/home/resources':
@@ -47,6 +50,24 @@ export class HomeComponent implements OnInit, OnDestroy {
       break;
     default:
       this.tabActivated = TabActivated.Trends;
+      break;
+    }
+  }
+
+  public tabActiveChange(selectedIndex) {
+    this.tabActivated = selectedIndex;
+    switch (selectedIndex) {
+    case 0:
+      this.location.replaceState('/home/trends');
+      break;
+    case 1:
+      this.location.replaceState('/home/resources');
+      break;
+    case 2:
+      this.location.replaceState('/home/setting');
+      break;
+    default:
+      this.location.replaceState('/home/trends');
       break;
     }
   }
