@@ -6,45 +6,53 @@ import { UserService } from '../services/user/user.service';
 import { MatBottomSheet, MatBottomSheetRef } from '@angular/material/bottom-sheet';
 import { BottomSheetAlertComponent } from "../bottom-sheet-alert/bottom-sheet-alert.component";
 
+enum EnumPageStage { Intro, Consent }
+
 @Component({
-  selector: 'app-signup',
-  templateUrl: './signup.component.html',
-  styleUrls: ['./signup.component.scss']
+  selector: "app-signup",
+  templateUrl: "./signup.component.html",
+  styleUrls: ["./signup.component.scss"],
 })
 export class SignupComponent implements OnInit {
+  public PageStage = EnumPageStage;
+  public stage: EnumPageStage = EnumPageStage.Intro;
   public clickable: boolean = true;
 
-  constructor(private router: Router, private userService: UserService, private bottomSheet: MatBottomSheet, private bottomSheetRef: MatBottomSheetRef) { }
+  constructor(
+    private router: Router,
+    private userService: UserService,
+    private bottomSheet: MatBottomSheet,
+    private bottomSheetRef: MatBottomSheetRef
+  ) {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   private openBottomSheet(): void {
     this.bottomSheetRef = this.bottomSheet.open(BottomSheetAlertComponent, {
       disableClose: true,
       data: {
         error: false,
-        header: 'CREATING',
-        mainContent: 'Creating your Autonomy account ...',
-      }
+        header: "CREATING",
+        mainContent: "Creating your Autonomy account ...",
+      },
     });
   }
 
   public isStandalone(): boolean {
-    return (window.matchMedia('(display-mode: standalone)').matches);
+    return window.matchMedia("(display-mode: standalone)").matches;
   }
 
   public signup(): void {
     if (this.clickable) {
       this.clickable = false;
-      this.openBottomSheet()
+      this.openBottomSheet();
       this.userService.signup().subscribe(
         (data) => {
           setTimeout(() => {
             this.bottomSheetRef.afterDismissed().subscribe(() => {
               this.clickable = true;
-              this.router.navigate(['/home/community']);
-            })
+              this.router.navigate(["/home/community"]);
+            });
             this.bottomSheetRef.dismiss();
           }, 3 * 1000);
         },
@@ -56,5 +64,4 @@ export class SignupComponent implements OnInit {
       );
     }
   }
-
 }

@@ -45,14 +45,18 @@ export class LandingComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit() {
-    if (this.isMobileExceptIOS) {
+    if (this.isMobileExceptIOS && this.isDesktop) {
       window.addEventListener("beforeinstallprompt", (e) => {
         // Prevent Chrome 67 and earlier from automatically showing the prompt
         e.preventDefault();
-        // Stash the event so it can be triggered later.
-        this.deferredPrompt = e;
-        // Update UI to notify the user they can add to home screen
-        this.isShowAddBtn = true;
+
+        if (this.isMobileExceptIOS) {
+          // Stash the event so it can be triggered later.
+          this.deferredPrompt = e;
+          console.log('Prompt event is '+`${this.deferredPrompt ? '' : 'not'}`+' supported')
+          // Update UI to notify the user they can add to home screen
+          this.isShowAddBtn = true;
+        }
       });
     }
   }
