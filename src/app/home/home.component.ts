@@ -36,8 +36,6 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   private setTabActivatedByUrl(url: string = '') {
-    console.log('router url')
-    console.log(url);
     switch (url) {
     case '/home/trends':
       this.tabActivated = TabActivated.Trends;
