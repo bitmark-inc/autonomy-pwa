@@ -14,11 +14,13 @@ import { ResourcesComponent } from './home/resources/resources.component';
 import { PersonalDataComponent } from './personal-data/personal-data.component';
 import { CommunityDataComponent } from './community-data/community-data.component';
 import { AuthGuard, GuestGuard } from './url-guard';
+import { from } from 'rxjs';
 
 const routes: Routes = [
   {path: 'landing/b', component: LandingComponent, canActivate: [GuestGuard]},
   {path: 'landing/p/signin', component: SigninComponent, canActivate: [GuestGuard]},
   {path: 'landing/p', component: SignupComponent, canActivate: [GuestGuard]},
+  {path: 'landing/p/irb', component: SignupComponent, canActivate: [GuestGuard]},
   {path: 'home', component: HomeComponent, canActivate: [AuthGuard], children: [
     {path: '', redirectTo: 'trends', pathMatch: 'full'},
     {path: 'trends', component: HomeComponent},

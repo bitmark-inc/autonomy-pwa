@@ -26,14 +26,14 @@
   </div>
   <div class="landing-footer">
     <div class="start-landing p-b-10">
-      <a (click)="stage = PageStage.Consent"><span class="command">create account</span><img src="/assets/img/next-landing.svg" alt=""></a>
+      <a [routerLink]="['/landing/p/irb']"><span class="command">create account</span><img src="/assets/img/next-landing.svg" alt=""></a>
     </div>
     <p>Or <a class="normal-link" [routerLink]="['/landing/p/signin']">sign back in »</a></p>
   </div>
 </div>
 <div [hidden]="stage != PageStage.Consent" class="main-content">
   <mat-card class="header-btn" layout="fill">
-    <a (click)="stage = PageStage.Intro" class="back upcase">
+    <a [routerLink]="['/landing/p']" class="back upcase">
       <img class="gap-right-5" src="/assets/img/back-small.svg" alt="back-arrow">
       <span>back</span>
     </a>
@@ -117,6 +117,13 @@
     </p>
   </mat-card>
   <mat-card>
+    <div (click)="signupAndDownload()" class="col content-left p-b-10 clickable">
+      <div class="gap-right-5"><img src="/assets/img/arrow.svg" alt=""></div>
+      <div class="col">
+        <p class="font-18 line-height-120 direction-color font-weight-600 p-b-10">Yes, I agree to participate and want to download a copy of this consent form.</p>
+        <div class="light-line"><hr></div>
+      </div>
+    </div>
     <div (click)="signup()" class="col content-left p-b-10 clickable">
       <div class="gap-right-5"><img src="/assets/img/arrow.svg" alt=""></div>
       <div class="col">
@@ -124,7 +131,7 @@
         <div class="light-line"><hr></div>
       </div>
     </div>
-    <div (click)="stage = PageStage.Intro" class="col content-left p-b-10 clickable">
+    <div [routerLink]="['/landing/p']" class="col content-left p-b-10 clickable">
       <div class="gap-right-5"><img src="/assets/img/arrow.svg" alt=""></div>
       <div class="col">
         <p class="font-18 line-height-120 direction-color font-weight-600 p-b-10">No, I do not agree to participate in this study.</p>

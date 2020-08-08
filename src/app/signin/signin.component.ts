@@ -18,7 +18,7 @@ export class SigninComponent implements OnInit {
   constructor(private router: Router, private userService: UserService, private bottomSheet: MatBottomSheet, private bottomSheetRef: MatBottomSheetRef) {}
 
   ngOnInit() {
-    this.recoveryKey.nativeElement.focus();
+    // this.recoveryKey.nativeElement.focus();
   }
 
   private openBottomSheet(type): void {
