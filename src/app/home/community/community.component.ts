@@ -7,8 +7,6 @@ import * as moment from 'moment';
 import * as d3 from 'd3'
 import { environment } from 'src/environments/environment';
 import { UserService } from 'src/app/services/user/user.service';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { ActivatedRoute } from '@angular/router';
 
 enum NotificationPermissionState { None, Allowed, Denied, NotSupported, NoThanks };
 
@@ -37,36 +35,12 @@ export class CommunityComponent implements OnInit {
   public notificationPermissionState: NotificationPermissionState;
   public isNotificationPermissionActive: boolean = false;
 
-  constructor(private activatedRoute: ActivatedRoute, private userService: UserService, private apiService: ApiService, private ref: ChangeDetectorRef, private http: HttpClient) {
-    this.activatedRoute.queryParams.subscribe((params) => {
-      this.isdownloadIRB = params['downloadIRB'];
-    });
+  constructor(private userService: UserService, private apiService: ApiService, private ref: ChangeDetectorRef) {
     this.initOneSignal();
   }
 
   ngOnInit() {
     this.getSymptomReport();
-  }
-
-  private downloadFile() {
-    let headers = new HttpHeaders();
-    headers = headers.set('Accept', 'application/pdf');
-    this.http.get('/assets/files/UCB_Safe_Campus_Study_Informed_Consent.pdf', { headers: headers, responseType: 'arraybuffer' })
-    .subscribe((data: any) => {
-      const aFile = new Blob([data], { type: 'application/pdf'});
-      const url = window.URL.createObjectURL(aFile);
-      let reader = new FileReader();
-      let link = document.createElement('a');
-
-      reader.onload = () => {
-        link.href = url;
-        link.target = '_blank';
-        link.download = 'UCB_Safe_Campus_Study_Informed_Consent';
-        link.click();
-        link.href = '#';
-      }
-      reader.readAsDataURL(aFile);
-    })
   }
 
   private getSymptomReport() {
@@ -92,10 +66,6 @@ export class CommunityComponent implements OnInit {
             }
           }
           this.renderChart();
-          if (this.isdownloadIRB) {
-            this.isdownloadIRB = false;
-            this.downloadFile();
-          }
         },
         (err) => {
           // TODO: do something
