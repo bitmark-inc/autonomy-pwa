@@ -167,9 +167,28 @@ export class ResourcesComponent implements OnInit, OnDestroy {
     this.poiTypes = ['restaurants', 'coffee', 'groceries', 'pharmacies'];
   }
 
+  private placeTypeSingular(plural): string {
+    let singular: string;
+    switch (plural.toLowerCase()) {
+      case 'restaurants':
+        singular = 'Restaurant';
+        break;
+      case 'groceries':
+        singular = 'Grocery';
+        break;
+      case 'pharmacies':
+        singular = 'Pharmacy';
+        break;
+      default:
+        break;
+    }
+    return singular;
+  }
+
   private formatPOI() {
     this.pois.forEach(poi => {
-      poi.place_type = poi.place_types.join(', ');
+      poi.place_type = poi.place_types.map(type => this.placeTypeSingular(type)).join(', ');
+
       if (poi.opening_hours && Object.keys(poi.opening_hours).length != 0) {
         let time = Util.openHoursFormat(poi.opening_hours, true);
         poi.todayOpenHour = time;
@@ -271,7 +290,7 @@ export class ResourcesComponent implements OnInit, OnDestroy {
 
     // get all at first from ucberkeley is center of map
     if (!this.keyword && !this.poiType) {
-      params.push(`lat=${this.mapCenter.lat}&lng=${this.mapCenter.lng}&radius=1000`);
+      // params.push(`lat=${this.mapCenter.lat}&lng=${this.mapCenter.lng}&radius=1000`);
     }
 
     if (this.keyword) {
@@ -295,8 +314,14 @@ export class ResourcesComponent implements OnInit, OnDestroy {
         if (environment.bitmark_network === 'testnet') {
           this.fakeResourceScore();
         }
-        this.formatPOI();
-        this.updatePlaceColors();
+        if (this.pois && this.pois.length) {
+          this.mapCenter = {
+            lat: this.pois[0].location.latitude,
+            lng: this.pois[0].location.longitude,
+          };
+          this.formatPOI();
+          this.updatePlaceColors();
+        }
       },
       (err) => {
         this.isSearching = false;
@@ -349,10 +374,10 @@ export class ResourcesComponent implements OnInit, OnDestroy {
     this.focusedPOI.focused = true;
     this.mapZoomLevel = 20;
     this.labelShown = true;
-    this.mapCenter = {
-      lat: this.focusedPOI.location.latitude,
-      lng: this.focusedPOI.location.longitude,
-    };
+    // this.mapCenter = {
+    //   lat: this.focusedPOI.location.latitude,
+    //   lng: this.focusedPOI.location.longitude,
+    // };
     this.updatePlaceColors();
   }
 
