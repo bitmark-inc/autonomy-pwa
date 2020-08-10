@@ -41,7 +41,7 @@ export class LandingComponent implements OnInit, AfterViewInit, OnDestroy {
   
   ngOnInit() {
     this.detectBrowser();
-    this.webappUrl = environment.bitmark_network === 'livenet' ? 'https://autonomy-pwa.bitmark.com' : 'https://autonomy-pwa.test.bitmark.com'
+    this.webappUrl = environment.bitmark_network === 'livenet' ? 'https://autonomy-pwa.bitmark.com' : 'https://autonomy-pwa.test.bitmark.com';
 
     if (this.isMobileExceptIOS && this.isDesktop) {
       window.addEventListener("beforeinstallprompt", (e) => {
@@ -81,6 +81,8 @@ export class LandingComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public addToHomeScreen() {
     if (this.deferredPrompt) {
+      console.log('prompt event');
+      console.log(this.deferredPrompt);
       // hide our user interface that shows our A2HS button
       this.isShowAddBtn = false;
       // Show the prompt
