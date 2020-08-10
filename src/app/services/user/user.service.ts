@@ -191,7 +191,10 @@ export class UserService extends BaseService {
   private async registerWithAgent() {
     return this.sendHttpRequest('post', `${environment.autonomy_api_url}api/accounts`, {
       enc_pub_key: this.user.account.encryption_pubkey,
-      metadata: {source: 'pwa'}
+      metadata: {
+        source: 'pwa',
+        participant_id: this.getParticipantID()
+      }
     }, {
       headers: {Authorization: `Bearer ${this.user.agentJWT}`}
     }).toPromise();
