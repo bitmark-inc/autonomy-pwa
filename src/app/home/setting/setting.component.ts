@@ -26,7 +26,7 @@ export class SettingComponent implements OnInit {
     let hash = window.sha3_256(this.userService.getAccountNumber());
     let icUserID = `Autonomy_pwa_${hash}`;
     window.Intercom('boot', {
-      app_id: window.App.config.IntercomAppID,
+      app_id: window.intercomSettings.app_id,
       user_id: icUserID,
       hide_default_launcher: true
     });
