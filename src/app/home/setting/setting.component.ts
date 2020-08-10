@@ -18,12 +18,6 @@ export class SettingComponent implements OnInit {
 
   ngOnInit() {}
 
-  public signout() {
-    console.log('signing out triggered');
-    this.userService.signout();
-    this.router.navigate(['/landing']);
-  }
-
   public back(): void {
     this.location.back();
   }

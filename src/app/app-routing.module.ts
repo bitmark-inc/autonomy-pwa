@@ -13,6 +13,7 @@ import { CommunityComponent } from './home/community/community.component';
 import { ResourcesComponent } from './home/resources/resources.component';
 import { PersonalDataComponent } from './personal-data/personal-data.component';
 import { CommunityDataComponent } from './community-data/community-data.component';
+import { NoContentComponent} from './no-content/no-content.component'
 import { AuthGuard, GuestGuard } from './url-guard';
 
 const routes: Routes = [
@@ -38,7 +39,7 @@ const routes: Routes = [
   {path: 'home/setting/cde/save', component: CommunityDataComponent, canActivate: [AuthGuard]},
   {path: 'home/setting/cde/read', component: CommunityDataComponent, canActivate: [AuthGuard]},
   {path: 'home/setting/cde/submit', component: CommunityDataComponent, canActivate: [AuthGuard]},
-  {path: '**', redirectTo: 'landing/b'},
+  {path: '**', component: NoContentComponent},
 ];
 
 @NgModule({

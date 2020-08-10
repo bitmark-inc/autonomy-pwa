@@ -26,19 +26,20 @@
   </div>
   <div class="landing-footer">
     <div class="start-landing p-b-10">
-      <a [routerLink]="['/landing/p/irb']"><span class="command">create account</span><img src="/assets/img/next-landing.svg" alt=""></a>
+      <a [routerLink]="['/landing/p/irb']" [queryParams]="{pid: pID}"><span class="command">create account</span><img src="/assets/img/next-landing.svg" alt=""></a>
     </div>
-    <p>Or <a class="normal-link" [routerLink]="['/landing/p/signin']">sign back in »</a></p>
+    <p>Or <a class="normal-link" [routerLink]="['/landing/p/signin']" [queryParams]="{pid: pID}">sign back in »</a></p>
   </div>
 </div>
 <div [hidden]="stage != PageStage.Consent" class="main-content">
   <mat-card class="header-btn" layout="fill">
-    <a [routerLink]="['/landing/p']" class="back upcase">
+    <a [routerLink]="['/landing/p']" [queryParams]="{pid: pID}" class="back upcase">
       <img class="gap-right-5" src="/assets/img/back-small.svg" alt="back-arrow">
       <span>back</span>
     </a>
   </mat-card>
-  <div class="header-page-title direction-color m-b-30">
+  <div class="header-page-title content-left direction-color m-b-30">
+    <span style="height: 32px;" class="line-title"></span>
     <span class="page-title">Consent to Participate in Research</span>
   </div>
   <mat-card class="font-14 line-height-120">
@@ -81,8 +82,8 @@
     <ul>
       <li>Data collected via this app will not include your name or any other identifiable information. All your information will instead be identified with a random code. A key linking your name and contact information to this random code will be stored indefinitely on a separate, secure digital platform that is approved to store sensitive information. This key will only be accessible to selected study personnel.</li>
       <li>
+        Your personal information may be released if required by law. Authorized representatives from the following organizations may review your research data for purposes such as monitoring or managing the conduct of this study:
         <ul>
-          Your personal information may be released if required by law. Authorized representatives from the following organizations may review your research data for purposes such as monitoring or managing the conduct of this study:
           <li>University of California</li>
         </ul>
       </li>
@@ -131,7 +132,7 @@
         <div class="light-line"><hr></div>
       </div>
     </div>
-    <div [routerLink]="['/landing/p']" class="col content-left p-b-10 clickable">
+    <div [routerLink]="['/landing/p']" [queryParams]="{pid: pID}" class="col content-left p-b-10 clickable">
       <div class="gap-right-5"><img src="/assets/img/arrow.svg" alt=""></div>
       <div class="col">
         <p class="font-18 line-height-120 direction-color font-weight-600 p-b-10">No, I do not agree to participate in this study.</p>

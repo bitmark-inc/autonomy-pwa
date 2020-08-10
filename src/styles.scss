@@ -226,6 +226,9 @@ textarea {
 .header-page-title {
   width: 100%;
   border-left: 5px solid $direction-color;
+  .line-title {
+    width: 5px;
+  }
   .page-title {
     font-size: 30px;
     line-height: 120%;
@@ -461,6 +464,7 @@ textarea {
   color: #003262;
   height: 60px !important;
   text-transform: uppercase;
+  padding: 0 6vw !important;
 }
 
 .mat-ink-bar {

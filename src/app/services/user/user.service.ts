@@ -30,6 +30,7 @@ export interface UserCacheData {
 
 const RECOVERY_STORAGE_KEY: string = 'user-key';
 const DATA_STORAGE_KEY: string = 'user-data';
+const PARTICIPANT_ID_KEY: string = 'pid';
 class UserCache {
   public userKey: string;
   public userData: UserCacheData;
@@ -108,6 +109,14 @@ export class UserService extends BaseService {
       let result = await InstantiateStreaming(fetch('main.wasm'), go.importObject)
       go.run(result.instance);
     }
+  }
+
+  public saveParticipantID(pid: string) {
+    window.localStorage.setItem(PARTICIPANT_ID_KEY, pid);
+  }
+
+  public getParticipantID(): string {
+    return window.localStorage.getItem(PARTICIPANT_ID_KEY);
   }
 
   public validateAccount(recoveryPhrase: string) {
