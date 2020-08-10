@@ -112,7 +112,7 @@ export class PersonalDataComponent implements OnInit {
               setTimeout(() => {
                 this.bottomSheetRef.afterDismissed().subscribe(() => {
                   this.clickable = true;
-                  this.router.navigate(['/landing/p']);
+                  this.router.navigate(['/landing/p'], { queryParams: { 'pid': this.userService.getParticipantID() } });
                 });
                 this.bottomSheetRef.dismiss();
               }, 3 * 1000);
