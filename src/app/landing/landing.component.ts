@@ -42,12 +42,14 @@ export class LandingComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit() {
     this.detectBrowser();
     this.webappUrl = environment.bitmark_network === 'livenet' ? 'https://autonomy-pwa.bitmark.com' : 'https://autonomy-pwa.test.bitmark.com';
+  }
 
-    if (this.isMobileExceptIOS && this.isDesktop) {
+  ngAfterViewInit() {
+    if (this.isMobileExceptIOS || this.isDesktop) {
       window.addEventListener("beforeinstallprompt", (e) => {
         // Prevent Chrome 67 and earlier from automatically showing the prompt
         e.preventDefault();
-
+  
         if (this.isMobileExceptIOS) {
           // Stash the event so it can be triggered later.
           this.deferredPrompt = e;
@@ -57,9 +59,6 @@ export class LandingComponent implements OnInit, AfterViewInit, OnDestroy {
         }
       });
     }
-  }
-
-  ngAfterViewInit() {
   }
 
   ngOnDestroy() {
