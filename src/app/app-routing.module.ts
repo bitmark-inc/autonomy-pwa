@@ -17,6 +17,7 @@ import { NoContentComponent} from './no-content/no-content.component'
 import { AuthGuard, GuestGuard } from './url-guard';
 
 const routes: Routes = [
+  {path: '', component: LandingComponent, canActivate: [GuestGuard]},
   {path: 'landing/b', component: LandingComponent, canActivate: [GuestGuard]},
   {path: 'landing/p/signin', component: SigninComponent, canActivate: [GuestGuard]},
   {path: 'landing/p', component: SignupComponent, canActivate: [GuestGuard]},
@@ -39,6 +40,7 @@ const routes: Routes = [
   {path: 'home/setting/cde/save', component: CommunityDataComponent, canActivate: [AuthGuard]},
   {path: 'home/setting/cde/read', component: CommunityDataComponent, canActivate: [AuthGuard]},
   {path: 'home/setting/cde/submit', component: CommunityDataComponent, canActivate: [AuthGuard]},
+  {path: '404', component: NoContentComponent},
   {path: '**', component: NoContentComponent},
 ];
 

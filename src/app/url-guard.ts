@@ -27,7 +27,8 @@ class GuestGuard implements CanActivate {
   public canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     if (!window.matchMedia('(display-mode: standalone)').matches) {
       if (route.routeConfig.path !== 'landing/b') {
-        this.router.navigate(['/landing/b']);
+        let pid = route.queryParams['pid'];
+        this.router.navigate(['/landing/b'], { queryParams: {'pid': pid} });
       }
       return true;
     }
@@ -38,7 +39,7 @@ class GuestGuard implements CanActivate {
       }
       return true;
     }
-    this.router.navigate(['/home']);
+    this.router.navigate(['/home/trends']);
   }
 }
 
