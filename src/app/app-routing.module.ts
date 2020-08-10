@@ -40,6 +40,7 @@ const routes: Routes = [
   {path: 'home/setting/cde/save', component: CommunityDataComponent, canActivate: [AuthGuard]},
   {path: 'home/setting/cde/read', component: CommunityDataComponent, canActivate: [AuthGuard]},
   {path: 'home/setting/cde/submit', component: CommunityDataComponent, canActivate: [AuthGuard]},
+  {path: '404', component: NoContentComponent},
   {path: '**', component: NoContentComponent},
 ];
 
