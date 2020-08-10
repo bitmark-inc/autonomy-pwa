@@ -6,11 +6,14 @@ import { UserService } from './services/user/user.service';
 
 @Injectable()
 class AuthGuard implements CanActivate {
+  private isPWA: boolean;
 
-  constructor(private router: Router, private userService: UserService) { }
+  constructor(private router: Router, private userService: UserService) {
+    this.isPWA = window.matchMedia('(display-mode: standalone)').matches;
+  }
 
   public canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    if (window.matchMedia('(display-mode: standalone)').matches) {
+    if (this.isPWA) {
       if (this.userService.getUser()) {
         return true;
       }
@@ -21,20 +24,27 @@ class AuthGuard implements CanActivate {
 
 @Injectable()
 class GuestGuard implements CanActivate {
+  private isPWA: boolean;
 
-  constructor(private router: Router, private userService: UserService) { }
+  constructor(private router: Router, private userService: UserService) {
+    this.isPWA = !!(window.matchMedia('(display-mode: standalone)').matches);
+  }
 
   public canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    if (!window.matchMedia('(display-mode: standalone)').matches) {
-      if (route.routeConfig.path !== 'landing/b') {
-        let pid = route.queryParams['pid'];
+    console.log(route.routeConfig.path);
+    if (!this.isPWA) {
+      if (route.routeConfig.path === '' || route.routeConfig.path === '/') {
+        let pid = route.queryParams['pid'] || this.userService.getParticipantID();
         this.router.navigate(['/landing/b'], { queryParams: {'pid': pid} });
+      } else if (route.routeConfig.path !== 'landing/b' && route.routeConfig.path !== '404') {
+        this.router.navigate(['/landing/b']);
       }
       return true;
     }
-    if (window.matchMedia('(display-mode: standalone)').matches && !this.userService.getUser()) {
+    if (this.isPWA && !this.userService.getUser()) {
+      console.log(route.routeConfig.path);
       if (route.routeConfig.path === 'landing/b') {
-        let pid = route.queryParams['pid'];
+        let pid = route.queryParams['pid'] || this.userService.getParticipantID();
         this.router.navigate(['/landing/p'], { queryParams: {'pid': pid} });
       }
       return true;
@@ -43,4 +53,18 @@ class GuestGuard implements CanActivate {
   }
 }
 
-export { AuthGuard, GuestGuard }
+@Injectable()
+class ParticipantGuard implements CanActivate {
+
+  constructor(private router: Router, private userService: UserService) { }
+
+  public canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+    if (route.queryParams['pid'] || this.userService.getParticipantID()) {
+      return true;
+    }
+    this.router.navigate(['/404']);
+    return false;
+  }
+}
+
+export { AuthGuard, GuestGuard, ParticipantGuard}

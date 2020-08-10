@@ -14,14 +14,14 @@ import { ResourcesComponent } from './home/resources/resources.component';
 import { PersonalDataComponent } from './personal-data/personal-data.component';
 import { CommunityDataComponent } from './community-data/community-data.component';
 import { NoContentComponent} from './no-content/no-content.component'
-import { AuthGuard, GuestGuard } from './url-guard';
+import { AuthGuard, GuestGuard, ParticipantGuard } from './url-guard';
 
 const routes: Routes = [
-  {path: '', component: LandingComponent, canActivate: [GuestGuard]},
-  {path: 'landing/b', component: LandingComponent, canActivate: [GuestGuard]},
-  {path: 'landing/p/signin', component: SigninComponent, canActivate: [GuestGuard]},
-  {path: 'landing/p', component: SignupComponent, canActivate: [GuestGuard]},
-  {path: 'landing/p/irb', component: SignupComponent, canActivate: [GuestGuard]},
+  {path: '', component: LandingComponent, canActivate: [ParticipantGuard, GuestGuard]},
+  {path: 'landing/b', component: LandingComponent, canActivate: [ParticipantGuard, GuestGuard]},
+  {path: 'landing/p/signin', component: SigninComponent, canActivate: [ParticipantGuard, GuestGuard]},
+  {path: 'landing/p', component: SignupComponent, canActivate: [ParticipantGuard, GuestGuard]},
+  {path: 'landing/p/irb', component: SignupComponent, canActivate: [ParticipantGuard, GuestGuard]},
   {path: 'home', component: HomeComponent, canActivate: [AuthGuard], children: [
     {path: '', redirectTo: 'trends', pathMatch: 'full'},
     {path: 'trends', component: HomeComponent},
@@ -46,6 +46,6 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class AppRoutingModule { }

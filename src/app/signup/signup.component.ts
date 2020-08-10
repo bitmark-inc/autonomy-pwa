@@ -24,7 +24,7 @@ export class SignupComponent implements OnInit {
 
   constructor(private router: Router, private activatedRoute: ActivatedRoute, private userService: UserService, private bottomSheet: MatBottomSheet, private bottomSheetRef: MatBottomSheetRef, private http: HttpClient, private ngZone: NgZone) {
     this.activatedRoute.queryParams.subscribe((params) => {
-      this.pID = params['pid'];
+      this.pID = params['pid'] || this.userService.getParticipantID();
       console.log(this.pID);
       if (this.pID) {
         this.userService.saveParticipantID(this.pID);
