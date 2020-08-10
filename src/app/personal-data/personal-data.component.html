@@ -15,7 +15,7 @@
       <div class="gap-right-5"><img src="/assets/img/arrow.svg" alt=""></div>
       <div class="col">
         <p class="font-18 line-height-120 p-b-10">Save Autonomy data to your PDE</p>
-        <a [routerLink]="['/pde/save']" class="content-left command-img"><span
+        <a [routerLink]="['/home/setting/pde/save']" class="content-left command-img"><span
             class="font-14 upcase direction-color gap-right-5 p-b-20">learn more</span><img
             src="/assets/img/next-icon-small.svg" alt=""></a>
         <div class="light-line"><hr></div>
@@ -25,7 +25,7 @@
       <div class="gap-right-5"><img src="/assets/img/arrow.svg" alt=""></div>
       <div class="col">
         <p class="font-18 line-height-120 p-b-10">Read Autonomy data from your PDE</p>
-        <a [routerLink]="['/pde/read']" class="content-left command-img"><span
+        <a [routerLink]="['/home/setting/pde/read']" class="content-left command-img"><span
             class="font-14 upcase direction-color gap-right-5 p-b-20">learn more</span><img
             src="/assets/img/next-icon-small.svg" alt=""></a>
         <div class="light-line"><hr></div>
@@ -35,7 +35,7 @@
       <div class="gap-right-5"><img src="/assets/img/arrow.svg" alt=""></div>
       <div class="col">
         <p class="font-18 line-height-120 p-b-10">Delete all of your Autonomy data from your PDE</p>
-        <a [routerLink]="['/pde/delete']" class="content-left command-img"><span
+        <a [routerLink]="['/home/setting/pde/delete']" class="content-left command-img"><span
             class="font-14 upcase direction-color gap-right-5 p-b-20">learn more</span><img
             src="/assets/img/next-icon-small.svg" alt=""></a>
         <div class="light-line"><hr></div>
@@ -45,7 +45,7 @@
 </div>
 <div [hidden]="stage != PageStage.Save" class="main-content">
   <mat-card class="header-btn" layout="fill">
-    <a [routerLink]="['/pde']" class="back upcase">
+    <a [routerLink]="['/home/setting/pde']" class="back upcase">
       <img class="gap-right-5" src="/assets/img/back-small.svg" alt="back-arrow">
       <span>back</span>
     </a>
@@ -63,12 +63,12 @@
         <div class="light-line"><hr></div>
       </div>
     </div>
-    <p>You can view all Autonomy data that has been saved to your PDE, <a class="normal-link" [routerLink]="['/pde/read']">by exercising your right to do so</a>.</p>
+    <p>You can view all Autonomy data that has been saved to your PDE, <a class="normal-link" [routerLink]="['/home/setting/pde/read']">by exercising your right to do so</a>.</p>
   </mat-card>
 </div>
 <div [hidden]="stage != PageStage.Read" class="main-content">
   <mat-card class="header-btn" layout="fill">
-    <a [routerLink]="['/pde']" class="back upcase">
+    <a (click)="back()" class="back upcase">
       <img class="gap-right-5" src="/assets/img/back-small.svg" alt="back-arrow">
       <span>back</span>
     </a>
@@ -82,14 +82,14 @@
   </mat-card>
   <a #saveFile></a>
   <div class="footer-btn">
-    <a (click)="exportData()" [ngClass]="{'disable-btns': !clickable}" class="next">
-      <span class="gap-right-15 long-cmd">EXERCISE RIGHT</span><img src="/assets/img/next-icon.svg" alt="">
+    <a (click)="exportData()" [ngClass]="{'disable-btns': !clickable}" class="next dark-btn">
+      <span class="gap-right-15 long-cmd">EXERCISE RIGHT</span><img src="/assets/img/next-landing.svg" alt="">
     </a>
   </div>
 </div>
 <div [hidden]="stage != PageStage.Delete" class="main-content">
   <mat-card class="header-btn" layout="fill">
-    <a [routerLink]="['/pde']" class="back upcase">
+    <a [routerLink]="['/home/setting/pde']" class="back upcase">
       <img class="gap-right-5" src="/assets/img/back-small.svg" alt="back-arrow">
       <span>back</span>
     </a>
@@ -99,12 +99,12 @@
   </div>
   <mat-card>
     <p class="font-18 line-height-120 p-b-20">Deleting your data will completely erase all Autonolmy data secured in your personal data enclave (PDE).</p>
-    <p class="font-18 line-height-120 p-b-20">Since there will v no way for Bitmark or anyone else to recover your data after you’ve deleted it, we highly recommend that you first <a class="normal-link" [routerLink]="['/pde/read']">export your data</a> before deleting it.</p>
+    <p class="font-18 line-height-120 p-b-20">Since there will v no way for Bitmark or anyone else to recover your data after you’ve deleted it, we highly recommend that you first <a class="normal-link" [routerLink]="['/home/setting/pde/read']">export your data</a> before deleting it.</p>
     <p class="font-18 line-height-120 p-b-20">After deleting your data, you will automatically be signed out of Autonomy.</p>
   </mat-card>
   <div class="footer-btn">
-    <a (click)="deleteData()" [ngClass]="{'disable-btns': !clickable}" class="next">
-      <span class="gap-right-15 long-cmd">EXERCISE RIGHT</span><img src="/assets/img/next-icon.svg" alt="">
+    <a (click)="deleteData()" [ngClass]="{'disable-btns': !clickable}" class="next dark-btn">
+      <span class="gap-right-15 long-cmd">EXERCISE RIGHT</span><img src="/assets/img/next-landing.svg" alt="">
     </a>
   </div>
 </div>

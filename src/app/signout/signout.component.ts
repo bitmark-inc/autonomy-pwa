@@ -41,7 +41,7 @@ export class SignoutComponent implements OnInit {
           rightBtn: 'try again',
           leftBtnAction: () => {
             this.bottomSheetRef.afterDismissed().subscribe(() => {
-              this.router.navigate(['/recovery-key']);
+              this.router.navigate(['/home/setting/recovery-key']);
             })
             this.bottomSheetRef.dismiss();
           },
@@ -69,7 +69,7 @@ export class SignoutComponent implements OnInit {
         setTimeout(() => {
           this.bottomSheetRef.afterDismissed().subscribe(() => {
             this.clickable = true;
-            this.router.navigate(["/landing"]);
+            this.router.navigate(["/landing/p"]);
           })
           this.bottomSheetRef.dismiss();
         }, 3 * 1000);

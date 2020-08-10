@@ -13,36 +13,39 @@ import { CommunityComponent } from './home/community/community.component';
 import { ResourcesComponent } from './home/resources/resources.component';
 import { PersonalDataComponent } from './personal-data/personal-data.component';
 import { CommunityDataComponent } from './community-data/community-data.component';
-import { AuthGuard, GuestGuard } from './url-guard';
+import { NoContentComponent} from './no-content/no-content.component'
+import { AuthGuard, GuestGuard, ParticipantGuard } from './url-guard';
 
 const routes: Routes = [
-  {path: 'landing', component: LandingComponent, canActivate: [GuestGuard]},
-  {path: 'signin', component: SigninComponent, canActivate: [GuestGuard]},
-  {path: 'signup', component: SignupComponent, canActivate: [GuestGuard]},
+  {path: '', component: LandingComponent, canActivate: [ParticipantGuard, GuestGuard]},
+  {path: 'landing/b', component: LandingComponent, canActivate: [ParticipantGuard, GuestGuard]},
+  {path: 'landing/p/signin', component: SigninComponent, canActivate: [ParticipantGuard, GuestGuard]},
+  {path: 'landing/p', component: SignupComponent, canActivate: [ParticipantGuard, GuestGuard]},
+  {path: 'landing/p/irb', component: SignupComponent, canActivate: [ParticipantGuard, GuestGuard]},
   {path: 'home', component: HomeComponent, canActivate: [AuthGuard], children: [
-    {path: '', redirectTo: 'community', pathMatch: 'full'},
-    { path: 'community', component: CommunityComponent},
-    {path: 'resources', component: ResourcesComponent},
-    {path: 'setting', component: SettingComponent},
+    {path: '', redirectTo: 'trends', pathMatch: 'full'},
+    {path: 'trends', component: HomeComponent},
+    {path: 'resources', component: HomeComponent},
+    {path: 'setting', component: HomeComponent},
   ]},
-  {path: 'pois/:id', component: PoiComponent, canActivate: [AuthGuard]},
+  {path: 'home/resources/pois/:id', component: PoiComponent, canActivate: [AuthGuard]},
   {path: 'rating/:id', component: RatingsComponent, canActivate: [AuthGuard]},
-  {path: 'locations/:lat/:long', component: PoiComponent, canActivate: [AuthGuard]},
-  {path: 'recovery-key', component: RecoveryKeyComponent, canActivate: [AuthGuard]},
-  {path: 'signout', component: SignoutComponent, canActivate: [AuthGuard]},
-  {path: 'pde', component: PersonalDataComponent, canActivate: [AuthGuard]},
-  {path: 'pde/save', component: PersonalDataComponent, canActivate: [AuthGuard]},
-  {path: 'pde/read', component: PersonalDataComponent, canActivate: [AuthGuard]},
-  {path: 'pde/delete', component: PersonalDataComponent, canActivate: [AuthGuard]},
-  {path: 'cde', component: CommunityDataComponent, canActivate: [AuthGuard]},
-  {path: 'cde/save', component: CommunityDataComponent, canActivate: [AuthGuard]},
-  {path: 'cde/read', component: CommunityDataComponent, canActivate: [AuthGuard]},
-  {path: 'cde/submit', component: CommunityDataComponent, canActivate: [AuthGuard]},
-  {path: '**', redirectTo: 'landing'},
+  {path: 'home/setting/recovery-key', component: RecoveryKeyComponent, canActivate: [AuthGuard]},
+  {path: 'home/setting/signout', component: SignoutComponent, canActivate: [AuthGuard]},
+  {path: 'home/setting/pde', component: PersonalDataComponent, canActivate: [AuthGuard]},
+  {path: 'home/setting/pde/save', component: PersonalDataComponent, canActivate: [AuthGuard]},
+  {path: 'home/setting/pde/read', component: PersonalDataComponent, canActivate: [AuthGuard]},
+  {path: 'home/setting/pde/delete', component: PersonalDataComponent, canActivate: [AuthGuard]},
+  {path: 'home/setting/cde', component: CommunityDataComponent, canActivate: [AuthGuard]},
+  {path: 'home/setting/cde/save', component: CommunityDataComponent, canActivate: [AuthGuard]},
+  {path: 'home/setting/cde/read', component: CommunityDataComponent, canActivate: [AuthGuard]},
+  {path: 'home/setting/cde/submit', component: CommunityDataComponent, canActivate: [AuthGuard]},
+  {path: '404', component: NoContentComponent},
+  {path: '**', component: NoContentComponent},
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class AppRoutingModule { }

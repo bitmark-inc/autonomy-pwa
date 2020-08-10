@@ -1,5 +1,6 @@
 declare var window: any;
 
+import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { MatBottomSheet, MatBottomSheetRef } from '@angular/material/bottom-sheet';
@@ -22,7 +23,7 @@ export class CommunityDataComponent implements OnInit {
   public stage: EnumPageStage = EnumPageStage.CDE;
   public clickable: boolean = true;
 
-  constructor(private router: Router, private bottomSheetRef: MatBottomSheetRef, private bottomSheet: MatBottomSheet, private apiService: ApiService, private userService: UserService) {
+  constructor(private router: Router, private bottomSheetRef: MatBottomSheetRef, private bottomSheet: MatBottomSheet, private apiService: ApiService, private userService: UserService, private location: Location) {
     this.setStageByUrl(this.router.url);
   }
 
@@ -32,13 +33,13 @@ export class CommunityDataComponent implements OnInit {
 
   private setStageByUrl(url: string = '') {
     switch (url) {
-      case '/cde/save':
+      case '/home/setting/cde/save':
         this.stage = this.PageStage.Save;
         break;
-      case '/cde/read':
+      case '/home/setting/cde/read':
         this.stage = this.PageStage.Read;
         break;
-      case '/cde/submit':
+      case '/home/setting/cde/submit':
         this.stage = this.PageStage.Submit;
         break;
       default:
@@ -93,4 +94,7 @@ export class CommunityDataComponent implements OnInit {
     }
   }
 
+  public back(): void {
+    this.location.back();
+  }
 }

@@ -1,106 +1,143 @@
-<div class="content" [hidden]="stage != PageStage.Intro01">
-  <mat-card class="header-btn" layout="fill">
-    <a [routerLink]="['/landing']" class="back upcase">
-      <img class="gap-right-5" src="/assets/img/back-small.svg" alt="back-arrow">
-      <span>back</span>
-    </a>
-  </mat-card>
-  <div class="onboarding-content">
-    <mat-card class="no-top center-direction">
-      <div class="onboarding-words direction-color">
-        <p>Navigate the Berkeley community during COVID-19.</p>
+<div [hidden]="stage != PageStage.Intro" class="landing-pwa">
+  <div class="landing-content-pwa">
+    <div class="header-page-title direction-color m-t-30 m-b-30">
+      <span style="padding-left: 10px;" class="big-words">Your account</span>
+    </div>
+    <mat-card>
+      <p class="content-left font-18 line-height-120 p-b-20">Creating an Autonomy account does not require an email address or any other personal information.</p>
+      <p class="content-left font-18 line-height-120 p-b-20">Your account gives you rights to:</p>
+      <div class="col content-left">
+        <div class="gap-right-5"><img src="/assets/img/arrow.svg" alt=""></div>
+        <div class="col">
+          <p class="font-18 line-height-120 p-b-10">Save, read, and delete Autonomy data from your personal data enclave (PDE)</p>
+          <p class="font-14 direction-color gap-right-5 p-b-20">No one other than you will ever be able to access your PDE or the data you've stored there.</p>
+          <div class="light-line"><hr></div>
+        </div>
       </div>
-    </mat-card>
-    <mat-card class="content-center no-bottom">
-      <div class="dots">
-        <div class="dot viewable"></div>
-        <div class="dot"></div>
-        <div class="dot"></div>
-      </div>
-    </mat-card>
-    <mat-card class="no-top no-bottom">
-      <div class="img-groups">
-        <img class="device" src="/assets/img/device.svg" alt="">
-        <div class="intro">
-          <img class="intro-a" src="/assets/img/intro1.png" alt="">
+      <div class="col content-left p-t-20">
+        <div class="gap-right-5"><img src="/assets/img/arrow.svg" alt=""></div>
+        <div class="col">
+          <p class="font-18 line-height-120 p-b-10">Submit and read anonymized, non-personally-identifiable Autonomy data from the UC Berkeley community data enclave (CDE) for community-level pooling and research.</p>
+          <p class="font-14 direction-color gap-right-5 p-b-20">The data you share with the Berkely community can never be traced back to you.</p>
+          <div class="light-line"><hr></div>
         </div>
       </div>
     </mat-card>
   </div>
-  <div class="footer-btn">
-    <a class="next" (click)="setStage(PageStage.Intro02)">
-      <span class="gap-right-15">Next</span><img src="/assets/img/next-icon.svg" alt="">
-    </a>
+  <div class="landing-footer">
+    <div class="start-landing p-b-10">
+      <a [routerLink]="['/landing/p/irb']" [queryParams]="{pid: pID}"><span class="command">create account</span><img src="/assets/img/next-landing.svg" alt=""></a>
+    </div>
+    <p>Or <a class="normal-link" [routerLink]="['/landing/p/signin']" [queryParams]="{pid: pID}">sign back in »</a></p>
   </div>
 </div>
-<div class="content" [hidden]="stage != PageStage.Intro02">
+<div [hidden]="stage != PageStage.Consent" class="main-content">
   <mat-card class="header-btn" layout="fill">
-    <a (click)="setStage(PageStage.Intro01)" class="back upcase">
+    <a [routerLink]="['/landing/p']" [queryParams]="{pid: pID}" class="back upcase">
       <img class="gap-right-5" src="/assets/img/back-small.svg" alt="back-arrow">
       <span>back</span>
     </a>
   </mat-card>
-  <div class="onboarding-content">
-    <mat-card class="no-top center-direction">
-      <div class="onboarding-words direction-color">
-        <div>
-          <p>Help one another identify safe resources in and around campus.</p>
-        </div>
-      </div>
-    </mat-card>
-    <mat-card class="content-center no-bottom">
-      <div class="dots">
-        <div class="dot"></div>
-        <div class="dot viewable"></div>
-        <div class="dot"></div>
-      </div>
-    </mat-card>
-    <mat-card class="no-top no-bottom">
-      <div class="img-groups">
-        <img class="device" src="/assets/img/device.svg" alt="">
-        <img class="intro intro2" src="/assets/img/intro2.svg" alt="">
-      </div>
-    </mat-card>
+  <div class="header-page-title content-left direction-color m-b-30">
+    <span style="height: 32px;" class="line-title"></span>
+    <span class="page-title">Consent to Participate in Research</span>
   </div>
-  <div class="footer-btn">
-    <a class="next" (click)="setStage(PageStage.Intro03)">
-      <span class="gap-right-15">Next</span><img src="/assets/img/next-icon.svg" alt="">
-    </a>
-  </div>
-</div>
-<div class="content" [hidden]="stage != PageStage.Intro03">
-  <mat-card class="header-btn" layout="fill">
-    <a (click)="setStage(PageStage.Intro02)" class="back upcase">
-      <img class="gap-right-5" src="/assets/img/back-small.svg" alt="back-arrow">
-      <span>back</span>
-    </a>
+  <mat-card class="font-14 line-height-120">
+    <p class="direction-color font-weight-600 p-b-20">University of California at Berkeley Consent to Participate in Research (In-App Supplemental Consent Language) Berkeley COVID-19 Safe Students / Workers / Essential Workers Study CPHS# 2020-05-13261 / 2020-04-13238 / 2020-06-13349</p>
+    <p class="p-b-20">
+      <span class="direction-color font-weight-600">Introduction</span><br/>
+      <span>This app is an optional part of the Berkeley COVID-19 Safe Students Study, of which you are already a participant. Agreeing to download this app will share data with study staff about the venues you have decided to rate (for COVID-19-related prevention strategies) during the time you are in the study.</span>
+    </p>
+    <p class="p-b-20">
+      <span class="direction-color font-weight-600">Purpose</span><br/>
+      <span>Use of this app will allow study staff to learn more about the COVID-19 prevention strategies used by businesses or other venues you visit, as well as your ratings of those strategies. This will help us learn more about whether apps like this can be useful to help people make choices about places they visit while trying to protect themselves from the COVID-19 pandemic.</span>
+    </p>
+    <p class="p-b-20">
+      <span class="direction-color font-weight-600">Procedures</span><br/>
+      <span>If you choose to consent to use of this app, the data will be linked to your other study data through your participant ID, which was embedded in the unique URL you received to download this app. The only data that will be collected about you is data you enter into the app, such as ratings of venues, or addition of venues not already in the app. This ratings information will be connected to your study data, so we can see whether positive COVID-19 test results are associated with certain specific venues, types of venues, or frequency of visits to locations with low ratings for COVID-19 prevention strategies.</span><br/>
+      <span>You are free to delete the app at any point as is normal per the operating system of your phone, and end data collection. At the end of the study, you will receive a notification informing you that you can remove the app from your phone, and data related to your use of the app will no longer be shared with the study, although it will continue to be shared with app developer Bitmark, if you do not choose to delete the app and instead continue to use it.</span><br/>
+      <span>If you choose not to consent to use of this app, you can delete it, but even if you do not delete it, no information will be collected about you and shared with either our study or with Bitmark, and the app will not function.</span>
+    </p>
+    <p class="p-b-20">
+      <span class="direction-color font-weight-600">Study Time</span><br/>
+      <span>It will take you around 5 minutes to download and set up the app. Once it is set up you are not required to spend any more time with the app; however, you may find it interesting or useful and therefore you may choose to use the app frequently. The time spent on the app will be up to you and could range widely.</span>
+    </p>
+    <p class="p-b-20">
+      <span class="direction-color font-weight-600">Study Location</span><br/>
+      <span>All data about your ratings will be transmitted automatically from your phone, regardless of your location.</span>
+    </p>
+    <p class="p-b-20">
+      <span class="direction-color font-weight-600">Benefits</span><br/>
+      <span>There will be no direct benefit to you from participating in this optional component of the study.</span>
+    </p>
+    <div class="p-b-20">
+      <span class="direction-color font-weight-600">Risks/Discomforts</span><br/>
+      <span>There are some risks/discomforts associated with participating in this component of the study:</span>
+      <ul>
+        <li>Depending on your data plan, you could potentially incur additional charges for data transmission. We expect the absolute maximum amount of data to be used while in the study is 1GB, likely much less.</li>
+      </ul>
+    </div>
+    <span class="direction-color font-weight-600">Confidentiality</span><br/>
+    <span>As with all research, there is a chance that confidentiality could be compromised; however, we are taking precautions to minimize this risk. Your study data will be handled as confidentially as possible. Although every reasonable effort has been taken, confidentiality during actual Internet communications procedures cannot be guaranteed. To minimize the risks to confidentiality, we will do the following:</span>
+    <ul>
+      <li>Data collected via this app will not include your name or any other identifiable information. All your information will instead be identified with a random code. A key linking your name and contact information to this random code will be stored indefinitely on a separate, secure digital platform that is approved to store sensitive information. This key will only be accessible to selected study personnel.</li>
+      <li>
+        Your personal information may be released if required by law. Authorized representatives from the following organizations may review your research data for purposes such as monitoring or managing the conduct of this study:
+        <ul>
+          <li>University of California</li>
+        </ul>
+      </li>
+    </ul>
+    <p class="p-b-20 p-t-20">
+      <span class="font-weight-600">Retaining research records:</span>
+      <span>As with the rest of your study data, when the research is completed, we will save your app data for possible use in future research done by our study team and others. We will retain this study data indefinitely; however, it will never be linked back to you individually without you providing additional consent for future research. The information collected within this app could be used for future research studies or distributed to other investigators for future research studies without additional informed consent from the subject or the legally authorized representative.</span>
+    </p>
+    <p class="p-b-20">
+      <span class="direction-color font-weight-600">Alternatives</span><br/>
+      <span>You may choose not to opt in to this optional component of the study, at no detriment to you.</span>
+    </p>
+    <p class="p-b-20">
+      <span class="direction-color font-weight-600">Compensation/Payment</span><br/>
+      <span>You will not be compensated for your use of this app during the study.</span>
+    </p>
+    <p class="p-b-20">
+      <span class="direction-color font-weight-600">Costs of Study Participation</span><br/>
+      <span>The only potential costs of participation in this component of the study are additional data charges for data transmission, depending on your data plan. Again, we expect the absolute maximum amount of data to be transmitted per month for this app will be 1GB, only while you are actively participating in the study.</span>
+    </p>
+    <p class="p-b-20">
+      <span class="direction-color font-weight-600">Rights</span><br/>
+      <span>Participation in research is completely voluntary. You have the right to decline to participate or to withdraw at any point in this component of the study without penalty or loss of benefits to which you are otherwise entitled. If you withdraw from this part of the research, the data collected about you up to the point of withdrawal will remain part of the study.</span>
+    </p>
+    <p class="p-b-20">
+      <span class="direction-color font-weight-600">Questions</span><br/>
+      <span>If you have any questions or concerns about this study, you may contact Laura Packel at <a class="link-link" href="tel:+(650) 242-5916" target="_blank">(650) 242-5916</a> or <a class="link-link" href="https://safecampus@berkeley.edu" target="_blank">safecampus@berkeley.edu</a>. If you have any questions or concerns about your rights and treatment as a research subject, you may contact the office of UC Berkeley's Committee for Protection of Human Subjects, at <a class="link-link" href="tel:+(510) 642-7461" target="_blank">(510) 642-7461</a> or <a class="link-link" href="https://subjects@berkeley.edu" target="_blank">subjects@berkeley.edu</a>.</span>
+    </p>
+    <p class="p-b-30">
+      <span class="direction-color font-weight-600">Consent</span><br/>
+      <span>Please indicate whether you consent to participate in the study by pressing the appropriate button(s) below.</span>
+    </p>
   </mat-card>
-  <div class="onboarding-content">
-    <mat-card class="no-top center-direction">
-      <div class="onboarding-words direction-color">
-        <p>Get community insights without exposing your personal data.</p>
+  <mat-card>
+    <div (click)="signupAndDownload()" class="col content-left p-b-10 clickable">
+      <div class="gap-right-5"><img src="/assets/img/arrow.svg" alt=""></div>
+      <div class="col">
+        <p class="font-18 line-height-120 direction-color font-weight-600 p-b-10">Yes, I agree to participate and want to download a copy of this consent form.</p>
+        <div class="light-line"><hr></div>
       </div>
-    </mat-card>
-    <mat-card class="content-center no-bottom">
-      <div class="dots">
-        <div class="dot"></div>
-        <div class="dot"></div>
-        <div class="dot viewable"></div>
+    </div>
+    <div (click)="signup()" class="col content-left p-b-10 clickable">
+      <div class="gap-right-5"><img src="/assets/img/arrow.svg" alt=""></div>
+      <div class="col">
+        <p class="font-18 line-height-120 direction-color font-weight-600 p-b-10">Yes, I agree to participate in the use of this app during this study.</p>
+        <div class="light-line"><hr></div>
       </div>
-    </mat-card>
-    <mat-card class="no-top no-bottom">
-      <div class="img-groups">
-        <img class="device" src="/assets/img/device.svg" alt="">
-        <div class="intro intro3">
-          <p class="p-b-30 sub-direction-color">1,234 people from Berkeley have checked in this week.</p>
-          <img src="/assets/img/intro3.svg" alt="">
-        </div>
+    </div>
+    <div [routerLink]="['/landing/p']" [queryParams]="{pid: pID}" class="col content-left p-b-10 clickable">
+      <div class="gap-right-5"><img src="/assets/img/arrow.svg" alt=""></div>
+      <div class="col">
+        <p class="font-18 line-height-120 direction-color font-weight-600 p-b-10">No, I do not agree to participate in this study.</p>
+        <div class="light-line"><hr></div>
       </div>
-    </mat-card>
-  </div>
-  <div class="footer-btn">
-    <a class="next" (click)="signup()">
-      <span class="gap-right-15">Next</span><img src="/assets/img/next-icon.svg" alt="">
-    </a>
-  </div>
+    </div>
+  </mat-card>
 </div>

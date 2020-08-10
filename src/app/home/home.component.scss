@@ -1,5 +1,7 @@
-.fullscreen {
-  .home-tabs {
-    display: none;
-  }
+:host ::ng-deep .mat-tab-body.mat-tab-body-active {
+  overflow-x: auto;
+}
+
+:host ::ng-deep .mat-tab-body-content {
+  height: 100vh;
 }

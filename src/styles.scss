@@ -43,10 +43,8 @@ html {
 
 body {
   color: $base-color;
-  background-color: $base-background;
+  background: $base-background;
   max-width: $max-width;
-  // display: flex;
-  // justify-content: center;
   margin: 0 auto;
 }
 
@@ -115,6 +113,10 @@ textarea {
   }
 }
 
+.base-background {
+  background: $base-background !important;
+}
+
 .sans-text {
   font-family: 'Domaine Sans Text';
 }
@@ -162,6 +164,7 @@ textarea {
 
 .main-content {
   padding-bottom: 70px;
+  min-height: 100vh;
 }
 
 .default-color {
@@ -223,6 +226,9 @@ textarea {
 .header-page-title {
   width: 100%;
   border-left: 5px solid $direction-color;
+  .line-title {
+    width: 5px;
+  }
   .page-title {
     font-size: 30px;
     line-height: 120%;
@@ -426,6 +432,45 @@ textarea {
   }
 }
 
+.fullscreen {
+  .mat-tab-header {
+    display: none !important;
+  }
+}
+
+.mat-tab-header {
+  position: fixed !important;
+  bottom: 0;
+  z-index: 999;
+  text-align: center;
+  width: 100%;
+  max-width: 768px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  background: #EEEEEE;
+  border-top: 1px solid #EDEDED !important;
+}
+
+.mat-tab-header-pagination-controls-enabled .mat-tab-header-pagination {
+  display: none !important;
+}
+
+.mat-tab-label {
+  font-family: 'Domaine Sans Text';
+  font-weight: 300;
+  font-size: 14px;
+  line-height: 100%;
+  color: #003262;
+  height: 60px !important;
+  text-transform: uppercase;
+  padding: 0 6vw !important;
+}
+
+.mat-ink-bar {
+  background-color: $direction-color !important;
+}
+
 .footer {
   position: fixed;
   bottom: 0;
@@ -456,6 +501,11 @@ textarea {
       width: 45px;
       height: 45px;
     }
+  }
+
+  .dark-btn {
+    background: $direction-color !important;
+    color: $base-background !important;
   }
 }
 
@@ -694,6 +744,10 @@ textarea {
 
 .font-36 {
   font-size: 36px;
+}
+
+.font-weight-600 {
+  font-weight: 600;
 }
 
 .gap-right-5 {

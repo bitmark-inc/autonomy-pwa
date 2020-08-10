@@ -1,5 +1,6 @@
 declare var window: any;
 
+import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { MatBottomSheet, MatBottomSheetRef } from '@angular/material/bottom-sheet';
@@ -22,7 +23,7 @@ export class PersonalDataComponent implements OnInit {
   public stage: EnumPageStage = EnumPageStage.PDE;
   public clickable: boolean = true;
 
-  constructor(private router: Router, private bottomSheetRef: MatBottomSheetRef, private bottomSheet: MatBottomSheet, private apiService: ApiService, private userService: UserService) {
+  constructor(private router: Router, private bottomSheetRef: MatBottomSheetRef, private bottomSheet: MatBottomSheet, private apiService: ApiService, private userService: UserService, private location: Location) {
     this.setStageByUrl(this.router.url);
   }
 
@@ -30,13 +31,13 @@ export class PersonalDataComponent implements OnInit {
 
   private setStageByUrl(url: string = '') {
     switch (url) {
-      case '/pde/save':
+      case '/home/setting/pde/save':
         this.stage = this.PageStage.Save;
         break;
-      case '/pde/read':
+      case '/home/setting/pde/read':
         this.stage = this.PageStage.Read;
         break;
-      case '/pde/delete':
+      case '/home/setting/pde/delete':
         this.stage = this.PageStage.Delete;
         break;
       default:
@@ -111,7 +112,7 @@ export class PersonalDataComponent implements OnInit {
               setTimeout(() => {
                 this.bottomSheetRef.afterDismissed().subscribe(() => {
                   this.clickable = true;
-                  this.router.navigate(['/landing']);
+                  this.router.navigate(['/landing/p']);
                 });
                 this.bottomSheetRef.dismiss();
               }, 3 * 1000);
@@ -120,5 +121,9 @@ export class PersonalDataComponent implements OnInit {
         this.clickable = true;
       }
     }
+  }
+
+  public back(): void {
+    this.location.back();
   }
 }

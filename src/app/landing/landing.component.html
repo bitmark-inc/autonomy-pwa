@@ -1,21 +1,200 @@
-<div class="content">
-  <div class="landing-content p-t-45">
-    <mat-card class="landing-words direction-color no-top">
+<div [hidden]="stage != PageStage.Landing" class="content landing-browser">
+  <div class="landing-content p-t-20">
+    <p class="app-name">autonomy</p>
+    <mat-card class="landing-words no-top">
       <p>Get better.</p>
       <p>Together.</p>
     </mat-card>
     <mat-card class="logo no-top">
       <div class="imgs">
-        <div class="autonomy-logo" [ngClass]="[ isStandalone() ? 'height-80' : 'height-67' ]"><img src="/assets/img/Polygon.svg" alt=""></div>
-        <div class="ucl-logo"><img src="/assets/img/UCBerkeley_wordmark_blue_1.svg" alt=""></div>
+        <div class="autonomy-logo"><img src="/assets/img/heart.svg" alt=""></div>
+        <div class="ucl-logo"><img src="/assets/img/UCBerkeley_wordmark_white.svg" alt=""></div>
       </div>
     </mat-card>
   </div>
-  <div class="footer landing-footer">
+  <div class="landing-footer">
     <div class="start-landing p-b-10">
-      <a [routerLink]="['/signup']"><span class="command direction-color">Start</span><img src="/assets/img/next-icon.svg" alt=""></a>
+      <a class="clickable" (click)="setStage(PageStage.Intro01)"><span class="command direction-color">start</span><img
+          src="/assets/img/next-icon.svg" alt=""></a>
     </div>
-    <p>Or <a [routerLink]="['/signin']">sign back in »</a></p>
-    <p><a href="https://bitmark.com/privacy">We protect your rights.</a></p>
+    <p><a class="normal-link" href="https://bitmark.com/privacy">We protect your rights.</a></p>
   </div>
+</div>
+<div class="content" [hidden]="stage != PageStage.Intro01">
+  <mat-card class="header-btn" layout="fill">
+    <a (click)="setStage(PageStage.Landing)" class="back upcase">
+      <img class="gap-right-5" src="/assets/img/back-small.svg" alt="back-arrow">
+      <span>back</span>
+    </a>
+  </mat-card>
+  <div class="onboarding-content">
+    <mat-card class="no-top center-direction">
+      <div class="onboarding-words direction-color">
+        <p>Navigate the Berkeley community during COVID-19.</p>
+      </div>
+    </mat-card>
+    <mat-card class="content-center no-bottom">
+      <div class="dots">
+        <div class="dot" style="background: #00B0DA;"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+      </div>
+    </mat-card>
+    <mat-card class="no-top no-bottom">
+      <div class="img-groups">
+        <img class="device" src="/assets/img/device.svg" alt="">
+        <div class="intro">
+          <img class="intro-a" src="/assets/img/intro1.png" alt="">
+        </div>
+      </div>
+    </mat-card>
+  </div>
+  <div class="footer-btn">
+    <a style="color: #ffffff; background: #00B0DA;" class="next" (click)="setStage(PageStage.Intro02)">
+      <span class="gap-right-15">Next</span><img src="/assets/img/next-landing.svg" alt="">
+    </a>
+  </div>
+</div>
+<div class="content" [hidden]="stage != PageStage.Intro02">
+  <mat-card class="header-btn" layout="fill">
+    <a (click)="setStage(PageStage.Intro01)" class="back upcase">
+      <img class="gap-right-5" src="/assets/img/back-small.svg" alt="back-arrow">
+      <span>back</span>
+    </a>
+  </mat-card>
+  <div class="onboarding-content">
+    <mat-card class="no-top center-direction">
+      <div class="onboarding-words direction-color">
+        <div>
+          <p>Help one another identify safe resources in and around campus.</p>
+        </div>
+      </div>
+    </mat-card>
+    <mat-card class="content-center no-bottom">
+      <div class="dots">
+        <div class="dot"></div>
+        <div class="dot" style="background: #FDB515;"></div>
+        <div class="dot"></div>
+      </div>
+    </mat-card>
+    <mat-card class="no-top no-bottom">
+      <div class="img-groups">
+        <img class="device" src="/assets/img/device.svg" alt="">
+        <img class="intro intro2" src="/assets/img/intro2.svg" alt="">
+      </div>
+    </mat-card>
+  </div>
+  <div class="footer-btn">
+    <a style="color: #ffffff; background: #FDB515;" class="next" (click)="setStage(PageStage.Intro03)">
+      <span class="gap-right-15">Next</span><img src="/assets/img/next-landing.svg" alt="">
+    </a>
+  </div>
+</div>
+<div class="content" [hidden]="stage != PageStage.Intro03">
+  <mat-card class="header-btn" layout="fill">
+    <a (click)="setStage(PageStage.Intro02)" class="back upcase">
+      <img class="gap-right-5" src="/assets/img/back-small.svg" alt="back-arrow">
+      <span>back</span>
+    </a>
+  </mat-card>
+  <div class="onboarding-content">
+    <mat-card class="no-top center-direction">
+      <div class="onboarding-words direction-color">
+        <p>Get community insights without exposing your personal data.</p>
+      </div>
+    </mat-card>
+    <mat-card class="content-center no-bottom">
+      <div class="dots">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot" style="background: #EE1F60;"></div>
+      </div>
+    </mat-card>
+    <mat-card class="no-top no-bottom">
+      <div class="img-groups">
+        <img class="device" src="/assets/img/device.svg" alt="">
+        <div class="intro intro3">
+          <p class="p-b-30 sub-direction-color">1,234 people from Berkeley have checked in this week.</p>
+          <img src="/assets/img/intro3.svg" alt="">
+        </div>
+      </div>
+    </mat-card>
+  </div>
+  <div class="footer-btn">
+    <a style="color: #ffffff; background: #EE1F60;" class="next" (click)="setStage(PageStage.OnInstall)">
+      <span class="gap-right-15">install</span><img src="/assets/img/done.svg" alt="">
+    </a>
+  </div>
+</div>
+<div [ngStyle]="{'height': viewHeight}" class="content-fixed" [hidden]="stage != PageStage.OnInstall">
+  <mat-card class="header-btn" layout="fill">
+    <a (click)="setStage(PageStage.Intro03)" class="back upcase">
+      <img class="gap-right-5" src="/assets/img/back-small.svg" alt="back-arrow">
+      <span>back</span>
+    </a>
+  </mat-card>
+  <div class="header-page-title direction-color">
+    <span class="page-title">Install Autonomy</span>
+  </div>
+  <mat-card *ngIf="isMobileExceptIOS" style="font-size: 2.3vh; margin-top: 3vh;" class="no-top no-bottom">
+    <p class="p-b-10"><span class="highlight-words">Autonomy is a new kind of app </span>(a progressive web app) that combines the lightness and efficiency of a website with the convenience and security of a mobile app.</p>
+    <p>To install Autonomy on your home screen, just tap the button below. Next, just tap the Autonomy icon on your home screen like a regular app.</p>
+    <div class="install-imgs">
+      <img class="device" src="/assets/img/device.svg" alt="">
+      <div class="desciption">
+        <img class="app-icon" src="/assets/img/autonomy-app-icon.svg" alt="">
+        <div class="draft-btn-banner">
+          <button [hidden]="!isShowAddBtn" #addBtn (click)="addToHomeScreen()" class="draft-btn horizal-btn"><span class="upcase gap-right-10">install</span><img src="/assets/img/done.svg" alt=""></button>
+        </div>
+      </div>
+    </div>
+  </mat-card>
+  <mat-card *ngIf="isIOSSafari" style="font-size: 2.3vh; margin-top: 3vh;" class="no-top no-bottom">
+    <p class="p-b-10"><span class="highlight-words">Autonomy is a new kind of app </span>(a progressive web app) that combines the lightness and efficiency of a website with the convenience and security of a mobile app.</p>
+    <p>
+      <span>To install Autonomy:</span><br/>
+      <span>1. Tap the share button <img style="max-width: 2.3vh;" src="/assets/img/ios-share.svg" alt=""> below in Safari.</span><br/>
+      <span>2. Then tap “Add to Home Screen.”</span><br/>
+      <span>3. To use Autonomy, just tap the icon on your home screen like a regular app.</span>
+    </p>
+    <div class="install-imgs">
+      <img class="device" src="/assets/img/device.svg" alt="">
+      <div class="desciption">
+        <img class="app-icon" src="/assets/img/autonomy-app-icon.svg" alt="">
+        <div class="draft-btn-banner">
+          <div class="draft-btn vertical-btn"><p class="upcase p-b-5">tap</p><img src="/assets/img/done.svg" alt=""></div>
+        </div>
+      </div>
+    </div>
+  </mat-card>
+  <mat-card *ngIf="isIOSOther" style="font-size: 2.3vh; margin-top: 3vh;" class="no-top no-bottom">
+    <p class="p-b-10"><span class="highlight-words">Autonomy is a new kind of app </span>(a progressive web app) that combines the lightness and efficiency of a website with the convenience and security of a mobile app.</p>
+    <p>Currently, iOS only supports web app installation using Safari. To continue installation, tap below to copy the URL then paste it into Safari:</p>
+    <p #appUrl class="pwa-url direction-color">{{webappUrl}}></p>
+    <div class="content-center">
+      <img (click)="copy()" class="clickable" style="height: 8vh; max-height: 45px;" src="/assets/img/done-blue.svg" alt="">
+    </div>
+    <div class="install-imgs">
+      <img class="device" src="/assets/img/device.svg" alt="">
+      <div class="desciption">
+        <img class="app-icon" src="/assets/img/iOS-7-Safari-app-icon.png" alt="">
+        <p [hidden]="copyStage != CopyStage.Copied" class="copied">URL copied</p>
+      </div>
+    </div>
+  </mat-card>
+  <mat-card *ngIf="isDesktop" style="font-size: 2.3vh; margin-top: 3vh;" class="no-top no-bottom">
+    <p class="p-b-10"><span class="highlight-words">Autonomy is a new kind of app </span>(a progressive web app) that combines the lightness and efficiency of a website with the convenience and security of a mobile app.</p>
+    <p>Autonomy is currently only supported on mobile devices. To install it, tap below to copy the URL then paste it into your mobile browser:</p>
+    <p #appUrl class="pwa-url direction-color">{{webappUrl}}</p>
+    <div class="content-center">
+      <img (click)="copy()" class="clickable" style="height: 8vh; max-height: 45px;" src="/assets/img/done-blue.svg" alt="">
+    </div>
+    <div class="install-imgs">
+      <img class="device" src="/assets/img/device.svg" alt="">
+      <div class="desciption">
+        <img class="app-icon" src="/assets/img/autonomy-app-icon.svg" alt="">
+        <p [hidden]="copyStage != CopyStage.Copied" class="copied">URL copied</p>
+      </div>
+    </div>
+  </mat-card>
 </div>

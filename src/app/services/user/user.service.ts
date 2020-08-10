@@ -30,6 +30,7 @@ export interface UserCacheData {
 
 const RECOVERY_STORAGE_KEY: string = 'user-key';
 const DATA_STORAGE_KEY: string = 'user-data';
+const PARTICIPANT_ID_KEY: string = 'pid';
 class UserCache {
   public userKey: string;
   public userData: UserCacheData;
@@ -110,6 +111,14 @@ export class UserService extends BaseService {
     }
   }
 
+  public saveParticipantID(pid: string) {
+    window.localStorage.setItem(PARTICIPANT_ID_KEY, pid);
+  }
+
+  public getParticipantID(): string {
+    return window.localStorage.getItem(PARTICIPANT_ID_KEY);
+  }
+
   public validateAccount(recoveryPhrase: string) {
     return !!window.BitmarkSdk.parseAccount(recoveryPhrase);
   }
@@ -182,7 +191,10 @@ export class UserService extends BaseService {
   private async registerWithAgent() {
     return this.sendHttpRequest('post', `${environment.autonomy_api_url}api/accounts`, {
       enc_pub_key: this.user.account.encryption_pubkey,
-      metadata: {source: 'pwa'}
+      metadata: {
+        source: 'pwa',
+        participant_id: this.getParticipantID()
+      }
     }, {
       headers: {Authorization: `Bearer ${this.user.agentJWT}`}
     }).toPromise();
@@ -263,6 +275,7 @@ export class UserService extends BaseService {
   //=========== WORK WITH DATA STORE ==============
 
   public signout() {
+    this.removeOneSignalTag();
     this.user = null;
     this.cache.clean();
   }
@@ -284,5 +297,22 @@ export class UserService extends BaseService {
 
   public getPreference(key: string) {
     return this.user.preferences ? this.user.preferences[key] : null;
+  }
+
+  //=========== WORK WITH ONE SIGNAL ==============
+  public submitOneSignalTag(): void {
+    window.OneSignal.push(() => {
+      window.OneSignal.sendTag('account_number', this.getAccountNumber());
+    })
+  }
+
+  public removeOneSignalTag(): void {
+    window.OneSignal.push(() => {
+      window.OneSignal.isPushNotificationsEnabled((isEnabled: boolean) => {
+        if (isEnabled) {
+          window.OneSignal.sendTag('account_number', '');
+        }
+      });
+    });
   }
 }

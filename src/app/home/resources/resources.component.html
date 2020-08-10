@@ -26,14 +26,11 @@
         [title]="poi.alias"
         [options]="{
           icon: {
-            path: mapIconSVGPath,
-            strokeColor: poi.color,
-            fillColor: poi.color,
-            fillOpacity: 1,
+            url: poi.mapIconUrl,
             labelOrigin: labelPosition,
-            scale: (focusedPOI && poi.id == focusedPOI.id) ? 1.5 : 1
+            scaledSize: (focusedPOI && poi.id == focusedPOI.id) ? mapIconSizeFocus : mapIconSize
           },
-          zIndex: (focusedPOI && poi.id == focusedPOI.id) ? 9999 : 9,
+          zIndex: (focusedPOI && poi.id == focusedPOI.id) ? 9999 : 99,
           label: (focusedPOI && poi.id === focusedPOI.id) ? {text: poi.alias, color: '#303030', fontFamily: 'Atlas Grotesk', fontWeight: '600'} : (labelShown && !(focusedPOI)) ? {text: poi.alias, color: '#303030', fontFamily: 'Atlas Grotesk', fontWeight: '300'} : ''}"
         (mapClick)="focusToPlace(poi)"
       >
@@ -41,9 +38,9 @@
     </google-map>
   </div>
 
-  <div [ngClass]="{'list-not-standalone': !isStandalone()}" class="result-place-list">
-    <div class="line-icon"><span (click)="isViewListShow = !isViewListShow"></span></div>
-    <div [hidden]="(focusState || !isViewListShow || (isViewListShow && isSearching))" class="p-t-10" *ngIf="pois && pois.length">
+  <div [ngClass]="{'list-not-standalone': !isStandalone(), 'shown-list': !(focusState || !isViewListShow || (isViewListShow && isSearching))}" class="result-place-list hidden-list">
+    <div class="line-icon"><span (click)="pullListView()"></span></div>
+    <div class="p-t-10" *ngIf="pois && pois.length">
       <div *ngFor="let poi of pois; trackBy: trackByPoiID">
         <mat-card (click)="focusToPlace(poi)" class="hovering clickable no-bottom col content-left" [ngClass]="{'grey-text-color': !poi.resource_score}">
           <div class="col-30">
@@ -93,8 +90,4 @@
       </div>
     </mat-card>
   </div>
-
-  <!-- <mat-card class="non-places-found" *ngIf="!isSearching && poiType && pois && !pois.length">
-    <p>Sorry, there aren’t currently any places in our system offering that resource. Be the first to add it for places you know!</p>
-  </mat-card> -->
 </div>

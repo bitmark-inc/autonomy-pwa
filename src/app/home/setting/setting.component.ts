@@ -14,15 +14,9 @@ import { Router } from '@angular/router';
 export class SettingComponent implements OnInit {
   public appVersion: string = environment.version;
 
-  constructor(private location: Location, public router: Router, private userService: UserService) { }
+  constructor(private location: Location, public router: Router, private userService: UserService) {}
 
   ngOnInit() {}
-
-  public signout() {
-    console.log('signing out triggered');
-    this.userService.signout();
-    this.router.navigate(['/landing']);
-  }
 
   public back(): void {
     this.location.back();
@@ -32,7 +26,7 @@ export class SettingComponent implements OnInit {
     let hash = window.sha3_256(this.userService.getAccountNumber());
     let icUserID = `Autonomy_pwa_${hash}`;
     window.Intercom('boot', {
-      app_id: window.App.config.IntercomAppID,
+      app_id: window.intercomSettings.app_id,
       user_id: icUserID,
       hide_default_launcher: true
     });

@@ -1,3 +1,14 @@
+.add-button {
+  height: 20px;
+  width: max-content;
+}
+
+.content-fixed {
+  position: fixed;
+  width: 100%;
+  max-width: 768px;
+}
+
 .content {
   text-align: center;
   position: fixed;
@@ -5,108 +16,262 @@
   width: 100%;
   max-width: 768px;
 
+  .onboarding-content {
+    height: calc(100vh -70px - 56px);
+    position: relative;
+
+    .onboarding-words {
+      height: calc(((100vh - 70px - 56px) / 100 * 35) - 16px);
+      font-size: 5.2vh;
+      font-weight: 300;
+      line-height: 120%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .dots {
+      display: flex;
+      justify-content: space-between;
+      width: 75px;
+      .dot {
+        width: 15px;
+        height: 15px;
+        border-radius: 50%;
+        background: #EEEEEE;
+      }
+    }
+
+    .img-groups{
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      .device {
+        padding-top: 5vh;
+        width: 115%;
+      }
+
+        .intro {
+          width: 83%;
+          position: absolute;
+          top: 25%;
+          left: 50%;
+          transform: translateX(-50%);
+          // object-fit: scale-down;
+
+          .intro-a {
+            width: 100%;
+            padding-bottom: 15px;
+          }
+          .intro-b {
+            width: 100%;
+            padding-bottom: 15px;
+          }
+        }
+
+        .intro2 {
+          width: 85%;
+        }
+
+        .intro3 {
+          img {
+            width: 100%;
+          }
+        }
+    }
+  }
+}
+
+.landing-browser {
+  background-image: url('./../../assets/img/landing_background.svg');
+
   .landing-content {
     position: relative;
-    height: calc(100vh - 140px - 56px);
+    height: calc(100vh - 110px - 30px);
+    color: #ffffff;
+    text-shadow: 5px 5px 4px rgba(0, 0, 0, 0.4);
+
+    .app-name {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-transform: uppercase;
+      font-size: 3.2vh;
+      padding-bottom: 2px;
+    }
 
     .landing-words {
-      font-size: 8vh;
+      font-size: 7.3vh;
       font-weight: 300;
       line-height: 120%;
     }
 
     .logo {
-      height: calc(((100vh - 140px - 56px) / 100 * 52));
+      height: calc(((100vh - 110px - 30px) / 100 * 52));
       display: flex;
       justify-content: center;
       align-items: center;
       margin-bottom: 10px;
       .imgs {
-        height: calc(((100vh - 140px - 56px) / 100 * 50));;
+        height: calc(((100vh - 110px - 30px) / 100 * 50));;
         width: 100%;
         display: block;
         .autonomy-logo {
           width: 100%;
-          height: 70%;
+          height: 80%;
           img {
             width: 100%;
-            height: 120%;
-            object-fit: scale-down;
+            height: 100%;
+            // object-fit: scale-down;
           }
         }
         .ucl-logo {
           width: 100%;
-          height: 27%;
+          height: 29%;
           img {
-            // width: 100%;
+            width: 100%;
             height: 100%;
             object-fit: scale-down;
           }
         }
-
-        .height-67 {
-          height: 67%;
-        }
-
-        .height-80 {
-          height: 80%;
-        }
       }
     }
   }
 
-}
+  .landing-footer {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    color: #ffffff;
+    background-color: unset;
+    width: 100%;
+    height: 110px;
 
-.landing-footer {
-  position: fixed;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  text-align: center;
-  color: #888888;
-  background-color: #ffffff;
-  width: 100%;
-  height: 140px;
-
-  .start-landing {
-    font-family: 'Domaine Sans Text';
-    font-weight: 300;
-    font-size: 24px;
-    line-height: 100%;
-    text-transform: uppercase;
-    margin-top: 5px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    a {
+    .start-landing {
+      font-family: 'Domaine Sans Text';
+      font-weight: 300;
+      font-size: 24px;
+      line-height: 100%;
+      text-transform: uppercase;
+      margin-top: 5px;
       display: flex;
       align-items: center;
       justify-content: center;
-      text-decoration: none;
-      border-radius: 65px;
-      background: #EEEEEE;
-      padding: 8px 15px;
-      .command {
-        padding-right: 1rem;
+
+      a {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        border-radius: 65px;
+        background: #EEEEEE;
+        padding: 8px 15px;
+        .command {
+          padding-right: 1rem;
+        }
+        img {
+          width: 45px;
+          height: 45px;
+        }
       }
-      img {
-        width: 45px;
-        height: 45px;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: underline;
+    }
+
+    p {
+      font-size: 14px;
+      text-shadow: 4px 4px 4px rgba(0, 0, 0, 0.4);
+      padding-bottom: .5em;
+      &:nth-child(1) {
+        padding: .5em;
       }
     }
   }
+}
 
-  a {
-    color: inherit;
-    text-decoration: underline;
+.highlight-words {
+  background-color: #FDB515;
+}
+
+.pwa-url {
+  padding: 5px 16px;
+  border: 1px dashed #003262;
+  box-sizing: border-box;
+  margin: 20px 0;
+}
+
+.install-imgs {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .device {
+    padding-top: 1.5vh;
+    width: 115%;
   }
 
-  p {
-    font-size: 14px;
-    padding-bottom: .5em;
-    &:nth-child(1) {
-      padding: .5em;
+  .desciption {
+    position: absolute;
+    top: 17%;
+    // padding-top: 12vh;
+    height: 65vh;
+
+    .app-icon {
+      width: auto;
+      max-height: 10vh;
+      object-fit: scale-down;
+    }
+
+    .draft-btn-banner {
+      position: relative;
+      // height: 100%;
+
+      .draft-btn {
+        position: fixed;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        background: #EE1F60;
+        color: #ffffff;
+        border-radius: 65px;
+        font-size: 3vh;
+        text-align: center;
+        img {
+          height: 8vh;
+          max-height: 45px;
+        }
+      }
+      .vertical-btn {
+        padding: 2vh 1vh 0 1vh;
+        max-height: 18vh;
+      }
+      .horizal-btn {
+        padding: 1vh 2vh;
+        display: flex;
+        align-items: center;
+        bottom: 10px;
+      }
+    }
+
+    .copied {
+      position: fixed;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #00B0DA;
+      color: #ffffff;
+      text-align: center;
+      padding: 7px;
+      width: 75vw;
+      max-width: 615px;
     }
   }
 }
@@ -118,6 +283,12 @@
 
   .autonomy-logo {
     height: 95% !important;
+  }
+
+  .install-imgs {
+    .desciption {
+      top: 12%;
+    }
   }
 }
 

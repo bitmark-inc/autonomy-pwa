@@ -1,11 +1,14 @@
 declare var window: any;
 
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
 import { AppSettings } from "../../app-settings";
 import { ApiService } from 'src/app/services/api/api.service';
 import * as moment from 'moment';
 import * as d3 from 'd3'
 import { environment } from 'src/environments/environment';
+import { UserService } from 'src/app/services/user/user.service';
+
+enum NotificationPermissionState { None, Allowed, Denied, NotSupported, NoThanks };
 
 @Component({
   selector: "app-trend",
@@ -15,6 +18,7 @@ import { environment } from 'src/environments/environment';
 export class CommunityComponent implements OnInit {
   @ViewChild("chartEl") public chartEl: ElementRef;
 
+  public isdownloadIRB: boolean = false;
   public dataBySymptoms: any = [];
   public dataByDays: any = [];
   public listOfDays: string[];
@@ -27,7 +31,12 @@ export class CommunityComponent implements OnInit {
 
   public colorsInUse: string[] = [];
 
-  constructor(private apiService: ApiService) {
+  public NotificationPermissionState = NotificationPermissionState;
+  public notificationPermissionState: NotificationPermissionState;
+  public isNotificationPermissionActive: boolean = false;
+
+  constructor(private userService: UserService, private apiService: ApiService, private ref: ChangeDetectorRef) {
+    this.initOneSignal();
   }
 
   ngOnInit() {
@@ -221,4 +230,62 @@ export class CommunityComponent implements OnInit {
       d3.select(symptomData.chartControl).attr('fill', color);
     }
   }
+
+  // ======== WORK WITH ONESIGNAL
+  private initOneSignal() {
+    this.notificationPermissionState = this.userService.getPreference('notification-permission') || NotificationPermissionState.None;
+    console.log(this.notificationPermissionState);
+
+    if (this.notificationPermissionState != NotificationPermissionState.NoThanks) {
+      window.OneSignal.push(() => {
+        var isPushSupported = window.OneSignal.isPushNotificationsSupported();
+        console.log(`Push notification is ${isPushSupported ? '' : 'not '}supported`);
+  
+        if (!isPushSupported) {
+          this.notificationPermissionState = NotificationPermissionState.NotSupported;
+          return;
+        }
+        // getNotificationPermission from OneSignal has a bug that return `default` if users denied
+  
+        switch (Notification.permission) {
+          case 'default':
+            this.notificationPermissionState = NotificationPermissionState.None;
+            this.listenOnSubscriptionChange();
+            break;
+          case 'granted':
+            this.notificationPermissionState = NotificationPermissionState.Allowed;
+            break;
+          case 'denied':
+            this.notificationPermissionState = NotificationPermissionState.Denied;
+            break;  
+        }
+      });
+    }
+  }
+
+  public askForNotificationPermission() {
+    window.OneSignal.push(() => {
+      this.isNotificationPermissionActive = true;
+      window.OneSignal.showNativePrompt();
+    });
+  }
+
+  public listenOnSubscriptionChange(): void {
+    window.OneSignal.push(() => {
+      window.OneSignal.on('subscriptionChange', (isSubscribed: boolean) => {
+        console.log('Subscription changed: ', isSubscribed);
+        if (this.notificationPermissionState !== NotificationPermissionState.Allowed && isSubscribed) {
+          this.userService.submitOneSignalTag();
+        }
+        this.notificationPermissionState = isSubscribed ? NotificationPermissionState.Allowed : NotificationPermissionState.Denied;
+        this.ref.detectChanges();
+      });
+    });
+  }
+
+  public declinedNotificationPermission() {
+    this.notificationPermissionState = NotificationPermissionState.NoThanks;
+    this.userService.setPreference('notification-permission', this.notificationPermissionState);
+  }
+
 }

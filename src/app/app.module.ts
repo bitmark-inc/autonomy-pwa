@@ -14,6 +14,7 @@ import { MatRadioModule } from "@angular/material/radio";
 import { MatProgressBarModule } from "@angular/material/progress-bar";
 import { GoogleMapsModule } from '@angular/google-maps'
 import { TextFieldModule } from "@angular/cdk/text-field";
+import { MatTabsModule } from '@angular/material/tabs';
 
 import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule }    from '@angular/common/http';
@@ -21,7 +22,7 @@ import { HttpClientModule }    from '@angular/common/http';
 import { UserService } from './services/user/user.service';
 import { ApiService } from './services/api/api.service';
 import { EventEmitterService } from "./services/event-emitter.service";
-import { AuthGuard, GuestGuard } from './url-guard';
+import { AuthGuard, GuestGuard, ParticipantGuard } from './url-guard';
 
 import { AppComponent } from './app.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
@@ -45,6 +46,7 @@ import { BottomSheetAlertComponent } from "./bottom-sheet-alert/bottom-sheet-ale
 import { RelativeDatePipe } from './pipes/relative-date.pipe';
 import { PersonalDataComponent } from './personal-data/personal-data.component';
 import { CommunityDataComponent } from './community-data/community-data.component';
+import { NoContentComponent } from './no-content/no-content.component';
 
 declare var window: any;
 window.isProduction = environment.production;
@@ -70,13 +72,14 @@ window.isProduction = environment.production;
     RelativeDatePipe,
     PersonalDataComponent,
     CommunityDataComponent,
+    NoContentComponent,
   ],
   imports: [
     BrowserModule,
     HammerModule,
     AppRoutingModule,
     HttpClientModule,
-    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
+    ServiceWorkerModule.register('OneSignalSDKWorker.js', { enabled: environment.production }),
     BrowserAnimationsModule,
     FormsModule,
     MatToolbarModule,
@@ -90,6 +93,7 @@ window.isProduction = environment.production;
     MatBottomSheetModule,
     MatProgressBarModule,
     GoogleMapsModule,
+    MatTabsModule,
   ],
   providers: [
     UserService,
@@ -97,6 +101,7 @@ window.isProduction = environment.production;
     EventEmitterService,
     AuthGuard,
     GuestGuard,
+    ParticipantGuard,
     {provide: APP_INITIALIZER, useFactory: InitServices, deps: [UserService], multi: true},
     {provide: MatBottomSheetRef, useValue: {}}
   ],

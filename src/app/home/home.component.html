@@ -1,15 +1,17 @@
 <div [ngClass]="{'fullscreen': isFullscreen}">
-  <router-outlet></router-outlet>
-
-  <div class="home-tabs">
-    <a class="col upcase" [routerLink]="['./community']" routerLinkActive="active">
-      <p>trends</p>
-    </a>
-    <a class="col upcase" [routerLink]="['./resources']" routerLinkActive="active">
-      <p>Resources</p>
-    </a>
-    <a class="col upcase" [routerLink]="['./setting']" routerLinkActive="active">
-      <p>account</p>
-    </a>
-  </div>
+  <mat-tab-group headerPosition="below" mat-align-tabs="center" [selectedIndex]="tabActivated" (selectedIndexChange)="tabActiveChange($event)" animationDuration="200ms" [disablePagination]="true">
+    <mat-tab class="col upcase" label="Trends">
+      <app-trend></app-trend>
+    </mat-tab>
+    <mat-tab class="col upcase" label="Resources">
+      <ng-template matTabContent>
+        <app-resources></app-resources>
+      </ng-template>
+    </mat-tab>
+    <mat-tab class="col upcase" label="Account">
+      <ng-template matTabContent>
+        <app-setting></app-setting>
+      </ng-template>
+    </mat-tab>
+  </mat-tab-group>
 </div>

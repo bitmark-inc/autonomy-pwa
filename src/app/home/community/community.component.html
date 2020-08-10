@@ -1,47 +1,64 @@
 <div [hidden]="!(checkedInPerson && dataBySymptoms && dataBySymptoms.length)">
-<div class="header-page-title direction-color m-t-30 m-b-30">
-  <span class="big-words page-title">trends</span>
-</div>
-<mat-card class="main-direction sub-direction-color content-left no-top no-bottom">
-  <p class="p-b-10">Here’s how we stack up as a community.</p>
-</mat-card>
-<mat-card class="light-line"><hr></mat-card>
-<mat-card class="no-top font-24 line-height-120 content-center sub-direction-color">
-  <p class="text-start p-b-10"><strong class="direction-color">{{checkedInPerson | number}}</strong> people have checked in over the past 3 days.</p>
-</mat-card>
-<mat-card class="light-line"><hr></mat-card>
-<mat-card class="no-top no-bottom"><p class="font-24 direction-color">Symptoms</p></mat-card>
-<div class="chart" #chartEl></div>
-<mat-card>
-  <div #tableEl *ngIf="dataBySymptoms && dataBySymptoms.length">
-    <mat-table [dataSource]="dataBySymptoms" class="mat-elevation-z8">
-      <!-- chek Column -->
-      <ng-container matColumnDef="check">
-        <mat-cell class="row-items clickable" *matCellDef="let element" (click)="selectSymptom(element)">
-          <div class="checkRadio" [ngClass]="{ 'unCheckRadio': !element.chartShown }" [ngStyle]="{ 'background': element.chartColor }"></div>
-        </mat-cell>
-      </ng-container>
-
-      <!-- symptom Column -->
-      <ng-container matColumnDef="symptom">
-        <mat-cell class="row-items clickable" *matCellDef="let element" (click)="selectSymptom(element)">
-          {{element.name}}
-        </mat-cell>
-      </ng-container>
-
-      <!-- count Column -->
-      <ng-container matColumnDef="count">
-        <mat-cell class="row-items mono clickable" *matCellDef="let element" (click)="selectSymptom(element)">{{element.value}}</mat-cell>
-      </ng-container>
-
-      <!-- change Column -->
-      <ng-container matColumnDef="change">
-        <mat-cell class="row-items mono clickable" *matCellDef="let element" [innerHTML]="element.change_rate | symptomDelta" (click)="selectSymptom(element)"></mat-cell>
-      </ng-container>
-
-      <mat-row *matRowDef="let row; columns: ['check', 'symptom', 'count', 'change'];"></mat-row>
-    </mat-table>
+  <div class="header-page-title direction-color m-t-30 m-b-30">
+    <span class="big-words page-title">trends</span>
   </div>
-</mat-card>
-<div class="p-b-60"></div>
+  <mat-card *ngIf="(!isNotificationPermissionActive) && (notificationPermissionState === NotificationPermissionState.None)" class="no-top no-bottom">
+    <div class="notify-alert">
+      <p class="main-direction p-b-20">Find out when the latest trends drop</p>
+      <div class="light-line p-b-20"><hr></div>
+      <p (click)="askForNotificationPermission()" class="font-24 clickable" style="display: flex; justify-content: space-between;">
+        <span>Turn on notifications</span>
+        <img src="/assets/img/next-small-white.svg" alt="">
+      </p>
+    </div>
+    <div class="content-center font-14 p-t-10 p-b-5"><a (click)="declinedNotificationPermission()" style="color: #00B0DA;" class="normal-link clickable">No thanks</a></div>
+    <div class="p-t-10 p-b-20"><hr style="background-color: #888888;"></div>
+  </mat-card>
+  <mat-card class="main-direction sub-direction-color content-left no-top no-bottom">
+    <p class="p-b-10">Here’s how we stack up as a community.</p>
+  </mat-card>
+  <mat-card class="light-line"><hr></mat-card>
+  <mat-card class="no-top font-24 line-height-120 content-center sub-direction-color">
+    <p class="text-start p-b-10"><strong class="direction-color">{{checkedInPerson | number}}</strong> people have checked in over the past 3 days.</p>
+  </mat-card>
+  <mat-card class="light-line"><hr></mat-card>
+  <mat-card class="no-top no-bottom"><p class="font-24 direction-color">Symptoms</p></mat-card>
+  <div class="chart" #chartEl></div>
+  <mat-card>
+    <div #tableEl *ngIf="dataBySymptoms && dataBySymptoms.length">
+      <mat-table [dataSource]="dataBySymptoms" class="mat-elevation-z8">
+        <!-- chek Column -->
+        <ng-container matColumnDef="check">
+          <mat-header-cell class="small-title" *matHeaderCellDef></mat-header-cell>
+          <mat-cell class="row-items clickable" *matCellDef="let element" (click)="selectSymptom(element)">
+            <div class="checkRadio" [ngClass]="{ 'unCheckRadio': !element.chartShown }" [ngStyle]="{ 'background': element.chartColor }"></div>
+          </mat-cell>
+        </ng-container>
+
+        <!-- symptom Column -->
+        <ng-container matColumnDef="symptom">
+          <mat-header-cell class="small-title" *matHeaderCellDef> symptom </mat-header-cell>
+          <mat-cell class="row-items clickable" *matCellDef="let element" (click)="selectSymptom(element)">
+            {{element.name}}
+          </mat-cell>
+        </ng-container>
+
+        <!-- count Column -->
+        <ng-container matColumnDef="count">
+          <mat-header-cell class="small-title" *matHeaderCellDef> count </mat-header-cell>
+          <mat-cell class="row-items mono clickable" *matCellDef="let element" (click)="selectSymptom(element)">{{element.value}}</mat-cell>
+        </ng-container>
+
+        <!-- change Column -->
+        <ng-container matColumnDef="change">
+          <mat-header-cell class="small-title" *matHeaderCellDef> change </mat-header-cell>
+          <mat-cell class="row-items mono clickable" *matCellDef="let element" [innerHTML]="element.change_rate | symptomDelta" (click)="selectSymptom(element)"></mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="['check', 'symptom', 'count', 'change']"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: ['check', 'symptom', 'count', 'change'];"></mat-row>
+      </mat-table>
+    </div>
+  </mat-card>
+  <div class="p-b-60"></div>
 </div>
