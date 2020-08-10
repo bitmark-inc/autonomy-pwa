@@ -31,7 +31,6 @@ class GuestGuard implements CanActivate {
   }
 
   public canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    console.log(route.routeConfig.path);
     if (!this.isPWA) {
       if (route.routeConfig.path === '' || route.routeConfig.path === '/') {
         let pid = route.queryParams['pid'] || this.userService.getParticipantID();
@@ -42,7 +41,6 @@ class GuestGuard implements CanActivate {
       return true;
     }
     if (this.isPWA && !this.userService.getUser()) {
-      console.log(route.routeConfig.path);
       if (route.routeConfig.path === 'landing/b') {
         let pid = route.queryParams['pid'] || this.userService.getParticipantID();
         this.router.navigate(['/landing/p'], { queryParams: {'pid': pid} });
@@ -63,7 +61,6 @@ class ParticipantGuard implements CanActivate {
       return true;
     }
     this.router.navigate(['/404']);
-    return false;
   }
 }
 
