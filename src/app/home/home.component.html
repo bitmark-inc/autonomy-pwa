@@ -1,5 +1,5 @@
 <div [ngClass]="{'fullscreen': isFullscreen}">
-  <mat-tab-group headerPosition="below" mat-align-tabs="center" [selectedIndex]="tabActivated" (selectedIndexChange)="tabActiveChange($event)" animationDuration="300ms" [disablePagination]="true">
+  <mat-tab-group headerPosition="below" mat-align-tabs="center" [selectedIndex]="tabActivated" (selectedIndexChange)="tabActiveChange($event)" animationDuration="200ms" [disablePagination]="true">
     <mat-tab class="col upcase" label="Trends">
       <app-trend></app-trend>
     </mat-tab>
@@ -9,7 +9,9 @@
       </ng-template>
     </mat-tab>
     <mat-tab class="col upcase" label="Account">
-      <app-setting></app-setting>
+      <ng-template matTabContent>
+        <app-setting></app-setting>
+      </ng-template>
     </mat-tab>
   </mat-tab-group>
 </div>

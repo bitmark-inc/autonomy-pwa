@@ -18,6 +18,7 @@ enum NotificationPermissionState { None, Allowed, Denied, NotSupported, NoThanks
 export class CommunityComponent implements OnInit {
   @ViewChild("chartEl") public chartEl: ElementRef;
 
+  public isdownloadIRB: boolean = false;
   public dataBySymptoms: any = [];
   public dataByDays: any = [];
   public listOfDays: string[];
