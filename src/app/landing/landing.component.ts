@@ -42,12 +42,24 @@ export class LandingComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit() {
     this.detectBrowser();
     this.webappUrl = environment.bitmark_network === 'livenet' ? 'https://autonomy-pwa.bitmark.com' : 'https://autonomy-pwa.test.bitmark.com'
+
+    if (this.isMobileExceptIOS && this.isDesktop) {
+      window.addEventListener("beforeinstallprompt", (e) => {
+        // Prevent Chrome 67 and earlier from automatically showing the prompt
+        e.preventDefault();
+
+        if (this.isMobileExceptIOS) {
+          // Stash the event so it can be triggered later.
+          this.deferredPrompt = e;
+          console.log('Prompt event is '+`${this.deferredPrompt ? '' : 'not'}`+' supported')
+          // Update UI to notify the user they can add to home screen
+          this.isShowAddBtn = true;
+        }
+      });
+    }
   }
 
   ngAfterViewInit() {
-    if (this.isMobileExceptIOS && this.isDesktop) {
-      window.addEventListener("beforeinstallprompt", this.addHomeScreen.bind(this));
-    }
   }
 
   ngOnDestroy() {
@@ -65,19 +77,6 @@ export class LandingComponent implements OnInit, AfterViewInit, OnDestroy {
     this.isIOSOther = /(iPad|iPhone|iPod)/gi.test(navigator.userAgent) && !this.isIOSSafari;
     this.isMobileExceptIOS = /(Android|BlackBerry|IEMobile|Opera Mini)/gi.test(navigator.userAgent);
     this.isDesktop = !this.isIOSSafari && !this.isIOSOther && !this.isMobileExceptIOS;
-  }
-
-  private addHomeScreen(e: Event) {
-    // Prevent Chrome 67 and earlier from automatically showing the prompt
-    e.preventDefault();
-
-    if (this.isMobileExceptIOS) {
-      // Stash the event so it can be triggered later.
-      this.deferredPrompt = e;
-      console.log('Prompt event is ' + `${this.deferredPrompt ? '' : 'not'}` + ' supported')
-      // Update UI to notify the user they can add to home screen
-      this.isShowAddBtn = true;
-    }
   }
 
   public addToHomeScreen() {
