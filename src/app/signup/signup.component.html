@@ -45,9 +45,9 @@
   </div>
   <div class="landing-footer">
     <div class="start-landing p-b-10">
-      <a (click)="stage = PageStage.Consent"><span class="command">create account</span><img src="/assets/img/next-landing.svg" alt=""></a>
+      <a style="background: #FDB515;" (click)="stage = PageStage.Consent"><span style="color: #000000;" class="command">create account</span><img src="/assets/img/next-landing-black.svg" alt=""></a>
     </div>
-    <p>Or <a class="normal-link" [routerLink]="['/landing/p/signin']">sign back in »</a></p>
+    <p style="color: #FDB515;">Or <a class="normal-link" [routerLink]="['/landing/p/signin']">sign back in »</a></p>
   </div>
 </div>
 <div [hidden]="stage != PageStage.Consent" class="main-content">
