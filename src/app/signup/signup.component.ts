@@ -8,7 +8,7 @@ import { UserService } from '../services/user/user.service';
 import { MatBottomSheet, MatBottomSheetRef } from '@angular/material/bottom-sheet';
 import { BottomSheetAlertComponent } from '../bottom-sheet-alert/bottom-sheet-alert.component';
 
-enum EnumPageStage { Intro, Consent }
+enum EnumPageStage { PID, Intro, Consent }
 
 @Component({
   selector: "app-signup",
@@ -17,20 +17,14 @@ enum EnumPageStage { Intro, Consent }
 })
 export class SignupComponent implements OnInit {
   public PageStage = EnumPageStage;
-  public stage: EnumPageStage = EnumPageStage.Intro;
+  public stage: EnumPageStage = EnumPageStage.PID;
   public clickable: boolean = true;
   public isIOSSafari: boolean;
   public pID: string;
 
   constructor(private router: Router, private activatedRoute: ActivatedRoute, private userService: UserService, private bottomSheet: MatBottomSheet, private bottomSheetRef: MatBottomSheetRef, private http: HttpClient, private ngZone: NgZone) {
-    this.activatedRoute.queryParams.subscribe((params) => {
-      this.pID = params['pid'] || this.userService.getParticipantID();
-      console.log(this.pID);
-      if (this.pID) {
-        this.userService.saveParticipantID(this.pID);
-      }
-    });
-    this.setStageByUrl(this.router.url.split('?')[0]);
+    this.pID = this.userService.getParticipantID();
+    this.stage = this.pID ? this.PageStage.Intro : this.PageStage.PID;
     this.isIOSSafari = /(iPad|iPhone|iPod)/gi.test(navigator.userAgent) &&
       !/CriOS/.test(navigator.userAgent) &&
       !/FxiOS/.test(navigator.userAgent) &&
@@ -43,13 +37,16 @@ export class SignupComponent implements OnInit {
   private setStageByUrl(url: string = '') {
     switch (url) {
       case '/landing/p':
+        this.stage = this.PageStage.PID;
+        break;
+      case '/landing/p/intro':
         this.stage = this.PageStage.Intro;
         break;
       case '/landing/p/irb':
         this.stage = this.PageStage.Consent;
         break;
       default:
-        this.stage = this.PageStage.Intro;
+        this.stage = this.PageStage.PID;
         break;
     }
   }
@@ -101,10 +98,16 @@ export class SignupComponent implements OnInit {
     return window.matchMedia("(display-mode: standalone)").matches;
   }
 
+  public goToIntro() {
+    if (this.isValidPID()) {
+      this.userService.saveParticipantID(this.pID);
+      this.stage = this.PageStage.Intro;
+    }
+  }
+
   public signup(): void {
     if (this.clickable) {
       this.clickable = false;
-      console.log(this.isValidPID());
       if (this.isValidPID()) {
         this.openBottomSheet();
         this.userService.signup().subscribe(
@@ -126,7 +129,6 @@ export class SignupComponent implements OnInit {
       } else {
         this.clickable = true;
         console.log('Your participant ID is incorrect.');
-        this.router.navigate(['/404']);
       }
     }
   }
@@ -160,7 +162,6 @@ export class SignupComponent implements OnInit {
       } else {
         this.clickable = true;
         console.log('Your participant ID is incorrect.');
-        this.router.navigate(['/404']);
       }
     }
   }

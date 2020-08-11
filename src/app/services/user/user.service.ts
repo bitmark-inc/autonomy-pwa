@@ -248,11 +248,21 @@ export class UserService extends BaseService {
       timestamp: now.toString(),
       encryption_public_key: accountInfo.encryption_pubkey,
       signature: signature
+    },
+    {
+      headers: {
+        'X-PARTICIPANT-ID': this.getParticipantID()
+      }
     }).toPromise();
   }
 
   private async getDSInfo(dsEndPoint: string) {
-    return this.sendHttpRequest('get', `${dsEndPoint}information`).toPromise();
+    return this.sendHttpRequest('get', `${dsEndPoint}information`, null,
+    {
+      headers: {
+        'X-PARTICIPANT-ID': this.getParticipantID()
+      }
+    }).toPromise();
   }
 
   private decryptDSToken(recoveryPhrase: string, encryptedToken: string, peerPubkey: string) {
