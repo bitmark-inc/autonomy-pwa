@@ -113,7 +113,6 @@ export class SignupComponent implements OnInit {
     if (this.clickable) {
       this.clickable = false;
       if (this.pidValid) {
-        this.userService.saveParticipantID('test');
         this.openBottomSheet();
         this.userService.signup().subscribe(
           (data) => {
