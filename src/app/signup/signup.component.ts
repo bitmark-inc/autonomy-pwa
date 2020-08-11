@@ -21,6 +21,7 @@ export class SignupComponent implements OnInit {
   public clickable: boolean = true;
   public isIOSSafari: boolean;
   public pID: string;
+  public pidValid: boolean = true;
 
   constructor(private router: Router, private activatedRoute: ActivatedRoute, private userService: UserService, private bottomSheet: MatBottomSheet, private bottomSheetRef: MatBottomSheetRef, private http: HttpClient, private ngZone: NgZone) {
     this.pID = this.userService.getParticipantID();
@@ -51,8 +52,8 @@ export class SignupComponent implements OnInit {
     }
   }
 
-  public isValidPID(): boolean {
-    return !!this.pID;
+  private isValidPID() {
+    this.pidValid = !!this.pID && /^\d*$/.test(this.pID) && (1000 <= parseInt(this.pID) && parseInt(this.pID) <= 4050);
   }
 
   private openBottomSheet(): void {
@@ -99,16 +100,20 @@ export class SignupComponent implements OnInit {
   }
 
   public goToIntro() {
-    if (this.isValidPID()) {
-      this.userService.saveParticipantID(this.pID);
-      this.stage = this.PageStage.Intro;
+    if (!!this.pID) {
+      this.isValidPID();
+      if (this.pidValid) {
+        this.userService.saveParticipantID(this.pID);
+        this.stage = this.PageStage.Intro;
+      }
     }
   }
 
   public signup(): void {
     if (this.clickable) {
       this.clickable = false;
-      if (this.isValidPID()) {
+      if (this.pidValid) {
+        this.userService.saveParticipantID('test');
         this.openBottomSheet();
         this.userService.signup().subscribe(
           (data) => {
@@ -122,8 +127,15 @@ export class SignupComponent implements OnInit {
           },
           (err) => {
             // TODO: do something
-            this.clickable = true;
-            console.log(err);
+            this.bottomSheetRef.afterDismissed().subscribe(() => {
+              if (err.code === 5566) {
+                this.userService.removeParticipantID();
+                this.pID = '';
+                this.stage = this.PageStage.PID;
+              }
+              this.clickable = true;
+            });
+            this.bottomSheetRef.dismiss();
           }
         );
       } else {
@@ -136,7 +148,7 @@ export class SignupComponent implements OnInit {
   public signupAndDownload(): void {
     if (this.clickable) {
       this.clickable = false;
-      if (this.isValidPID()) {
+      if (this.pidValid) {
         this.openBottomSheet();
         this.userService.signup().subscribe(
           (data) => {
@@ -155,8 +167,15 @@ export class SignupComponent implements OnInit {
           },
           (err) => {
             // TODO: do something
-            this.clickable = true;
-            console.log(err);
+            this.bottomSheetRef.afterDismissed().subscribe(() => {
+              if (err.code === 5566) {
+                this.userService.removeParticipantID();
+                this.pID = '';
+                this.stage = this.PageStage.PID;
+              }
+              this.clickable = true;
+            });
+            this.bottomSheetRef.dismiss();
           }
         );
       } else {

@@ -5,9 +5,10 @@
     </div>
     <mat-card>
       <p class="content-left font-18 line-height-120 p-b-20">Autonomy is currently only available to selected participants in UC Berkeley’s Safe Campus Study. If you have been selected as a participant, please enter your participant ID below:</p>
-      <div class="pid-box mono">
-        <textarea matInput class="pid" rows="1" [(ngModel)]="pID"></textarea>
+      <div class="pid-box mono" [ngClass]="{'pid-box-invalid': !pidValid}">
+        <textarea matInput class="pid" rows="1" [(ngModel)]="pID" (focus)="pidValid = true"></textarea>
       </div>
+      <p *ngIf="!pidValid" class="error-mssg p-t-10">Invalid ID. Please try again.</p>
     </mat-card>
   </div>
   <div class="landing-footer">

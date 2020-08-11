@@ -83,7 +83,6 @@ ul {
 .pid-box {
   border-bottom: 1px solid #DDD5C7;
   background: #EEEEEE;
-  margin-bottom: 30px;
   .pid {
     width: 100%;
     background: #EEEEEE;
@@ -94,6 +93,18 @@ ul {
     padding: 16px;
     caret-color: #003262 !important;
   }
+}
+
+.pid-box-invalid {
+  border: 1px solid #CC3232 !important;
+  box-sizing: border-box;
+}
+
+.error-mssg {
+  color: #CC3232;
+  font-size: 14px;
+  padding-left: 16px;
+  line-height: 125%;
 }
 
 @media screen and (max-width: 768px) and (orientation: landscape) {

@@ -119,6 +119,10 @@ export class UserService extends BaseService {
     return window.localStorage.getItem(PARTICIPANT_ID_KEY);
   }
 
+  public removeParticipantID() {
+    window.localStorage.removeItem(PARTICIPANT_ID_KEY);
+  }
+
   public validateAccount(recoveryPhrase: string) {
     return !!window.BitmarkSdk.parseAccount(recoveryPhrase);
   }
@@ -137,9 +141,13 @@ export class UserService extends BaseService {
     return Observable.create(async (observer) => {
       this.user = <any>{};
       this.user.account = window.BitmarkSdk.createNewAccount();
-      await this.makeAccount({needRegisterWithAgent: true});
-      observer.next();
-      observer.complete();
+      try {
+        await this.makeAccount({needRegisterWithAgent: true});
+        observer.next();
+        observer.complete();
+      } catch (err) {
+        observer.error(err)
+      }
     });
   }
 

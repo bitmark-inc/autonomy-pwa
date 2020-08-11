@@ -38,7 +38,7 @@ class GuestGuard implements CanActivate {
       return true;
     }
     if (this.isPWA && !this.userService.getUser()) {
-      if (route.routeConfig.path === '') {
+      if (route.routeConfig.path === '' || route.routeConfig.path === 'landing/b') {
         this.router.navigate(['/landing/p']);
       }
       return true;
