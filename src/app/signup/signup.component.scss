@@ -80,6 +80,22 @@ ul {
   padding-inline-start: 16px;
 }
 
+.pid-box {
+  border-bottom: 1px solid #DDD5C7;
+  background: #EEEEEE;
+  margin-bottom: 30px;
+  .pid {
+    width: 100%;
+    background: #EEEEEE;
+    border: none;
+    font-size: 24px;
+    color: #003262;
+    resize: unset;
+    padding: 16px;
+    caret-color: #003262 !important;
+  }
+}
+
 @media screen and (max-width: 768px) and (orientation: landscape) {
   .header {
     height: 45px;
