@@ -43,9 +43,7 @@ export class LandingComponent implements OnInit, AfterViewInit, OnDestroy {
     this.detectBrowser();
     this.webappUrl = environment.bitmark_network === 'livenet' ? 'https://autonomy-pwa.bitmark.com' : 'https://autonomy-pwa.test.bitmark.com';
     if (this.isMobileExceptIOS) {
-      console.log('beforeinstallpromt');
       window.addEventListener('beforeinstallprompt', (e) => {
-        console.log(e);
         // Prevent Chrome 67 and earlier from automatically showing the prompt
         e.preventDefault();
         // Stash the event so it can be triggered later.
@@ -80,8 +78,6 @@ export class LandingComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public addToHomeScreen() {
     if (this.deferredPrompt) {
-      console.log('prompt event');
-      console.log(this.deferredPrompt);
       // hide our user interface that shows our A2HS button
       this.isShowAddBtn = false;
       // Show the prompt

@@ -56,7 +56,7 @@ export abstract class BaseService {
             observer.next(data);
             observer.complete();
           },
-          (error) => observer.error(error.json && error.json() ? new Error(error.json().message) : new Error('can not connect to the server'))
+          (err) => observer.error(err.error ? err.error : new Error('can not connect to the server'))
         );
     });
   }
