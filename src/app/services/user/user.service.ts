@@ -119,6 +119,10 @@ export class UserService extends BaseService {
     return window.localStorage.getItem(PARTICIPANT_ID_KEY);
   }
 
+  public removeParticipantID() {
+    window.localStorage.removeItem(PARTICIPANT_ID_KEY);
+  }
+
   public validateAccount(recoveryPhrase: string) {
     return !!window.BitmarkSdk.parseAccount(recoveryPhrase);
   }
@@ -137,9 +141,13 @@ export class UserService extends BaseService {
     return Observable.create(async (observer) => {
       this.user = <any>{};
       this.user.account = window.BitmarkSdk.createNewAccount();
-      await this.makeAccount({needRegisterWithAgent: true});
-      observer.next();
-      observer.complete();
+      try {
+        await this.makeAccount({needRegisterWithAgent: true});
+        observer.next();
+        observer.complete();
+      } catch (err) {
+        observer.error(err)
+      }
     });
   }
 
@@ -248,11 +256,21 @@ export class UserService extends BaseService {
       timestamp: now.toString(),
       encryption_public_key: accountInfo.encryption_pubkey,
       signature: signature
+    },
+    {
+      headers: {
+        'X-PARTICIPANT-ID': this.getParticipantID()
+      }
     }).toPromise();
   }
 
   private async getDSInfo(dsEndPoint: string) {
-    return this.sendHttpRequest('get', `${dsEndPoint}information`).toPromise();
+    return this.sendHttpRequest('get', `${dsEndPoint}information`, null,
+    {
+      headers: {
+        'X-PARTICIPANT-ID': this.getParticipantID()
+      }
+    }).toPromise();
   }
 
   private decryptDSToken(recoveryPhrase: string, encryptedToken: string, peerPubkey: string) {

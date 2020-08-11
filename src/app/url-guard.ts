@@ -32,18 +32,14 @@ class GuestGuard implements CanActivate {
 
   public canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     if (!this.isPWA) {
-      if (route.routeConfig.path === '' || route.routeConfig.path === '/') {
-        let pid = route.queryParams['pid'] || this.userService.getParticipantID();
-        this.router.navigate(['/landing/b'], { queryParams: {'pid': pid} });
-      } else if (route.routeConfig.path !== 'landing/b' && route.routeConfig.path !== '404') {
+      if (route.routeConfig.path !== 'landing/b') {
         this.router.navigate(['/landing/b']);
       }
       return true;
     }
     if (this.isPWA && !this.userService.getUser()) {
-      if (route.routeConfig.path === 'landing/b') {
-        let pid = route.queryParams['pid'] || this.userService.getParticipantID();
-        this.router.navigate(['/landing/p'], { queryParams: {'pid': pid} });
+      if (route.routeConfig.path === '' || route.routeConfig.path === 'landing/b') {
+        this.router.navigate(['/landing/p']);
       }
       return true;
     }
@@ -51,17 +47,4 @@ class GuestGuard implements CanActivate {
   }
 }
 
-@Injectable()
-class ParticipantGuard implements CanActivate {
-
-  constructor(private router: Router, private userService: UserService) { }
-
-  public canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    if (route.queryParams['pid'] || this.userService.getParticipantID()) {
-      return true;
-    }
-    this.router.navigate(['/404']);
-  }
-}
-
-export { AuthGuard, GuestGuard, ParticipantGuard}
+export { AuthGuard, GuestGuard }

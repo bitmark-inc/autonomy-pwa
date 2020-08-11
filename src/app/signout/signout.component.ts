@@ -69,7 +69,7 @@ export class SignoutComponent implements OnInit {
         setTimeout(() => {
           this.bottomSheetRef.afterDismissed().subscribe(() => {
             this.clickable = true;
-            this.router.navigate(["/landing/p"]);
+            this.router.navigate(['/landing/p']);
           })
           this.bottomSheetRef.dismiss();
         }, 3 * 1000);
