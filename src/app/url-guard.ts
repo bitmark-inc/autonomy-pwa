@@ -6,11 +6,14 @@ import { UserService } from './services/user/user.service';
 
 @Injectable()
 class AuthGuard implements CanActivate {
+  private isPWA: boolean;
 
-  constructor(private router: Router, private userService: UserService) { }
+  constructor(private router: Router, private userService: UserService) {
+    this.isPWA = window.matchMedia('(display-mode: standalone)').matches;
+  }
 
   public canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    if (window.matchMedia('(display-mode: standalone)').matches) {
+    if (this.isPWA) {
       if (this.userService.getUser()) {
         return true;
       }
@@ -21,23 +24,26 @@ class AuthGuard implements CanActivate {
 
 @Injectable()
 class GuestGuard implements CanActivate {
+  private isPWA: boolean;
 
-  constructor(private router: Router, private userService: UserService) { }
+  constructor(private router: Router, private userService: UserService) {
+    this.isPWA = !!(window.matchMedia('(display-mode: standalone)').matches);
+  }
 
   public canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    if (!window.matchMedia('(display-mode: standalone)').matches) {
+    if (!this.isPWA) {
       if (route.routeConfig.path !== 'landing/b') {
         this.router.navigate(['/landing/b']);
       }
       return true;
     }
-    if (window.matchMedia('(display-mode: standalone)').matches && !this.userService.getUser()) {
-      if (route.routeConfig.path === 'landing/b') {
+    if (this.isPWA && !this.userService.getUser()) {
+      if (route.routeConfig.path === '' || route.routeConfig.path === 'landing/b') {
         this.router.navigate(['/landing/p']);
       }
       return true;
     }
-    this.router.navigate(['/home']);
+    this.router.navigate(['/home/trends']);
   }
 }
 

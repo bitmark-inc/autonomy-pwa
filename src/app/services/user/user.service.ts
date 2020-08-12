@@ -30,6 +30,7 @@ export interface UserCacheData {
 
 const RECOVERY_STORAGE_KEY: string = 'user-key';
 const DATA_STORAGE_KEY: string = 'user-data';
+const PARTICIPANT_ID_KEY: string = 'pid';
 class UserCache {
   public userKey: string;
   public userData: UserCacheData;
@@ -110,6 +111,18 @@ export class UserService extends BaseService {
     }
   }
 
+  public saveParticipantID(pid: string) {
+    window.localStorage.setItem(PARTICIPANT_ID_KEY, pid);
+  }
+
+  public getParticipantID(): string {
+    return window.localStorage.getItem(PARTICIPANT_ID_KEY);
+  }
+
+  public removeParticipantID() {
+    window.localStorage.removeItem(PARTICIPANT_ID_KEY);
+  }
+
   public validateAccount(recoveryPhrase: string) {
     return !!window.BitmarkSdk.parseAccount(recoveryPhrase);
   }
@@ -128,9 +141,13 @@ export class UserService extends BaseService {
     return Observable.create(async (observer) => {
       this.user = <any>{};
       this.user.account = window.BitmarkSdk.createNewAccount();
-      await this.makeAccount({needRegisterWithAgent: true});
-      observer.next();
-      observer.complete();
+      try {
+        await this.makeAccount({needRegisterWithAgent: true});
+        observer.next();
+        observer.complete();
+      } catch (err) {
+        observer.error(err)
+      }
     });
   }
 
@@ -182,7 +199,10 @@ export class UserService extends BaseService {
   private async registerWithAgent() {
     return this.sendHttpRequest('post', `${environment.autonomy_api_url}api/accounts`, {
       enc_pub_key: this.user.account.encryption_pubkey,
-      metadata: {source: 'pwa'}
+      metadata: {
+        source: 'pwa',
+        participant_id: this.getParticipantID()
+      }
     }, {
       headers: {Authorization: `Bearer ${this.user.agentJWT}`}
     }).toPromise();
@@ -236,11 +256,21 @@ export class UserService extends BaseService {
       timestamp: now.toString(),
       encryption_public_key: accountInfo.encryption_pubkey,
       signature: signature
+    },
+    {
+      headers: {
+        'X-PARTICIPANT-ID': this.getParticipantID()
+      }
     }).toPromise();
   }
 
   private async getDSInfo(dsEndPoint: string) {
-    return this.sendHttpRequest('get', `${dsEndPoint}information`).toPromise();
+    return this.sendHttpRequest('get', `${dsEndPoint}information`, null,
+    {
+      headers: {
+        'X-PARTICIPANT-ID': this.getParticipantID()
+      }
+    }).toPromise();
   }
 
   private decryptDSToken(recoveryPhrase: string, encryptedToken: string, peerPubkey: string) {

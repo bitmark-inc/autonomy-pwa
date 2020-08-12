@@ -3,12 +3,12 @@ declare var window: any;
 import { NgZone } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { UserService } from '../services/user/user.service';
 import { MatBottomSheet, MatBottomSheetRef } from '@angular/material/bottom-sheet';
 import { BottomSheetAlertComponent } from '../bottom-sheet-alert/bottom-sheet-alert.component';
 
-enum EnumPageStage { Intro, Consent }
+enum EnumPageStage { PID, Intro, Consent }
 
 @Component({
   selector: "app-signup",
@@ -17,12 +17,15 @@ enum EnumPageStage { Intro, Consent }
 })
 export class SignupComponent implements OnInit {
   public PageStage = EnumPageStage;
-  public stage: EnumPageStage = EnumPageStage.Intro;
+  public stage: EnumPageStage = EnumPageStage.PID;
   public clickable: boolean = true;
   public isIOSSafari: boolean;
+  public pID: string;
+  public pidValid: boolean = true;
 
-  constructor(private router: Router, private userService: UserService, private bottomSheet: MatBottomSheet, private bottomSheetRef: MatBottomSheetRef, private http: HttpClient, private ngZone: NgZone) {
-    this.setStageByUrl(this.router.url);
+  constructor(private router: Router, private activatedRoute: ActivatedRoute, private userService: UserService, private bottomSheet: MatBottomSheet, private bottomSheetRef: MatBottomSheetRef, private http: HttpClient, private ngZone: NgZone) {
+    this.pID = this.userService.getParticipantID();
+    this.stage = this.pID ? this.PageStage.Intro : this.PageStage.PID;
     this.isIOSSafari = /(iPad|iPhone|iPod)/gi.test(navigator.userAgent) &&
       !/CriOS/.test(navigator.userAgent) &&
       !/FxiOS/.test(navigator.userAgent) &&
@@ -35,15 +38,22 @@ export class SignupComponent implements OnInit {
   private setStageByUrl(url: string = '') {
     switch (url) {
       case '/landing/p':
+        this.stage = this.PageStage.PID;
+        break;
+      case '/landing/p/intro':
         this.stage = this.PageStage.Intro;
         break;
       case '/landing/p/irb':
         this.stage = this.PageStage.Consent;
         break;
       default:
-        this.stage = this.PageStage.Intro;
+        this.stage = this.PageStage.PID;
         break;
     }
+  }
+
+  private isValidPID() {
+    this.pidValid = !!this.pID && /^\d*$/.test(this.pID) && (1000 <= parseInt(this.pID) && parseInt(this.pID) <= 4050);
   }
 
   private openBottomSheet(): void {
@@ -57,86 +67,120 @@ export class SignupComponent implements OnInit {
     });
   }
 
-    private downloadFile() {
-      let headers = new HttpHeaders();
-      headers = headers.set('Accept', 'application/pdf');
-      this.http.get('/assets/files/UCB_Safe_Campus_Study_Informed_Consent.pdf', { headers: headers, responseType: 'arraybuffer' })
-      .subscribe(
-        (data: any) => {
-        const aFile = new Blob([data], { type: 'application/pdf'});
-        const url = window.URL.createObjectURL(aFile);
-        let reader = new FileReader();
-        let link = document.createElement('a');
+  private downloadFile() {
+    let headers = new HttpHeaders();
+    headers = headers.set('Accept', 'application/pdf');
+    this.http.get('/assets/files/UCB_Safe_Campus_Study_Informed_Consent.pdf', { headers: headers, responseType: 'arraybuffer' })
+    .subscribe(
+      (data: any) => {
+      const aFile = new Blob([data], { type: 'application/pdf'});
+      const url = window.URL.createObjectURL(aFile);
+      let reader = new FileReader();
+      let link = document.createElement('a');
 
-        reader.onload = () => {
-          link.href = url;
-          link.target = '_blank';
-          link.download = 'UCB_Safe_Campus_Study_Informed_Consent';
-          link.click();
+      reader.onload = () => {
+        link.href = url;
+        link.target = '_blank';
+        link.download = 'UCB_Safe_Campus_Study_Informed_Consent';
+        link.click();
+      }
+      reader.readAsDataURL(aFile);
+      },
+      err => {},
+      () => {
+        if (this.isIOSSafari) {
+          this.router.navigate(['/home/trends']);
         }
-        reader.readAsDataURL(aFile);
-        },
-        err => {},
-        () => {
-          if (this.isIOSSafari) {
-            this.router.navigate(['/home/trends']);
-          }
-        }
-      )
-    }
+      }
+    )
+  }
 
   public isStandalone(): boolean {
     return window.matchMedia("(display-mode: standalone)").matches;
   }
 
+  public goToIntro() {
+    if (!!this.pID) {
+      this.isValidPID();
+      if (this.pidValid) {
+        this.userService.saveParticipantID(this.pID);
+        this.stage = this.PageStage.Intro;
+      }
+    }
+  }
+
   public signup(): void {
     if (this.clickable) {
       this.clickable = false;
-      this.openBottomSheet();
-      this.userService.signup().subscribe(
-        (data) => {
-          setTimeout(() => {
+      if (this.pidValid) {
+        this.openBottomSheet();
+        this.userService.signup().subscribe(
+          (data) => {
+            setTimeout(() => {
+              this.bottomSheetRef.afterDismissed().subscribe(() => {
+                this.clickable = true;
+                this.router.navigate(['/home/trends']);
+              });
+              this.bottomSheetRef.dismiss();
+            }, 3 * 1000);
+          },
+          (err) => {
+            // TODO: do something
             this.bottomSheetRef.afterDismissed().subscribe(() => {
+              if (err.code === 5566) {
+                this.userService.removeParticipantID();
+                this.pID = '';
+                this.stage = this.PageStage.PID;
+              }
               this.clickable = true;
-              this.router.navigate(['/home/trends']);
             });
             this.bottomSheetRef.dismiss();
-          }, 3 * 1000);
-        },
-        (err) => {
-          // TODO: do something
-          this.clickable = true;
-          console.log(err);
-        }
-      );
+          }
+        );
+      } else {
+        this.clickable = true;
+        console.log('Your participant ID is incorrect.');
+      }
     }
   }
 
   public signupAndDownload(): void {
     if (this.clickable) {
       this.clickable = false;
-      this.openBottomSheet();
-      this.userService.signup().subscribe(
-        (data) => {
-          setTimeout(() => {
-            this.bottomSheetRef.afterDismissed().subscribe(() => {
-              this.clickable = true;
-              this.ngZone.runOutsideAngular(() => {
-                this.downloadFile();
+      if (this.pidValid) {
+        this.openBottomSheet();
+        this.userService.signup().subscribe(
+          (data) => {
+            setTimeout(() => {
+              this.bottomSheetRef.afterDismissed().subscribe(() => {
+                this.clickable = true;
+                this.ngZone.runOutsideAngular(() => {
+                  this.downloadFile();
+                });
+                if (!this.isIOSSafari) {
+                  this.router.navigate(['/home/trends'], { queryParams: { downloadIRB: true } });
+                }
               });
-              if (!this.isIOSSafari) {
-                this.router.navigate(['/home/trends'], { queryParams: { downloadIRB: true } });
+              this.bottomSheetRef.dismiss();
+            }, 2 * 1000);
+          },
+          (err) => {
+            // TODO: do something
+            this.bottomSheetRef.afterDismissed().subscribe(() => {
+              if (err.code === 5566) {
+                this.userService.removeParticipantID();
+                this.pID = '';
+                this.stage = this.PageStage.PID;
               }
+              this.clickable = true;
             });
             this.bottomSheetRef.dismiss();
-          }, 2 * 1000);
-        },
-        (err) => {
-          // TODO: do something
-          this.clickable = true;
-          console.log(err);
-        }
-      );
+          }
+        );
+      } else {
+        this.clickable = true;
+        console.log('Your participant ID is incorrect.');
+      }
     }
   }
 }
