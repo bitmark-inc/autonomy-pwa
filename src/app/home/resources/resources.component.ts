@@ -180,6 +180,7 @@ export class ResourcesComponent implements OnInit, OnDestroy {
         singular = 'Pharmacy';
         break;
       default:
+        singular = plural;
         break;
     }
     return singular;
@@ -284,14 +285,20 @@ export class ResourcesComponent implements OnInit, OnDestroy {
   }
 
   public search() {
+    if (!this.keyword && !this.poiType) {
+      if (this.pois && this.pois.length) {
+        this.pois.splice(0, this.pois.length);
+      }
+      return;
+    }
     this.isSearching = true;
     let url = `${environment.autonomy_api_url}api/points-of-interest`;
     let params: string[] = [];
 
     // get all at first from ucberkeley is center of map
-    if (!this.keyword && !this.poiType) {
+    // if (!this.keyword && !this.poiType) {
       // params.push(`lat=${this.mapCenter.lat}&lng=${this.mapCenter.lng}&radius=1000`);
-    }
+    // }
 
     if (this.keyword) {
       params.push(`lat=${this.mapCenter.lat}&lng=${this.mapCenter.lng}&radius=3000&text=${this.keyword}`);
@@ -368,16 +375,18 @@ export class ResourcesComponent implements OnInit, OnDestroy {
     });
   }
 
-  public focusToPlace(poi: POI) {
+  public focusToPlace(poi: POI, fromList: boolean = false) {
     this.focusState = true;
     this.focusedPOI = poi;
     this.focusedPOI.focused = true;
     this.mapZoomLevel = 20;
     this.labelShown = true;
-    // this.mapCenter = {
-    //   lat: this.focusedPOI.location.latitude,
-    //   lng: this.focusedPOI.location.longitude,
-    // };
+    if (fromList) {
+      this.mapCenter = {
+        lat: this.focusedPOI.location.latitude,
+        lng: this.focusedPOI.location.longitude,
+      };
+    }
     this.updatePlaceColors();
   }
 
@@ -394,6 +403,9 @@ export class ResourcesComponent implements OnInit, OnDestroy {
       this.poiType = "";
       this.isViewListShow = false;
       this.isSearching = false;
+      if (this.focusedPOI) {
+        this.unfocusPlace(this.focusedPOI);
+      }
       this.search();
       ParentContainerState.fullscreen.next(false);
     }

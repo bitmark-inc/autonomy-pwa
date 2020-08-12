@@ -45,7 +45,7 @@
       <div class="line-icon"><span (click)="pullListView()"></span></div>
       <div class="p-t-10" *ngIf="pois && pois.length">
         <div *ngFor="let poi of pois; trackBy: trackByPoiID">
-          <mat-card (click)="focusToPlace(poi)" class="hovering clickable no-bottom col content-left" [ngClass]="{'grey-text-color': !poi.resource_score}">
+          <mat-card (click)="focusToPlace(poi, true)" class="hovering clickable no-bottom col content-left" [ngClass]="{'grey-text-color': !poi.resource_score}">
             <div class="col-30">
               <div [ngStyle]="{'background': poi.color}" class="content-center place-score"><span class="score-num">{{poi.resource_score ? (poi.resource_score | number:'1.1-1') : '--'}}</span></div>
               <p *ngIf="poi.resource_score && poi.rating_last_updated" class="content-center font-10 line-height-120 p-t-10">Last rated: {{poi.rating_last_updated | relativeDate}}</p>
