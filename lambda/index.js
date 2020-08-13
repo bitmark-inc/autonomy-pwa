@@ -32,36 +32,38 @@ let extractPIDFromQueryString = (queryString) => {
 }
 
 exports.handler = async (event, context, callback) => {
-  try {
-    await init();
-  } catch (err) {
-    console.log(err);
-    return;
-  }
-
   const request = event.Records[0].cf.request;
   const queryString = request.querystring;
 
   const manifestFileRequest = /manifest.webmanifest$/;
-  const ucberkeleyRequest = /\/ucberkeley?pid=.+$/;
+  const ucberkeleyRequest = /\/ucberkeley/;
   const resourceRequest = /(\.[a-zA-Z0-9]{2,5}$)/;
   
   let body;
 
-  if (manifestFileRequest.test(request.uri)) {
+  let isRequestToManifestFile = manifestFileRequest.test(request.uri);
+  let isRequestToBekerleyFile = ucberkeleyRequest.test(request.uri);
+
+  if ((isRequestToManifestFile || isRequestToBekerleyFile) && extractPIDFromQueryString(queryString)) {
+    try {
+      await init();
+    } catch (err) {
+      console.log(err);
+      callback(err);
+      return;
+    }
+  }
+
+  if (isRequestToManifestFile) {
     body = webmanifestFileContent;
     let pid = extractPIDFromQueryString(queryString);
     if (pid) {
       body = body.replace(/"start_url":([^,]+),/, `"start_url": "/?pid=${pid}",`);
     }
-  } else if (!resourceRequest.test(request.uri)) {
-    if (ucberkeleyRequest.test(request.uri)) {
-      body = indexHtmlFileContent;
-      let pid = extractPIDFromQueryString(queryString);
-      body = body.replace(/<link rel="manifest"[^>]+>/, `<link rel="manifest" href="manifest.webmanifest?pid=${pid}">`);
-    } else {
-      body = '404 Page Not Found';
-    }
+  } else if (isRequestToBekerleyFile) {
+    let pid = extractPIDFromQueryString(queryString);
+    body = indexHtmlFileContent;
+    body = body.replace(/<link rel="manifest"[^>]+>/, `<link rel="manifest" href="manifest.webmanifest?pid=${pid}">`);
   } else {
     callback(null, request);
     return;
