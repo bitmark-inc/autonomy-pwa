@@ -49,6 +49,6 @@ deploy:
     all_branches: true
 
 after_deploy:
-- AWS_DEFAULT_REGION=us-east-1 lambda/handlers/html-template/deploy.sh
+- cd lambda/handlers/html-template && AWS_DEFAULT_REGION=us-east-1 ./deploy.sh && cd ../../../
 - aws configure set preview.cloudfront true
 - aws cloudfront create-invalidation --distribution-id $CLOUDFRONT_DISTRIBUTION_ID --paths "/*"
