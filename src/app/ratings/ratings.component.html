@@ -8,6 +8,7 @@
         </a>
       </mat-card>
       <div class="header-page-title upcase content-center">
+        <span class="line-title"></span>
         <span class="page-title">{{poi.alias}}</span>
       </div>
       <mat-card class="rate">
@@ -129,8 +130,8 @@
       <img *ngIf="poiBackground !== '#DDD5C7'" src="/assets/img/next-landing.svg" alt="">
     </a>
   </div>
-  <div [ngStyle]="{ 'background': poiBackground, 'color': poiBackground === '#DDD5C7' ? '#003262' : '#ffffff' }" *ngIf="submitable && gotRights" class="footer-btn">
-    <a class="next" (click)="submitRatings()">
+  <div *ngIf="submitable && gotRights" class="footer-btn">
+    <a [ngStyle]="{ 'background': poiBackground, 'color': poiBackground === '#DDD5C7' ? '#003262' : '#ffffff' }" class="next" (click)="submitRatings()">
       <span class="gap-right-15">submit</span>
       <img *ngIf="poiBackground === '#DDD5C7'" src="/assets/img/submit.svg" alt="">
       <img *ngIf="poiBackground !== '#DDD5C7'" src="/assets/img/submit-white.svg" alt="">
@@ -145,6 +146,7 @@
     </a>
   </mat-card>
   <div class="header-page-title direction-color m-b-30">
+    <span class="line-title"></span>
     <span class="page-title">Know your rights</span>
   </div>
   <mat-card>
@@ -191,6 +193,7 @@
     </a>
   </mat-card>
   <div class="header-page-title direction-color m-b-30">
+    <span class="line-title"></span>
     <span class="page-title">View data (PDE)</span>
   </div>
   <mat-card>
@@ -206,6 +209,7 @@
     </a>
   </mat-card>
   <div class="header-page-title direction-color m-b-30">
+    <span class="line-title"></span>
     <span class="page-title">View data (CDE)</span>
   </div>
   <mat-card>

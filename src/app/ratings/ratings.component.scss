@@ -2,7 +2,11 @@
   position: relative;
   color: #ffffff;
   .header-page-title {
-    border-left: 5px solid #ffffff;
+    .line-title {
+      border-left: 5px solid #ffffff;
+      width: 5px;
+      font-size: initial;
+    }
   }
 
   .rate {
