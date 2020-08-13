@@ -33,13 +33,15 @@ class GuestGuard implements CanActivate {
   public canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     if (!this.isPWA) {
       if (route.routeConfig.path !== 'landing/b') {
-        this.router.navigate(['/landing/b']);
+        let pid = route.queryParams['pid'] || this.userService.getParticipantID();
+        this.router.navigate(['/landing/b'], {queryParams: {'pid': pid}});
       }
       return true;
     }
     if (this.isPWA && !this.userService.getUser()) {
       if (route.routeConfig.path === '' || route.routeConfig.path === 'landing/b') {
-        this.router.navigate(['/landing/p']);
+        let pid = route.queryParams['pid'] || this.userService.getParticipantID();
+        this.router.navigate(['/landing/p'], {queryParams: {'pid': pid}});
       }
       return true;
     }
@@ -47,4 +49,17 @@ class GuestGuard implements CanActivate {
   }
 }
 
-export { AuthGuard, GuestGuard }
+@Injectable()
+class ParticipantGuard implements CanActivate {
+
+  constructor(private router: Router, private userService: UserService) { }
+
+  public canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+    if (route.queryParams['pid'] || this.userService.getParticipantID()) {
+      return true;
+    }
+    this.router.navigate(['/404']);
+  }
+}
+
+export { AuthGuard, GuestGuard, ParticipantGuard }
