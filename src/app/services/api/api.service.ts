@@ -62,4 +62,10 @@ export class ApiService extends BaseService {
 
     return this.sendHttpRequest(method, url, params, options);
   }
+
+  public requestByGuest(method: string, url: string, params?, options?) {
+    options = options || {};
+    options.headers = options.headers || {};
+    return this.sendHttpRequest(method, url, params, options);
+  }
 }
