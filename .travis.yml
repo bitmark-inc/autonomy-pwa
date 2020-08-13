@@ -27,7 +27,7 @@ script:
 - cd ./dist/autonomy
 - mv index.html manifest.webmanifest ../../lambda/handlers/html-template/
 - find .  -type f -exec gzip {} \; -exec mv {}.gz {} \;
-- cd ../../../
+- cd ../../
 before_deploy:
 - curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
 - unzip -qq awscliv2.zip
