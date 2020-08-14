@@ -22,17 +22,17 @@ import { HttpClientModule }    from '@angular/common/http';
 import { UserService } from './services/user/user.service';
 import { ApiService } from './services/api/api.service';
 import { EventEmitterService } from "./services/event-emitter.service";
-import { AuthGuard, GuestGuard } from './url-guard';
+import { AuthGuard, GuestGuard, ParticipantGuard } from './url-guard';
 
 import { AppComponent } from './app.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { LandingComponent } from './landing/landing.component';
+import { InstallationComponent } from './installation/installation.component'
 import { PoiComponent } from './poi/poi.component';
 import { RatingsComponent } from './ratings/ratings.component';
 import { SigninComponent } from './signin/signin.component';
-import { SignupComponent } from './signup/signup.component';
+import { OnboardingComponent } from './onboarding/onboarding.component';
 import { PlaceDeltaPipe } from './pipes/place-delta.pipe';
 import { SymptomDeltaPipe } from './pipes/symptom-delta.pipe';
 import { ReportScorePipe } from './pipes/report-score.pipe';
@@ -54,9 +54,9 @@ window.isProduction = environment.production;
 @NgModule({
   declarations: [
     AppComponent,
-    LandingComponent,
+    InstallationComponent,
     SigninComponent,
-    SignupComponent,
+    OnboardingComponent,
     PoiComponent,
     RatingsComponent,
     PlaceDeltaPipe,
@@ -101,6 +101,7 @@ window.isProduction = environment.production;
     EventEmitterService,
     AuthGuard,
     GuestGuard,
+    ParticipantGuard,
     {provide: APP_INITIALIZER, useFactory: InitServices, deps: [UserService], multi: true},
     {provide: MatBottomSheetRef, useValue: {}}
   ],

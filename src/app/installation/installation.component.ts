@@ -10,11 +10,11 @@ enum EnumPageStage { Landing, Intro01, Intro02, Intro03, OnInstall };
 enum CopyStage {INIT, Copied};
 
 @Component({
-  selector: 'app-landing',
-  templateUrl: './landing.component.html',
-  styleUrls: ['./landing.component.scss']
+  selector: 'app-installation',
+  templateUrl: './installation.component.html',
+  styleUrls: ['./installation.component.scss']
 })
-export class LandingComponent implements OnInit, AfterViewInit, OnDestroy {
+export class InstallationComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('appUrl') private appUrlInput: ElementRef;
 
   public PageStage = EnumPageStage;

@@ -225,14 +225,19 @@ textarea {
 
 .header-page-title {
   width: 100%;
-  border-left: 5px solid $direction-color;
   .line-title {
+    border-left: 5px solid $direction-color;
     width: 5px;
+    height: 4.2ex;
+    font-size: 27px;
   }
   .page-title {
     font-size: 30px;
     line-height: 120%;
     padding-left: 11px;
+  }
+  .line-title-up {
+    font-size: 32px !important;
   }
   .big-words {
     font-family: 'Domaine Sans Text';
@@ -450,6 +455,9 @@ textarea {
   justify-content: space-around;
   background: #EEEEEE;
   border-top: 1px solid #EDEDED !important;
+  .mat-tab-labels {
+    justify-content: space-around !important;
+  }
 }
 
 .mat-tab-header-pagination-controls-enabled .mat-tab-header-pagination {

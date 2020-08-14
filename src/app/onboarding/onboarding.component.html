@@ -1,26 +1,7 @@
-<div [hidden]="stage != PageStage.PID" class="landing-pwa">
-  <div class="landing-content-pwa">
-    <div class="header-page-title direction-color m-t-30 m-b-30">
-      <span style="padding-left: 10px;" class="big-words">ID REQUIRED</span>
-    </div>
-    <mat-card>
-      <p class="content-left font-18 line-height-120 p-b-20">Autonomy is currently only available to selected participants in UC Berkeley’s Safe Campus Study. If you have been selected as a participant, please enter your participant ID below:</p>
-      <div class="pid-box mono" [ngClass]="{'pid-box-invalid': !pidValid}">
-        <textarea matInput class="pid" rows="1" [(ngModel)]="pID" (focus)="pidValid = true"></textarea>
-      </div>
-      <p *ngIf="!pidValid" class="error-mssg p-t-10">Invalid ID. Please try again.</p>
-    </mat-card>
-  </div>
-  <div class="landing-footer">
-    <div class="start-landing p-b-10" [ngClass]="{'disable-btns': !pID}">
-      <a (click)="goToIntro()"><span class="command">next</span><img src="/assets/img/next-landing.svg" alt=""></a>
-    </div>
-  </div>
-</div>
-<div *ngIf="pID">
 <div [hidden]="stage != PageStage.Intro" class="landing-pwa">
   <div class="landing-content-pwa">
     <div class="header-page-title direction-color m-t-30 m-b-30">
+      <span class="line-title-up line-title"></span>
       <span style="padding-left: 10px;" class="big-words">Your account</span>
     </div>
     <mat-card>
@@ -46,9 +27,9 @@
   </div>
   <div class="landing-footer">
     <div class="start-landing p-b-10">
-      <a style="background: #FDB515;" (click)="stage = PageStage.Consent"><span style="color: #000000;" class="command">create account</span><img src="/assets/img/next-landing-black.svg" alt=""></a>
+      <a (click)="stage = PageStage.Consent"><span class="command">create account</span><img src="/assets/img/next-landing.svg" alt=""></a>
     </div>
-    <p style="color: #FDB515;">Or <a class="normal-link" [routerLink]="['/landing/p/signin']">sign back in »</a></p>
+    <p>Or <a class="normal-link" [routerLink]="['/onboarding/signin']">sign back in »</a></p>
   </div>
 </div>
 <div [hidden]="stage != PageStage.Consent" class="main-content">
@@ -59,7 +40,7 @@
     </a>
   </mat-card>
   <div class="header-page-title content-left direction-color m-b-30">
-    <span style="height: 32px;" class="line-title"></span>
+    <span class="line-title"></span>
     <span class="page-title">Consent to Participate in Research</span>
   </div>
   <mat-card class="font-14 line-height-120">
@@ -138,7 +119,7 @@
     </p>
   </mat-card>
   <mat-card>
-    <div (click)="signupAndDownload()" class="col content-left p-b-10 clickable">
+    <div (click)="signup(true)" class="col content-left p-b-10 clickable">
       <div class="gap-right-5"><img src="/assets/img/arrow.svg" alt=""></div>
       <div class="col">
         <p class="font-18 line-height-120 direction-color font-weight-600 p-b-10">Yes, I agree to participate and want to download a copy of this consent form.</p>
@@ -152,7 +133,7 @@
         <div class="light-line"><hr></div>
       </div>
     </div>
-    <div (click)="stage = PageStage.Intro" class="col content-left p-b-10 clickable">
+    <div (click)="consentMark(false)" class="col content-left p-b-10 clickable">
       <div class="gap-right-5"><img src="/assets/img/arrow.svg" alt=""></div>
       <div class="col">
         <p class="font-18 line-height-120 direction-color font-weight-600 p-b-10">No, I do not agree to participate in this study.</p>
@@ -161,4 +142,15 @@
     </div>
   </mat-card>
 </div>
+<div [hidden]="stage != PageStage.InvalidPID" class="main-content">
+  <mat-card class="header-btn" layout="fill">
+  </mat-card>
+  <div class="header-page-title content-left direction-color m-b-30">
+    <span style="border-left: 5px solid #CC3232; font-size: initial;" class="line-title"></span>
+    <span style="color: #CC3232;" class="page-title">Invalid Participant ID</span>
+  </div>
+  <mat-card class="font-18 line-height-120">
+    <p class="p-b-20">Sorry, but we detected a problem with your Safe Campus Study participant ID.</p>
+    <p class="p-b-20">Please use the original link from your invitation email to reinstall the app.</p>
+  </mat-card>
 </div>
