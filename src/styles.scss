@@ -455,6 +455,9 @@ textarea {
   justify-content: space-around;
   background: #EEEEEE;
   border-top: 1px solid #EDEDED !important;
+  .mat-tab-labels {
+    justify-content: space-around !important;
+  }
 }
 
 .mat-tab-header-pagination-controls-enabled .mat-tab-header-pagination {

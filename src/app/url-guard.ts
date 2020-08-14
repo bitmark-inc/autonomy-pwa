@@ -18,7 +18,7 @@ class AuthGuard implements CanActivate {
         return true;
       }
     }
-    this.router.navigate(['/landing/b']);
+    this.router.navigate(['/installation']);
   }
 }
 
@@ -32,16 +32,16 @@ class GuestGuard implements CanActivate {
 
   public canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     if (!this.isPWA) {
-      if (route.routeConfig.path !== 'landing/b') {
+      if (route.routeConfig.path !== 'installation') {
         let pid = route.queryParams['pid'] || this.userService.getParticipantID();
-        this.router.navigate(['/landing/b'], {queryParams: {'pid': pid}});
+        this.router.navigate(['/installation'], {queryParams: {'pid': pid}});
       }
       return true;
     }
     if (this.isPWA && !this.userService.getUser()) {
-      if (route.routeConfig.path === '' || route.routeConfig.path === 'landing/b') {
+      if (route.routeConfig.path === '' || route.routeConfig.path === 'installation') {
         let pid = route.queryParams['pid'] || this.userService.getParticipantID();
-        this.router.navigate(['/landing/p'], {queryParams: {'pid': pid}});
+        this.router.navigate(['/onboarding'], {queryParams: {'pid': pid}});
       }
       return true;
     }

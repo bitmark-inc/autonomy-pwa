@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { LandingComponent } from './landing/landing.component';
+import { InstallationComponent } from './installation/installation.component';
 import { SigninComponent } from './signin/signin.component';
-import { SignupComponent } from './signup/signup.component';
+import { OnboardingComponent } from './onboarding/onboarding.component';
 import { PoiComponent } from './poi/poi.component';
 import { RatingsComponent } from './ratings/ratings.component';
 import { RecoveryKeyComponent } from "./recovery-key/recovery-key.component";
@@ -17,11 +17,12 @@ import { NoContentComponent} from './no-content/no-content.component'
 import { AuthGuard, GuestGuard, ParticipantGuard } from './url-guard';
 
 const routes: Routes = [
-  {path: '', component: LandingComponent, canActivate: [ParticipantGuard, GuestGuard]},
-  {path: 'landing/b', component: LandingComponent, canActivate: [ParticipantGuard, GuestGuard]},
-  {path: 'landing/p/signin', component: SigninComponent, canActivate: [ParticipantGuard, GuestGuard]},
-  {path: 'landing/p', component: SignupComponent, canActivate: [ParticipantGuard, GuestGuard]},
-  {path: 'landing/p/irb', component: SignupComponent, canActivate: [ParticipantGuard, GuestGuard]},
+  {path: '', component: InstallationComponent, canActivate: [ParticipantGuard, GuestGuard]},
+  {path: 'ucberkeley', component: InstallationComponent, canActivate: [ParticipantGuard, GuestGuard]},
+  {path: 'installation', component: InstallationComponent, canActivate: [ParticipantGuard, GuestGuard]},
+  {path: 'onboarding/signin', component: SigninComponent, canActivate: [ParticipantGuard, GuestGuard]},
+  {path: 'onboarding', component: OnboardingComponent, canActivate: [ParticipantGuard, GuestGuard]},
+  {path: 'onboarding/irb', component: OnboardingComponent, canActivate: [ParticipantGuard, GuestGuard]},
   {path: 'home', component: HomeComponent, canActivate: [ParticipantGuard, AuthGuard], children: [
     {path: '', redirectTo: 'trends', pathMatch: 'full'},
     {path: 'trends', component: HomeComponent, canActivate: [ParticipantGuard, AuthGuard]},
@@ -41,7 +42,7 @@ const routes: Routes = [
   {path: 'home/setting/cde/read', component: CommunityDataComponent, canActivate: [ParticipantGuard, AuthGuard]},
   {path: 'home/setting/cde/submit', component: CommunityDataComponent, canActivate: [ParticipantGuard, AuthGuard]},
   {path: '404', component: NoContentComponent},
-  {path: '**', redirectTo: 'landing/b'},
+  {path: '**', redirectTo: 'installation'},
 ];
 
 @NgModule({

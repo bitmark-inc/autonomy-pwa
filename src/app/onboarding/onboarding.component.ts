@@ -11,14 +11,14 @@ import { MatBottomSheet, MatBottomSheetRef } from '@angular/material/bottom-shee
 import { BottomSheetAlertComponent } from '../bottom-sheet-alert/bottom-sheet-alert.component';
 import { from } from 'rxjs';
 
-enum EnumPageStage { Intro, Consent }
+enum EnumPageStage { Intro, Consent, InvalidPID }
 
 @Component({
-  selector: "app-signup",
-  templateUrl: "./signup.component.html",
-  styleUrls: ["./signup.component.scss"],
+  selector: 'app-onboarding',
+  templateUrl: './onboarding.component.html',
+  styleUrls: ['./onboarding.component.scss'],
 })
-export class SignupComponent implements OnInit {
+export class OnboardingComponent implements OnInit {
   public PageStage = EnumPageStage;
   public stage: EnumPageStage = EnumPageStage.Intro;
   public clickable: boolean = true;
@@ -42,10 +42,10 @@ export class SignupComponent implements OnInit {
 
   private setStageByUrl(url: string = '') {
     switch (url) {
-      case '/landing/p':
+      case '/onboarding':
         this.stage = this.PageStage.Intro;
         break;
-      case '/landing/p/irb':
+      case '/onboarding/irb':
         this.stage = this.PageStage.Consent;
         break;
       default:
@@ -139,7 +139,7 @@ export class SignupComponent implements OnInit {
               }
             });
             this.bottomSheetRef.dismiss();
-          }, 2.5 * 1000);
+          }, 3 * 1000);
         },
         (err) => {
           // TODO: do something
@@ -147,7 +147,7 @@ export class SignupComponent implements OnInit {
             if (err.code === 5566) {
               this.userService.removeParticipantID();
               this.pID = '';
-              this.stage = this.PageStage.Intro;
+              this.stage = this.PageStage.InvalidPID;
             }
             this.clickable = true;
           });

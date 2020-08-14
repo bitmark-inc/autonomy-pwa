@@ -29,7 +29,7 @@
     <div class="start-landing p-b-10">
       <a (click)="stage = PageStage.Consent"><span class="command">create account</span><img src="/assets/img/next-landing.svg" alt=""></a>
     </div>
-    <p>Or <a class="normal-link" [routerLink]="['/landing/p/signin']">sign back in »</a></p>
+    <p>Or <a class="normal-link" [routerLink]="['/onboarding/signin']">sign back in »</a></p>
   </div>
 </div>
 <div [hidden]="stage != PageStage.Consent" class="main-content">
@@ -140,5 +140,17 @@
         <div class="light-line"><hr></div>
       </div>
     </div>
+  </mat-card>
+</div>
+<div [hidden]="stage != PageStage.InvalidPID" class="main-content">
+  <mat-card class="header-btn" layout="fill">
+  </mat-card>
+  <div class="header-page-title content-left direction-color m-b-30">
+    <span style="border-left: 5px solid #CC3232; font-size: initial;" class="line-title"></span>
+    <span style="color: #CC3232;" class="page-title">Invalid Participant ID</span>
+  </div>
+  <mat-card class="font-18 line-height-120">
+    <p class="p-b-20">Sorry, but we detected a problem with your Safe Campus Study participant ID.</p>
+    <p class="p-b-20">Please use the original link from your invitation email to reinstall the app.</p>
   </mat-card>
 </div>
