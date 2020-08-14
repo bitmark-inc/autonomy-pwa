@@ -36,15 +36,15 @@ exports.handler = async (event, context, callback) => {
   const queryString = request.querystring;
 
   const manifestFileRequest = /manifest.webmanifest$/;
-  const ucberkeleyRequest = /\/ucberkeley/;
-  const resourceRequest = /(\.[a-zA-Z0-9]{2,5}$)/;
+  const resourceRequest = /(\.[a-zA-Z0-9]+$)/;
   
   let body;
 
   let isRequestToManifestFile = manifestFileRequest.test(request.uri);
-  let isRequestToBekerleyFile = ucberkeleyRequest.test(request.uri);
+  let isRequestToIndexFile = !(resourceRequest.test(request.uri));
+  let pid = extractPIDFromQueryString(queryString);
 
-  if ((isRequestToManifestFile || isRequestToBekerleyFile) && extractPIDFromQueryString(queryString)) {
+  if ((isRequestToManifestFile || isRequestToIndexFile) && pid) {
     try {
       await init();
     } catch (err) {
@@ -52,51 +52,46 @@ exports.handler = async (event, context, callback) => {
       callback(err);
       return;
     }
-  }
 
-  if (isRequestToManifestFile) {
-    body = webmanifestFileContent;
-    let pid = extractPIDFromQueryString(queryString);
-    if (pid) {
+    if (isRequestToManifestFile) {
+      body = webmanifestFileContent;
       body = body.replace(/"start_url":([^,]+),/, `"start_url": "/?pid=${pid}",`);
+    } else if (isRequestToIndexFile) {
+      body = indexHtmlFileContent;
+      body = body.replace(/<link rel="manifest"[^>]+>/, `<link rel="manifest" href="manifest.webmanifest?pid=${pid}">`);
     }
-  } else if (isRequestToBekerleyFile) {
-    let pid = extractPIDFromQueryString(queryString);
-    body = indexHtmlFileContent;
-    body = body.replace(/<link rel="manifest"[^>]+>/, `<link rel="manifest" href="manifest.webmanifest?pid=${pid}">`);
+
+    const response = {
+      status: '200',
+      statusDescription: 'OK',
+      headers: {
+        'cache-control': [{
+          key: 'Cache-Control',
+          value: 'max-age=31536000'
+        }],
+        'content-type': [{
+          key: 'Content-Type',
+          value: 'text/html'
+        }],
+        'content-encoding': [{
+          key: 'Content-Encoding',
+          value: 'UTF-8'
+        }],
+        'strict-transport-security': [{
+          key: 'Strict-Transport-Security', 
+          value: 'max-age=63072000; includeSubdomains; preload'
+        }],
+        'x-frame-options': [{
+          key: 'X-Frame-Options', 
+          value: 'DENY'
+        }],
+      },
+      body: body,
+    };
+  
+    //Return modified response
+    callback(null, response);
   } else {
     callback(null, request);
-    return;
   }
-
-  const response = {
-    status: '200',
-    statusDescription: 'OK',
-    headers: {
-      'cache-control': [{
-        key: 'Cache-Control',
-        value: 'max-age=31536000'
-      }],
-      'content-type': [{
-        key: 'Content-Type',
-        value: 'text/html'
-      }],
-      'content-encoding': [{
-        key: 'Content-Encoding',
-        value: 'UTF-8'
-      }],
-      'strict-transport-security': [{
-        key: 'Strict-Transport-Security', 
-        value: 'max-age=63072000; includeSubdomains; preload'
-      }],
-      'x-frame-options': [{
-        key: 'X-Frame-Options', 
-        value: 'DENY'
-      }],
-    },
-    body: body,
-  };
-
-  //Return modified response
-  callback(null, response);
 };
