@@ -14,6 +14,12 @@ export abstract class BaseService {
   constructor(protected http: HttpClient) {}
 
   protected sendHttpRequest(method: string, url: string, params?, options?) {
+    if (!navigator.onLine) {
+      window.alert('No internet. Please check your network connection.');
+      return Observable.create((observer) => {
+        observer.error(new Error('No internet. Please check your network connection.'));
+      })
+    }
     if (url.startsWith('api')) {
       url = `${environment.autonomy_api_url}${url}`
     }
