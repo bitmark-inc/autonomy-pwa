@@ -80,7 +80,6 @@ window.isProduction = environment.production;
     AppRoutingModule,
     HttpClientModule,
     ServiceWorkerModule.register('OneSignalSDKWorker.js', { enabled: environment.production }),
-    ServiceWorkerModule.register('swcustom.js', { enabled: environment.production }),
     BrowserAnimationsModule,
     FormsModule,
     MatToolbarModule,

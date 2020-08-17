@@ -32,8 +32,7 @@
               {"glob": "**/*", "input": "src/assets/icons/dev-app-icons", "output": "assets/icons/app-icons"},
               "src/manifest.webmanifest",
               {"glob": "main.wasm", "input": "src/bitmarksdk/src", "output": "/"},
-              {"glob": "**/*", "input": "src/onesignal/", "output": "/"},
-              "src/swcustom.js"
+              {"glob": "**/*", "input": "src/onesignal/", "output": "/"}
             ],
             "styles": [
               "./node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css",
@@ -66,8 +65,7 @@
                 {"glob": "**/*", "input": "src/assets/icons/dev-app-icons", "output": "assets/icons/app-icons"},
                 "src/manifest.webmanifest",
                 {"glob": "main.wasm", "input": "src/bitmarksdk/src", "output": "/"},
-                {"glob": "**/*", "input": "src/onesignal/", "output": "/"},
-                "src/swcustom.js"
+                {"glob": "**/*", "input": "src/onesignal/", "output": "/"}
               ],
               "optimization": true,
               "outputHashing": "all",
@@ -108,8 +106,7 @@
                 {"glob": "**/*", "input": "src/assets/icons/dev-app-icons", "output": "assets/icons/app-icons"},
                 "src/manifest.webmanifest",
                 {"glob": "main.wasm", "input": "src/bitmarksdk/src", "output": "/"},
-                {"glob": "**/*", "input": "src/onesignal/", "output": "/"},
-                "src/swcustom.js"
+                {"glob": "**/*", "input": "src/onesignal/", "output": "/"}
               ],
               "optimization": true,
               "outputHashing": "all",
@@ -150,8 +147,7 @@
                 {"glob": "**/*", "input": "src/assets/icons/prd-app-icons", "output": "assets/icons/app-icons"},
                 "src/manifest.webmanifest",
                 {"glob": "main.wasm", "input": "src/bitmarksdk/src", "output": "/"},
-                {"glob": "**/*", "input": "src/onesignal/", "output": "/"},
-                "src/swcustom.js"
+                {"glob": "**/*", "input": "src/onesignal/", "output": "/"}
               ],
               "optimization": true,
               "outputHashing": "all",
