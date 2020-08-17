@@ -1,20 +1,20 @@
-export class AppErrors extends Error{
+export class AppError extends Error{
   public code: number;
 
-  constructor(code, message) {
-    super(message);
+  constructor(code: number, message?: string) {
+    super(message || 'Oops! Something went wrong! Please try again!');
     this.code = code;
   }
 };
 
-export class NoInternetErrors extends AppErrors{
-  constructor(code, message) {
-    super(code, message);
+export class NoInternetError extends AppError{
+  constructor(message?: string) {
+    super(0, message || 'Please check your network connection, then try again.');
   }
 };
 
-export class PIDErrors extends AppErrors{
-  constructor(code, message) {
-    super(code, message);
+export class PIDError extends AppError{
+  constructor(message?: string) {
+    super(5566, message);
   }
 };

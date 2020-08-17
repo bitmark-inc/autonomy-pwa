@@ -6,7 +6,7 @@ import { HttpClient } from '@angular/common/http';
 
 import 'rxjs';
 import { Observable } from 'rxjs';
-import { AppErrors, NoInternetErrors, PIDErrors } from '../errors';
+import { AppError, NoInternetError, PIDError } from '../errors';
 
 @Injectable({
   providedIn: 'root'
@@ -59,11 +59,11 @@ export abstract class BaseService {
           },
           (err) => {
             if (!navigator.onLine) {
-              observer.error(new NoInternetErrors(0, 'Please check your network connection, then try again.'));
+              observer.error(new NoInternetError());
             } else if (err.error && err.error.code === 5566) {
-              observer.error(new PIDErrors(5566, err.error.message));
+              observer.error(new PIDError(err.error.message));
             } else {
-              observer.error(new AppErrors(err.status, err.message));
+              observer.error(new AppError(err.status));
             }
           }
         );

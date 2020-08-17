@@ -8,7 +8,6 @@ import { BottomSheetAlertComponent } from "../bottom-sheet-alert/bottom-sheet-al
 import { ApiService } from '../services/api/api.service';
 import { UserService } from '../services/user/user.service';
 import { environment } from '../../environments/environment';
-import { NoInternetErrors, AppErrors } from '../errors';
 
 enum EnumPageStage { CDE, Submit, Save, Read }
 
@@ -95,11 +94,7 @@ export class CommunityDataComponent implements OnInit {
           (err) => {
             this.bottomSheetRef.afterDismissed().subscribe(() => {
               this.clickable = true;
-              if (err instanceof NoInternetErrors) {
-                window.alert(err.message);
-              } else if (err instanceof AppErrors) {
-                console.log(err);
-              }
+              window.alert(err.message);
             })
             this.bottomSheetRef.dismiss();
           })

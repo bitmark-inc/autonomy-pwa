@@ -1,9 +1,9 @@
-import { NoInternetErrors, AppErrors } from './../errors';
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserService } from '../services/user/user.service';
 import { MatBottomSheet, MatBottomSheetRef } from '@angular/material/bottom-sheet';
 import { BottomSheetAlertComponent } from "../bottom-sheet-alert/bottom-sheet-alert.component";
+import { NoInternetError, AppError } from './../errors';
 
 @Component({
   selector: "app-signin",
@@ -70,9 +70,12 @@ export class SigninComponent implements OnInit {
         },
         (err) => {
           this.clickable = true;
-          if (err instanceof NoInternetErrors) {
-            window.alert(err.message)
-          } else if (err instanceof AppErrors) {
+          if (err instanceof NoInternetError) {
+            this.bottomSheetRef.afterDismissed().subscribe(() => {
+              window.alert(err.message)
+            });
+            this.bottomSheetRef.dismiss();
+          } else if (err instanceof AppError) {
             this.openBottomSheet('error');
           }
         }
