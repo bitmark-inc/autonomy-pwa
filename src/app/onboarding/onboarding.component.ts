@@ -9,7 +9,6 @@ import { UserService } from '../services/user/user.service';
 import { ApiService } from '../services/api/api.service';
 import { MatBottomSheet, MatBottomSheetRef } from '@angular/material/bottom-sheet';
 import { BottomSheetAlertComponent } from '../bottom-sheet-alert/bottom-sheet-alert.component';
-import { from } from 'rxjs';
 
 enum EnumPageStage { Intro, Consent, InvalidPID }
 

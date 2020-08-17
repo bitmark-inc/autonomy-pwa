@@ -97,6 +97,11 @@ export class PersonalDataComponent implements OnInit {
               })
               this.bottomSheetRef.dismiss();
             }, 3 * 1000);
+          },
+          (err) => {
+            console.log(err);
+            this.clickable = true;
+            this.bottomSheetRef.dismiss();
           })
     }
   }
@@ -116,6 +121,11 @@ export class PersonalDataComponent implements OnInit {
                 });
                 this.bottomSheetRef.dismiss();
               }, 3 * 1000);
+            },
+            (err) => {
+              console.log(err);
+              this.clickable = true;
+              this.bottomSheetRef.dismiss();
             })
       } else {
         this.clickable = true;

@@ -71,7 +71,7 @@ class NetworkGuard implements CanActivate {
     if (navigator.onLine) {
       return true;
     }
-    window.alert('No internet. Please check your network connection.');
+    window.alert('Please check your network connection, then try again.');
     return false;
   }
 }

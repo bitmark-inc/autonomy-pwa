@@ -15,9 +15,9 @@ export abstract class BaseService {
 
   protected sendHttpRequest(method: string, url: string, params?, options?) {
     if (!navigator.onLine) {
-      window.alert('No internet. Please check your network connection.');
+      window.alert('Please check your network connection, then try again.');
       return Observable.create((observer) => {
-        observer.error(new Error('No internet. Please check your network connection.'));
+        observer.error(new Error('Please check your network connection, then try again.'));
       })
     }
     if (url.startsWith('api')) {

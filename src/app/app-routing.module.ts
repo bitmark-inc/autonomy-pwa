@@ -18,16 +18,16 @@ import { AuthGuard, GuestGuard, ParticipantGuard, NetworkGuard } from './url-gua
 
 const routes: Routes = [
   {path: '', component: InstallationComponent, canActivate: [NetworkGuard, ParticipantGuard, GuestGuard]},
-  {path: 'ucberkeley', component: InstallationComponent, canActivate: [ParticipantGuard, GuestGuard]},
-  {path: 'installation', component: InstallationComponent, canActivate: [ParticipantGuard, GuestGuard]},
-  {path: 'onboarding/signin', component: SigninComponent, canActivate: [ParticipantGuard, GuestGuard]},
+  {path: 'ucberkeley', component: InstallationComponent, canActivate: [NetworkGuard, ParticipantGuard, GuestGuard]},
+  {path: 'installation', component: InstallationComponent, canActivate: [NetworkGuard, ParticipantGuard, GuestGuard]},
+  {path: 'onboarding/signin', component: SigninComponent, canActivate: [NetworkGuard, ParticipantGuard, GuestGuard]},
   {path: 'onboarding', component: OnboardingComponent, canActivate: [NetworkGuard, ParticipantGuard, GuestGuard]},
   {path: 'onboarding/irb', component: OnboardingComponent, canActivate: [NetworkGuard, ParticipantGuard, GuestGuard]},
-  {path: 'home', component: HomeComponent, canActivate: [ParticipantGuard, AuthGuard], children: [
+  {path: 'home', component: HomeComponent, canActivate: [NetworkGuard, ParticipantGuard, AuthGuard], children: [
     {path: '', redirectTo: 'trends', pathMatch: 'full'},
     {path: 'trends', component: HomeComponent, canActivate: [NetworkGuard, ParticipantGuard, AuthGuard]},
     {path: 'resources', component: HomeComponent, canActivate: [NetworkGuard, ParticipantGuard, AuthGuard]},
-    {path: 'setting', component: HomeComponent, canActivate: [ParticipantGuard, AuthGuard]},
+    {path: 'setting', component: HomeComponent, canActivate: [NetworkGuard, ParticipantGuard, AuthGuard]},
   ]},
   {path: 'home/resources/pois/:id', component: PoiComponent, canActivate: [NetworkGuard, ParticipantGuard, AuthGuard]},
   {path: 'rating/:id', component: RatingsComponent, canActivate: [NetworkGuard, ParticipantGuard, AuthGuard]},

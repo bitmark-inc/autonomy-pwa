@@ -55,7 +55,7 @@ export class SigninComponent implements OnInit {
 
   public signin() {
     if (!navigator.onLine) {
-      window.alert('No internet. Please check your network connection.');
+      window.alert('Please check your network connection, then try again.');
       return false;
     }
     if (this.clickable && this.key) {

@@ -90,6 +90,11 @@ export class CommunityDataComponent implements OnInit {
               })
               this.bottomSheetRef.dismiss();
             }, 3 * 1000);
+          },
+          (err) => {
+            console.log(err);
+            this.clickable = true;
+            this.bottomSheetRef.dismiss();
           })
     }
   }

@@ -19,6 +19,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   private stateSubscription: Subscription;
 
   public tabActivated: TabActivated = TabActivated.Trends;
+  public currentTab: TabActivated = TabActivated.Trends;
 
   constructor(public router: Router, private ref: ChangeDetectorRef, private location: Location) {
     this.setTabActivatedByUrl(this.router.url);
@@ -39,15 +40,19 @@ export class HomeComponent implements OnInit, OnDestroy {
     switch (url) {
     case '/home/trends':
       this.tabActivated = TabActivated.Trends;
+      this.currentTab = this.tabActivated;
       break;
     case '/home/resources':
       this.tabActivated = TabActivated.Resources;
+      this.currentTab = this.tabActivated;
       break;
     case '/home/setting':
       this.tabActivated = TabActivated.Account;
+      this.currentTab = this.tabActivated;
       break;
     default:
       this.tabActivated = TabActivated.Trends;
+      this.currentTab = this.tabActivated;
       break;
     }
   }
@@ -67,6 +72,18 @@ export class HomeComponent implements OnInit, OnDestroy {
     default:
       this.location.replaceState('/home/trends');
       break;
+    }
+  }
+
+  public tabClick() {
+    if (!navigator.onLine) {
+      if ((this.tabActivated === 0 && this.currentTab !== 0) || (this.tabActivated === 2 && this.currentTab !== 2)) {
+        window.alert('Please check your network connection, then try again.');
+      }
+      this.tabActivated = this.currentTab;
+      return;
+    } else {
+      this.currentTab = this.tabActivated;
     }
   }
 }

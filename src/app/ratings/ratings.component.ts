@@ -220,6 +220,7 @@ export class RatingsComponent implements OnInit, OnDestroy {
           (err: any) => {
             this.clickable = true;
             console.log(err);
+            this.bottomSheetRef.dismiss();
             // TODO: do something
           }
         );
