@@ -7,6 +7,7 @@ import * as moment from 'moment';
 import * as d3 from 'd3'
 import { environment } from 'src/environments/environment';
 import { UserService } from 'src/app/services/user/user.service';
+import { NoInternetErrors } from 'src/app/errors';
 
 enum NotificationPermissionState { None, Allowed, Denied, NotSupported, NoThanks };
 
@@ -69,7 +70,11 @@ export class CommunityComponent implements OnInit {
         },
         (err) => {
           // TODO: do something
-          console.log(err);
+          if (err instanceof NoInternetErrors) {
+            window.alert(err.message);
+          } else {
+            console.log(err);
+          }
         }
       )
   }

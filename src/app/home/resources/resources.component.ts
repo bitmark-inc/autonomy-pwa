@@ -16,6 +16,7 @@ import { Util } from '../../services/util/util.service';
 import { AppSettings } from '../../app-settings';
 import * as moment from 'moment';
 import { GoogleMap } from '@angular/google-maps';
+import { NoInternetErrors } from 'src/app/errors';
 
 let FakePOIS = [
   {
@@ -300,6 +301,9 @@ export class ResourcesComponent implements OnInit, OnDestroy {
       },
       (err) => {
         this.isSearching = false;
+        if (err instanceof NoInternetErrors) {
+          window.alert(err.message);
+        }
       }
     );
   }

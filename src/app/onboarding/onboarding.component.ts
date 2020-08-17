@@ -9,6 +9,7 @@ import { UserService } from '../services/user/user.service';
 import { ApiService } from '../services/api/api.service';
 import { MatBottomSheet, MatBottomSheetRef } from '@angular/material/bottom-sheet';
 import { BottomSheetAlertComponent } from '../bottom-sheet-alert/bottom-sheet-alert.component';
+import { NoInternetErrors, PIDErrors } from '../errors';
 
 enum EnumPageStage { Intro, Consent, InvalidPID }
 
@@ -25,7 +26,9 @@ export class OnboardingComponent implements OnInit {
   public pID: string;
   public pidValid: boolean = true;
 
-  constructor(private router: Router, private activatedRoute: ActivatedRoute, private userService: UserService, private apiService: ApiService, private bottomSheet: MatBottomSheet, private bottomSheetRef: MatBottomSheetRef, private http: HttpClient, private ngZone: NgZone) {
+  constructor(private router: Router, private activatedRoute: ActivatedRoute, private userService: UserService, private apiService: ApiService,
+    private bottomSheet: MatBottomSheet, private bottomSheetRef: MatBottomSheetRef, private http: HttpClient, private ngZone: NgZone,
+    ) {
     this.activatedRoute.queryParams.subscribe((params) => {
       this.pID = params['pid'] || this.userService.getParticipantID();
       this.userService.saveParticipantID(this.pID);
@@ -111,7 +114,11 @@ export class OnboardingComponent implements OnInit {
       },
       (err) => {
         this.clickable = true;
-        console.log(err);
+        if (err instanceof NoInternetErrors) {
+          window.alert(err.message);
+        } else {
+          throw err;
+        }
       })
     }
   }
@@ -143,10 +150,12 @@ export class OnboardingComponent implements OnInit {
         (err) => {
           // TODO: do something
           this.bottomSheetRef.afterDismissed().subscribe(() => {
-            if (err.code === 5566) {
+            if (err instanceof PIDErrors) {
               this.userService.removeParticipantID();
               this.pID = '';
               this.stage = this.PageStage.InvalidPID;
+            } else if (err instanceof NoInternetErrors) {
+              window.alert(err.message);
             }
             this.clickable = true;
           });

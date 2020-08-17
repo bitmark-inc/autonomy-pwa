@@ -1,3 +1,4 @@
+import { NoInternetErrors, AppErrors } from './../errors';
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserService } from '../services/user/user.service';
@@ -54,10 +55,6 @@ export class SigninComponent implements OnInit {
   }
 
   public signin() {
-    if (!navigator.onLine) {
-      window.alert('Please check your network connection, then try again.');
-      return false;
-    }
     if (this.clickable && this.key) {
       this.clickable = false;
       this.openBottomSheet("ok");
@@ -73,7 +70,11 @@ export class SigninComponent implements OnInit {
         },
         (err) => {
           this.clickable = true;
-          this.openBottomSheet('error');
+          if (err instanceof NoInternetErrors) {
+            window.alert(err.message)
+          } else if (err instanceof AppErrors) {
+            this.openBottomSheet('error');
+          }
         }
       );
     }

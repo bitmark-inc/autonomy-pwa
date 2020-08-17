@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { Util } from '../services/util/util.service';
 import * as moment from "moment";
+import { NoInternetErrors } from '../errors';
 
 @Component({
   selector: "app-poi",
@@ -78,8 +79,11 @@ export class PoiComponent implements OnInit, OnDestroy {
           this.formatPOI();
         },
         (err: any) => {
-          console.log(err);
-          // TODO: do something
+          if (err instanceof NoInternetErrors) {
+            window.alert(err.message);
+          } else {
+            console.log(err);
+          }
         }
       );
   }
@@ -125,7 +129,11 @@ export class PoiComponent implements OnInit, OnDestroy {
           }
         },
         (err: any) => {
-          console.log(err);
+          if (err instanceof NoInternetErrors) {
+            window.alert(err.message);
+          } else {
+            console.log(err);
+          }
           // TODO: do something
         }
       );

@@ -6,6 +6,7 @@ import { HttpClient } from '@angular/common/http';
 
 import 'rxjs';
 import { Observable } from 'rxjs';
+import { AppErrors, NoInternetErrors, PIDErrors } from '../errors';
 
 @Injectable({
   providedIn: 'root'
@@ -14,12 +15,6 @@ export abstract class BaseService {
   constructor(protected http: HttpClient) {}
 
   protected sendHttpRequest(method: string, url: string, params?, options?) {
-    if (!navigator.onLine) {
-      window.alert('Please check your network connection, then try again.');
-      return Observable.create((observer) => {
-        observer.error(new Error('Please check your network connection, then try again.'));
-      })
-    }
     if (url.startsWith('api')) {
       url = `${environment.autonomy_api_url}${url}`
     }
@@ -62,7 +57,15 @@ export abstract class BaseService {
             observer.next(data);
             observer.complete();
           },
-          (err) => observer.error(err.error ? err.error : new Error('can not connect to the server'))
+          (err) => {
+            if (!navigator.onLine) {
+              observer.error(new NoInternetErrors(0, 'Please check your network connection, then try again.'));
+            } else if (err.error && err.error.code === 5566) {
+              observer.error(new PIDErrors(5566, err.error.message));
+            } else {
+              observer.error(new AppErrors(err.status, err.message));
+            }
+          }
         );
     });
   }

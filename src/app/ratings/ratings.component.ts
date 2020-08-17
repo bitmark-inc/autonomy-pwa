@@ -7,6 +7,7 @@ import { MatBottomSheet, MatBottomSheetRef } from '@angular/material/bottom-shee
 import { BottomSheetAlertComponent } from "../bottom-sheet-alert/bottom-sheet-alert.component";
 import { Util } from '../services/util/util.service';
 import { UserService } from '../services/user/user.service';
+import { NoInternetErrors, AppErrors } from '../errors';
 
 enum EnumPageStage { Ratings, Rights, DataPDE, DataCDE }
 
@@ -108,6 +109,9 @@ export class RatingsComponent implements OnInit, OnDestroy {
         },
         (err: any) => {
           console.log(err);
+          if (err instanceof NoInternetErrors) {
+            window.alert(err.message);
+          }
           // TODO: do something
         }
       );
@@ -129,7 +133,9 @@ export class RatingsComponent implements OnInit, OnDestroy {
         },
         (err: any) => {
           console.log(err);
-          // TODO: do something
+          if (err instanceof NoInternetErrors) {
+            window.alert(err.message);
+          }
         }
       );
   }
@@ -218,8 +224,14 @@ export class RatingsComponent implements OnInit, OnDestroy {
             }, 3 * 1000);
           },
           (err: any) => {
-            this.clickable = true;
-            console.log(err);
+            this.bottomSheetRef.afterDismissed().subscribe(() => {
+              this.clickable = true;
+              if (err instanceof NoInternetErrors) {
+                window.alert(err.message);
+              } else if (err instanceof AppErrors) {
+                console.log(err);
+              }
+            });
             this.bottomSheetRef.dismiss();
             // TODO: do something
           }
