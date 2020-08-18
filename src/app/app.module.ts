@@ -22,7 +22,7 @@ import { HttpClientModule }    from '@angular/common/http';
 import { UserService } from './services/user/user.service';
 import { ApiService } from './services/api/api.service';
 import { EventEmitterService } from "./services/event-emitter.service";
-import { AuthGuard, GuestGuard, ParticipantGuard, NetworkGuard } from './url-guard';
+import { PWAUserGuard, PWAGuestGuard, PWAGuard, BrowserGuard, ParticipantGuard, NetworkGuard } from './url-guard';
 
 import { AppComponent } from './app.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
@@ -99,10 +99,7 @@ window.isProduction = environment.production;
     UserService,
     ApiService,
     EventEmitterService,
-    AuthGuard,
-    GuestGuard,
-    ParticipantGuard,
-    NetworkGuard,
+    PWAUserGuard, PWAGuestGuard, PWAGuard, BrowserGuard, ParticipantGuard, NetworkGuard,
     {provide: APP_INITIALIZER, useFactory: InitServices, deps: [UserService], multi: true},
     {provide: MatBottomSheetRef, useValue: {}}
   ],
