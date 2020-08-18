@@ -5,7 +5,26 @@ import { Route, Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot
 import { UserService } from './services/user/user.service';
 
 @Injectable()
-class AuthGuard implements CanActivate {
+class PWAUserGuard implements CanActivate {
+  constructor(private router: Router, private userService: UserService) {}
+
+  public canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+    return this.userService.getUser() ? true : this.router.createUrlTree(['onboarding'], {queryParams: route.queryParams});
+  }
+}
+
+@Injectable()
+class PWAGuestGuard implements CanActivate {
+  constructor(private router: Router, private userService: UserService) {}
+
+  public canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+    return this.userService.getUser() ? this.router.createUrlTree(['home', 'trends'], {queryParams: route.queryParams}) : true;
+  }
+}
+
+@Injectable()
+class PWAGuard implements CanActivate {
+
   private isPWA: boolean;
 
   constructor(private router: Router, private userService: UserService) {
@@ -13,39 +32,21 @@ class AuthGuard implements CanActivate {
   }
 
   public canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    if (this.isPWA) {
-      if (this.userService.getUser()) {
-        return true;
-      }
-    }
-    this.router.navigate(['/installation']);
+    return this.isPWA ? true : this.router.createUrlTree(['installation'], {queryParams: route.queryParams});
   }
 }
 
 @Injectable()
-class GuestGuard implements CanActivate {
-  private isPWA: boolean;
+class BrowserGuard implements CanActivate {
+
+  private isBrowser: boolean;
 
   constructor(private router: Router, private userService: UserService) {
-    this.isPWA = !!(window.matchMedia('(display-mode: standalone)').matches);
+    this.isBrowser = !window.matchMedia('(display-mode: standalone)').matches;
   }
 
   public canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    if (!this.isPWA) {
-      if (route.routeConfig.path !== 'installation' || !route.queryParams['pid']) {
-        let pid = route.queryParams['pid'] || this.userService.getParticipantID();
-        this.router.navigate(['/installation'], {queryParams: {'pid': pid}});
-      }
-      return true;
-    }
-    if (this.isPWA && !this.userService.getUser()) {
-      if (route.routeConfig.path === '' || route.routeConfig.path === 'installation') {
-        let pid = route.queryParams['pid'] || this.userService.getParticipantID();
-        this.router.navigate(['/onboarding'], {queryParams: {'pid': pid}});
-      }
-      return true;
-    }
-    this.router.navigate(['/home/trends']);
+    return this.isBrowser ? true : this.router.createUrlTree(['onboarding'], {queryParams: route.queryParams});
   }
 }
 
@@ -55,10 +56,8 @@ class ParticipantGuard implements CanActivate {
   constructor(private router: Router, private userService: UserService) { }
 
   public canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    if (route.queryParams['pid'] || this.userService.getParticipantID()) {
-      return true;
-    }
-    this.router.navigate(['/404']);
+    let pid = route.queryParams['pid'] || this.userService.getParticipantID();
+    return pid ? true : this.router.createUrlTree(['404'], {queryParams: route.queryParams});
   }
 }
 
@@ -76,4 +75,4 @@ class NetworkGuard implements CanActivate {
   }
 }
 
-export { AuthGuard, GuestGuard, ParticipantGuard, NetworkGuard }
+export { PWAUserGuard, PWAGuestGuard, PWAGuard, BrowserGuard, ParticipantGuard, NetworkGuard };
