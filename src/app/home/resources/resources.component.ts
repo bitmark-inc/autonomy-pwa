@@ -332,6 +332,7 @@ export class ResourcesComponent implements OnInit, OnDestroy {
       },
       (err) => {
         this.isSearching = false;
+        window.alert(err.message);
       }
     );
   }

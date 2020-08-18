@@ -107,7 +107,7 @@ export class RatingsComponent implements OnInit, OnDestroy {
           this.checkSubmitable(data.ratings);
         },
         (err: any) => {
-          console.log(err);
+          window.alert(err.message);
           // TODO: do something
         }
       );
@@ -128,8 +128,7 @@ export class RatingsComponent implements OnInit, OnDestroy {
           this.formatPOI();
         },
         (err: any) => {
-          console.log(err);
-          // TODO: do something
+          window.alert(err.message);
         }
       );
   }
@@ -218,8 +217,11 @@ export class RatingsComponent implements OnInit, OnDestroy {
             }, 3 * 1000);
           },
           (err: any) => {
-            this.clickable = true;
-            console.log(err);
+            this.bottomSheetRef.afterDismissed().subscribe(() => {
+              this.clickable = true;
+              window.alert(err.message);
+            });
+            this.bottomSheetRef.dismiss();
             // TODO: do something
           }
         );

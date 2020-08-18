@@ -69,7 +69,7 @@ export class CommunityComponent implements OnInit {
         },
         (err) => {
           // TODO: do something
-          console.log(err);
+          window.alert(err.message);
         }
       )
   }

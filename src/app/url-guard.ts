@@ -62,4 +62,18 @@ class ParticipantGuard implements CanActivate {
   }
 }
 
-export { AuthGuard, GuestGuard, ParticipantGuard }
+@Injectable()
+class NetworkGuard implements CanActivate {
+
+  constructor(private router: Router, private userService: UserService) { }
+
+  public canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+    if (navigator.onLine) {
+      return true;
+    }
+    window.alert('Please check your network connection, then try again.');
+    return false;
+  }
+}
+
+export { AuthGuard, GuestGuard, ParticipantGuard, NetworkGuard }

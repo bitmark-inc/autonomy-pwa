@@ -22,7 +22,7 @@ import { HttpClientModule }    from '@angular/common/http';
 import { UserService } from './services/user/user.service';
 import { ApiService } from './services/api/api.service';
 import { EventEmitterService } from "./services/event-emitter.service";
-import { AuthGuard, GuestGuard, ParticipantGuard } from './url-guard';
+import { AuthGuard, GuestGuard, ParticipantGuard, NetworkGuard } from './url-guard';
 
 import { AppComponent } from './app.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
@@ -102,6 +102,7 @@ window.isProduction = environment.production;
     AuthGuard,
     GuestGuard,
     ParticipantGuard,
+    NetworkGuard,
     {provide: APP_INITIALIZER, useFactory: InitServices, deps: [UserService], multi: true},
     {provide: MatBottomSheetRef, useValue: {}}
   ],

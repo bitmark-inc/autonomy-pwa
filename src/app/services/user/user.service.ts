@@ -86,7 +86,6 @@ export class UserService extends BaseService {
   private async initService() {
     await this.initBitmarkSDK();
     window.BitmarkSdk.setup('my api token', environment.bitmark_network); // TODO: replace this with real configuration
-
     this.cache = new UserCache();
     if (this.cache.load()) {
       this.user = <any>{};
@@ -131,9 +130,14 @@ export class UserService extends BaseService {
     return Observable.create(async (observer) => {
       this.user = <any>{};
       this.user.account = window.BitmarkSdk.parseAccount(recoveryPhrase);
-      await this.makeAccount({});
-      observer.next();
-      observer.complete();
+      try {
+        await this.makeAccount({});
+        observer.next();
+        observer.complete();
+      } catch (err) {
+        this.user = null;
+        observer.error(err);
+      }
     });
   }
 
@@ -146,6 +150,7 @@ export class UserService extends BaseService {
         observer.next();
         observer.complete();
       } catch (err) {
+        this.user = null;
         observer.error(err)
       }
     });

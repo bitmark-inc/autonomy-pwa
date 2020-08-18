@@ -78,8 +78,7 @@ export class PoiComponent implements OnInit, OnDestroy {
           this.formatPOI();
         },
         (err: any) => {
-          console.log(err);
-          // TODO: do something
+          window.alert(err.message);
         }
       );
   }
@@ -125,7 +124,7 @@ export class PoiComponent implements OnInit, OnDestroy {
           }
         },
         (err: any) => {
-          console.log(err);
+          window.alert(err.message);
           // TODO: do something
         }
       );

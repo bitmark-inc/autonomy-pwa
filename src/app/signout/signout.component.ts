@@ -61,6 +61,10 @@ export class SignoutComponent implements OnInit {
   }
 
   public signout() {
+    if (!navigator.onLine) {
+      window.alert('Please check your network connection, then try again.');
+      return false;
+    }
     if (this.clickable && this.key && this.key.trim().split(' ').length === 13) {
       this.clickable = false;
       if (this.checkRecoveryWords()) {

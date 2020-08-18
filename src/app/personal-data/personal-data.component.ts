@@ -97,6 +97,13 @@ export class PersonalDataComponent implements OnInit {
               })
               this.bottomSheetRef.dismiss();
             }, 3 * 1000);
+          },
+          (err) => {
+            this.bottomSheetRef.afterDismissed().subscribe(() => {
+              this.clickable = true;
+              window.alert(err.message);
+            });
+            this.bottomSheetRef.dismiss();
           })
     }
   }
@@ -116,6 +123,13 @@ export class PersonalDataComponent implements OnInit {
                 });
                 this.bottomSheetRef.dismiss();
               }, 3 * 1000);
+            },
+            (err) => {
+              this.bottomSheetRef.afterDismissed().subscribe(() => {
+                this.clickable = true;
+                window.alert(err.message);
+              });
+              this.bottomSheetRef.dismiss();
             })
       } else {
         this.clickable = true;

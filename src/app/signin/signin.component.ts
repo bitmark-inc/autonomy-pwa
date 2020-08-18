@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { UserService } from '../services/user/user.service';
 import { MatBottomSheet, MatBottomSheetRef } from '@angular/material/bottom-sheet';
 import { BottomSheetAlertComponent } from "../bottom-sheet-alert/bottom-sheet-alert.component";
+import { NoInternetError, AppError } from './../errors';
 
 @Component({
   selector: "app-signin",
@@ -69,7 +70,14 @@ export class SigninComponent implements OnInit {
         },
         (err) => {
           this.clickable = true;
-          this.openBottomSheet('error');
+          if (err instanceof NoInternetError) {
+            this.bottomSheetRef.afterDismissed().subscribe(() => {
+              window.alert(err.message)
+            });
+            this.bottomSheetRef.dismiss();
+          } else if (err instanceof AppError) {
+            this.openBottomSheet('error');
+          }
         }
       );
     }
