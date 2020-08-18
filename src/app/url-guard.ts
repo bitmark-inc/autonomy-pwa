@@ -32,7 +32,7 @@ class GuestGuard implements CanActivate {
 
   public canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     if (!this.isPWA) {
-      if (route.routeConfig.path !== 'installation') {
+      if (route.routeConfig.path !== 'installation' || !route.queryParams['pid']) {
         let pid = route.queryParams['pid'] || this.userService.getParticipantID();
         this.router.navigate(['/installation'], {queryParams: {'pid': pid}});
       }
