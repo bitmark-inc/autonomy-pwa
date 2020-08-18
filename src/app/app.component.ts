@@ -52,6 +52,8 @@ export class AppComponent {
   }
 
   private autoupdateApp() {
+    this.swUpdate.checkForUpdate();
+
     interval(1000 * 60 * 2).subscribe(() => {
       this.swUpdate.checkForUpdate();
     });
