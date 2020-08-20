@@ -2,7 +2,7 @@ declare var window: any;
 
 import { Component, OnInit, OnDestroy, ViewChild, ElementRef, HostListener, AfterViewInit } from '@angular/core';
 import { UserService } from '../services/user/user.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { environment } from '../../environments/environment';
 import { timer } from 'rxjs';
 
@@ -34,14 +34,18 @@ export class InstallationComponent implements OnInit, AfterViewInit, OnDestroy {
   public isDesktop: boolean;
 
   public viewHeight: string;
+  private pID: string;
 
-  constructor(private router: Router, private userService: UserService) {
+  constructor(private router: Router, private activatedRoute: ActivatedRoute, private userService: UserService) {
     this.viewHeight = `${window.innerHeight}px`;
+    this.activatedRoute.queryParams.subscribe((params) => {
+      this.pID = params['pid'] || this.userService.getParticipantID();
+    })
   }
   
   ngOnInit() {
     this.detectBrowser();
-    this.webappUrl = environment.bitmark_network === 'livenet' ? 'https://autonomy-pwa.bitmark.com' : 'https://autonomy-pwa.test.bitmark.com';
+    this.webappUrl = `${environment.autonomy_app_url}/ucberkeley?pid=${this.pID}`;
     if (this.isMobileExceptIOS) {
       window.addEventListener('beforeinstallprompt', (e) => {
         // Prevent Chrome 67 and earlier from automatically showing the prompt
@@ -59,7 +63,6 @@ export class InstallationComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    console.log('destroy');
     if (this.isMobileExceptIOS) {
       window.removeEventListener('beforeinstallprompt');
     }
