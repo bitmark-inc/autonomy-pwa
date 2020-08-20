@@ -139,6 +139,7 @@ textarea {
 
 .mat-table,
 .mat-card {
+  padding: 15px !important;
   background-color: inherit;
   color: inherit;
   font-family: inherit;
@@ -808,6 +809,10 @@ textarea {
   padding-top: 10px;
 }
 
+.p-t-15 {
+  padding-top: 15px;
+}
+
 .p-t-20 {
   padding-top: 20px;
 }
@@ -828,6 +833,10 @@ textarea {
   padding-bottom: 10px;
 }
 
+.p-b-15 {
+  padding-bottom: 15px;
+}
+
 .p-b-20 {
   padding-bottom: 20px;
 }
@@ -838,6 +847,22 @@ textarea {
 
 .p-b-60 {
   padding-bottom: 60px;
+}
+
+.p-l-15 {
+  padding-left: 15px;
+}
+
+.p-l-30 {
+  padding-left: 30px;
+}
+
+.p-r-15 {
+  padding-right: 15px;
+}
+
+.p-r-30 {
+  padding-right: 30px;
 }
 
 .m-t-30 {

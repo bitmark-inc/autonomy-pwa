@@ -78,7 +78,7 @@
   overflow: hidden;
 
   .result-place-child-list {
-    width: calc(100% + 5px);
+    width: calc(100% + 9px);
     max-width: 772px;
     padding-bottom: 70px;
     max-height: calc(100vh - 56px - 57px);
@@ -92,18 +92,22 @@
     z-index: 100;
     width: 100vw;
     background: #ffffff;
-    height: 20px;
+    height: 27.5px;
     left: 50%;
     transform: translate(-50%, -10%);
 
     span {
-      width: 50px;
-      height: 10px;
-      border-bottom: 1px solid #c1c1c1;
+      width: 45px;
+      height: 13.5px;
+      border-bottom: 2.5px solid #c1c1c1;
       position: fixed;
       left: 50%;
       transform: translateX(-50%);
     }
+  }
+
+  .places-list-item {
+    padding: 15px calc(15px + 9px) 0 15px;
   }
 
   .place-score {
