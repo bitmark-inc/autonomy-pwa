@@ -1,3 +1,5 @@
+declare var window: any;
+
 import { environment } from '../../environments/environment';
 import { Component, OnInit, ElementRef, OnDestroy } from '@angular/core';
 import { Location } from '@angular/common';
@@ -253,5 +255,16 @@ export class RatingsComponent implements OnInit, OnDestroy {
 
   public back(): void {
     this.location.back();
+  }
+
+  public openIntercom(): void {
+    let hash = window.sha3_256(this.userService.getAccountNumber());
+    let icUserID = `Autonomy_pwa_${hash}`;
+    window.Intercom('boot', {
+      app_id: window.intercomSettings.app_id,
+      user_id: icUserID,
+      hide_default_launcher: true
+    });
+    window.Intercom('show');
   }
 }

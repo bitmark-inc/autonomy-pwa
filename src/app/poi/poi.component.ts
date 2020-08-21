@@ -1,6 +1,9 @@
+declare var window: any;
+
 import { Component, OnInit, ElementRef, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ApiService } from '../services/api/api.service';
+import { UserService } from '../services/user/user.service';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { Util } from '../services/util/util.service';
@@ -51,6 +54,7 @@ export class PoiComponent implements OnInit, OnDestroy {
   constructor(
     private activatedRoute: ActivatedRoute,
     private apiService: ApiService,
+    private userService: UserService,
     public router: Router,
     private elementRef: ElementRef
   ) {
@@ -128,5 +132,16 @@ export class PoiComponent implements OnInit, OnDestroy {
           // TODO: do something
         }
       );
+  }
+
+  public openIntercom(): void {
+    let hash = window.sha3_256(this.userService.getAccountNumber());
+    let icUserID = `Autonomy_pwa_${hash}`;
+    window.Intercom('boot', {
+      app_id: window.intercomSettings.app_id,
+      user_id: icUserID,
+      hide_default_launcher: true
+    });
+    window.Intercom('show');
   }
 }
