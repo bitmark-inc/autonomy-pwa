@@ -170,10 +170,10 @@
   </mat-card>
   <mat-card *ngIf="isIOSOther" style="font-size: 2.3vh; margin-top: 3vh;" class="no-top no-bottom">
     <p class="p-b-10"><span class="highlight-words">Autonomy is a new kind of app </span>(a progressive web app) that combines the lightness and efficiency of a website with the convenience and security of a mobile app.</p>
-    <p>Currently, iOS only supports web app installation using Safari. To continue installation, tap below to copy the URL then paste it into Safari:</p>
-    <p #appUrl class="pwa-url direction-color">{{webappUrl}}></p>
+    <p>Currently, iOS only supports web app installation using Safari. To continue installation, tap the link below to copy it then paste it into Safari:</p>
+    <p (click)="copy()" #appUrl class="pwa-url direction-color">{{webappUrl}}</p>
     <div class="content-center">
-      <img (click)="copy()" class="clickable" style="height: 8vh; max-height: 45px;" src="/assets/img/done-blue.svg" alt="">
+      <img style="height: 8vh; max-height: 45px;" src="/assets/img/done-blue.svg" alt="">
     </div>
     <div class="install-imgs">
       <img class="device" src="/assets/img/device.svg" alt="">
@@ -185,10 +185,10 @@
   </mat-card>
   <mat-card *ngIf="isDesktop" style="font-size: 2.3vh; margin-top: 3vh;" class="no-top no-bottom">
     <p class="p-b-10"><span class="highlight-words">Autonomy is a new kind of app </span>(a progressive web app) that combines the lightness and efficiency of a website with the convenience and security of a mobile app.</p>
-    <p>Autonomy is currently only supported on mobile devices. To install it, tap below to copy the URL then paste it into your mobile browser:</p>
-    <p #appUrl class="pwa-url direction-color">{{webappUrl}}</p>
+    <p>Autonomy is currently only supported on mobile devices. To install it, tap the link below to copy it then paste it into your mobile browser:</p>
+    <p (click)="copy()" #appUrl class="pwa-url direction-color">{{webappUrl}}</p>
     <div class="content-center">
-      <img (click)="copy()" class="clickable" style="height: 8vh; max-height: 45px;" src="/assets/img/done-blue.svg" alt="">
+      <img style="height: 8vh; max-height: 45px;" src="/assets/img/done-blue.svg" alt="">
     </div>
     <div class="install-imgs">
       <img class="device" src="/assets/img/device.svg" alt="">
