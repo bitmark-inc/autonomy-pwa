@@ -286,9 +286,9 @@ export class ResourcesComponent implements OnInit, OnDestroy {
     this.search();
   }
 
-  public search(moveCenter: boolean = true) {
+  public search(moveCenter: boolean = true, onLoop: boolean = false, paginate?: number, limit?: number) {
     if (!this.keyword && !this.poiType) {
-      if (this.pois && this.pois.length) {
+      if (!onLoop && this.pois && this.pois.length) {
         this.pois.splice(0, this.pois.length);
       }
       return;
@@ -297,16 +297,19 @@ export class ResourcesComponent implements OnInit, OnDestroy {
     let url = `${environment.autonomy_api_url}api/points-of-interest`;
     let params: string[] = [];
 
+    paginate = paginate || 0;
+    limit = limit || 100;
+
     // get all at first from ucberkeley is center of map
     // if (!this.keyword && !this.poiType) {
-    //   params.push(`lat=${this.mapCenter.lat}&lng=${this.mapCenter.lng}&radius=1500&count=100&page=0`);
+    //   params.push(`lat=${this.mapCenter.lat}&lng=${this.mapCenter.lng}&radius=1500&count=${limit}&page=${paginate}`);
     // }
 
     if (this.keyword) {
-      params.push(`lat=${this.mapCenter.lat}&lng=${this.mapCenter.lng}&radius=1500&count=100&page=0&text=${this.keyword}`);
+      params.push(`lat=${this.mapCenter.lat}&lng=${this.mapCenter.lng}&radius=1500&count=${limit}&page=${paginate}&text=${this.keyword}`);
     }
     if (this.poiType) {
-      params.push(`lat=${this.mapCenter.lat}&lng=${this.mapCenter.lng}&radius=1500&count=100&page=0&place_type=${this.poiType}`);
+      params.push(`lat=${this.mapCenter.lat}&lng=${this.mapCenter.lng}&radius=1500&count=${limit}&page=${paginate}&place_type=${this.poiType}`);
     }
     if (params.length) {
       url += `?profile=berkeley&${params.join("&")}`;
@@ -319,7 +322,12 @@ export class ResourcesComponent implements OnInit, OnDestroy {
         this.isSearching = false;
         this.mapZoomLevel = 19;
         this.labelShown = true;
-        this.pois = data;
+        let tmp: POI[] = data;
+        if (onLoop && this.pois) {
+          this.pois.concat(tmp);
+        } else {
+          this.pois = tmp;
+        }
         if (environment.bitmark_network === 'testnet') {
           this.fakeResourceScore();
         }
@@ -332,6 +340,10 @@ export class ResourcesComponent implements OnInit, OnDestroy {
           }
           this.formatPOI();
           this.updatePlaceColors();
+        }
+        paginate += 1;
+        if (tmp && tmp.length && tmp.length == limit) {
+          this.search(false, true, paginate)
         }
       },
       (err) => {
