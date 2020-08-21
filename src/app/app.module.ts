@@ -47,6 +47,7 @@ import { RelativeDatePipe } from './pipes/relative-date.pipe';
 import { PersonalDataComponent } from './personal-data/personal-data.component';
 import { CommunityDataComponent } from './community-data/community-data.component';
 import { NoContentComponent } from './no-content/no-content.component';
+import { SearchResultsNamePipe } from './pipes/search-results-name.pipe';
 
 declare var window: any;
 window.isProduction = environment.production;
@@ -73,6 +74,7 @@ window.isProduction = environment.production;
     PersonalDataComponent,
     CommunityDataComponent,
     NoContentComponent,
+    SearchResultsNamePipe,
   ],
   imports: [
     BrowserModule,

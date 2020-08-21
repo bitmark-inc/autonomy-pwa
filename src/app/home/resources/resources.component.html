@@ -40,7 +40,7 @@
     </google-map>
   </div>
 
-  <div [ngClass]="{'list-not-standalone': !isStandalone(), 'shown-list': !(focusState || !isViewListShow || (isViewListShow && isSearching))}" class="result-place-list hidden-list">
+  <div [ngClass]="{'list-not-standalone': !isStandalone(), 'shown-list': !(focusState || !isViewListShow)}" class="result-place-list hidden-list">
     <div class="result-place-child-list">
       <div class="line-icon"><span (click)="pullListView()"></span></div>
       <div class="p-t-15" *ngIf="pois && pois.length">
@@ -52,7 +52,7 @@
             </div>
             <div class="p-r-15">
               <mat-card class="no-top no-bottom">
-                <p class="upcase font-14">{{poi.alias}}</p>
+                <p class="upcase font-14" [innerHTML]="poi.alias | searchResultsName: keyword"></p>
                 <p class="font-12 grey-text-color p-b-5 capital">{{poi.place_type}}</p> <!-- category -->
                 <p *ngIf="poi.todayOpenHour" [ngClass]="{'grey-text-color': !poi.resource_score, 'direction-color': poi.resource_score}" class="font-12 p-b-5">{{poi.todayOpenHourForView}}</p> <!-- open hours -->
                 <p *ngIf="poi.services_active" [ngClass]="{'grey-text-color': !poi.resource_score, 'direction-color': poi.resource_score}" class="font-12 p-b-5 capital">{{poi.services_active}}</p> <!-- services -->
