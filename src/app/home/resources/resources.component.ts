@@ -271,14 +271,14 @@ export class ResourcesComponent implements OnInit, OnDestroy {
 
     // get all at first from ucberkeley is center of map
     if (!this.keyword && !this.poiType) {
-      params.push(`lat=${this.mapCenter.lat}&lng=${this.mapCenter.lng}&radius=1000`);
+      params.push(`lat=${this.mapCenter.lat}&lng=${this.mapCenter.lng}&radius=1500&count=300&page=0`);
     }
 
     if (this.keyword) {
-      params.push(`lat=${this.mapCenter.lat}&lng=${this.mapCenter.lng}&radius=3000&text=${this.keyword}`);
+      params.push(`lat=${this.mapCenter.lat}&lng=${this.mapCenter.lng}&radius=1500&count=300&page=0&text=${this.keyword}`);
     }
     if (this.poiType) {
-      params.push(`lat=${this.mapCenter.lat}&lng=${this.mapCenter.lng}&radius=3000&place_type=${this.poiType}`);
+      params.push(`lat=${this.mapCenter.lat}&lng=${this.mapCenter.lng}&radius=1500&count=300&page=0&place_type=${this.poiType}`);
     }
     if (params.length) {
       url += `?profile=berkeley&${params.join("&")}`;
