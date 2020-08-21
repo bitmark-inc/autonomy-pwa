@@ -72,7 +72,7 @@
   position: absolute;
   z-index: 99;
   bottom: 0;
-  padding-bottom: 70px;
+  padding-bottom: 60px;
   max-height: calc(100vh - 56px - 57px);
   min-height: 80px;
   overflow: hidden;
@@ -107,7 +107,7 @@
   }
 
   .places-list-item {
-    padding: 15px calc(15px + 9px) 0 15px;
+    padding: 15px calc(15px + 9px) 15px 15px;
   }
 
   .place-score {
@@ -126,6 +126,15 @@
       transform: translate(-50%, -50%);
       font-size: 20px;
     }
+  }
+
+  .close-detail {
+    width: 30px;
+    padding-top: 15px;
+    padding-right: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
   }
 }
 

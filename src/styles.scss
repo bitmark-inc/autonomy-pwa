@@ -139,11 +139,14 @@ textarea {
 
 .mat-table,
 .mat-card {
-  padding: 15px !important;
   background-color: inherit;
   color: inherit;
   font-family: inherit;
   box-shadow: none !important;
+}
+
+.mat-card {
+  padding: 15px !important;
 }
 
 .mat-table {
@@ -207,7 +210,7 @@ textarea {
   font-family: 'Domaine Sans Text';
   font-weight: 300;
   font-style: normal;
-  padding-bottom: 20px !important;
+  padding-bottom: 15px !important;
   .back {
     display: flex;
     justify-content: flex-start;

@@ -68,6 +68,7 @@ let FakePOIS = [
 interface POI {
   id: string,
   alias: string,
+  mapLabel: string,
   address: string,
   location: {
     latitude: number,
@@ -129,7 +130,7 @@ export class ResourcesComponent implements OnInit, OnDestroy {
     styles: [{featureType: 'poi', stylers: [{visibility: 'off'}]}]
   };
 
-  public labelPosition = new google.maps.Point(15,37);
+  public labelPosition = new google.maps.Point(17,37);
   public labelShown: boolean = true;
 
   constructor(private apiService: ApiService, public router: Router, private ngZone: NgZone) {
@@ -188,6 +189,7 @@ export class ResourcesComponent implements OnInit, OnDestroy {
 
   private formatPOI() {
     this.pois.forEach(poi => {
+      poi.mapLabel = (poi.alias && poi.alias.split(' ').length > 3) ? poi.alias.split(' ', 3).join(' ').concat('...') : poi.alias
       poi.place_type = poi.place_types.map(type => this.placeTypeSingular(type)).join(', ');
 
       if (poi.opening_hours && Object.keys(poi.opening_hours).length != 0) {
