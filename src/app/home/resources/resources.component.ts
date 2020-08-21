@@ -257,7 +257,7 @@ export class ResourcesComponent implements OnInit, OnDestroy {
       );
       if (dragDistance > 1) {
         this.mapCenter = { lat: this.mapRef.getCenter().lat(), lng: this.mapRef.getCenter().lng() };
-        this.search();
+        this.search(false);
       }
     }
   }
@@ -286,7 +286,7 @@ export class ResourcesComponent implements OnInit, OnDestroy {
     this.search();
   }
 
-  public search() {
+  public search(moveCenter: boolean = true) {
     if (!this.keyword && !this.poiType) {
       if (this.pois && this.pois.length) {
         this.pois.splice(0, this.pois.length);
@@ -299,14 +299,14 @@ export class ResourcesComponent implements OnInit, OnDestroy {
 
     // get all at first from ucberkeley is center of map
     // if (!this.keyword && !this.poiType) {
-    //   params.push(`lat=${this.mapCenter.lat}&lng=${this.mapCenter.lng}&radius=1500&count=300&page=0`);
+    //   params.push(`lat=${this.mapCenter.lat}&lng=${this.mapCenter.lng}&radius=1500&count=100&page=0`);
     // }
 
     if (this.keyword) {
-      params.push(`lat=${this.mapCenter.lat}&lng=${this.mapCenter.lng}&radius=1500&count=300&page=0&text=${this.keyword}`);
+      params.push(`lat=${this.mapCenter.lat}&lng=${this.mapCenter.lng}&radius=1500&count=100&page=0&text=${this.keyword}`);
     }
     if (this.poiType) {
-      params.push(`lat=${this.mapCenter.lat}&lng=${this.mapCenter.lng}&radius=1500&count=300&page=0&place_type=${this.poiType}`);
+      params.push(`lat=${this.mapCenter.lat}&lng=${this.mapCenter.lng}&radius=1500&count=100&page=0&place_type=${this.poiType}`);
     }
     if (params.length) {
       url += `?profile=berkeley&${params.join("&")}`;
@@ -324,10 +324,12 @@ export class ResourcesComponent implements OnInit, OnDestroy {
           this.fakeResourceScore();
         }
         if (this.pois && this.pois.length) {
-          this.mapCenter = {
-            lat: this.pois[0].location.latitude,
-            lng: this.pois[0].location.longitude,
-          };
+          if (moveCenter) {
+            this.mapCenter = {
+              lat: this.pois[0].location.latitude,
+              lng: this.pois[0].location.longitude,
+            };
+          }
           this.formatPOI();
           this.updatePlaceColors();
         }
