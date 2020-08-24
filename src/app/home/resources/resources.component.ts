@@ -293,7 +293,9 @@ export class ResourcesComponent implements OnInit, OnDestroy {
       }
       return;
     }
-    this.isSearching = true;
+    if (!onLoop) {
+      this.isSearching = true;
+    }
     let url = `${environment.autonomy_api_url}api/points-of-interest`;
     let params: string[] = [];
 
@@ -319,7 +321,9 @@ export class ResourcesComponent implements OnInit, OnDestroy {
     .request('get', url, null, null, ApiService.DSTarget.CDS)
     .subscribe(
       (data) => {
-        this.isSearching = false;
+        if (!onLoop) {
+          this.isSearching = false;
+        }
         this.mapZoomLevel = 19;
         this.labelShown = true;
         let tmp: POI[] = data;
