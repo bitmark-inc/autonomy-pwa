@@ -155,7 +155,7 @@
       <div class="gap-right-5"><img src="/assets/img/arrow.svg" alt=""></div>
       <div class="col">
         <p class="font-18 line-height-120 p-b-10">Save Autonomy data to your personal data enclave (PDE).</p>
-        <p class="font-14 line-height-120 p-b-10 direction-color">Your raw ratings data for this location will be saved to your PDE. No one other than you will ever be able to save data to your PDE or access the data you're stored there. You can change your ratings for this location at any time by editing your rating scores and re-submitting them.</p>
+        <p class="font-14 line-height-120 p-b-10 direction-color">Your raw ratings data for this location will be saved to your PDE. Only you and the study administrator will be able to access the data stored in your PDE. You can change your ratings for this location at any time by editing your rating scores and re-submitting them.</p>
         <p (click)="(stage = PageStage.DataPDE) && getRawJson()" class="content-left command-img"><span class="font-14 upcase direction-color gap-right-5 p-b-20">view data</span><img src="/assets/img/next-icon-small.svg" alt=""></p>
         <div class="light-line"><hr></div>
       </div>
@@ -164,7 +164,7 @@
       <div class="gap-right-5"><img src="/assets/img/arrow.svg" alt=""></div>
       <div class="col">
         <p class="font-18 line-height-120 p-b-10">Submit anonymized, non-personally-identifiable Autonomy data to the UC Berkeley community data enclave (CDE) for community-level pooling and research.</p>
-        <p class="font-14 line-height-120 p-b-10 direction-color">Autonomy will submit scores for each rating category to the CDE. This data will be anonymized, will contain no personally identifiable information about you, and can never be traceable back to you. Your scores will only be added to the aggregate community scores for this location.</p>
+        <p class="font-14 line-height-120 p-b-10 direction-color">Autonomy will submit scores for each rating category to the CDE. Your scores will only be added to the aggregate community scores for this location.</p>
         <p (click)="(stage = PageStage.DataCDE) && getRawJson()" class="content-left command-img"><span class="font-14 upcase direction-color gap-right-5 p-b-20">view data</span><img src="/assets/img/next-icon-small.svg" alt=""></p>
         <div class="light-line"><hr></div>
       </div>
