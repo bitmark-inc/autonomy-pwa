@@ -4,7 +4,7 @@ import { ApiService } from '../services/api/api.service';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { Util } from '../services/util/util.service';
-import * as moment from "moment";
+import { AppSettings } from '../app-settings';
 
 @Component({
   selector: "app-poi",
@@ -36,7 +36,6 @@ export class PoiComponent implements OnInit, OnDestroy {
   public resources: {
     name: string;
     score: number;
-    ratings: number;
     color: string;
   }[] = [];
 
@@ -86,14 +85,13 @@ export class PoiComponent implements OnInit, OnDestroy {
   private formatPOI() {
     this.poiBackground = Util.scoreToColor(this.poi.resource_score, false);
     this.elementRef.nativeElement.ownerDocument.body.style.background = this.poiBackground;
-    for (let key in this.poi.resource_ratings) {
+    AppSettings.RESOURCE_RATINGS.forEach((key) => {
       this.resources.push({
-        name: key.replace(/_/g, " "),
-        score: this.poi.resource_ratings[key].score,
-        ratings: this.poi.resource_ratings[key].counts,
-        color: Util.scoreToColor(this.poi.resource_ratings[key].score, false),
+        name: key.replace(/_/g, ' '),
+        score: this.poi.resource_ratings[key] ? this.poi.resource_ratings[key].score : 0,
+        color: Util.scoreToColor((this.poi.resource_ratings[key] ? this.poi.resource_ratings[key].score : 0), false),
       });
-    }
+    })
     if (this.poi.opening_hours && Object.keys(this.poi.opening_hours).length != 0) {
       this.openHours = Util.openHoursFormat(this.poi.opening_hours);
       this.todayOpenHour = Util.openHoursFormat(this.poi.opening_hours, true);
@@ -116,8 +114,8 @@ export class PoiComponent implements OnInit, OnDestroy {
       .request("get", `${environment.autonomy_api_url}api/points-of-interest/${this.id}/ratings`, null, null, ApiService.DSTarget.PDS)
       .subscribe(
         (data: { ratings: any }) => {
-          for (let key in data.ratings) {
-            if(data.ratings[key] > 0) {
+          for (let i = 0; i < AppSettings.RESOURCE_RATINGS.length; i++) {
+            if(data.ratings[AppSettings.RESOURCE_RATINGS[i]] > 0) {
               this.isRated = true;
               break;
             }
