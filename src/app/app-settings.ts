@@ -16,4 +16,11 @@ export class AppSettings {
     {from: 3.6, to: 4.5, code: '#99C140'},
     {from: 4.6, to: 5, code: '#2DC937'}
   ];
+  public static RESOURCE_RATINGS: string[] = [
+    'requires_face_masks',
+    'checks_temperature',
+    'provides_hand-washing_facilities',
+    'disinfects_equipment',
+    'reinforces_physical_distancing'
+  ]
 }

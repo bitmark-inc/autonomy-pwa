@@ -9,6 +9,7 @@ import { MatBottomSheet, MatBottomSheetRef } from '@angular/material/bottom-shee
 import { BottomSheetAlertComponent } from "../bottom-sheet-alert/bottom-sheet-alert.component";
 import { Util } from '../services/util/util.service';
 import { UserService } from '../services/user/user.service';
+import { AppSettings } from '../app-settings';
 
 enum EnumPageStage { Ratings, Rights, DataPDE, DataCDE }
 
@@ -91,22 +92,16 @@ export class RatingsComponent implements OnInit, OnDestroy {
 
   private getRatings(): void {
     this.apiService
-      .request(
-        "get",
-        `${environment.autonomy_api_url}api/points-of-interest/${this.poiID}/ratings`,
-        null,
-        null,
-        ApiService.DSTarget.PDS
-      )
+      .request('get', `${environment.autonomy_api_url}api/points-of-interest/${this.poiID}/ratings`, null, null, ApiService.DSTarget.PDS)
       .subscribe(
         (data: { ratings: any }) => {
-          for (let key in data.ratings) {
+          AppSettings.RESOURCE_RATINGS.forEach((resource) => {
             this.ratings.push({
-              name: key.replace(/_/g, " "),
-              score: data.ratings[key],
+              name: resource.replace(/_/g, ' '),
+              score: data.ratings[resource] || 0,
             });
-          }
-          this.checkSubmitable(data.ratings);
+          })
+          this.checkSubmitable(this.ratings);
         },
         (err: any) => {
           window.alert(err.message);
