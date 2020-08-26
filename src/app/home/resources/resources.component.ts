@@ -145,7 +145,7 @@ export class ResourcesComponent implements OnInit, OnDestroy, AfterViewInit {
         singular = 'Restaurant';
         break;
       case 'groceries':
-        singular = 'Grocery';
+        singular = 'Groceries';
         break;
       case 'pharmacies':
         singular = 'Pharmacy';
