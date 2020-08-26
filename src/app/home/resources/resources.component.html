@@ -40,9 +40,9 @@
     </google-map>
   </div>
 
-  <div [ngClass]="{'list-not-standalone': !isStandalone(), 'shown-list': !(focusState || !isViewListShow)}" class="result-place-list hidden-list">
+  <div [ngClass]="{'list-not-standalone': !isStandalone(), 'shown-list': !(focusState || !isResultListShown)}" class="result-place-list hidden-list">
     <div class="result-place-child-list">
-      <div class="line-icon"><span (click)="pullListView()"></span></div>
+      <div class="line-icon"><span (click)="pullListView()"></span></div> 
       <div class="p-t-15" *ngIf="pois && pois.length">
         <div *ngFor="let poi of pois; trackBy: trackByPoiID">
           <div (click)="focusToPlace(poi, true)" class="places-list-item hovering clickable col content-left" [ngClass]="{'grey-text-color': !poi.resource_score}">
@@ -94,8 +94,7 @@
           </div>
         </mat-card>
       </mat-card>
-      <p *ngIf="!isViewListShow" class="close-detail" (click)="unfocusPlace(focusedPOI)"><img src="/assets/img/dismiss.svg" alt=""></p>
-      <p *ngIf="isViewListShow" class="close-detail" (click)="unfocusPlace(focusedPOI)"><img src="/assets/img/list-icon.svg" alt=""></p>
+      <p class="close-detail" (click)="unfocusPlace(focusedPOI)"><img src="/assets/img/list-icon.svg" alt=""></p>
     </div>
   </div>
 </div>

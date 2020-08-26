@@ -17,54 +17,6 @@ import { AppSettings } from '../../app-settings';
 import * as moment from 'moment';
 import { GoogleMap } from '@angular/google-maps';
 
-let FakePOIS = [
-  {
-    "id": "5e992e1b0c30685ba05cc4b5",
-    "alias": "Raohe Night Market",
-    "address": "Raohe Night Market, Raohe Street, Songshan District, Taipei City, Taiwan",
-    "score": 0,
-    "location": {
-      "latitude": 37.871580,
-      "longitude": -122.263214
-    },
-    "resource_score": 2,
-    "resource_ratings": null,
-    "last_updated": 0,
-    "focused": false,
-    "color": ''
-  },
-  {
-    "id": "5f110ca368bf494d8a61b282",
-    "alias": "蜥蜴咖哩",
-    "address": "號, No. 3南港路一段136巷6弄南港區台北市台灣 115",
-    "score": 0,
-    "location": {
-      "latitude": 37.871427,
-      "longitude": -122.255264
-    },
-    "resource_score": 5,
-    "resource_ratings": null,
-    "last_updated": 1594969910069,
-    "focused": false,
-    "color": ''
-  },
-  {
-    "id": "5f15483068bf494d8a61b283",
-    "alias": "Caffè Strada",
-    "address": "2300 College Ave, Berkeley, CA 94704美國",
-    "score": 0,
-    "location": {
-      "latitude": 37.869146,
-      "longitude": -122.254859
-    },
-    "resource_score": 0,
-    "resource_ratings": null,
-    "last_updated": 0,
-    "focused": false,
-    "color": ''
-  }
-];
-
 interface POI {
   id: string,
   alias: string,
@@ -105,12 +57,11 @@ export class ResourcesComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public focusedPOI: POI;
   private focusedPOIID: string;
-  private focusFromList: boolean;
   private searchByUserImpact: boolean;
 
   public isSearching: boolean = false;
   public focusState: boolean = false;
-  public isViewListShow: boolean = false;
+  public isResultListShown: boolean = false;
   public pois: POI[];
 
   // Map settings
@@ -141,7 +92,6 @@ export class ResourcesComponent implements OnInit, OnDestroy, AfterViewInit {
       this.keyword = params['keyword'];
       this.poiType = params['poi_type'];
       this.focusedPOIID = params['focus_poi_id'];
-      this.focusFromList = params['show_list'];
     })
     this.mapCenter = this.UCBekerleyLatlng;
     this.mapHeight = `${window.innerHeight - 56 -60}px`;
@@ -168,10 +118,10 @@ export class ResourcesComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    if (this.focusFromList !== undefined) {
-      this.isViewListShow = this.focusFromList;
+    if (this.focusedPOIID) {
+      this.isResultListShown = false;
     } else if (this.keyword || this.poiType) {
-      this.isViewListShow = true;
+      this.isResultListShown = true;
     }
   }
 
@@ -284,7 +234,7 @@ export class ResourcesComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public onInputFocus() {
     ParentContainerState.fullscreen.next(true);
-    this.isViewListShow = true;
+    this.isResultListShown = true;
     this.focusState = false;
   }
 
@@ -302,13 +252,14 @@ export class ResourcesComponent implements OnInit, OnDestroy, AfterViewInit {
   public searchByPlaceType(type: string) {
     this.searchByUserImpact = true;
     ParentContainerState.fullscreen.next(true);
-    this.isViewListShow = true;
+    this.isResultListShown = true;
     this.focusState = false;
     this.poiType = type;
     this.search();
   }
 
   public search(moveCenter: boolean = true, onLoop: boolean = false, paginate?: number, limit?: number) {
+    console.log(this.isResultListShown);
     if (this.searchByUserImpact) {
       this.router.navigate(['/home', 'resources'], {
         queryParams: {keyword: this.keyword, poi_type: this.poiType},
@@ -380,7 +331,7 @@ export class ResourcesComponent implements OnInit, OnDestroy, AfterViewInit {
         } else if (this.focusedPOIID) {
           let focusPOI = this.pois.find(poi => poi.id === this.focusedPOIID);
           this.focusedPOIID = '';
-          this.focusToPlace(focusPOI, this.focusFromList);
+          this.focusToPlace(focusPOI, true, false);
         }
       },
       (err) => {
@@ -429,19 +380,20 @@ export class ResourcesComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
-  public focusToPlace(poi: POI, fromList: boolean = false) {
-    this.router.navigate(['/home', 'resources'], {
-      queryParams: {keyword: this.keyword, poi_type: this.poiType, focus_poi_id: poi.id, show_list: fromList},
-      replaceUrl: true
-    });
-    this.isViewListShow = fromList;
+  public focusToPlace(poi: POI, moveCenter: boolean = false, byUserImpact: boolean = true) {
+    if (byUserImpact) {
+      this.router.navigate(['/home', 'resources'], {
+        queryParams: {keyword: this.keyword, poi_type: this.poiType, focus_poi_id: poi.id},
+        replaceUrl: true
+      });
+    }
     this.focusState = true;
     this.focusedPOI = poi;
     this.focusedPOI.focused = true;
     this.mapZoomLevel = 20;
     this.labelShown = true;
     ParentContainerState.fullscreen.next(false);
-    if (fromList) {
+    if (moveCenter) {
       this.mapRef.panTo({
         lat: this.focusedPOI.location.latitude,
         lng: this.focusedPOI.location.longitude,
@@ -451,6 +403,11 @@ export class ResourcesComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   public unfocusPlace(poi: POI) {
+    this.router.navigate(['/home', 'resources'], {
+      queryParams: {keyword: this.keyword, poi_type: this.poiType},
+      replaceUrl: true
+    });
+    this.isResultListShown = true;
     this.focusState = false;
     this.focusedPOI.focused = false;
     this.focusedPOI = null;
@@ -461,7 +418,7 @@ export class ResourcesComponent implements OnInit, OnDestroy, AfterViewInit {
     if (this.keyword || this.poiType) {
       this.keyword = "";
       this.poiType = "";
-      this.isViewListShow = false;
+      this.isResultListShown = false;
       this.isSearching = false;
       if (this.focusedPOI) {
         this.unfocusPlace(this.focusedPOI);
@@ -473,8 +430,8 @@ export class ResourcesComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   public pullListView() {
-    this.isViewListShow = !this.isViewListShow;
-    if (!this.isViewListShow) {
+    this.isResultListShown = !this.isResultListShown;
+    if (!this.isResultListShown) {
       ParentContainerState.fullscreen.next(false);
     }
   }
