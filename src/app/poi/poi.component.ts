@@ -1,5 +1,6 @@
 declare var window: any;
 
+import { Location } from '@angular/common';
 import { Component, OnInit, ElementRef, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ApiService } from '../services/api/api.service';
@@ -55,7 +56,8 @@ export class PoiComponent implements OnInit, OnDestroy {
     private apiService: ApiService,
     private userService: UserService,
     public router: Router,
-    private elementRef: ElementRef
+    private elementRef: ElementRef,
+    private location: Location
   ) {
     this.activatedRoute.params.subscribe((params) => {
       if (params.id) {
@@ -141,5 +143,10 @@ export class PoiComponent implements OnInit, OnDestroy {
       hide_default_launcher: true
     });
     window.Intercom('show');
+  }
+
+  public back(): void {
+    this.location.getState();
+    this.location.back();
   }
 }

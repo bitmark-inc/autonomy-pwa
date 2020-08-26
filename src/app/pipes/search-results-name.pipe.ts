@@ -8,9 +8,13 @@ export class SearchResultsNamePipe implements PipeTransform {
   constructor(private domSanitizer: DomSanitizer){}
 
   transform(value: string, searchKey: string): any {
-    let regx = new RegExp(searchKey,'gi');
-    let obj = value.replace(regx, `<span style="color: #FDB515">${searchKey}</span>`)
-    return this.domSanitizer.bypassSecurityTrustHtml(obj);
+    if (searchKey) {
+      let regx = new RegExp(searchKey,'gi');
+      let obj = value.replace(regx, `<span style="color: #FDB515">${searchKey}</span>`)
+      return this.domSanitizer.bypassSecurityTrustHtml(obj);
+    } else {
+      return this.domSanitizer.bypassSecurityTrustHtml(value);
+    }
   }
 
 }

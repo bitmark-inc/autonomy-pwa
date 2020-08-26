@@ -22,7 +22,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   public currentTab: TabActivated = TabActivated.Trends;
 
   constructor(public router: Router, private ref: ChangeDetectorRef, private location: Location) {
-    this.setTabActivatedByUrl(this.router.url);
+    this.setTabActivatedByUrl(this.router.url.split('?')[0]);
   }
 
   ngOnInit() {

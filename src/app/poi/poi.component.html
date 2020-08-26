@@ -1,7 +1,7 @@
 <div *ngIf="poi" class="main-content">
   <div [ngStyle]="{ 'background': poiBackground }" class="base-info">
     <mat-card class="header-btn light-color" layout="fill">
-      <a (click)="this.router.navigate(['/home/resources'])" class="back upcase">
+      <a (click)="back()" class="back upcase">
         <img class="gap-right-5" src="/assets/img/back-small-white.svg" alt="back-arrow">
         <span>back</span>
       </a>

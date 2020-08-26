@@ -1,9 +1,9 @@
 declare var window: any;
 
 import { environment } from '../../../environments/environment';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { ApiService } from './../../services/api/api.service';
-import { Component, OnInit, OnDestroy, ViewChild, ElementRef, NgZone } from "@angular/core";
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef, AfterViewInit } from "@angular/core";
 import { HomepageState as ParentContainerState } from '../homepage.state';
 import {
   debounceTime,
@@ -93,7 +93,7 @@ interface POI {
   templateUrl: "./resources.component.html",
   styleUrls: ["./resources.component.scss"],
 })
-export class ResourcesComponent implements OnInit, OnDestroy {
+export class ResourcesComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild("poiSearchInput", { static: true }) poiSearchInput: ElementRef;
   @ViewChild(GoogleMap) mapRef: GoogleMap;
 
@@ -104,6 +104,9 @@ export class ResourcesComponent implements OnInit, OnDestroy {
   public poiTypes: string[];
 
   public focusedPOI: POI;
+  private focusedPOIID: string;
+  private focusFromList: boolean;
+  private searchByUserImpact: boolean;
 
   public isSearching: boolean = false;
   public focusState: boolean = false;
@@ -133,7 +136,13 @@ export class ResourcesComponent implements OnInit, OnDestroy {
   public labelPosition = new google.maps.Point(17,37);
   public labelShown: boolean = true;
 
-  constructor(private apiService: ApiService, public router: Router, private ngZone: NgZone) {
+  constructor(private apiService: ApiService, public router: Router, private activatedRoute: ActivatedRoute) {
+    this.activatedRoute.queryParams.subscribe((params) => {
+      this.keyword = params['keyword'];
+      this.poiType = params['poi_type'];
+      this.focusedPOIID = params['focus_poi_id'];
+      this.focusFromList = params['show_list'];
+    })
     this.mapCenter = this.UCBekerleyLatlng;
     this.mapHeight = `${window.innerHeight - 56 -60}px`;
     this.mapWidth = `${window.innerWidth > 768 ? 768 : window.innerWidth}px`;
@@ -156,6 +165,14 @@ export class ResourcesComponent implements OnInit, OnDestroy {
       .subscribe(() => {
         this.searchByKeyword();
       });
+  }
+
+  ngAfterViewInit() {
+    if (this.focusFromList !== undefined) {
+      this.isViewListShow = this.focusFromList;
+    } else if (this.keyword || this.poiType) {
+      this.isViewListShow = true;
+    }
   }
 
   ngOnDestroy() {
@@ -278,10 +295,12 @@ export class ResourcesComponent implements OnInit, OnDestroy {
   }
 
   private searchByKeyword() {
+    this.searchByUserImpact = true;
     this.search();
   }
 
   public searchByPlaceType(type: string) {
+    this.searchByUserImpact = true;
     ParentContainerState.fullscreen.next(true);
     this.isViewListShow = true;
     this.focusState = false;
@@ -290,6 +309,13 @@ export class ResourcesComponent implements OnInit, OnDestroy {
   }
 
   public search(moveCenter: boolean = true, onLoop: boolean = false, paginate?: number, limit?: number) {
+    if (this.searchByUserImpact) {
+      this.router.navigate(['/home', 'resources'], {
+        queryParams: {keyword: this.keyword, poi_type: this.poiType},
+        replaceUrl: true
+      });
+      this.searchByUserImpact = false;
+    }
     if (!this.keyword && !this.poiType) {
       if (!onLoop && this.pois && this.pois.length) {
         this.pois.splice(0, this.pois.length);
@@ -351,6 +377,10 @@ export class ResourcesComponent implements OnInit, OnDestroy {
         paginate += 1;
         if (tmp && tmp.length && tmp.length == limit) {
           this.search(false, true, paginate)
+        } else if (this.focusedPOIID) {
+          let focusPOI = this.pois.find(poi => poi.id === this.focusedPOIID);
+          this.focusedPOIID = '';
+          this.focusToPlace(focusPOI, this.focusFromList);
         }
       },
       (err) => {
@@ -363,33 +393,33 @@ export class ResourcesComponent implements OnInit, OnDestroy {
   public updatePlaceColors() {
     let colorLight: boolean = false;
     this.pois.forEach((poi) => {
-      if (poi.todayOpenHour && poi.todayOpenHour != 'Closed') {
-        let open;
-        let closed;
-        if (poi.todayOpenHour.includes(',')) { // multiple period of time
-          poi.todayOpenHour.split(',').forEach(times => {
-            if (times.split(' ').length === 3) { // ... to ...
-              open = times.split(' ')[0].trim();
-              closed = times.split(' ')[2].trim();
-            } else if (times.split(' ').length === 1 && times.split('-').length === 2) { // ...-...
-              open = times.split('-')[0].trim();
-              closed = times.split('-')[1].trim();
-            }
-            colorLight = colorLight || this.isPlaceClosed(open, closed);
-          })
-        } else { // single period of time
-          if (poi.todayOpenHour.split(' ').length === 3) {
-            open = poi.todayOpenHour.split(' ')[0].trim();
-            closed = poi.todayOpenHour.split(' ')[2].trim();
-          } else if (poi.todayOpenHour.split(' ').length === 1 && poi.todayOpenHour.split('-').length === 2) {
-            open = poi.todayOpenHour.split('-')[0].trim();
-            closed = poi.todayOpenHour.split('-')[1].trim();
-          }
-          colorLight = this.isPlaceClosed(open, closed); // dark mode for unknown format hours
-        }
-      } else {
-        colorLight = true
-      }
+      // if (poi.todayOpenHour && poi.todayOpenHour != 'Closed') {
+      //   let open;
+      //   let closed;
+      //   if (poi.todayOpenHour.includes(',')) { // multiple period of time
+      //     poi.todayOpenHour.split(',').forEach(times => {
+      //       if (times.split(' ').length === 3) { // ... to ...
+      //         open = times.split(' ')[0].trim();
+      //         closed = times.split(' ')[2].trim();
+      //       } else if (times.split(' ').length === 1 && times.split('-').length === 2) { // ...-...
+      //         open = times.split('-')[0].trim();
+      //         closed = times.split('-')[1].trim();
+      //       }
+      //       colorLight = colorLight || this.isPlaceClosed(open, closed);
+      //     })
+      //   } else { // single period of time
+      //     if (poi.todayOpenHour.split(' ').length === 3) {
+      //       open = poi.todayOpenHour.split(' ')[0].trim();
+      //       closed = poi.todayOpenHour.split(' ')[2].trim();
+      //     } else if (poi.todayOpenHour.split(' ').length === 1 && poi.todayOpenHour.split('-').length === 2) {
+      //       open = poi.todayOpenHour.split('-')[0].trim();
+      //       closed = poi.todayOpenHour.split('-')[1].trim();
+      //     }
+      //     colorLight = this.isPlaceClosed(open, closed); // dark mode for unknown format hours
+      //   }
+      // } else {
+      //   colorLight = true
+      // }
       poi.color = Util.scoreToColor(poi.resource_score, false);
 
       // update map icon
@@ -400,6 +430,11 @@ export class ResourcesComponent implements OnInit, OnDestroy {
   }
 
   public focusToPlace(poi: POI, fromList: boolean = false) {
+    this.router.navigate(['/home', 'resources'], {
+      queryParams: {keyword: this.keyword, poi_type: this.poiType, focus_poi_id: poi.id, show_list: fromList},
+      replaceUrl: true
+    });
+    this.isViewListShow = fromList;
     this.focusState = true;
     this.focusedPOI = poi;
     this.focusedPOI.focused = true;
@@ -431,6 +466,7 @@ export class ResourcesComponent implements OnInit, OnDestroy {
       if (this.focusedPOI) {
         this.unfocusPlace(this.focusedPOI);
       }
+      this.searchByUserImpact = true;
       this.search();
       ParentContainerState.fullscreen.next(false);
     }

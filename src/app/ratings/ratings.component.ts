@@ -208,7 +208,8 @@ export class RatingsComponent implements OnInit, OnDestroy {
             setTimeout(() => {
               this.bottomSheetRef.afterDismissed().subscribe(() => {
                 this.clickable = true;
-                this.router.navigate(['/home/resources/pois', this.poiID]);
+                this.back();
+                // this.router.navigate(['/home/resources/pois', this.poiID]);
               });
               this.bottomSheetRef.dismiss();
             }, 3 * 1000);
