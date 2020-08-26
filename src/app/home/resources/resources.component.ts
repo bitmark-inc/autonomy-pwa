@@ -259,7 +259,6 @@ export class ResourcesComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   public search(moveCenter: boolean = true, onLoop: boolean = false, paginate?: number, limit?: number) {
-    console.log(this.isResultListShown);
     if (this.searchByUserImpact) {
       this.router.navigate(['/home', 'resources'], {
         queryParams: {keyword: this.keyword, poi_type: this.poiType},
@@ -281,11 +280,6 @@ export class ResourcesComponent implements OnInit, OnDestroy, AfterViewInit {
 
     paginate = paginate || 0;
     limit = limit || 100;
-
-    // get all at first from ucberkeley is center of map
-    // if (!this.keyword && !this.poiType) {
-    //   params.push(`lat=${this.mapCenter.lat}&lng=${this.mapCenter.lng}&radius=1500&count=${limit}&page=${paginate}`);
-    // }
 
     if (this.keyword) {
       params.push(`lat=${this.mapCenter.lat}&lng=${this.mapCenter.lng}&radius=1500&count=${limit}&page=${paginate}&text=${this.keyword}`);
@@ -407,10 +401,12 @@ export class ResourcesComponent implements OnInit, OnDestroy, AfterViewInit {
       queryParams: {keyword: this.keyword, poi_type: this.poiType},
       replaceUrl: true
     });
-    this.isResultListShown = true;
     this.focusState = false;
     this.focusedPOI.focused = false;
     this.focusedPOI = null;
+    if (this.pois && this.pois.length) {
+      this.isResultListShown = true;
+    }
     this.updatePlaceColors();
   }
 
@@ -418,13 +414,15 @@ export class ResourcesComponent implements OnInit, OnDestroy, AfterViewInit {
     if (this.keyword || this.poiType) {
       this.keyword = "";
       this.poiType = "";
+      if (this.pois && this.pois.length) {
+        this.pois.splice(0, this.pois.length);
+      }
       this.isResultListShown = false;
       this.isSearching = false;
       if (this.focusedPOI) {
         this.unfocusPlace(this.focusedPOI);
       }
       this.searchByUserImpact = true;
-      this.search();
       ParentContainerState.fullscreen.next(false);
     }
   }
