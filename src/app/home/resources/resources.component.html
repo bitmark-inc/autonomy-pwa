@@ -13,7 +13,7 @@
     <mat-card class="no-top no-bottom"><hr></mat-card>
   </div>
   <div class="content-view">
-    <mat-card *ngIf="poiTypes" class="resources-list">
+    <mat-card *ngIf="poiTypes" class="resources-list no-left no-right">
       <div class="resources-child-list">
         <span class="resource-item font-14 capital clickable" *ngFor="let type of poiTypes"
           (click)="searchByPlaceType(type)">
@@ -48,7 +48,8 @@
           <div (click)="focusToPlace(poi, true)" class="places-list-item hovering clickable col content-left" [ngClass]="{'grey-text-color': !poi.resource_score}">
             <div class="p-r-15">
               <div [ngStyle]="{'background': poi.color}" class="content-center place-score"><span class="score-num">{{poi.resource_score ? (poi.resource_score | number:'1.1-1') : '--'}}</span></div>
-              <p class="content-center font-10 line-height-120 p-t-5"><a class="normal-link clickable" (click)="navigateToPOI(poi.id)">See ratings</a></p>
+              <p *ngIf="poi.resource_score && poi.resource_score > 0" class="content-center font-10 line-height-120 p-t-5"><a class="normal-link clickable" (click)="navigateToPOI(poi.id)">See ratings</a></p>
+              <p *ngIf="!(poi.resource_score && poi.resource_score > 0)" class="content-center font-10 line-height-120 p-t-5"><a class="normal-link clickable" (click)="navigateToPOI(poi.id)">Rate this</a></p>
             </div>
             <div class="p-r-15">
               <mat-card class="no-top no-bottom">
@@ -66,7 +67,7 @@
           <div class="light-line"><hr></div>
         </div>
       </div>
-      <div class="p-t-10" *ngIf="keyword && !(pois && pois.length)">
+      <div class="p-t-10" *ngIf="keyword && !(pois && pois.length) && !isSearching">
         <mat-card>
           <p style="padding-left: 15px; padding-right: calc(15px + 9px);" class="grey-text-color">No resources for ‘<span class="sub-direction-color">{{keyword}}</span>’ have been found.</p>
         </mat-card>
@@ -74,24 +75,27 @@
       </div>
     </div>
   </div>
-  <div [hidden]="!focusState" *ngIf="focusedPOI" class="result-place-list" style="display: flex;">
-    <mat-card class="col content-left" [ngClass]="{'grey-text-color': !focusedPOI.resource_score}">
-      <div class="p-r-15">
-        <div [ngStyle]="{'background': focusedPOI.color}" class="content-center place-score"><span class="score-num">{{focusedPOI.resource_score ? (focusedPOI.resource_score | number:'1.1-1') : '--'}}</span></div>
-        <p class="content-center font-10 line-height-120 p-t-5"><a class="normal-link clickable" (click)="navigateToPOI(focusedPOI.id)">See ratings</a></p>
-      </div>
-      <mat-card class="no-top no-bottom no-right">
-        <p class="upcase font-14">{{focusedPOI.alias}}</p>
-        <p class="font-12 grey-text-color p-b-5 capital">{{focusedPOI.place_type}}</p> <!-- category -->
-        <p *ngIf="focusedPOI.todayOpenHour" [ngClass]="{'grey-text-color': !focusedPOI.resource_score, 'direction-color': focusedPOI.resource_score}" class="font-12 p-b-5">{{focusedPOI.todayOpenHourForView}}</p> <!-- open hours -->
-        <p *ngIf="focusedPOI.services_active" [ngClass]="{'grey-text-color': !focusedPOI.resource_score, 'direction-color': focusedPOI.resource_score}" class="font-12 p-b-5 capital">{{focusedPOI.services_active}}</p> <!-- services -->
-        <div *ngIf="!focusedPOI.todayOpenHour && !focusedPOI.services_active">
-          <p class="font-12 p-b-5 grey-text-color">No data</p>
-          <p class="font-12 p-b-5 grey-text-color">--</p>
+  <div [hidden]="!focusState" *ngIf="focusedPOI" class="result-place-list">
+    <div class="horizal-display">
+      <mat-card class="col content-left" [ngClass]="{'grey-text-color': !focusedPOI.resource_score}">
+        <div class="p-r-15">
+          <div [ngStyle]="{'background': focusedPOI.color}" class="content-center place-score"><span class="score-num">{{focusedPOI.resource_score ? (focusedPOI.resource_score | number:'1.1-1') : '--'}}</span></div>
+          <p *ngIf="focusedPOI.resource_score && focusedPOI.resource_score > 0" class="content-center font-10 line-height-120 p-t-5"><a class="normal-link clickable" (click)="navigateToPOI(focusedPOI.id)">See ratings</a></p>
+          <p *ngIf="!(focusedPOI.resource_score && focusedPOI.resource_score > 0)" class="content-center font-10 line-height-120 p-t-5"><a class="normal-link clickable" (click)="navigateToPOI(focusedPOI.id)">Rate this</a></p>
         </div>
+        <mat-card class="no-top no-bottom no-right">
+          <p class="upcase font-14">{{focusedPOI.alias}}</p>
+          <p class="font-12 grey-text-color p-b-5 capital">{{focusedPOI.place_type}}</p> <!-- category -->
+          <p *ngIf="focusedPOI.todayOpenHour" [ngClass]="{'grey-text-color': !focusedPOI.resource_score, 'direction-color': focusedPOI.resource_score}" class="font-12 p-b-5">{{focusedPOI.todayOpenHourForView}}</p> <!-- open hours -->
+          <p *ngIf="focusedPOI.services_active" [ngClass]="{'grey-text-color': !focusedPOI.resource_score, 'direction-color': focusedPOI.resource_score}" class="font-12 p-b-5 capital">{{focusedPOI.services_active}}</p> <!-- services -->
+          <div *ngIf="!focusedPOI.todayOpenHour && !focusedPOI.services_active">
+            <p class="font-12 p-b-5 grey-text-color">No data</p>
+            <p class="font-12 p-b-5 grey-text-color">--</p>
+          </div>
+        </mat-card>
       </mat-card>
-    </mat-card>
-    <p *ngIf="!isViewListShow" class="close-detail" (click)="unfocusPlace(focusedPOI)"><img src="/assets/img/dismiss.svg" alt=""></p>
-    <p *ngIf="isViewListShow" class="close-detail" (click)="unfocusPlace(focusedPOI)"><img src="/assets/img/list-icon.svg" alt=""></p>
+      <p *ngIf="!isViewListShow" class="close-detail" (click)="unfocusPlace(focusedPOI)"><img src="/assets/img/dismiss.svg" alt=""></p>
+      <p *ngIf="isViewListShow" class="close-detail" (click)="unfocusPlace(focusedPOI)"><img src="/assets/img/list-icon.svg" alt=""></p>
+    </div>
   </div>
 </div>

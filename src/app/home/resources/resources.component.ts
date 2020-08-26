@@ -137,6 +137,7 @@ export class ResourcesComponent implements OnInit, OnDestroy {
     this.mapCenter = this.UCBekerleyLatlng;
     this.mapHeight = `${window.innerHeight - 56 -60}px`;
     this.mapWidth = `${window.innerWidth > 768 ? 768 : window.innerWidth}px`;
+    document.body.style.position = 'fixed';
     this.getResourcesForSearching();
     this.search();
   }
@@ -145,10 +146,11 @@ export class ResourcesComponent implements OnInit, OnDestroy {
     fromEvent(this.poiSearchInput.nativeElement, "keyup")
       .pipe(
         map((event: any) => {
+          this.isSearching = true;
           return this.keyword;
         }),
         // filter((res) => res.length > 0),
-        debounceTime(500),
+        debounceTime(300),
         distinctUntilChanged()
       )
       .subscribe(() => {
@@ -158,6 +160,7 @@ export class ResourcesComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     ParentContainerState.fullscreen.next(false);
+    document.body.style.position = 'initial';
   }
 
   public trackByPoiID(index, item) {
@@ -337,10 +340,10 @@ export class ResourcesComponent implements OnInit, OnDestroy {
         }
         if (this.pois && this.pois.length) {
           if (moveCenter) {
-            this.mapCenter = {
+            this.mapRef.panTo({
               lat: this.pois[0].location.latitude,
               lng: this.pois[0].location.longitude,
-            };
+            });
           }
           this.formatPOI();
           this.updatePlaceColors();
@@ -402,11 +405,12 @@ export class ResourcesComponent implements OnInit, OnDestroy {
     this.focusedPOI.focused = true;
     this.mapZoomLevel = 20;
     this.labelShown = true;
+    ParentContainerState.fullscreen.next(false);
     if (fromList) {
-      this.mapCenter = {
+      this.mapRef.panTo({
         lat: this.focusedPOI.location.latitude,
         lng: this.focusedPOI.location.longitude,
-      };
+      });
     }
     this.updatePlaceColors();
   }

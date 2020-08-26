@@ -48,12 +48,19 @@
     <mat-card class="col detail-info no-top">
       <p class="col-50 left font-10 line-height-120"><span>See a problem? </span><a (click)="openIntercom()" class="normal-link">Let us know!</a></p>
       <div class="col-50 right p-l-15">
-        <a *ngIf="poi.address" class="col content-right address-link" [href]="'https://maps.google.com/?q='+poi.address">
-          <a *ngIf="poi.address" class="col content-right address-link" [href]="'http://maps.apple.com/?q='+poi.address" target="_blank">
-            <p class="font-10 line-height-120 gap-right-5">Open in <span class="normal-link">Maps</span></p>
-            <img src="/assets/img/related-url.svg" alt="">
+        <p class="col content-right address-link font-10 line-height-120">
+          Open in &nbsp;
+          <a *ngIf="poi.address" class="gap-right-5" [href]="'https://maps.google.com/?q='+poi.address">
+            <a *ngIf="poi.address" [href]="'http://maps.apple.com/?q='+poi.address" target="_blank">
+              <span class="normal-link">Maps</span>
+            </a>
           </a>
-        </a>
+          <a *ngIf="poi.address" [href]="'https://maps.google.com/?q='+poi.address">
+            <a *ngIf="poi.address" [href]="'http://maps.apple.com/?q='+poi.address" target="_blank">
+              <img src="/assets/img/related-url.svg" alt="">
+            </a>
+          </a>
+        </p>
       </div>
     </mat-card>
 
