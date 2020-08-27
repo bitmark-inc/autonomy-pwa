@@ -1,8 +1,8 @@
 import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
-import { UserService } from "../services/user/user.service";
+import { UserService } from 'src/app/services/user/user.service';
 import { MatBottomSheet, MatBottomSheetRef } from '@angular/material/bottom-sheet';
-import { BottomSheetAlertComponent } from "../bottom-sheet-alert/bottom-sheet-alert.component";
+import { BottomSheetAlertComponent } from '../bottom-sheet-alert/bottom-sheet-alert.component';
 
 enum EnumPageStage { Direction, Keys }
 

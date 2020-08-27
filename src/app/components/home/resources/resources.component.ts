@@ -1,19 +1,13 @@
 declare var window: any;
 
-import { environment } from '../../../environments/environment';
+import { environment } from 'src/environments/environment';
 import { Router, ActivatedRoute } from '@angular/router';
-import { ApiService } from './../../services/api/api.service';
-import { Component, OnInit, OnDestroy, ViewChild, ElementRef, AfterViewInit } from "@angular/core";
+import { ApiService } from 'src/app/services/api/api.service';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { HomepageState as ParentContainerState } from '../homepage.state';
-import {
-  debounceTime,
-  map,
-  distinctUntilChanged,
-  filter,
-} from "rxjs/operators";
-import { Observable, fromEvent, Subscriber } from "rxjs";
-import { Util } from '../../services/util/util.service';
-import { AppSettings } from '../../app-settings';
+import { debounceTime, map, distinctUntilChanged } from 'rxjs/operators';
+import { fromEvent } from 'rxjs';
+import { Util } from 'src/app/services/util/util.service';
 import * as moment from 'moment';
 import { GoogleMap } from '@angular/google-maps';
 
@@ -108,7 +102,6 @@ export class ResourcesComponent implements OnInit, OnDestroy, AfterViewInit {
           this.isSearching = true;
           return this.keyword;
         }),
-        // filter((res) => res.length > 0),
         debounceTime(300),
         distinctUntilChanged()
       )

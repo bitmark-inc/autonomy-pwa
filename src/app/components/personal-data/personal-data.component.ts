@@ -5,9 +5,9 @@ import { Router } from '@angular/router';
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { MatBottomSheet, MatBottomSheetRef } from '@angular/material/bottom-sheet';
 import { BottomSheetAlertComponent } from "../bottom-sheet-alert/bottom-sheet-alert.component";
-import { ApiService } from '../services/api/api.service';
-import { UserService } from '../services/user/user.service';
-import { environment } from '../../environments/environment';
+import { ApiService } from 'src/app/services/api/api.service';
+import { UserService } from 'src/app/services/user/user.service';
+import { environment } from 'src/environments/environment';
 
 enum EnumPageStage { PDE, Save, Read, Delete }
 

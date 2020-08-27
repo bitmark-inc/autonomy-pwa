@@ -1,9 +1,9 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
-import { UserService } from '../services/user/user.service';
+import { UserService } from 'src/app/services/user/user.service';
 import { MatBottomSheet, MatBottomSheetRef } from '@angular/material/bottom-sheet';
-import { BottomSheetAlertComponent } from "../bottom-sheet-alert/bottom-sheet-alert.component";
-import { NoInternetError, AppError } from './../errors';
+import { BottomSheetAlertComponent } from '../bottom-sheet-alert/bottom-sheet-alert.component';
+import { NoInternetError, AppError } from 'src/app/errors';
 
 @Component({
   selector: "app-signin",

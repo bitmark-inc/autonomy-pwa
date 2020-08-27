@@ -3,12 +3,12 @@ declare var window: any;
 import { Location } from '@angular/common';
 import { Component, OnInit, ElementRef, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ApiService } from '../services/api/api.service';
-import { UserService } from '../services/user/user.service';
+import { ApiService } from '../../services/api/api.service';
+import { UserService } from '../../services/user/user.service';
 import { Router } from '@angular/router';
-import { environment } from 'src/environments/environment';
-import { Util } from '../services/util/util.service';
-import { AppSettings } from '../app-settings';
+import { environment } from '../../../environments/environment';
+import { Util } from '../../services/util/util.service';
+import { AppSettings } from '../../app-settings';
 
 @Component({
   selector: "app-poi",

@@ -1,19 +1,19 @@
 import { BrowserModule, HammerModule } from '@angular/platform-browser';
 import { NgModule, APP_INITIALIZER } from '@angular/core';
 
-import { FormsModule } from "@angular/forms";
+import { FormsModule } from '@angular/forms';
 
-import { MatBottomSheetModule, MatBottomSheetRef } from "@angular/material/bottom-sheet";
-import { MatTableModule } from "@angular/material/table";
-import { MatToolbarModule } from "@angular/material/toolbar";
-import { MatCardModule } from "@angular/material/card";
-import { MatButtonModule } from "@angular/material/button";
-import { MatIconModule } from "@angular/material/icon";
-import { MatListModule } from "@angular/material/list";
-import { MatRadioModule } from "@angular/material/radio";
-import { MatProgressBarModule } from "@angular/material/progress-bar";
+import { MatBottomSheetModule, MatBottomSheetRef } from '@angular/material/bottom-sheet';
+import { MatTableModule } from '@angular/material/table';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatListModule } from '@angular/material/list';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { GoogleMapsModule } from '@angular/google-maps'
-import { TextFieldModule } from "@angular/cdk/text-field";
+import { TextFieldModule } from '@angular/cdk/text-field';
 import { MatTabsModule } from '@angular/material/tabs';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -21,32 +21,32 @@ import { HttpClientModule }    from '@angular/common/http';
 
 import { UserService } from './services/user/user.service';
 import { ApiService } from './services/api/api.service';
-import { EventEmitterService } from "./services/event-emitter.service";
+import { EventEmitterService } from './services/event-emitter.service';
 import { PWAUserGuard, PWAGuestGuard, PWAGuard, BrowserGuard, ParticipantGuard, NetworkGuard } from './url-guard';
 
 import { AppComponent } from './app.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { InstallationComponent } from './installation/installation.component'
-import { PoiComponent } from './poi/poi.component';
-import { RatingsComponent } from './ratings/ratings.component';
-import { SigninComponent } from './signin/signin.component';
-import { OnboardingComponent } from './onboarding/onboarding.component';
+import { InstallationComponent } from './components/installation/installation.component'
+import { PoiComponent } from './components/poi/poi.component';
+import { RatingsComponent } from './components/ratings/ratings.component';
+import { SigninComponent } from './components/signin/signin.component';
+import { OnboardingComponent } from './components/onboarding/onboarding.component';
 import { PlaceDeltaPipe } from './pipes/place-delta.pipe';
 import { SymptomDeltaPipe } from './pipes/symptom-delta.pipe';
 import { ReportScorePipe } from './pipes/report-score.pipe';
-import { RecoveryKeyComponent } from './recovery-key/recovery-key.component';
-import { SignoutComponent } from './signout/signout.component';
-import { HomeComponent } from './home/home.component';
-import { CommunityComponent } from './home/community/community.component';
-import { ResourcesComponent } from './home/resources/resources.component';
-import { SettingComponent } from './home/setting/setting.component';
-import { BottomSheetAlertComponent } from "./bottom-sheet-alert/bottom-sheet-alert.component";
+import { RecoveryKeyComponent } from './components/recovery-key/recovery-key.component';
+import { SignoutComponent } from './components/signout/signout.component';
+import { HomeComponent } from './components/home/home.component';
+import { CommunityComponent } from './components/home/community/community.component';
+import { ResourcesComponent } from './components/home/resources/resources.component';
+import { SettingComponent } from './components/home/setting/setting.component';
+import { BottomSheetAlertComponent } from './components/bottom-sheet-alert/bottom-sheet-alert.component';
 import { RelativeDatePipe } from './pipes/relative-date.pipe';
-import { PersonalDataComponent } from './personal-data/personal-data.component';
-import { CommunityDataComponent } from './community-data/community-data.component';
-import { NoContentComponent } from './no-content/no-content.component';
+import { PersonalDataComponent } from './components/personal-data/personal-data.component';
+import { CommunityDataComponent } from './components/community-data/community-data.component';
+import { NoContentComponent } from './components/no-content/no-content.component';
 import { SearchResultsNamePipe } from './pipes/search-results-name.pipe';
 
 declare var window: any;

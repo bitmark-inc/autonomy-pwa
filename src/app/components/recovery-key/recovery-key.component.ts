@@ -1,9 +1,9 @@
 declare var window: any;
 
 import { Component, OnInit } from '@angular/core';
-import { trigger, transition, animate, style, query, state} from "@angular/animations";
-import { UserService } from "../services/user/user.service";
-import { Location } from "@angular/common";
+import { trigger, transition, animate, style, state} from '@angular/animations';
+import { UserService } from 'src/app/services/user/user.service';
+import { Location } from '@angular/common';
 
 enum EnumPageStage { Direction, Keys }
 

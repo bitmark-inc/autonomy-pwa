@@ -1,15 +1,15 @@
 declare var window: any;
 
-import { environment } from '../../environments/environment';
+import { environment } from 'src/environments/environment';
 import { NgZone } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { UserService } from '../services/user/user.service';
-import { ApiService } from '../services/api/api.service';
+import { UserService } from 'src/app/services/user/user.service';
+import { ApiService } from 'src/app/services/api/api.service';
 import { MatBottomSheet, MatBottomSheetRef } from '@angular/material/bottom-sheet';
 import { BottomSheetAlertComponent } from '../bottom-sheet-alert/bottom-sheet-alert.component';
-import { PIDError } from '../errors';
+import { PIDError } from 'src/app/errors';
 
 enum EnumPageStage { Intro, Consent, InvalidPID }
 

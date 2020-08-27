@@ -1,9 +1,9 @@
 declare var window: any;
 
-import { environment } from '../../../environments/environment';
+import { environment } from 'src/environments/environment';
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
-import { UserService } from '../../services/user/user.service';
+import { UserService } from 'src/app/services/user/user.service';
 import { Router } from '@angular/router';
 
 @Component({

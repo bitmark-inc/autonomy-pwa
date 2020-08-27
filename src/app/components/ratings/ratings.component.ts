@@ -1,15 +1,15 @@
 declare var window: any;
 
-import { environment } from '../../environments/environment';
+import { environment } from 'src/environments/environment';
 import { Component, OnInit, ElementRef, OnDestroy } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ApiService } from '../services/api/api.service';
+import { ApiService } from 'src/app/services/api/api.service';
 import { MatBottomSheet, MatBottomSheetRef } from '@angular/material/bottom-sheet';
-import { BottomSheetAlertComponent } from "../bottom-sheet-alert/bottom-sheet-alert.component";
-import { Util } from '../services/util/util.service';
-import { UserService } from '../services/user/user.service';
-import { AppSettings } from '../app-settings';
+import { BottomSheetAlertComponent } from '../bottom-sheet-alert/bottom-sheet-alert.component';
+import { Util } from 'src/app/services/util/util.service';
+import { UserService } from 'src/app/services/user/user.service';
+import { AppSettings } from 'src/app/app-settings';
 
 enum EnumPageStage { Ratings, Rights, DataPDE, DataCDE }
 

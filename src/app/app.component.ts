@@ -2,15 +2,14 @@ declare var window: any;
 
 import { environment } from '../environments/environment';
 import { Component } from '@angular/core';
-import { RouterOutlet, Router, NavigationStart } from '@angular/router';
+import { Router, NavigationStart } from '@angular/router';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { interval } from 'rxjs';
 import { SwUpdate } from '@angular/service-worker';
 import { MatBottomSheet, MatBottomSheetRef } from '@angular/material/bottom-sheet';
-import { BottomSheetAlertComponent } from "./bottom-sheet-alert/bottom-sheet-alert.component";
+import { BottomSheetAlertComponent } from './components/bottom-sheet-alert/bottom-sheet-alert.component';
 
 import { routerTransition } from "./router.transition";
-import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',

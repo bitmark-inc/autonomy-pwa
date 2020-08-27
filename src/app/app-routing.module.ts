@@ -1,19 +1,16 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { InstallationComponent } from './installation/installation.component';
-import { SigninComponent } from './signin/signin.component';
-import { OnboardingComponent } from './onboarding/onboarding.component';
-import { PoiComponent } from './poi/poi.component';
-import { RatingsComponent } from './ratings/ratings.component';
-import { RecoveryKeyComponent } from "./recovery-key/recovery-key.component";
-import { SignoutComponent } from "./signout/signout.component";
-import { HomeComponent } from './home/home.component';
-import { SettingComponent } from './home/setting/setting.component';
-import { CommunityComponent } from './home/community/community.component';
-import { ResourcesComponent } from './home/resources/resources.component';
-import { PersonalDataComponent } from './personal-data/personal-data.component';
-import { CommunityDataComponent } from './community-data/community-data.component';
-import { NoContentComponent} from './no-content/no-content.component'
+import { InstallationComponent } from './components/installation/installation.component';
+import { SigninComponent } from './components/signin/signin.component';
+import { OnboardingComponent } from './components/onboarding/onboarding.component';
+import { PoiComponent } from './components/poi/poi.component';
+import { RatingsComponent } from './components/ratings/ratings.component';
+import { RecoveryKeyComponent } from './components/recovery-key/recovery-key.component';
+import { SignoutComponent } from './components/signout/signout.component';
+import { HomeComponent } from './components/home/home.component';
+import { PersonalDataComponent } from './components/personal-data/personal-data.component';
+import { CommunityDataComponent } from './components/community-data/community-data.component';
+import { NoContentComponent} from './components/no-content/no-content.component'
 import { PWAUserGuard, PWAGuestGuard, PWAGuard, BrowserGuard, ParticipantGuard, NetworkGuard } from './url-guard';
 
 const routes: Routes = [

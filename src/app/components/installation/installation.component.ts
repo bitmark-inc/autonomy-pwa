@@ -1,9 +1,9 @@
 declare var window: any;
 
 import { Component, OnInit, OnDestroy, ViewChild, ElementRef, HostListener, AfterViewInit } from '@angular/core';
-import { UserService } from '../services/user/user.service';
+import { UserService } from 'src/app/services/user/user.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import { environment } from '../../environments/environment';
+import { environment } from 'src/environments/environment';
 import { timer } from 'rxjs';
 
 enum EnumPageStage { Landing, Intro01, Intro02, Intro03, OnInstall };

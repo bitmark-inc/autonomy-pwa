@@ -1,7 +1,7 @@
 declare var window: any;
 
 import { Component, OnInit, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
-import { AppSettings } from "../../app-settings";
+import { AppSettings } from 'src/app/app-settings';
 import { ApiService } from 'src/app/services/api/api.service';
 import * as moment from 'moment';
 import * as d3 from 'd3'
