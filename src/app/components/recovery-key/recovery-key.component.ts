@@ -25,7 +25,7 @@ enum EnumPageStage { Direction, Keys }
 export class RecoveryKeyComponent implements OnInit {
   public PageStage = EnumPageStage;
   public stage: EnumPageStage = EnumPageStage.Direction;
-  public words: any;
+  public words: string[];
   public indexShowing: number = 0;
   public slideStateTest: string = 'center';
 

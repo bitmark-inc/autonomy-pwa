@@ -1,7 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 // Epochs
-const epochs: any = [
+const epochs: [string, number][] = [
     ['year', 31536000],
     ['month', 2592000],
     ['day', 86400],
@@ -32,7 +32,7 @@ export class RelativeDatePipe implements PipeTransform {
     };
   };
 
-  transform(dateStamp: number): any {
+  transform(dateStamp: number): string {
     let timeAgoInSeconds = Math.floor((new Date().getTime() - new Date(dateStamp).getTime()) / 1000);
     let {interval, epoch} = this.getDuration(timeAgoInSeconds);
     let suffix = interval === 1 ? '' : 's';

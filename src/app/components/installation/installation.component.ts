@@ -1,8 +1,8 @@
 declare var window: any;
 
-import { Component, OnInit, OnDestroy, ViewChild, ElementRef, HostListener, AfterViewInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { UserService } from 'src/app/services/user/user.service';
-import { Router, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { timer } from 'rxjs';
 
@@ -36,7 +36,7 @@ export class InstallationComponent implements OnInit, AfterViewInit, OnDestroy {
   public viewHeight: string;
   private pID: string;
 
-  constructor(private router: Router, private activatedRoute: ActivatedRoute, private userService: UserService) {
+  constructor(private activatedRoute: ActivatedRoute, private userService: UserService) {
     this.viewHeight = `${window.innerHeight}px`;
     this.activatedRoute.queryParams.subscribe((params) => {
       this.pID = params['pid'] || this.userService.getParticipantID();

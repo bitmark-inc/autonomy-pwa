@@ -1,6 +1,17 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MAT_BOTTOM_SHEET_DATA } from '@angular/material/bottom-sheet';
 
+interface BottomSheetData {
+  error: boolean,
+  header: string,
+  mainContent: string,
+  title?: string,
+  leftBtn?: string,
+  rightBtn?: string,
+  leftBtnAction?: () => {},
+  rightBtnAction?: () => {}
+}
+
 @Component({
   selector: 'app-bottom-sheet-alert',
   templateUrl: './bottom-sheet-alert.component.html',
@@ -14,7 +25,7 @@ export class BottomSheetAlertComponent implements OnInit {
   public leftBtn: string;
   public rightBtn: string;
 
-  constructor(@Inject(MAT_BOTTOM_SHEET_DATA) public data: any) {
+  constructor(@Inject(MAT_BOTTOM_SHEET_DATA) public data: BottomSheetData) {
     this.header = data.header;
     this.mainContent = data.mainContent;
     // these data define for only show error case

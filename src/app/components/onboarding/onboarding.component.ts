@@ -42,20 +42,6 @@ export class OnboardingComponent implements OnInit {
 
   ngOnInit() {}
 
-  private setStageByUrl(url: string = '') {
-    switch (url) {
-      case '/onboarding':
-        this.stage = this.PageStage.Intro;
-        break;
-      case '/onboarding/irb':
-        this.stage = this.PageStage.Consent;
-        break;
-      default:
-        this.stage = this.PageStage.Intro;
-        break;
-    }
-  }
-
   private openBottomSheet(): void {
     this.bottomSheetRef = this.bottomSheet.open(BottomSheetAlertComponent, {
       disableClose: true,
@@ -71,8 +57,7 @@ export class OnboardingComponent implements OnInit {
     let headers = new HttpHeaders();
     headers = headers.set('Accept', 'application/pdf');
     this.http.get('/assets/files/UCB_Safe_Campus_Study_Informed_Consent.pdf', { headers: headers, responseType: 'arraybuffer' })
-    .subscribe(
-      (data: any) => {
+    .subscribe((data) => {
       const aFile = new Blob([data], { type: 'application/pdf'});
       const url = window.URL.createObjectURL(aFile);
       let reader = new FileReader();

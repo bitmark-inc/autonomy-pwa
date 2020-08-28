@@ -45,7 +45,7 @@ export class RatingsComponent implements OnInit, OnDestroy {
     resource_rating_count: number;
     resource_score: number;
     score: number;
-    opening_hours: any;
+    opening_hours: {};
     service_options: any;
   };
 
@@ -94,7 +94,7 @@ export class RatingsComponent implements OnInit, OnDestroy {
     this.apiService
       .request('get', `${environment.autonomy_api_url}api/points-of-interest/${this.poiID}/ratings`, null, null, ApiService.DSTarget.PDS)
       .subscribe(
-        (data: { ratings: any }) => {
+        (data: { ratings: {} }) => {
           AppSettings.RESOURCE_RATINGS.forEach((resource) => {
             this.ratings.push({
               name: resource.replace(/_/g, ' '),
@@ -103,7 +103,7 @@ export class RatingsComponent implements OnInit, OnDestroy {
           })
           this.checkSubmitable(this.ratings);
         },
-        (err: any) => {
+        (err) => {
           window.alert(err.message);
           // TODO: do something
         }
@@ -112,19 +112,13 @@ export class RatingsComponent implements OnInit, OnDestroy {
 
   private getPOIProfile(): void {
     this.apiService
-      .request(
-        "get",
-        `${environment.autonomy_api_url}api/points-of-interest/${this.poiID}`,
-        null,
-        null,
-        ApiService.DSTarget.CDS
-      )
+      .request('get', `${environment.autonomy_api_url}api/points-of-interest/${this.poiID}`, null, null, ApiService.DSTarget.CDS)
       .subscribe(
-        (data: any) => {
+        (data) => {
           this.poi = data;
           this.formatPOI();
         },
-        (err: any) => {
+        (err) => {
           window.alert(err.message);
         }
       );
@@ -209,12 +203,11 @@ export class RatingsComponent implements OnInit, OnDestroy {
               this.bottomSheetRef.afterDismissed().subscribe(() => {
                 this.clickable = true;
                 this.back();
-                // this.router.navigate(['/home/resources/pois', this.poiID]);
               });
               this.bottomSheetRef.dismiss();
             }, 3 * 1000);
           },
-          (err: any) => {
+          (err) => {
             this.bottomSheetRef.afterDismissed().subscribe(() => {
               this.clickable = true;
               window.alert(err.message);

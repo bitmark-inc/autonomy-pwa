@@ -6,7 +6,6 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { MatBottomSheet, MatBottomSheetRef } from '@angular/material/bottom-sheet';
 import { BottomSheetAlertComponent } from '../bottom-sheet-alert/bottom-sheet-alert.component';
 import { ApiService } from 'src/app/services/api/api.service';
-import { UserService } from 'src/app/services/user/user.service';
 import { environment } from 'src/environments/environment';
 
 enum EnumPageStage { CDE, Submit, Save, Read }
@@ -23,7 +22,7 @@ export class CommunityDataComponent implements OnInit {
   public stage: EnumPageStage = EnumPageStage.CDE;
   public clickable: boolean = true;
 
-  constructor(private router: Router, private bottomSheetRef: MatBottomSheetRef, private bottomSheet: MatBottomSheet, private apiService: ApiService, private userService: UserService, private location: Location) {
+  constructor(private router: Router, private bottomSheetRef: MatBottomSheetRef, private bottomSheet: MatBottomSheet, private apiService: ApiService, private location: Location) {
     this.setStageByUrl(this.router.url);
   }
 

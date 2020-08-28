@@ -3,10 +3,10 @@ declare var window: any;
 import { environment } from '../environments/environment';
 import { Component } from '@angular/core';
 import { Router, NavigationStart } from '@angular/router';
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { BreakpointObserver } from '@angular/cdk/layout';
 import { interval } from 'rxjs';
 import { SwUpdate } from '@angular/service-worker';
-import { MatBottomSheet, MatBottomSheetRef } from '@angular/material/bottom-sheet';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { BottomSheetAlertComponent } from './components/bottom-sheet-alert/bottom-sheet-alert.component';
 
 import { routerTransition } from "./router.transition";
@@ -27,11 +27,8 @@ export class AppComponent {
               public breakpointObserver: BreakpointObserver,
               private swUpdate: SwUpdate,
               private bottomSheet: MatBottomSheet,
-              private bottomSheetRef: MatBottomSheetRef,
               private router: Router) {
 
-    const isSmallScreen = breakpointObserver.isMatched('(max-width: 599px)');
-    
     if (environment.production) {
       this.autoupdateApp();
       window.OneSignal = window.OneSignal || [];
@@ -43,7 +40,7 @@ export class AppComponent {
       });
     }
 
-    router.events.subscribe(event => {
+    this.router.events.subscribe(event => {
       if(event instanceof NavigationStart) {
         this.setPageTransition(event.url);
       }
@@ -69,7 +66,7 @@ export class AppComponent {
   }
 
   private openBottomSheet(): void {
-    this.bottomSheetRef = this.bottomSheet.open(BottomSheetAlertComponent, {
+    this.bottomSheet.open(BottomSheetAlertComponent, {
       disableClose: true,
       data: {
         error: false,

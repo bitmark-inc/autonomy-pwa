@@ -1,14 +1,10 @@
 import {
-  sequence,
   trigger,
-  stagger,
   animate,
   style,
   group,
   query as q,
   transition,
-  keyframes,
-  animateChild,
 } from '@angular/animations'
 
 const query = (style, animate, optional = { optional: true }) =>

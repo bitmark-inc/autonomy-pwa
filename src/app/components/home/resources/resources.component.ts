@@ -8,7 +8,6 @@ import { HomepageState as ParentContainerState } from '../homepage.state';
 import { debounceTime, map, distinctUntilChanged } from 'rxjs/operators';
 import { fromEvent } from 'rxjs';
 import { Util } from 'src/app/services/util/util.service';
-import * as moment from 'moment';
 import { GoogleMap } from '@angular/google-maps';
 
 interface POI {
@@ -21,9 +20,9 @@ interface POI {
     longitude: number
   },
   rating_last_updated: number,
-  opening_hours: any,
-  place_types: any,
-  service_options: any,
+  opening_hours: {},
+  place_types: string[],
+  service_options: {},
   resource_score: number,
   focused: boolean,
   place_type: string,
@@ -178,16 +177,16 @@ export class ResourcesComponent implements OnInit, OnDestroy, AfterViewInit {
     })
   }
 
-  private isPlaceClosed(open, closed): boolean {
-    let isClosed: boolean = false;
-    if (open && closed) {
-      let currentTime = moment().hours() * 60 + moment().minutes();
-      let startTime = moment(open, 'hh:mm a').hours() * 60 + moment(open, 'hh:mm a').minutes()
-      let endTime = moment(closed, 'hh:mm a').hours() * 60 + moment(closed, 'hh:mm a').minutes()
-      isClosed = !(startTime < currentTime && currentTime < endTime);
-    }
-    return isClosed;
-  }
+  // private isPlaceClosed(open, closed): boolean {
+  //   let isClosed: boolean = false;
+  //   if (open && closed) {
+  //     let currentTime = moment().hours() * 60 + moment().minutes();
+  //     let startTime = moment(open, 'hh:mm a').hours() * 60 + moment(open, 'hh:mm a').minutes()
+  //     let endTime = moment(closed, 'hh:mm a').hours() * 60 + moment(closed, 'hh:mm a').minutes()
+  //     isClosed = !(startTime < currentTime && currentTime < endTime);
+  //   }
+  //   return isClosed;
+  // }
 
   private deg2rad(deg) {
     return deg * (Math.PI/180)
@@ -251,7 +250,7 @@ export class ResourcesComponent implements OnInit, OnDestroy, AfterViewInit {
     this.search();
   }
 
-  public search(moveCenter: boolean = true, onLoop: boolean = false, paginate?: number, limit?: number) {
+  public search(moveCenter: boolean = true, onLoop: boolean = false, paginate: number = 0, limit: number = 100) {
     if (this.searchByUserImpact) {
       this.router.navigate(['/home', 'resources'], {
         queryParams: {keyword: this.keyword, poi_type: this.poiType},
@@ -270,9 +269,6 @@ export class ResourcesComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     let url = `${environment.autonomy_api_url}api/points-of-interest`;
     let params: string[] = [];
-
-    paginate = paginate || 0;
-    limit = limit || 100;
 
     if (this.keyword) {
       params.push(`lat=${this.mapCenter.lat}&lng=${this.mapCenter.lng}&radius=1500&count=${limit}&page=${paginate}&text=${this.keyword}`);
@@ -329,8 +325,17 @@ export class ResourcesComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   public updatePlaceColors() {
-    let colorLight: boolean = false;
     this.pois.forEach((poi) => {
+      poi.color = Util.scoreToColor(poi.resource_score, false);
+
+      // update map icon
+      let category = this.poiType ? this.poiType.toLowerCase() : (poi.place_types && poi.place_types.length ? poi.place_types[0].toLowerCase() : 'default');
+      let scoreOrder = Util.scoreToColor(poi.resource_score, false, true);
+      poi.mapIconUrl = `/assets/img/map-marker/${category}/rate_${scoreOrder}.svg`
+    });
+
+    // let colorLight: boolean = false;
+    // this.pois.forEach((poi) => {
       // if (poi.todayOpenHour && poi.todayOpenHour != 'Closed') {
       //   let open;
       //   let closed;
@@ -358,13 +363,8 @@ export class ResourcesComponent implements OnInit, OnDestroy, AfterViewInit {
       // } else {
       //   colorLight = true
       // }
-      poi.color = Util.scoreToColor(poi.resource_score, false);
-
-      // update map icon
-      let category = this.poiType ? this.poiType.toLowerCase() : (poi.place_types && poi.place_types.length ? poi.place_types[0].toLowerCase() : 'default');
-      let scoreOrder = Util.scoreToColor(poi.resource_score, false, true);
-      poi.mapIconUrl = `/assets/img/map-marker/${category}/rate_${scoreOrder}.svg`
-    });
+      // poi.color = Util.scoreToColor(poi.resource_score, colorLight);
+    // });
   }
 
   public focusToPlace(poi: POI, moveCenter: boolean = false, byUserImpact: boolean = true) {

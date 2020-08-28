@@ -8,6 +8,17 @@ import * as d3 from 'd3'
 import { environment } from 'src/environments/environment';
 import { UserService } from 'src/app/services/user/user.service';
 
+interface ReportItem {
+  id: string,
+  name: string,
+  value: number,
+  change_rate: number,
+  distribution: {},
+  chartColor: string,
+  chartShown: boolean,
+  chartControl: SVGGElement,
+}
+
 enum NotificationPermissionState { None, Allowed, Denied, NotSupported, NoThanks };
 
 @Component({
@@ -19,7 +30,7 @@ export class CommunityComponent implements OnInit {
   @ViewChild("chartEl") public chartEl: ElementRef;
 
   public isdownloadIRB: boolean = false;
-  public dataBySymptoms: any = [];
+  public dataBySymptoms: ReportItem[] = [];
   public dataByDays: any = [];
   public listOfDays: string[];
   public listOfSymptoms: string[];
@@ -46,9 +57,6 @@ export class CommunityComponent implements OnInit {
   private getSymptomReport() {
     this.reportStart = moment().add(-7, 'days');
     this.reportEnd = moment();
-
-    let start = encodeURIComponent(this.reportStart.toISOString(true));
-    let end = encodeURIComponent(this.reportEnd.toISOString(true));
 
     let endpoint = `${environment.autonomy_api_url}api/report-items?type=symptom&granularity=day`;
     this.apiService
@@ -155,7 +163,7 @@ export class CommunityComponent implements OnInit {
 
   private buildKeyLists() {
     // render 7 days from the last day had data
-    let reportEndDay: any = Object.keys(this.dataBySymptoms[0].distribution)[0];
+    let reportEndDay: string = Object.keys(this.dataBySymptoms[0].distribution)[0];
     this.dataBySymptoms.forEach(symp => {
       Object.keys(symp.distribution).forEach(day => {
         if (moment(day).isAfter(reportEndDay, 'day')) {
@@ -234,7 +242,6 @@ export class CommunityComponent implements OnInit {
   // ======== WORK WITH ONESIGNAL
   private initOneSignal() {
     this.notificationPermissionState = this.userService.getPreference('notification-permission') || NotificationPermissionState.None;
-    console.log(this.notificationPermissionState);
 
     if (this.notificationPermissionState != NotificationPermissionState.NoThanks) {
       window.OneSignal.push(() => {

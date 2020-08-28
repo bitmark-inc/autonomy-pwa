@@ -33,7 +33,7 @@ export class PoiComponent implements OnInit, OnDestroy {
     resource_rating_count: number;
     resource_score: number;
     score: number;
-    opening_hours: any;
+    opening_hours: {};
     service_options: any;
   };
 
@@ -77,12 +77,11 @@ export class PoiComponent implements OnInit, OnDestroy {
   private getPOIProfile(): void {
     this.apiService
       .request('get', `${environment.autonomy_api_url}api/points-of-interest/${this.id}`, null, null, ApiService.DSTarget.CDS)
-      .subscribe(
-        (data: any) => {
+      .subscribe((data) => {
           this.poi = data;
           this.formatPOI();
         },
-        (err: any) => {
+        (err) => {
           window.alert(err.message);
         }
       );
@@ -117,9 +116,9 @@ export class PoiComponent implements OnInit, OnDestroy {
 
   private checkRated(): void {
     this.apiService
-      .request("get", `${environment.autonomy_api_url}api/points-of-interest/${this.id}/ratings`, null, null, ApiService.DSTarget.PDS)
+      .request('get', `${environment.autonomy_api_url}api/points-of-interest/${this.id}/ratings`, null, null, ApiService.DSTarget.PDS)
       .subscribe(
-        (data: { ratings: any }) => {
+        (data: { ratings: {} }) => {
           for (let i = 0; i < AppSettings.RESOURCE_RATINGS.length; i++) {
             if(data.ratings[AppSettings.RESOURCE_RATINGS[i]] > 0) {
               this.isRated = true;
@@ -127,7 +126,7 @@ export class PoiComponent implements OnInit, OnDestroy {
             }
           }
         },
-        (err: any) => {
+        (err) => {
           window.alert(err.message);
           // TODO: do something
         }

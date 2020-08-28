@@ -1,7 +1,7 @@
 declare var window: any;
 
 import { Injectable } from '@angular/core';
-import { Route, Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree } from '@angular/router';
+import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { UserService } from './services/user/user.service';
 
 @Injectable()
@@ -27,7 +27,7 @@ class PWAGuard implements CanActivate {
 
   private isPWA: boolean;
 
-  constructor(private router: Router, private userService: UserService) {
+  constructor(private router: Router) {
     this.isPWA = window.matchMedia('(display-mode: standalone)').matches;
   }
 
@@ -41,7 +41,7 @@ class BrowserGuard implements CanActivate {
 
   private isBrowser: boolean;
 
-  constructor(private router: Router, private userService: UserService) {
+  constructor(private router: Router) {
     this.isBrowser = !window.matchMedia('(display-mode: standalone)').matches;
   }
 
@@ -64,7 +64,7 @@ class ParticipantGuard implements CanActivate {
 @Injectable()
 class NetworkGuard implements CanActivate {
 
-  constructor(private router: Router, private userService: UserService) { }
+  constructor() { }
 
   public canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     if (navigator.onLine) {

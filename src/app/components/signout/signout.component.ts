@@ -83,6 +83,7 @@ export class SignoutComponent implements OnInit {
         this.clickable = true;
       }
     }
+    return true;
   }
 
 }

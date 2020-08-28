@@ -3,10 +3,9 @@ let macaroon = window.macaroon;
 
 import { environment } from '../../../environments/environment';
 import { Injectable } from '@angular/core';
-import { Observable, BehaviorSubject, Observer, forkJoin, interval } from 'rxjs';
+import { Observable, BehaviorSubject, interval } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { BaseService } from '../base.service';
-import { ObserveOnMessage } from 'rxjs/internal/operators/observeOn';
 
 export interface AccountInfo {
   account_number: string,

@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { DomSanitizer } from "@angular/platform-browser";
+import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
 
 @Pipe({
   name: "placeDelta",
@@ -7,15 +7,15 @@ import { DomSanitizer } from "@angular/platform-browser";
 export class PlaceDeltaPipe implements PipeTransform {
   constructor(private domSanitizer: DomSanitizer) {}
 
-  transform(value: any): any {
-    let obj: any;
-    value = parseFloat(value).toFixed(2);
+  transform(value: number | string): SafeHtml {
+    let obj: string;
+    value = parseFloat(value.toString());
     if (value > 0) {
-      obj = `<div class="green"><img src="/assets/img/arrow-up-green.svg" alt=""> ${value}%</div>`;
+      obj = `<div class="green"><img src="/assets/img/arrow-up-green.svg" alt=""> ${value.toFixed(2)}%</div>`;
     } else if (value < 0) {
-      obj = `<div class="red"><img src="/assets/img/arrow-down-red.svg" alt=""> ${value}%</div>`;
+      obj = `<div class="red"><img src="/assets/img/arrow-down-red.svg" alt=""> ${value.toFixed(2)}%</div>`;
     } else {
-      obj = `<div class="grey">${value}%</div>`;
+      obj = `<div class="grey">${value.toFixed(2)}%</div>`;
     }
     return this.domSanitizer.bypassSecurityTrustHtml(obj);
   }
