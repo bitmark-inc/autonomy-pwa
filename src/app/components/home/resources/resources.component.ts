@@ -271,10 +271,10 @@ export class ResourcesComponent implements OnInit, OnDestroy, AfterViewInit {
     let params: string[] = [];
 
     if (this.keyword) {
-      params.push(`lat=${this.mapCenter.lat}&lng=${this.mapCenter.lng}&radius=1500&count=${limit}&page=${paginate}&text=${this.keyword}`);
+      params.push(`lat=${this.mapCenter.lat}&lng=${this.mapCenter.lng}&radius=5000&count=${limit}&page=${paginate}&text=${this.keyword}`);
     }
     if (this.poiType) {
-      params.push(`lat=${this.mapCenter.lat}&lng=${this.mapCenter.lng}&radius=1500&count=${limit}&page=${paginate}&place_type=${this.poiType}`);
+      params.push(`lat=${this.mapCenter.lat}&lng=${this.mapCenter.lng}&radius=5000&count=${limit}&page=${paginate}&place_type=${this.poiType}`);
     }
     if (params.length) {
       url += `?profile=berkeley&${params.join("&")}`;
