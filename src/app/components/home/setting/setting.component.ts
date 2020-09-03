@@ -17,9 +17,7 @@ export class SettingComponent implements OnInit {
 
   constructor(private location: Location, public router: Router, private userService: UserService) {}
 
-  ngOnInit() {
-    window.aaa = this;
-  }
+  ngOnInit() {}
 
   public back(): void {
     this.location.back();

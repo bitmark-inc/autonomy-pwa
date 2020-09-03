@@ -6,6 +6,9 @@ import { UserService } from 'src/app/services/user/user.service';
 
 enum FeedbackStage { Q1, Q2, Thanks };
 
+const Q1_REPLIED: string = 'Q1_replied';
+const Q2_REPLIED: string = 'Q2_replied';
+
 interface DialogData {
   pageStage: FeedbackStage;
 }
@@ -31,7 +34,7 @@ export class FeedbackDialogComponent implements OnInit {
 
   public satisfied(vote: boolean) {
     this.userSatisfied = vote;
-    this.userService.setPreference('Q1Replied', true);
+    this.userService.setPreference(Q1_REPLIED, true);
     this.stage = this.pageStage.Q2;
   }
 
@@ -41,8 +44,7 @@ export class FeedbackDialogComponent implements OnInit {
         user_satisfied: this.userSatisfied,
         feedback: this.feedback
       }, null, null).subscribe((result) => {
-        console.log('submit feedback');
-        this.userService.setPreference('Q2Replied', true);
+        this.userService.setPreference(Q2_REPLIED, true);
         this.stage = this.pageStage.Thanks;
       })
     } else {
