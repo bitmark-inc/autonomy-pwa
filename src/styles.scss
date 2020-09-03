@@ -783,6 +783,10 @@ textarea {
   margin-right: 20px;
 }
 
+.gap-left-15 {
+  margin-left: 15px;
+}
+
 .content-left {
   text-align: left;
   display: flex !important;
@@ -1128,6 +1132,10 @@ textarea {
   line-height: 100%;
 }
 // ------------- end chart -----------
+
+.mat-dialog-container {
+  padding: unset !important;
+}
 
 /* Responsive Styles */
 @media screen and (max-width: 767px) {

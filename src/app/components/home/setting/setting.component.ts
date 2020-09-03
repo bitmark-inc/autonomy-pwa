@@ -5,6 +5,7 @@ import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { UserService } from 'src/app/services/user/user.service';
 import { Router } from '@angular/router';
+import { EventEmitterService } from 'src/app/services/event-emitter.service';
 
 @Component({
   selector: 'app-setting',
@@ -16,7 +17,9 @@ export class SettingComponent implements OnInit {
 
   constructor(private location: Location, public router: Router, private userService: UserService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    window.aaa = this;
+  }
 
   public back(): void {
     this.location.back();
@@ -31,6 +34,10 @@ export class SettingComponent implements OnInit {
       hide_default_launcher: true
     });
     window.Intercom('show');
+  }
+
+  public openFeedback() {
+    EventEmitterService.getEventEmitter(EventEmitterService.Events.FeedbackDialogShown).emit({ fromQ1: true })
   }
 
 }

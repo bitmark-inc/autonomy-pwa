@@ -1,0 +1,36 @@
+.form-title {
+  background: #FDB515;
+}
+
+.form-subtitle {
+  color: #404040;
+  font-size: 10px;
+}
+
+.feedback{
+  color: #000000;
+  font-size: 12px;
+
+  textarea {
+    resize: none;
+    border: none;
+    background: rgba(185, 211, 182, 0.4);
+    padding: 15px;
+    width: 100%;
+    overflow: auto;
+  }
+}
+
+.submit-btn {
+  background: #46535E;
+  color: #ffffff;
+  font-size: 12px;
+  padding: 5px 8px;
+}
+
+.remind-later {
+  color: #0060F2;
+  font-size: 8px;
+  background: #FFFFFF;
+  opacity: 0.75;
+}

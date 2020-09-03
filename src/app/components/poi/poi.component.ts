@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 import { environment } from '../../../environments/environment';
 import { Util } from '../../services/util/util.service';
 import { AppSettings } from '../../app-settings';
+import { EventEmitterService } from '../../services/event-emitter.service';
 
 @Component({
   selector: "app-poi",
@@ -142,6 +143,10 @@ export class PoiComponent implements OnInit, OnDestroy {
       hide_default_launcher: true
     });
     window.Intercom('show');
+  }
+
+  public openFeedback() {
+    EventEmitterService.getEventEmitter(EventEmitterService.Events.FeedbackDialogShown).emit({ fromQ1: true })
   }
 
   public back(): void {

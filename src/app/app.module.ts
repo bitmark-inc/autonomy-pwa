@@ -15,6 +15,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { GoogleMapsModule } from '@angular/google-maps'
 import { TextFieldModule } from '@angular/cdk/text-field';
 import { MatTabsModule } from '@angular/material/tabs';
+import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 
 import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule }    from '@angular/common/http';
@@ -48,6 +49,7 @@ import { PersonalDataComponent } from './components/personal-data/personal-data.
 import { CommunityDataComponent } from './components/community-data/community-data.component';
 import { NoContentComponent } from './components/no-content/no-content.component';
 import { SearchResultsNamePipe } from './pipes/search-results-name.pipe';
+import { FeedbackDialogComponent } from './components/feedback-dialog/feedback-dialog.component';
 
 declare var window: any;
 window.isProduction = environment.production;
@@ -75,6 +77,7 @@ window.isProduction = environment.production;
     CommunityDataComponent,
     NoContentComponent,
     SearchResultsNamePipe,
+    FeedbackDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -96,6 +99,7 @@ window.isProduction = environment.production;
     MatProgressBarModule,
     GoogleMapsModule,
     MatTabsModule,
+    MatDialogModule,
   ],
   providers: [
     UserService,
@@ -103,7 +107,8 @@ window.isProduction = environment.production;
     EventEmitterService,
     PWAUserGuard, PWAGuestGuard, PWAGuard, BrowserGuard, ParticipantGuard, NetworkGuard,
     {provide: APP_INITIALIZER, useFactory: InitServices, deps: [UserService], multi: true},
-    {provide: MatBottomSheetRef, useValue: {}}
+    {provide: MatBottomSheetRef, useValue: {}},
+    {provide: MatDialogRef, useValue: {}}
   ],
   bootstrap: [AppComponent],
   entryComponents: [BottomSheetAlertComponent]

@@ -1,0 +1,31 @@
+<div [hidden]="stage != pageStage.Q1">
+  <mat-card>
+    <p class="content-center">How satisfied are you with the Autonomy app?</p>
+    <div class="content-center p-t-15">
+      <a (click)="satisfied(true)" class="gap-right-15"><img src="/assets/img/like.svg" alt="like"></a>
+      <a (click)="satisfied(false)" class="gap-left-15"><img src="/assets/img/dislike.svg" alt="dislike"></a>
+    </div>
+  </mat-card>
+</div>
+<div [hidden]="stage != pageStage.Q2">
+  <mat-card class="content-center form-title">
+    <p>How can we make the app more useful and engaging?</p>
+  </mat-card>
+  <mat-card>
+    <p class="content-center form-subtitle p-b-15">We are trying our best to make an app that can help the Berkeley community cope during these times, and will appreciate any feedback you can provide for us.</p>
+    <div class="feedback">
+      <textarea matInput rows="5" [(ngModel)]="feedback" placeholder="*Please let us know your thoughts here."></textarea>
+    </div>
+    <div style="align-items: baseline;" class="content-center p-t-10 p-b-15">
+      <a (click)="submit()" class="submit-btn upcase gap-right-15">submit</a>
+      <a [mat-dialog-close]="{user_satisfied: userSatisfied, feedback: feedback}" class="remind-later gap-left-15">Remind me later</a>
+    </div>
+  </mat-card>
+</div>
+<div [hidden]="stage != pageStage.Thanks">
+  <mat-card>
+    <p style="color: #003262;" class="content-center p-b-10">Thank you for your feedback!</p>
+    <p style="color: #000000;" class="font-14 content-center p-b-15">We really value your opinion and will continue working to improve the app to help Berkeley get better.</p>
+    <p style="color: #888888; text-align: center;" class="font-10">If you have any other feedback, send us a message from your <a class="normal-link" [mat-dialog-close]="{user_satisfied: userSatisfied, feedback: feedback, redirecToAccount: true}">Account</a>.</p>
+  </mat-card>
+</div>

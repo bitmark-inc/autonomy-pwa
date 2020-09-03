@@ -10,6 +10,7 @@ import { BottomSheetAlertComponent } from '../bottom-sheet-alert/bottom-sheet-al
 import { Util } from 'src/app/services/util/util.service';
 import { UserService } from 'src/app/services/user/user.service';
 import { AppSettings } from 'src/app/app-settings';
+import { EventEmitterService } from 'src/app/services/event-emitter.service';
 
 enum EnumPageStage { Ratings, Rights, DataPDE, DataCDE }
 
@@ -255,5 +256,9 @@ export class RatingsComponent implements OnInit, OnDestroy {
       hide_default_launcher: true
     });
     window.Intercom('show');
+  }
+
+  public openFeedback() {
+    EventEmitterService.getEventEmitter(EventEmitterService.Events.FeedbackDialogShown).emit({ fromQ1: true })
   }
 }
