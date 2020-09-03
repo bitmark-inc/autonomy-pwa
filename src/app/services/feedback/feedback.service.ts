@@ -119,13 +119,4 @@ export class FeedbackService {
       this.popupShown = false;
     })
   }
-
-  public answered(question: Question) {
-    if (question === Question.Q1) {
-      this.userService.setPreference(Q1_REPLIED, true);
-    } else if (question === Question.Q2) {
-      this.userService.setPreference(Q2_REPLIED, true);
-      
-    }
-  }
 }
