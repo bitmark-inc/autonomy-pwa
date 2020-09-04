@@ -30,16 +30,16 @@ export class FeedbackService {
   constructor(private router: Router, private userService: UserService, private dialog: MatDialog) { }
 
   private feedbackShown(): boolean {
-    let show: boolean = !!this.userService.getUser() && !this.popupShown; //have user data and popup isn't openning
+    let show: boolean = false; // not show pop-up on default
 
+    //have user data and popup isn't openning
+    show = !!this.userService.getUser() && !this.popupShown;
+
+    // already shown before then check for next show time
     if (show && this.userService.getPreference(NEXT_FEEDBACK_SHOW_TIME)) {
-      // already shown before then check for next show time
       let endTime = moment(this.userService.getPreference(NEXT_FEEDBACK_SHOW_TIME));
       let current = moment();
       show = endTime.diff(current, 'hours') < 0;
-    } else {
-      // experience app at least 3 times and haven't shown before
-      show = show && this.userService.getPreference(APP_VISIBLE_TIMES) > 3;
     }
     return show;
   }
@@ -74,6 +74,11 @@ export class FeedbackService {
       if (this.userService.getUser() && !(document['hidden'])) {
         let visibleTimes = this.userService.getPreference(APP_VISIBLE_TIMES) || 0;
         this.userService.setPreference(APP_VISIBLE_TIMES, visibleTimes + 1);
+
+        // experience app at least 3 times and haven't shown before
+        if (this.userService.getPreference(APP_VISIBLE_TIMES) > 3 && !this.userService.getPreference(NEXT_FEEDBACK_SHOW_TIME) && !this.popupShown) {
+          this.openFeedbackDialog()
+        }
       }
     }
 
