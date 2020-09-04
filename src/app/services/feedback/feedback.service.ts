@@ -44,13 +44,11 @@ export class FeedbackService {
     return show;
   }
 
-  public intervalCheckFeedbackShown() {
-    this.rxjsTimer = timer(1000, 10 * 1000);
-    // this.rxjsTimer = timer(60 * 1000, 5 * 60 * 1000);
+  private intervalCheckFeedbackShown() {
+    this.rxjsTimer = timer(60 * 1000, 5 * 60 * 1000);
 
     this.rxjsTimer.subscribe(val => {
       this.timer = val;
-      
 
       if (this.feedbackShown()) {
         this.openFeedbackDialog();
@@ -58,7 +56,7 @@ export class FeedbackService {
     })
   }
 
-  public checkHiddenApp() {
+  private checkAppHidden() {
     if (typeof document.hidden === 'undefined') {
       console.log('Page Visibility API not supported.');
     }
@@ -80,6 +78,11 @@ export class FeedbackService {
     }
 
     document.addEventListener('visibilitychange', handleVisibilityChange, false);
+  }
+
+  public initService() {
+    this.checkAppHidden();
+    this.intervalCheckFeedbackShown();
   }
 
   public openFeedbackDialog(fromQ1: boolean = false) {

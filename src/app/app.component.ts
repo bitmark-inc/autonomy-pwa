@@ -53,8 +53,7 @@ export class AppComponent {
       // open feedback form by user click will always start from question 1
       this.feedbackService.openFeedbackDialog(data.fromQ1);
     });
-    this.feedbackService.checkHiddenApp();
-    this.feedbackService.intervalCheckFeedbackShown();
+    this.feedbackService.initService();
   }
 
   private autoupdateApp() {
