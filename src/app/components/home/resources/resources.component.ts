@@ -237,7 +237,7 @@ export class ResourcesComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   // search progress
-  private getAllPOIs(replaceUrl): Observable<any[]> {
+  private getAllPOIs(): Observable<any[]> {
     let paginate: number = 0;
     const getRange = (page: number = 0): Observable<any> => {
       return this.searchOnRange(page);
@@ -248,7 +248,6 @@ export class ResourcesComponent implements OnInit, OnDestroy, AfterViewInit {
           paginate += 1;
           return getRange(paginate);
         } else {
-          this.afterGetAllPOIs(replaceUrl);
           return empty();
         }
       }),
@@ -284,9 +283,11 @@ export class ResourcesComponent implements OnInit, OnDestroy, AfterViewInit {
     return data;
   }
 
-  private afterGetAllPOIs(replaceUrl) {
+  private afterGetAllPOIs(moveCenter) {
     this.isSearching = false;
-    if (replaceUrl && this.focusedPOIID) {
+
+    // moveCenter condition to skip focus while user drag map
+    if (moveCenter && this.focusedPOIID) {
       let focusPOI = this.pois.find(poi => poi.id === this.focusedPOIID);
       this.focusedPOIID = '';
       this.focusToPlace(focusPOI, true, false);
@@ -312,7 +313,7 @@ export class ResourcesComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     let tmp = [];
-    this.getAllPOIs(replaceUrl).subscribe((data: POI[]) => {
+    this.getAllPOIs().subscribe((data: POI[]) => {
       if (tmp.length) {
         this.pois.push(...data);
       } else {
@@ -330,6 +331,9 @@ export class ResourcesComponent implements OnInit, OnDestroy, AfterViewInit {
     (err) => {
       this.isSearching = false;
       window.alert(err.message);
+    },
+    () => {
+      this.afterGetAllPOIs(moveCenter);
     });
   }
   // end search
