@@ -311,8 +311,14 @@ export class ResourcesComponent implements OnInit, OnDestroy, AfterViewInit {
       });
     }
 
+    let tmp = [];
     this.getAllPOIs(replaceUrl).subscribe((data: POI[]) => {
-      this.pois.push(...data);
+      if (tmp.length) {
+        this.pois.push(...data);
+      } else {
+        tmp = data;
+        this.pois = tmp;
+      }
 
       if (moveCenter && this.pois && this.pois.length) {
         this.mapRef.panTo({
