@@ -205,7 +205,7 @@ export class ResourcesComponent implements OnInit, OnDestroy, AfterViewInit {
         this.mapRef.getBounds().getCenter().lat(),
         this.mapRef.getBounds().getCenter().lng()
       );
-      if (dragDistance >= 4) {
+      if (dragDistance >= 3) {
         this.mapCenter = { lat: this.mapRef.getCenter().lat(), lng: this.mapRef.getCenter().lng() };
         this.search(false, false);
       }
@@ -388,6 +388,11 @@ export class ResourcesComponent implements OnInit, OnDestroy, AfterViewInit {
         this.unfocusPlace(this.focusedPOI);
       }
       ParentContainerState.fullscreen.next(false);
+
+      // replace Url
+      this.router.navigate(['/home', 'resources'], {
+        replaceUrl: true,
+      });
     }
   }
 
