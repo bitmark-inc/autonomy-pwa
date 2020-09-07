@@ -257,16 +257,15 @@ export class ResourcesComponent implements OnInit, OnDestroy, AfterViewInit {
 
   private searchOnRange(paginate: number = 0, limit: number = 100): Observable<any> {
     let url = `${environment.autonomy_api_url}api/points-of-interest`;
-    let params: string[] = [];
+
+    // default params
+    url += `?profile=berkeley&lat=${this.mapCenter.lat}&lng=${this.mapCenter.lng}&radius=5000&count=${limit}&page=${paginate}`;
 
     if (this.keyword) {
-      params.push(`lat=${this.mapCenter.lat}&lng=${this.mapCenter.lng}&radius=5000&count=${limit}&page=${paginate}&text=${this.keyword}`);
+      url += `&text=${this.keyword}`;
     }
-    if (this.poiType) {
-      params.push(`lat=${this.mapCenter.lat}&lng=${this.mapCenter.lng}&radius=5000&count=${limit}&page=${paginate}&place_type=${this.poiType}`);
-    }
-    if (params.length) {
-      url += `?profile=berkeley&${params.join("&")}`;
+    else if (this.poiType) {
+      url += `&place_type=${this.poiType}`;
     }
 
     return this.apiService.request('get', url, null, null, ApiService.DSTarget.CDS);
