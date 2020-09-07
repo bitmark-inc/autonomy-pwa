@@ -5,8 +5,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { ApiService } from 'src/app/services/api/api.service';
 import { Component, OnInit, OnDestroy, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { HomepageState as ParentContainerState } from '../homepage.state';
-import { debounceTime, map, distinctUntilChanged } from 'rxjs/operators';
-import { fromEvent } from 'rxjs';
+import { debounceTime, map, distinctUntilChanged, expand } from 'rxjs/operators';
+import { fromEvent, Observable, empty } from 'rxjs';
 import { Util } from 'src/app/services/util/util.service';
 import { GoogleMap } from '@angular/google-maps';
 
@@ -50,12 +50,11 @@ export class ResourcesComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public focusedPOI: POI;
   private focusedPOIID: string;
-  private searchByUserImpact: boolean;
 
   public isSearching: boolean = false;
   public focusState: boolean = false;
   public isResultListShown: boolean = false;
-  public pois: POI[];
+  public pois: POI[] = [];
 
   // Map settings
   private UCBekerleyLatlng: google.maps.LatLngLiteral = {
@@ -91,7 +90,7 @@ export class ResourcesComponent implements OnInit, OnDestroy, AfterViewInit {
     this.mapWidth = `${window.innerWidth > 768 ? 768 : window.innerWidth}px`;
     document.body.style.position = 'fixed';
     this.getResourcesForSearching();
-    this.search();
+    this.search(false);
   }
 
   ngOnInit() {
@@ -149,8 +148,8 @@ export class ResourcesComponent implements OnInit, OnDestroy, AfterViewInit {
     return singular;
   }
 
-  private formatPOI() {
-    this.pois.forEach(poi => {
+  private formatPOI(data: POI[]) {
+    data.forEach(poi => {
       poi.mapLabel = (poi.alias && poi.alias.split(' ').length > 3) ? poi.alias.split(' ', 3).join(' ').concat('...') : poi.alias
       poi.place_type = poi.place_types.map(type => this.placeTypeSingular(type)).join(', ');
 
@@ -170,23 +169,12 @@ export class ResourcesComponent implements OnInit, OnDestroy, AfterViewInit {
     })
   }
 
-  private fakeResourceScore() {
-    this.pois.forEach(poi => {
+  private fakeResourceScore(data: POI[]) {
+    data.forEach(poi => {
       poi.resource_score = Math.floor(Math.random() * 5.0);
       poi.rating_last_updated = 1595402179094;
     })
   }
-
-  // private isPlaceClosed(open, closed): boolean {
-  //   let isClosed: boolean = false;
-  //   if (open && closed) {
-  //     let currentTime = moment().hours() * 60 + moment().minutes();
-  //     let startTime = moment(open, 'hh:mm a').hours() * 60 + moment(open, 'hh:mm a').minutes()
-  //     let endTime = moment(closed, 'hh:mm a').hours() * 60 + moment(closed, 'hh:mm a').minutes()
-  //     isClosed = !(startTime < currentTime && currentTime < endTime);
-  //   }
-  //   return isClosed;
-  // }
 
   private deg2rad(deg) {
     return deg * (Math.PI/180)
@@ -217,9 +205,9 @@ export class ResourcesComponent implements OnInit, OnDestroy, AfterViewInit {
         this.mapRef.getBounds().getCenter().lat(),
         this.mapRef.getBounds().getCenter().lng()
       );
-      if (dragDistance > 1) {
+      if (dragDistance >= 4) {
         this.mapCenter = { lat: this.mapRef.getCenter().lat(), lng: this.mapRef.getCenter().lng() };
-        this.search(false);
+        this.search(false, false);
       }
     }
   }
@@ -237,12 +225,10 @@ export class ResourcesComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   private searchByKeyword() {
-    this.searchByUserImpact = true;
     this.search();
   }
 
   public searchByPlaceType(type: string) {
-    this.searchByUserImpact = true;
     ParentContainerState.fullscreen.next(true);
     this.isResultListShown = true;
     this.focusState = false;
@@ -250,23 +236,27 @@ export class ResourcesComponent implements OnInit, OnDestroy, AfterViewInit {
     this.search();
   }
 
-  public search(moveCenter: boolean = true, onLoop: boolean = false, paginate: number = 0, limit: number = 100) {
-    if (this.searchByUserImpact) {
-      this.router.navigate(['/home', 'resources'], {
-        queryParams: {keyword: this.keyword, poi_type: this.poiType},
-        replaceUrl: true
-      });
-      this.searchByUserImpact = false;
-    }
-    if (!this.keyword && !this.poiType) {
-      if (!onLoop && this.pois && this.pois.length) {
-        this.pois.splice(0, this.pois.length);
-      }
-      return;
-    }
-    if (!onLoop) {
-      this.isSearching = true;
-    }
+  // search progress
+  private getAllPOIs(replaceUrl): Observable<any[]> {
+    let paginate: number = 0;
+    const getRange = (page: number = 0): Observable<any> => {
+      return this.searchOnRange(page);
+    };
+    return getRange().pipe(
+      expand((data) => {
+        if (data && data.length && data.length === 100) {
+          paginate += 1;
+          return getRange(paginate);
+        } else {
+          this.afterGetAllPOIs(replaceUrl);
+          return empty();
+        }
+      }),
+      map((data) => this.formatSearch(data))
+    )
+  }
+
+  private searchOnRange(paginate: number = 0, limit: number = 100): Observable<any> {
     let url = `${environment.autonomy_api_url}api/points-of-interest`;
     let params: string[] = [];
 
@@ -280,52 +270,66 @@ export class ResourcesComponent implements OnInit, OnDestroy, AfterViewInit {
       url += `?profile=berkeley&${params.join("&")}`;
     }
 
-    this.apiService
-    .request('get', url, null, null, ApiService.DSTarget.CDS)
-    .subscribe(
-      (data) => {
-        if (!onLoop) {
-          this.isSearching = false;
-        }
-        this.mapZoomLevel = 19;
-        this.labelShown = true;
-        let tmp: POI[] = data;
-        if (onLoop && this.pois) {
-          this.pois.concat(tmp);
-        } else {
-          this.pois = tmp;
-        }
-        if (environment.bitmark_network === 'testnet') {
-          this.fakeResourceScore();
-        }
-        if (this.pois && this.pois.length) {
-          if (moveCenter) {
-            this.mapRef.panTo({
-              lat: this.pois[0].location.latitude,
-              lng: this.pois[0].location.longitude,
-            });
-          }
-          this.formatPOI();
-          this.updatePlaceColors();
-        }
-        paginate += 1;
-        if (tmp && tmp.length && tmp.length == limit) {
-          this.search(false, true, paginate)
-        } else if (this.focusedPOIID) {
-          let focusPOI = this.pois.find(poi => poi.id === this.focusedPOIID);
-          this.focusedPOIID = '';
-          this.focusToPlace(focusPOI, true, false);
-        }
-      },
-      (err) => {
-        this.isSearching = false;
-        window.alert(err.message);
-      }
-    );
+    return this.apiService.request('get', url, null, null, ApiService.DSTarget.CDS);
   }
 
-  public updatePlaceColors() {
-    this.pois.forEach((poi) => {
+  private formatSearch(data: POI[]): POI[] {
+    if (data && data.length) {
+      if (environment.bitmark_network === 'testnet') {
+        this.fakeResourceScore(data);
+      }
+      this.formatPOI(data);
+      this.updatePlaceColors(data);
+    }
+    return data;
+  }
+
+  private afterGetAllPOIs(replaceUrl) {
+    this.isSearching = false;
+    if (replaceUrl && this.focusedPOIID) {
+      let focusPOI = this.pois.find(poi => poi.id === this.focusedPOIID);
+      this.focusedPOIID = '';
+      this.focusToPlace(focusPOI, true, false);
+    }
+  }
+
+  public search(replaceUrl: boolean = true, moveCenter: boolean = true) {
+    // skip search and clean pois if have no filter
+    if (!this.keyword && !this.poiType) {
+      this.pois.splice(0, this.pois.length);
+      return;
+    }
+
+    this.isSearching = true;
+    this.mapZoomLevel = 19;
+    this.labelShown = true;
+
+    if (replaceUrl) {
+      this.router.navigate(["/home", "resources"], {
+        queryParams: { keyword: this.keyword, poi_type: this.poiType },
+        replaceUrl: true,
+      });
+    }
+
+    this.getAllPOIs(replaceUrl).subscribe((data: POI[]) => {
+      this.pois.push(...data);
+
+      if (moveCenter && this.pois && this.pois.length) {
+        this.mapRef.panTo({
+          lat: this.pois[0].location.latitude,
+          lng: this.pois[0].location.longitude,
+        });
+      }
+    },
+    (err) => {
+      this.isSearching = false;
+      window.alert(err.message);
+    });
+  }
+  // end search
+
+  public updatePlaceColors(data: POI[]) {
+    data.forEach((poi) => {
       poi.color = Util.scoreToColor(poi.resource_score, false);
 
       // update map icon
@@ -333,42 +337,10 @@ export class ResourcesComponent implements OnInit, OnDestroy, AfterViewInit {
       let scoreOrder = Util.scoreToColor(poi.resource_score, false, true);
       poi.mapIconUrl = `/assets/img/map-marker/${category}/rate_${scoreOrder}.svg`
     });
-
-    // let colorLight: boolean = false;
-    // this.pois.forEach((poi) => {
-      // if (poi.todayOpenHour && poi.todayOpenHour != 'Closed') {
-      //   let open;
-      //   let closed;
-      //   if (poi.todayOpenHour.includes(',')) { // multiple period of time
-      //     poi.todayOpenHour.split(',').forEach(times => {
-      //       if (times.split(' ').length === 3) { // ... to ...
-      //         open = times.split(' ')[0].trim();
-      //         closed = times.split(' ')[2].trim();
-      //       } else if (times.split(' ').length === 1 && times.split('-').length === 2) { // ...-...
-      //         open = times.split('-')[0].trim();
-      //         closed = times.split('-')[1].trim();
-      //       }
-      //       colorLight = colorLight || this.isPlaceClosed(open, closed);
-      //     })
-      //   } else { // single period of time
-      //     if (poi.todayOpenHour.split(' ').length === 3) {
-      //       open = poi.todayOpenHour.split(' ')[0].trim();
-      //       closed = poi.todayOpenHour.split(' ')[2].trim();
-      //     } else if (poi.todayOpenHour.split(' ').length === 1 && poi.todayOpenHour.split('-').length === 2) {
-      //       open = poi.todayOpenHour.split('-')[0].trim();
-      //       closed = poi.todayOpenHour.split('-')[1].trim();
-      //     }
-      //     colorLight = this.isPlaceClosed(open, closed); // dark mode for unknown format hours
-      //   }
-      // } else {
-      //   colorLight = true
-      // }
-      // poi.color = Util.scoreToColor(poi.resource_score, colorLight);
-    // });
   }
 
-  public focusToPlace(poi: POI, moveCenter: boolean = false, byUserImpact: boolean = true) {
-    if (byUserImpact) {
+  public focusToPlace(poi: POI, moveCenter: boolean = false, replaceUrl: boolean = true) {
+    if (replaceUrl) {
       this.router.navigate(['/home', 'resources'], {
         queryParams: {keyword: this.keyword, poi_type: this.poiType, focus_poi_id: poi.id},
         replaceUrl: true
@@ -386,7 +358,7 @@ export class ResourcesComponent implements OnInit, OnDestroy, AfterViewInit {
         lng: this.focusedPOI.location.longitude,
       });
     }
-    this.updatePlaceColors();
+    this.updatePlaceColors(this.pois);
   }
 
   public unfocusPlace(poi: POI) {
@@ -400,7 +372,7 @@ export class ResourcesComponent implements OnInit, OnDestroy, AfterViewInit {
     if (this.pois && this.pois.length) {
       this.isResultListShown = true;
     }
-    this.updatePlaceColors();
+    this.updatePlaceColors(this.pois);
   }
 
   public clearAll() {
@@ -415,7 +387,6 @@ export class ResourcesComponent implements OnInit, OnDestroy, AfterViewInit {
       if (this.focusedPOI) {
         this.unfocusPlace(this.focusedPOI);
       }
-      this.searchByUserImpact = true;
       ParentContainerState.fullscreen.next(false);
     }
   }
