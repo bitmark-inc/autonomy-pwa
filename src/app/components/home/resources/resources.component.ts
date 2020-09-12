@@ -156,7 +156,7 @@ export class ResourcesComponent implements OnInit, OnDestroy, AfterViewInit {
       if (poi.opening_hours && Object.keys(poi.opening_hours).length != 0) {
         let time = Util.openHoursFormat(poi.opening_hours, true);
         poi.todayOpenHour = time;
-        poi.todayOpenHourForView = time === 'Closed' ? 'Closed today' : `Open ${time.toLowerCase()} today`;
+        poi.todayOpenHourForView = (!time || time === 'Closed') ? 'Closed today' : `Open ${time.toLowerCase()} today`;
       } else {
         poi.todayOpenHour = '';
         poi.todayOpenHourForView = '';
