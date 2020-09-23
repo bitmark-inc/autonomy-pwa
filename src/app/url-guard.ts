@@ -18,7 +18,7 @@ class PWAGuestGuard implements CanActivate {
   constructor(private router: Router, private userService: UserService) {}
 
   public canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    return this.userService.getUser() ? this.router.createUrlTree(['home', 'trends'], {queryParams: route.queryParams}) : true;
+    return this.userService.getUser() ? this.router.createUrlTree(['home', 'resources'], {queryParams: route.queryParams}) : true;
   }
 }
 

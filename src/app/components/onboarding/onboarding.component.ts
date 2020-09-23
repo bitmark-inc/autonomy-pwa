@@ -74,7 +74,7 @@ export class OnboardingComponent implements OnInit {
       err => {},
       () => {
         if (this.isIOSSafari) {
-          this.router.navigate(['/home/trends']);
+          this.router.navigate(['/home/resources']);
         }
       }
     )
@@ -119,10 +119,10 @@ export class OnboardingComponent implements OnInit {
                   this.downloadFile();
                 });
                 if (!this.isIOSSafari) {
-                  this.router.navigate(['/home/trends']);
+                  this.router.navigate(['/home/resources']);
                 }
               } else {
-                this.router.navigate(['/home/trends']);
+                this.router.navigate(['/home/resources']);
               }
             });
             this.bottomSheetRef.dismiss();

@@ -21,8 +21,7 @@ const routes: Routes = [
   {path: 'onboarding', component: OnboardingComponent, canActivate: [NetworkGuard, ParticipantGuard, PWAGuard, PWAGuestGuard]},
   {path: 'onboarding/irb', component: OnboardingComponent, canActivate: [NetworkGuard, ParticipantGuard, PWAGuard, PWAGuestGuard]},
   {path: 'home', component: HomeComponent, canActivate: [NetworkGuard, ParticipantGuard, PWAGuard, PWAUserGuard], children: [
-    {path: '', redirectTo: 'trends', pathMatch: 'full'},
-    {path: 'trends', component: HomeComponent, canActivate: [NetworkGuard, ParticipantGuard, PWAGuard, PWAUserGuard]},
+    {path: '', redirectTo: 'resources', pathMatch: 'full'},
     {path: 'resources', component: HomeComponent, canActivate: [NetworkGuard, ParticipantGuard, PWAGuard, PWAUserGuard]},
     {path: 'setting', component: HomeComponent, canActivate: [NetworkGuard, ParticipantGuard, PWAGuard, PWAUserGuard]},
   ]},

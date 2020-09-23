@@ -6,7 +6,7 @@ import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { HomepageState } from './homepage.state';
 import { Subscription } from 'rxjs';
 
-enum TabActivated { Trends, Resources, Account }
+enum TabActivated { Resources, Account }
 
 @Component({
   selector: "app-home",
@@ -18,8 +18,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   private isTouchDevice: boolean = 'ontouchstart' in window;
   private stateSubscription: Subscription;
 
-  public tabActivated: TabActivated = TabActivated.Trends;
-  public currentTab: TabActivated = TabActivated.Trends;
+  public tabActivated: TabActivated = TabActivated.Resources;
+  public currentTab: TabActivated = TabActivated.Resources;
 
   constructor(public router: Router, private ref: ChangeDetectorRef, private location: Location) {
     this.setTabActivatedByUrl(this.router.url.split('?')[0]);
@@ -38,10 +38,6 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   private setTabActivatedByUrl(url: string = '') {
     switch (url) {
-    case '/home/trends':
-      this.tabActivated = TabActivated.Trends;
-      this.currentTab = this.tabActivated;
-      break;
     case '/home/resources':
       this.tabActivated = TabActivated.Resources;
       this.currentTab = this.tabActivated;
@@ -51,7 +47,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.currentTab = this.tabActivated;
       break;
     default:
-      this.tabActivated = TabActivated.Trends;
+      this.tabActivated = TabActivated.Resources;
       this.currentTab = this.tabActivated;
       break;
     }
@@ -61,23 +57,20 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.tabActivated = selectedIndex;
     switch (selectedIndex) {
     case 0:
-      this.location.replaceState('/home/trends');
-      break;
-    case 1:
       this.location.replaceState('/home/resources');
       break;
-    case 2:
+    case 1:
       this.location.replaceState('/home/setting');
       break;
     default:
-      this.location.replaceState('/home/trends');
+      this.location.replaceState("/home/resources");
       break;
     }
   }
 
   public tabClick() {
     if (!navigator.onLine) {
-      if ((this.tabActivated === 0 && this.currentTab !== 0) || (this.tabActivated === 2 && this.currentTab !== 2)) {
+      if ((this.tabActivated === 0 && this.currentTab !== 0) || (this.tabActivated === 1 && this.currentTab !== 1)) {
         window.alert('Please check your network connection, then try again.');
       }
       this.tabActivated = this.currentTab;

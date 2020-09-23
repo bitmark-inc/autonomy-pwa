@@ -41,7 +41,6 @@ import { ReportScorePipe } from './pipes/report-score.pipe';
 import { RecoveryKeyComponent } from './components/recovery-key/recovery-key.component';
 import { SignoutComponent } from './components/signout/signout.component';
 import { HomeComponent } from './components/home/home.component';
-import { CommunityComponent } from './components/home/community/community.component';
 import { ResourcesComponent } from './components/home/resources/resources.component';
 import { SettingComponent } from './components/home/setting/setting.component';
 import { BottomSheetAlertComponent } from './components/bottom-sheet-alert/bottom-sheet-alert.component';
@@ -69,7 +68,6 @@ window.isProduction = environment.production;
     RecoveryKeyComponent,
     SignoutComponent,
     HomeComponent,
-    CommunityComponent,
     ResourcesComponent,
     SettingComponent,
     BottomSheetAlertComponent,
