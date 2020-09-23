@@ -76,8 +76,8 @@
     </div>
   </div>
   <div [hidden]="!focusState" *ngIf="focusedPOI" class="result-place-list">
-    <div class="horizal-display">
-      <mat-card class="col content-left" [ngClass]="{'grey-text-color': !focusedPOI.resource_score}">
+    <div class="horizal-display focused-click">
+      <mat-card (click)="navigateToPOI(focusedPOI.id)" class="col content-left" [ngClass]="{'grey-text-color': !focusedPOI.resource_score}">
         <div class="p-r-15">
           <div [ngStyle]="{'background': focusedPOI.color}" class="content-center place-score"><span class="score-num">{{focusedPOI.resource_score ? (focusedPOI.resource_score | number:'1.1-1') : '--'}}</span></div>
           <p *ngIf="focusedPOI.resource_score && focusedPOI.resource_score > 0" class="content-center font-10 line-height-120 p-t-5"><a class="normal-link clickable" (click)="navigateToPOI(focusedPOI.id)">See ratings</a></p>
@@ -96,5 +96,6 @@
       </mat-card>
       <p class="close-detail" (click)="unfocusPlace(focusedPOI)"><img src="/assets/img/list-icon.svg" alt=""></p>
     </div>
+    <div class="light-line"><hr></div>
   </div>
 </div>
