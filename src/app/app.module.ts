@@ -24,7 +24,7 @@ import { UserService } from './services/user/user.service';
 import { ApiService } from './services/api/api.service';
 import { EventEmitterService } from './services/event-emitter.service';
 import { FeedbackService } from './services/feedback/feedback.service';
-import { PWAUserGuard, PWAGuestGuard, PWAGuard, BrowserGuard, ParticipantGuard, NetworkGuard } from './url-guard';
+import { PWAUserGuard, PWAGuestGuard, PWAGuard, BrowserGuard, NetworkGuard } from './url-guard';
 
 import { AppComponent } from './app.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
@@ -105,7 +105,7 @@ window.isProduction = environment.production;
     ApiService,
     EventEmitterService,
     FeedbackService,
-    PWAUserGuard, PWAGuestGuard, PWAGuard, BrowserGuard, ParticipantGuard, NetworkGuard,
+    PWAUserGuard, PWAGuestGuard, PWAGuard, BrowserGuard, NetworkGuard,
     {provide: APP_INITIALIZER, useFactory: InitServices, deps: [UserService], multi: true},
     {provide: MatBottomSheetRef, useValue: {}},
     {provide: MatDialogRef, useValue: {}}

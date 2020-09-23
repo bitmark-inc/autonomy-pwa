@@ -51,17 +51,6 @@ class BrowserGuard implements CanActivate {
 }
 
 @Injectable()
-class ParticipantGuard implements CanActivate {
-
-  constructor(private router: Router, private userService: UserService) { }
-
-  public canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    let pid = route.queryParams['pid'] || this.userService.getParticipantID();
-    return pid ? true : this.router.createUrlTree(['404'], {queryParams: route.queryParams});
-  }
-}
-
-@Injectable()
 class NetworkGuard implements CanActivate {
 
   constructor() { }
@@ -75,4 +64,4 @@ class NetworkGuard implements CanActivate {
   }
 }
 
-export { PWAUserGuard, PWAGuestGuard, PWAGuard, BrowserGuard, ParticipantGuard, NetworkGuard };
+export { PWAUserGuard, PWAGuestGuard, PWAGuard, BrowserGuard, NetworkGuard };

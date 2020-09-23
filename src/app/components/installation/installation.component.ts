@@ -1,8 +1,6 @@
 declare var window: any;
 
 import { Component, OnInit, OnDestroy, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
-import { UserService } from 'src/app/services/user/user.service';
-import { ActivatedRoute } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { timer } from 'rxjs';
 
@@ -34,18 +32,14 @@ export class InstallationComponent implements OnInit, AfterViewInit, OnDestroy {
   public isDesktop: boolean;
 
   public viewHeight: string;
-  private pID: string;
 
-  constructor(private activatedRoute: ActivatedRoute, private userService: UserService) {
+  constructor() {
     this.viewHeight = `${window.innerHeight}px`;
-    this.activatedRoute.queryParams.subscribe((params) => {
-      this.pID = params['pid'] || this.userService.getParticipantID();
-    })
   }
   
   ngOnInit() {
     this.detectBrowser();
-    this.webappUrl = `${environment.autonomy_app_url}/ucberkeley?pid=${this.pID}`;
+    this.webappUrl = `${environment.autonomy_app_url}`;
     if (this.isMobileExceptIOS) {
       window.addEventListener('beforeinstallprompt', (e) => {
         // Prevent Chrome 67 and earlier from automatically showing the prompt

@@ -6,7 +6,7 @@ import { HttpClient } from '@angular/common/http';
 
 import 'rxjs';
 import { Observable } from 'rxjs';
-import { AppError, NoInternetError, PIDError } from '../errors';
+import { AppError, NoInternetError } from '../errors';
 
 @Injectable({
   providedIn: 'root'
@@ -60,8 +60,6 @@ export abstract class BaseService {
           (err) => {
             if (!navigator.onLine) {
               observer.error(new NoInternetError());
-            } else if (err.error && err.error.code === 5566) {
-              observer.error(new PIDError(err.error.message));
             } else {
               observer.error(new AppError(err.status));
             }
