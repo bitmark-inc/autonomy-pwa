@@ -29,7 +29,6 @@ export interface UserCacheData {
 
 const RECOVERY_STORAGE_KEY: string = 'user-key';
 const DATA_STORAGE_KEY: string = 'user-data';
-const PARTICIPANT_ID_KEY: string = 'pid';
 class UserCache {
   public userKey: string;
   public userData: UserCacheData;
@@ -107,18 +106,6 @@ export class UserService extends BaseService {
       let result = await InstantiateStreaming(fetch('main.wasm'), go.importObject)
       go.run(result.instance);
     }
-  }
-
-  public saveParticipantID(pid: string) {
-    window.localStorage.setItem(PARTICIPANT_ID_KEY, pid);
-  }
-
-  public getParticipantID(): string {
-    return window.localStorage.getItem(PARTICIPANT_ID_KEY);
-  }
-
-  public removeParticipantID() {
-    window.localStorage.removeItem(PARTICIPANT_ID_KEY);
   }
 
   public validateAccount(recoveryPhrase: string) {
@@ -204,8 +191,7 @@ export class UserService extends BaseService {
     return this.sendHttpRequest('post', `${environment.autonomy_api_url}api/accounts`, {
       enc_pub_key: this.user.account.encryption_pubkey,
       metadata: {
-        source: 'pwa',
-        participant_id: this.getParticipantID()
+        source: 'pwa'
       }
     }, {
       headers: {Authorization: `Bearer ${this.user.agentJWT}`}
@@ -260,21 +246,11 @@ export class UserService extends BaseService {
       timestamp: now.toString(),
       encryption_public_key: accountInfo.encryption_pubkey,
       signature: signature
-    },
-    {
-      headers: {
-        'X-PARTICIPANT-ID': this.getParticipantID()
-      }
     }).toPromise();
   }
 
   private async getDSInfo(dsEndPoint: string) {
-    return this.sendHttpRequest('get', `${dsEndPoint}information`, null,
-    {
-      headers: {
-        'X-PARTICIPANT-ID': this.getParticipantID()
-      }
-    }).toPromise();
+    return this.sendHttpRequest('get', `${dsEndPoint}information`, null).toPromise();
   }
 
   private decryptDSToken(recoveryPhrase: string, encryptedToken: string, peerPubkey: string) {

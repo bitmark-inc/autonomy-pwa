@@ -15,12 +15,7 @@ export class OnboardingComponent implements OnInit {
   public clickable: boolean = true;
   public pID: string;
 
-  constructor(private router: Router, private userService: UserService, private bottomSheet: MatBottomSheet, private bottomSheetRef: MatBottomSheetRef) {
-    // fake data for PID before server update
-    // TODO: remove after server update
-    this.pID = this.userService.getParticipantID() || '1001';
-    this.userService.saveParticipantID(this.pID);
-  }
+  constructor(private router: Router, private userService: UserService, private bottomSheet: MatBottomSheet, private bottomSheetRef: MatBottomSheetRef) {}
 
   ngOnInit() {}
 
