@@ -50,6 +50,7 @@ import { CommunityDataComponent } from './components/community-data/community-da
 import { NoContentComponent } from './components/no-content/no-content.component';
 import { SearchResultsNamePipe } from './pipes/search-results-name.pipe';
 import { FeedbackDialogComponent } from './components/feedback-dialog/feedback-dialog.component';
+import { FaqComponent } from './components/faq/faq.component';
 
 declare var window: any;
 window.isProduction = environment.production;
@@ -77,6 +78,7 @@ window.isProduction = environment.production;
     NoContentComponent,
     SearchResultsNamePipe,
     FeedbackDialogComponent,
+    FaqComponent,
   ],
   imports: [
     BrowserModule,

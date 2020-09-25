@@ -9,8 +9,8 @@ import { RecoveryKeyComponent } from './components/recovery-key/recovery-key.com
 import { SignoutComponent } from './components/signout/signout.component';
 import { HomeComponent } from './components/home/home.component';
 import { PersonalDataComponent } from './components/personal-data/personal-data.component';
-import { CommunityDataComponent } from './components/community-data/community-data.component';
-import { NoContentComponent} from './components/no-content/no-content.component'
+import { FaqComponent } from './components/faq/faq.component';
+import { NoContentComponent} from './components/no-content/no-content.component';
 import { PWAUserGuard, PWAGuestGuard, PWAGuard, BrowserGuard, NetworkGuard } from './url-guard';
 
 const routes: Routes = [
@@ -30,13 +30,9 @@ const routes: Routes = [
   {path: 'home/setting/recovery-key', component: RecoveryKeyComponent, canActivate: [NetworkGuard, PWAGuard, PWAUserGuard]},
   {path: 'home/setting/signout', component: SignoutComponent, canActivate: [NetworkGuard, PWAGuard, PWAUserGuard]},
   {path: 'home/setting/pde', component: PersonalDataComponent, canActivate: [NetworkGuard, PWAGuard, PWAUserGuard]},
-  {path: 'home/setting/pde/save', component: PersonalDataComponent, canActivate: [NetworkGuard, PWAGuard, PWAUserGuard]},
   {path: 'home/setting/pde/read', component: PersonalDataComponent, canActivate: [NetworkGuard, PWAGuard, PWAUserGuard]},
   {path: 'home/setting/pde/delete', component: PersonalDataComponent, canActivate: [NetworkGuard, PWAGuard, PWAUserGuard]},
-  {path: 'home/setting/cde', component: CommunityDataComponent, canActivate: [NetworkGuard, PWAGuard, PWAUserGuard]},
-  {path: 'home/setting/cde/save', component: CommunityDataComponent, canActivate: [NetworkGuard, PWAGuard, PWAUserGuard]},
-  {path: 'home/setting/cde/read', component: CommunityDataComponent, canActivate: [NetworkGuard, PWAGuard, PWAUserGuard]},
-  {path: 'home/setting/cde/submit', component: CommunityDataComponent, canActivate: [NetworkGuard, PWAGuard, PWAUserGuard]},
+  {path: 'faq', component: FaqComponent, canActivate: [NetworkGuard, PWAGuard, PWAUserGuard]},
   {path: '404', component: NoContentComponent},
   {path: '**', redirectTo: 'installation'},
 ];
