@@ -6,7 +6,7 @@ import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { HomepageState } from './homepage.state';
 import { Subscription } from 'rxjs';
 
-enum TabActivated { Resources, Account }
+enum TabActivated { Survey, Resources, Account }
 
 @Component({
   selector: "app-home",
@@ -46,6 +46,10 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.tabActivated = TabActivated.Account;
       this.currentTab = this.tabActivated;
       break;
+    case '/home/survey':
+      this.tabActivated = TabActivated.Survey;
+      this.currentTab = this.tabActivated;
+      break;
     default:
       this.tabActivated = TabActivated.Resources;
       this.currentTab = this.tabActivated;
@@ -57,9 +61,12 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.tabActivated = selectedIndex;
     switch (selectedIndex) {
     case 0:
-      this.location.replaceState('/home/resources');
+      this.location.replaceState('/home/survey');
       break;
     case 1:
+      this.location.replaceState('/home/resources');
+      break;
+    case 2:
       this.location.replaceState('/home/setting');
       break;
     default:
@@ -70,7 +77,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   public tabClick() {
     if (!navigator.onLine) {
-      if ((this.tabActivated === 0 && this.currentTab !== 0) || (this.tabActivated === 1 && this.currentTab !== 1)) {
+      if ((this.tabActivated === 1 && this.currentTab !== 1)) {
         window.alert('Please check your network connection, then try again.');
       }
       this.tabActivated = this.currentTab;

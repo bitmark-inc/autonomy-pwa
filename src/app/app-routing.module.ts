@@ -22,6 +22,7 @@ const routes: Routes = [
   {path: 'onboarding/irb', component: OnboardingComponent, canActivate: [NetworkGuard, PWAGuard, PWAGuestGuard]},
   {path: 'home', component: HomeComponent, canActivate: [NetworkGuard, PWAGuard, PWAUserGuard], children: [
     {path: '', redirectTo: 'resources', pathMatch: 'full'},
+    {path: 'survey', component: HomeComponent, canActivate: [NetworkGuard, PWAGuard, PWAUserGuard]},
     {path: 'resources', component: HomeComponent, canActivate: [NetworkGuard, PWAGuard, PWAUserGuard]},
     {path: 'setting', component: HomeComponent, canActivate: [NetworkGuard, PWAGuard, PWAUserGuard]},
   ]},

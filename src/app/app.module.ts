@@ -51,6 +51,7 @@ import { NoContentComponent } from './components/no-content/no-content.component
 import { SearchResultsNamePipe } from './pipes/search-results-name.pipe';
 import { FeedbackDialogComponent } from './components/feedback-dialog/feedback-dialog.component';
 import { FaqComponent } from './components/faq/faq.component';
+import { SurveyComponent } from './components/home/survey/survey.component';
 
 declare var window: any;
 window.isProduction = environment.production;
@@ -79,6 +80,7 @@ window.isProduction = environment.production;
     SearchResultsNamePipe,
     FeedbackDialogComponent,
     FaqComponent,
+    SurveyComponent,
   ],
   imports: [
     BrowserModule,
