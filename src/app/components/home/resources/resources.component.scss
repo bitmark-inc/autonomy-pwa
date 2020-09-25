@@ -43,6 +43,7 @@
         background: #EEEEEE;
         margin-right: 15px;
         margin-bottom: 15px;
+        margin-top: 3px;
         padding: 5px 15px;
         word-break: break-word;
         box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5);
@@ -65,6 +66,10 @@
   max-height: calc(100vh - 56px - 175px) !important;
 }
 
+.blur-line {
+  box-shadow: 0px -2px 5px rgba(0, 0, 0, 0.3);
+}
+
 .result-place-list {
   width: 100%;
   max-width: 768px;
@@ -76,7 +81,7 @@
   max-height: calc(100vh - 56px - 57px);
   min-height: 78px;
   overflow: hidden;
-
+  
   .result-place-child-list {
     width: calc(100% + 9px);
     background: #ffffff;
@@ -96,7 +101,7 @@
     height: 27.5px;
     left: 50%;
     transform: translate(-50%, -10%);
-    box-shadow: 0px -2px 2px rgba(0, 0, 0, 0.5);
+    box-shadow: 0px -2px 5px rgba(0, 0, 0, 0.5);
 
     span {
       width: 45px;

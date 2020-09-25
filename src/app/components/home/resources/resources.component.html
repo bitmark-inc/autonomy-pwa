@@ -40,7 +40,7 @@
     </google-map>
   </div>
 
-  <div [ngClass]="{'list-not-standalone': !isStandalone(), 'shown-list': !(focusState || !isResultListShown)}" class="result-place-list hidden-list">
+  <div [ngClass]="{'list-not-standalone': !isStandalone(), 'shown-list': !(focusState || !isResultListShown)}" class="blur-line result-place-list hidden-list">
     <div class="result-place-child-list">
       <div class="line-icon"><span (click)="pullListView()"></span></div> 
       <div class="p-t-15" *ngIf="pois && pois.length">
