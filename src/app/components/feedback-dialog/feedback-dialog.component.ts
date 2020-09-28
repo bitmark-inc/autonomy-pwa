@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, ElementRef, OnDestroy } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ApiService } from 'src/app/services/api/api.service';
 import { environment } from 'src/environments/environment';
@@ -18,18 +18,55 @@ interface DialogData {
   templateUrl: './feedback-dialog.component.html',
   styleUrls: ['./feedback-dialog.component.scss']
 })
-export class FeedbackDialogComponent implements OnInit {
+export class FeedbackDialogComponent implements OnInit, OnDestroy {
   public dialogRef: MatDialogRef<FeedbackDialogComponent>;
   public pageStage = FeedbackStage;
   public stage: FeedbackStage = FeedbackStage.Q1;
   public userSatisfied: boolean;
   public feedback: string = '';
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: DialogData, private apiService: ApiService, private userService: UserService) {
+  private oldBackgroundColor: string;
+  private darkModeColor;
+
+  constructor(@Inject(MAT_DIALOG_DATA) public data: DialogData, private apiService: ApiService, private userService: UserService, private elementRef: ElementRef) {
     this.stage = data.pageStage;
+    this.oldBackgroundColor = this.elementRef.nativeElement.ownerDocument.body.style.background;
+    this.updateColorTheme();
   }
 
   ngOnInit(): void {
+  }
+
+  ngOnDestroy() {
+    this.elementRef.nativeElement.ownerDocument.body.style.background = this.oldBackgroundColor;
+  }
+
+  private updateColorTheme() {
+    switch (this.oldBackgroundColor) {
+      case 'rgb(231, 180, 22)':
+        this.darkModeColor = 'rgb(163, 126, 15)'
+        break;
+      case 'rgb(45, 201, 55)':
+        this.darkModeColor = 'rgb(33, 145, 41)'
+        break;
+      case 'rgb(153, 193, 64)':
+        this.darkModeColor = 'rgb(106, 135, 44)'
+        break;
+      case 'rgb(219, 123, 43)':
+        this.darkModeColor = 'rgb(153, 83, 26)'
+        break;
+      case 'rgb(204, 50, 50)':
+        this.darkModeColor = 'rgb(144, 35, 35)'
+        break;
+      case 'rgb(221, 213, 199)':
+        this.darkModeColor = 'rgb(217, 210, 191)'
+        break;
+      default:
+        this.darkModeColor = 'rgb(217, 210, 191)'
+        break;
+    }
+
+    this.elementRef.nativeElement.ownerDocument.body.style.background = this.oldBackgroundColor != '' && this.oldBackgroundColor !== 'initial' ? this.darkModeColor : 'rgba(0,0,0,0.32)';
   }
 
   public satisfied(vote: boolean) {

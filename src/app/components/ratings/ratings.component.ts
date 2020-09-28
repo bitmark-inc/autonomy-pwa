@@ -64,6 +64,8 @@ export class RatingsComponent implements OnInit, OnDestroy {
   public clickable: boolean = true;
   private isChangeRating: boolean = false;
 
+  public noteShown: boolean = true;
+
   constructor(
     private activatedRoute: ActivatedRoute,
     private location: Location,
@@ -185,6 +187,7 @@ export class RatingsComponent implements OnInit, OnDestroy {
 
   public submitRatings(): void {
     if (this.clickable && this.submitable) {
+      this.noteShown = false;
       this.clickable = false;
       this.openBottomSheet();
       this.formatParams();

@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, ElementRef, OnDestroy } from '@angular/core';
 import { MAT_BOTTOM_SHEET_DATA } from '@angular/material/bottom-sheet';
 
 interface BottomSheetData {
@@ -17,7 +17,7 @@ interface BottomSheetData {
   templateUrl: './bottom-sheet-alert.component.html',
   styleUrls: ['./bottom-sheet-alert.component.scss']
 })
-export class BottomSheetAlertComponent implements OnInit {
+export class BottomSheetAlertComponent implements OnInit, OnDestroy {
   public alertError: boolean = false;
   public header: string;
   public title: string;
@@ -25,7 +25,9 @@ export class BottomSheetAlertComponent implements OnInit {
   public leftBtn: string;
   public rightBtn: string;
 
-  constructor(@Inject(MAT_BOTTOM_SHEET_DATA) public data: BottomSheetData) {
+  constructor(@Inject(MAT_BOTTOM_SHEET_DATA) public data: BottomSheetData, private elementRef: ElementRef) {
+    this.elementRef.nativeElement.ownerDocument.body.style.background = 'rgba(0,0,0,0.325)';
+
     this.header = data.header;
     this.mainContent = data.mainContent;
     // these data define for only show error case
@@ -38,6 +40,10 @@ export class BottomSheetAlertComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  ngOnDestroy() {
+    this.elementRef.nativeElement.ownerDocument.body.style.background = 'initial';
   }
 
   public tryAction() {

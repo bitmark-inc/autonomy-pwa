@@ -75,7 +75,7 @@
       </div>
     </div>
   </div>
-  <div [hidden]="!focusState" *ngIf="focusedPOI" class="result-place-list">
+  <div [hidden]="!focusState" *ngIf="focusedPOI" class="result-place-list blur-line">
     <div class="horizal-display focused-click">
       <mat-card (click)="navigateToPOI(focusedPOI.id)" class="col content-left" [ngClass]="{'grey-text-color': !focusedPOI.resource_score}">
         <div class="p-r-15">

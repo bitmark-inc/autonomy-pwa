@@ -133,7 +133,7 @@
         <mat-row *matRowDef="let row; columns: ['resource', 'score'];"></mat-row>
       </mat-table>
     </mat-card>
-    <p *ngIf="!submitable" class="grey-text-color font-12 p-l-15 p-r-15 p-t-10 p-b-15">Note: Skip any ratings if non-applicable.</p>
+    <p *ngIf="noteShown" class="grey-text-color font-12 p-l-15 p-r-15 p-t-10 p-b-15">Note: Skip any ratings if non-applicable.</p>
   </div>
   <div *ngIf="submitable && !gotRights" class="footer-btn">
     <a [ngStyle]="{ 'background': poiBackground, 'color': poiBackground === '#DDD5C7' ? '#003262' : '#ffffff' }" class="next" (click)="setStage(PageStage.Rights)">

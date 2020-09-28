@@ -46,7 +46,7 @@
         margin-top: 3px;
         padding: 5px 15px;
         word-break: break-word;
-        box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5);
+        box-shadow: 0px 0px 5px #DADADA;
   
         &:first-child {
           margin-left: 15px;
@@ -67,7 +67,7 @@
 }
 
 .blur-line {
-  box-shadow: 0px -2px 5px rgba(0, 0, 0, 0.3);
+  box-shadow: 0px -2px 5px #EEEEEE;
 }
 
 .result-place-list {
@@ -101,7 +101,7 @@
     height: 27.5px;
     left: 50%;
     transform: translate(-50%, -10%);
-    box-shadow: 0px -2px 5px rgba(0, 0, 0, 0.5);
+    box-shadow: 0px -2px 5px #EEEEEE;
 
     span {
       width: 45px;
@@ -171,11 +171,12 @@
 }
 
 .resource-on-searching {
-  background: #EEEEEE;
+  // background: #EEEEEE;
   width: fit-content;
   padding: 5px 15px;
   font-size: 14px;
   word-break: break-word;
+  text-transform: capitalize;
 }
 
 .resource-rating {
@@ -185,5 +186,5 @@
 
 .focused-click:focus,
 .focused-click:active {
-  background: #EEEEEE;
+  background: #DADADA;
 }
