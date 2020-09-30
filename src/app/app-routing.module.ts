@@ -10,7 +10,6 @@ import { SignoutComponent } from './components/signout/signout.component';
 import { HomeComponent } from './components/home/home.component';
 import { PersonalDataComponent } from './components/personal-data/personal-data.component';
 import { FaqComponent } from './components/faq/faq.component';
-import { NoContentComponent} from './components/no-content/no-content.component';
 import { PWAUserGuard, PWAGuestGuard, PWAGuard, BrowserGuard, NetworkGuard } from './url-guard';
 
 const routes: Routes = [
@@ -34,7 +33,6 @@ const routes: Routes = [
   {path: 'home/setting/pde/read', component: PersonalDataComponent, canActivate: [NetworkGuard, PWAGuard, PWAUserGuard]},
   {path: 'home/setting/pde/delete', component: PersonalDataComponent, canActivate: [NetworkGuard, PWAGuard, PWAUserGuard]},
   {path: 'faq', component: FaqComponent, canActivate: [NetworkGuard, PWAGuard, PWAUserGuard]},
-  {path: '404', component: NoContentComponent},
   {path: '**', redirectTo: 'installation'},
 ];
 
