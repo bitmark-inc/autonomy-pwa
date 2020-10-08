@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { HomepageState } from './homepage.state';
 import { Subscription } from 'rxjs';
+import { UserService } from 'src/app/services/user/user.service';
 
 enum TabActivated { Survey, Resources, Account }
 
@@ -21,7 +22,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   public tabActivated: TabActivated = TabActivated.Resources;
   public currentTab: TabActivated = TabActivated.Resources;
 
-  constructor(public router: Router, private ref: ChangeDetectorRef, private location: Location) {
+  constructor(public router: Router, private ref: ChangeDetectorRef, private location: Location, private userService: UserService) {
     this.setTabActivatedByUrl(this.router.url.split('?')[0]);
   }
 
@@ -37,6 +38,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   private setTabActivatedByUrl(url: string = '') {
+    console.log(url);
     switch (url) {
     case '/home/resources':
       this.tabActivated = TabActivated.Resources;
@@ -51,8 +53,14 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.currentTab = this.tabActivated;
       break;
     default:
-      this.tabActivated = TabActivated.Resources;
-      this.currentTab = this.tabActivated;
+      console.log(this.userService.getPreference('survey-taken'));
+      if (this.userService.getPreference('survey-taken')) {
+        this.tabActivated = TabActivated.Resources;
+        this.currentTab = this.tabActivated;
+      } else {
+        this.tabActivated = TabActivated.Survey;
+        this.currentTab = this.tabActivated;
+      }
       break;
     }
   }
