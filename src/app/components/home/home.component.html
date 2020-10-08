@@ -1,7 +1,7 @@
 <div [ngClass]="{'fullscreen': isFullscreen}">
   <mat-tab-group headerPosition="below" mat-align-tabs="center" (click)="tabClick()" [selectedIndex]="tabActivated" (selectedIndexChange)="tabActiveChange($event)" animationDuration="200ms" [disablePagination]="true">
-    <mat-tab class="col upcase" label="Survey">
-      <app-survey></app-survey>
+    <mat-tab class="col upcase" label="Check-in">
+      <app-check-in></app-check-in>
     </mat-tab>
     <mat-tab class="col upcase" label="Resources">
       <app-resources></app-resources>

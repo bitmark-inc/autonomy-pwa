@@ -1,0 +1,62 @@
+<div class="main-content">
+  <mat-card></mat-card>
+  <div class="header-page-title direction-color m-b-30">
+    <span class="line-title line-title-up"></span>
+    <span (click)="openWelcomeAlert()" class="big-words page-title clickable">check-in</span>
+  </div>
+  <mat-card class="main-direction sub-direction-color content-left no-top no-bottom">
+    <p class="p-b-10 font-24 direction-color">Help your Berkeley community cope better during COVID-19.</p>
+  </mat-card>
+  <mat-card class="no-top no-bottom">
+    <div class="notify-alert">
+      <p (click)="surveyShown = true" class="font-24 clickable" style="display: flex; justify-content: space-between;">
+        <span>Check in with us for this week!</span>
+        <img src="/assets/img/next-small-white.svg" alt="">
+      </p>
+    </div>
+  </mat-card>
+  <mat-card class="no-bottom font-14 line-height-120 content-center sub-direction-color">
+    <p class="text-start p-b-60">Take a moment to respond to a few questions and help researchers fight the epidemic.</p>
+  </mat-card>
+  <div class="bold-line"></div>
+  <mat-card class="font-14 line-height-120 content-center sub-direction-color">
+    <div class="col">
+      <p class="text-start p-b-20 direction-color">Developed in partnership with</p>
+      <div class="group-partnership">
+        <div><img src="/assets/img/health-lab.svg" alt=""></div>
+        <div><img src="/assets/img/ucb-health-research.svg" alt=""></div>
+        <div><img src="/assets/img/school-of-public-health.svg" alt=""></div>
+      </div>
+    </div>
+  </mat-card>
+  <div class="p-b-60"></div>
+</div>
+
+<ng-template #welcomeAlert>
+  <div class="p-b-15 p-t-15 p-l-15 p-r-15">
+    <div class="content-right p-b-15"><img (click)="dialog.closeAll()" src="/assets/img/dismiss.svg" alt="close"></div>
+    <p class="font-24 p-b-20">Dear Berkeley resident,</p>
+    <div class="font-14">
+      <p class="p-b-10">Welcome to Autonomy! We are excited to officially launch the app exclusively in the Berkeley community.</p>
+      <p class="p-b-10">If you were with us during the UC Berkeley research study - welcome back! Your input in the past few weeks has been valuable in helping us continue this project.</p>
+      <p class="p-b-10">If you’re a new member, welcome aboard! We created Autonomy to help the community - researchers, citizens, you - become more informed about COVID-19 in Berkeley.</p>
+      <div class="p-b-10">
+        <p>What can I do?</p>
+        <p>
+          <span>- <strong>Weekly check-ins</strong>, to help us understand how you’re doing.</span><br/>
+          <span>- <strong>Rate essential resources</strong>, to see how “healthy” businesses near you are.</span><br/>
+          <span>- <strong>Criticize us!</strong> We are receptive to all forms of feedback, and will do our best to serve you.</span>
+        </p>
+      </div>
+      <p class="p-b-30">We hope you stick with us as we develop a valuable app for you, together.</p>
+      <div>
+        <p class="content-right">Sincerely,</p>
+        <p class="content-right">Fellow Cal Bears and the Bitmark team</p>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<div [hidden]="!surveyShown" class="survey-content">
+  <app-survey [surveyShown]="surveyShown" (exitSurvey)="surveyShown = $event"></app-survey>
+</div>

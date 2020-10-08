@@ -77,7 +77,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   public tabClick() {
     if (!navigator.onLine) {
-      if ((this.tabActivated === 1 && this.currentTab !== 1)) {
+      if ((this.tabActivated === 0 && this.currentTab !== 0) || (this.tabActivated === 1 && this.currentTab !== 1)) {
         window.alert('Please check your network connection, then try again.');
       }
       this.tabActivated = this.currentTab;

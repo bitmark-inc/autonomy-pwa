@@ -1,7 +1,7 @@
 import { BrowserModule, HammerModule } from '@angular/platform-browser';
 import { NgModule, APP_INITIALIZER } from '@angular/core';
 
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { MatBottomSheetModule, MatBottomSheetRef } from '@angular/material/bottom-sheet';
 import { MatTableModule } from '@angular/material/table';
@@ -51,7 +51,8 @@ import { NoContentComponent } from './components/no-content/no-content.component
 import { SearchResultsNamePipe } from './pipes/search-results-name.pipe';
 import { FeedbackDialogComponent } from './components/feedback-dialog/feedback-dialog.component';
 import { FaqComponent } from './components/faq/faq.component';
-import { SurveyComponent } from './components/home/survey/survey.component';
+import { SurveyComponent } from './components/survey/survey.component';
+import { CheckInComponent } from './components/home/check-in/check-in.component';
 
 declare var window: any;
 window.isProduction = environment.production;
@@ -81,6 +82,7 @@ window.isProduction = environment.production;
     FeedbackDialogComponent,
     FaqComponent,
     SurveyComponent,
+    CheckInComponent,
   ],
   imports: [
     BrowserModule,
@@ -90,6 +92,7 @@ window.isProduction = environment.production;
     ServiceWorkerModule.register('OneSignalSDKWorker.js', { enabled: environment.production }),
     BrowserAnimationsModule,
     FormsModule,
+    ReactiveFormsModule,
     MatToolbarModule,
     MatCardModule,
     MatButtonModule,
