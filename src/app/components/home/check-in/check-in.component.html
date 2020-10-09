@@ -8,15 +8,22 @@
     <p class="p-b-10 font-24 direction-color">Help your Berkeley community cope better during COVID-19.</p>
   </mat-card>
   <mat-card class="no-top no-bottom">
-    <div class="notify-alert">
+    <div *ngIf="!surveyCompleted" class="notify-alert">
       <p (click)="checkIn()" class="font-24 clickable" style="display: flex; justify-content: space-between;">
         <span>Check in with us for this week!</span>
         <img src="/assets/img/next-small-white.svg" alt="">
       </p>
     </div>
+    <div *ngIf="surveyCompleted" class="notify-alert completed">
+      <p class="font-24 clickable" style="display: flex; justify-content: space-between;">
+        <span>Thanks for checking in this week!</span>
+        <img src="/assets/img/checked-white.svg" alt="">
+      </p>
+    </div>
   </mat-card>
   <mat-card class="no-bottom font-14 line-height-120 content-center sub-direction-color">
-    <p class="text-start p-b-60">Take a moment to respond to a few questions and help researchers fight the epidemic.</p>
+    <p *ngIf="!surveyCompleted" class="text-start p-b-60">Take a moment to respond to a few questions and help researchers fight the epidemic.</p>
+    <p *ngIf="surveyCompleted" class="text-start p-b-60">Don’t worry, your data will always be anonymous and non-personally-identifiable (even to us).</p>
   </mat-card>
   <div class="bold-line"></div>
   <mat-card class="font-14 line-height-120 content-center sub-direction-color">
@@ -58,5 +65,5 @@
 </ng-template>
 
 <div [hidden]="!surveyShown" class="survey-content">
-  <app-survey [surveyShown]="surveyShown" (exitSurvey)="surveyShown = $event"></app-survey>
+  <app-survey [surveyShown]="surveyShown" [includeMonthly]="includeMonthlyQuestion" (exitSurvey)="surveyShown = $event" (surveyCompleted)="finishSurvey($event)"></app-survey>
 </div>

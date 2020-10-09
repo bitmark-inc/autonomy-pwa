@@ -22,5 +22,47 @@ export class AppSettings {
     'provides_hand-washing_facilities',
     'disinfects_equipment',
     'reinforces_physical_distancing'
-  ]
+  ];
+  public static SURVEY_ANSWERS = {
+    yes: { id: 1, value: 'Yes' },
+    no: { id: 2, value: 'No' },
+
+    once: { id: 11, value: 'Once' },
+    from2To3: { id: 12, value: '2-3 times' },
+    from4To5: { id: 13, value: '4-5 times' },
+    from6: { id: 14, value: '6+ times' },
+
+    from0To5: { id: 21, value: '0-5' },
+    from5To10: { id: 22, value: '5-10' },
+    from11To20: { id: 23, value: '11-20' },
+    from20: { id: 24, value: '20+' },
+
+    from0To5People: { id: 21, value: 'No, less than 5 people' },
+    from5To10People: { id: 22, value: 'No, 5-10 people' },
+    from11To20People: { id: 23, value: 'Yes, 11-20 people' },
+    from20People: { id: 24, value: 'Yes, more than 20 people' },
+
+    inside: { id: 31, value: 'Inside' },
+    outside: { id: 32, value: 'Outside' },
+    mixed: { id: 33, value: 'Mixed (outside and inside)' },
+
+    postive: { id: 36, value: 'Positive' },
+    negative: { id: 37, value: 'Negative' },
+    waitResult: { id: 38, value: 'Still waiting for the result' },
+    neverGotResult: { id: 39, value: 'Never got the result' },
+
+    healthcare: { id: 51, value: 'Healthcare' },
+    transportation: { id: 52, value: 'Transportation' },
+    store: { id: 53, value: 'Grocery store' },
+    restaurant: { id: 54, value: 'Restaurant or bar' } ,
+    construction: { id: 55, value: 'Construction' },
+    delivery: { id: 56, value: 'Delivery' },
+    cleaning: { id: 57, value: 'Cleaning or janitorial' },
+    publicServant: { id: 58, value: 'Public servant (EMT, police, firefighter)' },
+    school: { id: 59, value: 'School or daycare' },
+    techCompany: { id: 60, value: 'Tech company' },
+
+    decline: { id: 88, value: 'Decline to answer' },
+    notAnswer: { id: 99, value: '' }
+  }
 }

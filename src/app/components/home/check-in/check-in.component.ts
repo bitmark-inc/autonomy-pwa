@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild, TemplateRef, AfterViewInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { UserService } from 'src/app/services/user/user.service';
+import { SurveyService } from 'src/app/services/survey/survey.service';
 
 @Component({
   selector: 'app-check-in',
@@ -11,8 +12,14 @@ export class CheckInComponent implements OnInit, AfterViewInit {
   @ViewChild('welcomeAlert') public welcomeAlert: TemplateRef<any>;
 
   public surveyShown: boolean = false;
+  public surveyCompleted: boolean = false;
+  public includeMonthlyQuestion: boolean = false;
 
-  constructor(public dialog: MatDialog, private userService: UserService) {
+  constructor(public dialog: MatDialog, private userService: UserService, private surveyService: SurveyService) {
+    this.surveyCompleted = this.surveyService.surveyDisabled();
+    if (!this.surveyCompleted) {
+      this.includeMonthlyQuestion = this.surveyService.includeMonthly();
+    }
   }
 
   ngOnInit(): void {
@@ -31,8 +38,13 @@ export class CheckInComponent implements OnInit, AfterViewInit {
 
   public checkIn() {
     this.surveyShown = true;
-    if (!this.userService.getPreference('survey-taken')) {
-      this.userService.setPreference('survey-taken', true);
+    this.surveyService.surveyTaken();
+  }
+
+  public finishSurvey(completed: boolean) {
+    this.surveyCompleted = completed;
+    if (this.surveyCompleted) {
+      this.surveyService.weeklyCompleted();
     }
   }
 

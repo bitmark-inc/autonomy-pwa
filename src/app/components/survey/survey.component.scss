@@ -1,0 +1,81 @@
+.main-content {
+  .bold {
+    font-weight: 500;
+  }
+
+  .question {
+    font-size: 30px;
+    line-height: 120%;
+  }
+  
+  .radio-answer {
+    position: relative;
+
+    .unchoose {
+      opacity: 0.5;
+    }
+
+    input {
+      z-index: 0;
+      position: absolute;
+      left: 5px;
+      opacity: 0.1;
+    }
+
+    input:checked + label {
+      .check {
+        background: #B3E7F4;
+        img {
+          opacity: 1;
+        }
+      }
+      .unchoose {
+        opacity: 1;
+      }
+    }
+
+    .check {
+      width: 24px;
+      height: 24px;
+      border: 1px solid #000000;
+      border-radius: 50%;
+      position: relative;
+      background: #ffffff;
+  
+      img {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        opacity: 0.25;
+      }
+    }
+  }
+
+  .checklist-answer {
+    position: relative;
+
+    input {
+      z-index: 0;
+      position: absolute;
+      left: 5px;
+      opacity: 0;
+    }
+
+    input:checked + label {
+      .checkbox {
+        background: #B3E7F4;
+      }
+    }
+    .checkbox {
+      background: #EDF0F4;
+      width: 100%;
+      margin-bottom: 10px;
+      padding: 5px 15px;
+    }
+  }
+
+  .next-action {
+    bottom: 60px;
+  }
+}
