@@ -4,6 +4,9 @@ import { UserService } from 'src/app/services/user/user.service';
 import { SurveyService } from 'src/app/services/survey/survey.service';
 import { HomepageState as ParentContainerState } from '../homepage.state';
 
+import { Subject, timer } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+
 @Component({
   selector: 'app-check-in',
   templateUrl: './check-in.component.html',
@@ -16,11 +19,11 @@ export class CheckInComponent implements OnInit, AfterViewInit, OnDestroy {
   public surveyCompleted: boolean = false;
   public includeMonthlyQuestion: boolean = false;
 
+  private destroy;
+  private rxjsTimer;
+
   constructor(public dialog: MatDialog, private userService: UserService, private surveyService: SurveyService) {
-    this.surveyCompleted = this.surveyService.surveyDisabled();
-    if (!this.surveyCompleted) {
-      this.includeMonthlyQuestion = this.surveyService.includeMonthly();
-    }
+    this.setSurveyState();
   }
 
   ngOnInit(): void {
@@ -35,6 +38,35 @@ export class CheckInComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnDestroy() {
     ParentContainerState.fullscreen.next(false);
+    if (this.destroy) {
+      this.destroy.next();
+      this.destroy.complete();
+    }
+  }
+
+  private setSurveyState() {
+    this.surveyCompleted = this.surveyService.surveyDisabled();
+    if (this.surveyCompleted) {
+      this.enableSurveyTimer();
+    } else {
+      // include Monthly if survey enable
+      this.includeMonthlyQuestion = this.surveyService.includeMonthly();
+    }
+  }
+
+  private enableSurveyTimer() {
+    // set timer to enable survey if it's waiting to next weekly
+    this.destroy = new Subject();
+    this.rxjsTimer = timer(1000, 5 * 60 * 1000);
+
+    this.rxjsTimer.pipe(takeUntil(this.destroy)).subscribe(() => {
+      this.surveyCompleted = this.surveyService.surveyDisabled();
+      if (!this.surveyCompleted) {
+        this.destroy.next();
+        this.destroy.complete();
+        this.includeMonthlyQuestion = this.surveyService.includeMonthly();
+      }
+    })
   }
 
   public openWelcomeAlert() {
