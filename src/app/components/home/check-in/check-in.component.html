@@ -65,5 +65,5 @@
 </ng-template>
 
 <div [hidden]="!surveyShown" class="survey-content">
-  <app-survey [surveyShown]="surveyShown" [includeMonthly]="includeMonthlyQuestion" (exitSurvey)="surveyShown = $event" (surveyCompleted)="finishSurvey($event)"></app-survey>
+  <app-survey [surveyShown]="surveyShown" [includeMonthly]="includeMonthlyQuestion" (exitSurvey)="exitSurvey($event)" (surveyCompleted)="completeSurvey($event)"></app-survey>
 </div>

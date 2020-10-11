@@ -215,13 +215,6 @@
         </label>
       </form>
     </mat-card>
-    <div [hidden]="survey.controls['q3'].value !== answers.yes.id">
-      <div class="footer-btn next-action">
-        <a class="next" (click)="saveAndMoveToNext(survey)">
-          <span class="gap-right-15">next</span><img src="/assets/img/next-icon.svg" alt="">
-        </a>
-      </div>
-    </div>
   </div>
   <!-- question 4 -->
   <div [@questionTransition]="getStateAnimation(Questions.q4)" [hidden]="activeQuestion != Questions.q4">
@@ -534,5 +527,12 @@
         </label>
       </form>
     </mat-card>
+  </div>
+</div>
+<div [hidden]="survey.controls['q3'].value !== answers.yes.id">
+  <div class="footer-btn next-action">
+    <a class="next" (click)="saveAndMoveToNext(survey)">
+      <span class="gap-right-15">next</span><img src="/assets/img/next-icon.svg" alt="">
+    </a>
   </div>
 </div>

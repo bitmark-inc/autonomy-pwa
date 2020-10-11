@@ -27,6 +27,7 @@ export class SurveyService {
   }
 
   public surveyTaken() {
+    // only apply for the first time uesr take the survey
     if (!this.userService.getPreference(SURVEY_TAKEN)) {
       this.userService.setPreference(SURVEY_TAKEN, true);
       this.userService.setPreference(NEXT_MONTHLY_SURVEY_AT, moment().add(28, 'days').format());

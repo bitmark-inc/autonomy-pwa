@@ -29,7 +29,8 @@ enum Questions { q1, q2, q3, q4, q5, q6, q7, q8, q9 };
     trigger('subquestionExpand',[
       state('hidden', style({ height: 0, opacity: 0 })),
       state('shown', style({ height: 'fit-content', opacity: 1 })),
-      transition('hidden <=> shown', [animate(100)]),
+      transition('shown => hidden', [animate(100), style({ opacity: 0})]),
+      transition('hidden => shown', [animate(100), style({ opacity: 1})]),
     ])
   ],
 })
