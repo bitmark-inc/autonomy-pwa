@@ -43,7 +43,7 @@ export class OnboardingComponent implements OnInit {
           setTimeout(() => {
             this.bottomSheetRef.afterDismissed().subscribe(() => {
               this.clickable = true;
-              this.router.navigate(['/home/resources']);
+              this.router.navigate(['/home']);
             });
             this.bottomSheetRef.dismiss();
           }, 3 * 1000);
