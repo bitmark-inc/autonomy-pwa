@@ -53,7 +53,6 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.currentTab = this.tabActivated;
       break;
     default:
-      console.log(this.userService.getPreference('survey-taken'));
       if (this.userService.getPreference('survey-taken')) {
         this.tabActivated = TabActivated.Resources;
         this.currentTab = this.tabActivated;
