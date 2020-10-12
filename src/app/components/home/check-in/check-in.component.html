@@ -1,8 +1,11 @@
 <div class="main-content">
-  <mat-card></mat-card>
+  <mat-card class="no-top"></mat-card>
   <div class="header-page-title direction-color m-b-30">
     <span class="line-title line-title-up"></span>
     <span (click)="openWelcomeAlert()" class="big-words page-title clickable">check-in</span>
+    <span class="letter-icon">
+      <img src="/assets/img/warning_outlined.svg" alt="i">
+    </span>
   </div>
   <mat-card class="main-direction sub-direction-color content-left no-top no-bottom">
     <p class="p-b-10 font-24 direction-color">Help your Berkeley community cope better during COVID-19.</p>
@@ -10,7 +13,7 @@
   <mat-card class="no-top no-bottom">
     <div *ngIf="!surveyCompleted" class="notify-alert">
       <p (click)="checkIn()" class="font-24 clickable" style="display: flex; justify-content: space-between;">
-        <span>Check in with us for this week!</span>
+        <span class="p-r-30">Check in with us for this week!</span>
         <img src="/assets/img/next-small-white.svg" alt="">
       </p>
     </div>

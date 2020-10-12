@@ -27,9 +27,9 @@ enum Questions { q1, q2, q3, q4, q5, q6, q7, q8, q9 };
       ])
     ]),
     trigger('subquestionExpand',[
-      state('hidden', style({ height: 0, opacity: 0 })),
-      state('shown', style({ height: 'fit-content', opacity: 1 })),
-      transition('shown => hidden', [animate(100), style({ opacity: 0})]),
+      state('hidden', style({ display: 'none', height: 0, opacity: 0 })),
+      state('shown', style({ display: 'block', height: 'fit-content', opacity: 1 })),
+      transition('shown => hidden', [animate(0), style({ opacity: 0})]),
       transition('hidden => shown', [animate(100), style({ opacity: 1})]),
     ])
   ],
@@ -49,23 +49,23 @@ export class SurveyComponent implements OnInit, OnDestroy {
   public answers;
 
   public survey = new FormGroup({
-    q1: new FormControl(99),
-    q1_1: new FormControl(99),
-    q2: new FormControl(99),
-    q2_1: new FormControl(99),
-    q2_1_1: new FormControl(99),
-    q3: new FormControl(99),
-    q3_1: new FormControl([]),
-    q4: new FormControl(99),
-    q5: new FormControl(99),
-    q6: new FormControl(99),
-    q7: new FormControl(99),
-    q7_1: new FormControl(99),
-    q7_1_1: new FormControl(99),
-    q8: new FormControl(99),
-    q9: new FormControl(99),
-    q9_1: new FormControl(99),
-    q9_1_1: new FormControl(99),
+    q1a: new FormControl(9),
+    q1b: new FormControl(9),
+    q2a: new FormControl(9),
+    q2b: new FormControl(9),
+    q2c: new FormControl(9),
+    q3a: new FormControl(9),
+    q3b: new FormControl(0),
+    q4: new FormControl(9),
+    q5: new FormControl(9),
+    q6: new FormControl(9),
+    q7a: new FormControl(9),
+    q7b: new FormControl(9),
+    q7c: new FormControl(9),
+    q8: new FormControl(9),
+    q9a: new FormControl(9),
+    q9b: new FormControl(9),
+    q9c: new FormControl(9),
   });
 
   constructor(private surveyService: SurveyService) {
@@ -82,11 +82,10 @@ export class SurveyComponent implements OnInit, OnDestroy {
     }
   }
 
-  private resetNestedAnswer(form: FormGroup, topFormControlname: string) {
-    if (topFormControlname) {
-      let resetControlNames = Object.keys(form.controls).filter(k => k.includes(`${topFormControlname}_`));
+  public resetNestedAnswer(form: FormGroup, resetControlNames: string[]) {
+    if (resetControlNames && resetControlNames.length) {
       resetControlNames.forEach((key) => {
-        form.controls[key].setValue(99);
+        form.controls[key].setValue(9);
       })
     }
   }
@@ -119,14 +118,14 @@ export class SurveyComponent implements OnInit, OnDestroy {
     })
   }
 
-  public saveAndMoveToNext(form: FormGroup, formControlname?: string) {
+  public saveAndMoveToNext(form: FormGroup, formControlname?: string[]) {
     this.resetNestedAnswer(form, formControlname);
     this.saveChange(form);
     this.nextQuestion();
   }
 
-  public updateSelectList(form: FormGroup, formControlName: string, selected: number) {
-    let controlValues: number[] = form.controls[formControlName].value || [];
+  public updateSelectList(form: FormGroup, formControlName: string, selected: string) {
+    let controlValues: string[] = form.controls[formControlName].value || [];
     if (controlValues.includes(selected)) {
       let index = controlValues.indexOf(selected);
       controlValues.splice(index, 1);
