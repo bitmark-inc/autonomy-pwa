@@ -1,45 +1,51 @@
-<div class="main-content">
-  <mat-card class="no-top"></mat-card>
-  <div class="header-page-title direction-color m-b-30">
-    <span class="line-title line-title-up"></span>
-    <span (click)="openWelcomeAlert()" class="big-words page-title clickable">check-in</span>
-    <span class="letter-icon">
-      <img src="/assets/img/warning_outlined.svg" alt="i">
-    </span>
-  </div>
-  <mat-card class="main-direction sub-direction-color content-left no-top no-bottom">
-    <p class="p-b-10 font-24 direction-color">Help your Berkeley community cope better during COVID-19.</p>
-  </mat-card>
-  <mat-card class="no-top no-bottom">
-    <div *ngIf="!surveyCompleted" class="notify-alert">
-      <p (click)="checkIn()" class="font-24 clickable" style="display: flex; justify-content: space-between;">
-        <span class="p-r-30">Check in with us for this week!</span>
-        <img src="/assets/img/next-small-white.svg" alt="">
-      </p>
+<div style="position: relative; overflow-x: hidden;">
+  <div class="main-content">
+    <mat-card class="no-top"></mat-card>
+    <div class="header-page-title direction-color m-b-30">
+      <span class="line-title line-title-up"></span>
+      <span (click)="openWelcomeAlert()" class="big-words page-title clickable">check-in</span>
+      <span class="letter-icon">
+        <img src="/assets/img/warning_outlined.svg" alt="i">
+      </span>
     </div>
-    <div *ngIf="surveyCompleted" class="notify-alert completed">
-      <p class="font-24 clickable" style="display: flex; justify-content: space-between;">
-        <span>Thanks for checking in this week!</span>
-        <img src="/assets/img/checked-white.svg" alt="">
-      </p>
-    </div>
-  </mat-card>
-  <mat-card class="no-bottom font-14 line-height-120 content-center sub-direction-color">
-    <p *ngIf="!surveyCompleted" class="text-start p-b-60">Take a moment to respond to a few questions and help researchers fight the epidemic.</p>
-    <p *ngIf="surveyCompleted" class="text-start p-b-60">Don’t worry, your data will always be anonymous and non-personally-identifiable (even to us).</p>
-  </mat-card>
-  <div class="bold-line"></div>
-  <mat-card class="font-14 line-height-120 content-center sub-direction-color">
-    <div class="col">
-      <p class="text-start p-b-20 direction-color">Developed in partnership with</p>
-      <div class="group-partnership">
-        <div><img src="/assets/img/health-lab.svg" alt=""></div>
-        <div><img src="/assets/img/ucb-health-research.svg" alt=""></div>
-        <div><img src="/assets/img/school-of-public-health.svg" alt=""></div>
+    <mat-card class="main-direction sub-direction-color content-left no-top no-bottom">
+      <p class="p-b-10 font-24 direction-color">Help your Berkeley community cope better during COVID-19.</p>
+    </mat-card>
+    <mat-card class="no-top no-bottom">
+      <div *ngIf="!surveyCompleted" class="notify-alert">
+        <p (click)="checkIn()" class="font-24 clickable" style="display: flex; justify-content: space-between;">
+          <span class="p-r-30">Check in with us for this week!</span>
+          <img src="/assets/img/next-small-white.svg" alt="">
+        </p>
       </div>
-    </div>
-  </mat-card>
-  <div class="p-b-60"></div>
+      <div *ngIf="surveyCompleted" class="notify-alert completed">
+        <p class="font-24 clickable" style="display: flex; justify-content: space-between;">
+          <span>Thanks for checking in this week!</span>
+          <img src="/assets/img/checked-white.svg" alt="">
+        </p>
+      </div>
+    </mat-card>
+    <mat-card class="no-bottom font-14 line-height-120 content-center sub-direction-color">
+      <p *ngIf="!surveyCompleted" class="text-start p-b-60">Take a moment to respond to a few questions and help researchers fight the epidemic.</p>
+      <p *ngIf="surveyCompleted" class="text-start p-b-60">Don’t worry, your data will always be anonymous and non-personally-identifiable (even to us).</p>
+    </mat-card>
+    <div class="bold-line"></div>
+    <mat-card class="font-14 line-height-120 content-center sub-direction-color">
+      <div class="col">
+        <p class="text-start p-b-20 direction-color">Developed in partnership with</p>
+        <div class="group-partnership">
+          <div><img src="/assets/img/health-lab.svg" alt=""></div>
+          <div><img src="/assets/img/ucb-health-research.svg" alt=""></div>
+          <div><img src="/assets/img/school-of-public-health.svg" alt=""></div>
+        </div>
+      </div>
+    </mat-card>
+    <div class="p-b-60"></div>
+  </div>
+
+  <div [@surveyTransition]="getSurveyState()" class="survey-content">
+    <app-survey [surveyShown]="surveyShown" [includeMonthly]="includeMonthlyQuestion" (exitSurvey)="exitSurvey($event)" (surveyCompleted)="completeSurvey($event)"></app-survey>
+  </div>
 </div>
 
 <ng-template #welcomeAlert>
@@ -66,7 +72,3 @@
     </div>
   </div>
 </ng-template>
-
-<div [@surveyTransition]="getSurveyState()" class="survey-content">
-  <app-survey [surveyShown]="surveyShown" [includeMonthly]="includeMonthlyQuestion" (exitSurvey)="exitSurvey($event)" (surveyCompleted)="completeSurvey($event)"></app-survey>
-</div>
