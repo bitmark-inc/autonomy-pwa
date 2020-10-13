@@ -6,11 +6,29 @@ import { HomepageState as ParentContainerState } from '../homepage.state';
 
 import { Subject, timer } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 
 @Component({
   selector: 'app-check-in',
   templateUrl: './check-in.component.html',
-  styleUrls: ['./check-in.component.scss']
+  styleUrls: ['./check-in.component.scss'],
+  animations: [
+    trigger('surveyTransition', [
+      state('main', style({ transform: 'translateX(0)' })),
+      state('pre', style({ transform: 'translateX(100%)' })),
+      state('next', style({ transform: 'translateX(-100%)' })),
+      state('other', style({ transform: 'translateX(-200%)' })),
+      transition('void <=> main', [
+        animate(200)
+      ]),
+      transition('next <=> main', [
+        animate(200)
+      ]),
+      transition('main <=> pre', [
+        animate(200)
+      ])
+    ])
+  ],
 })
 export class CheckInComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('welcomeAlert') public welcomeAlert: TemplateRef<any>;
@@ -88,6 +106,16 @@ export class CheckInComponent implements OnInit, AfterViewInit, OnDestroy {
     this.surveyCompleted = completed;
     if (this.surveyCompleted) {
       this.surveyService.weeklyCompleted();
+    }
+  }
+
+  public getSurveyState(): string {
+    if (this.surveyShown) {
+      return 'main';
+    } else if (this.surveyCompleted) {
+      return 'next';
+    } else {
+      return 'pre';
     }
   }
 

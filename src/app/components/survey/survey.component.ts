@@ -16,7 +16,11 @@ enum Questions { q1, q2, q3, q4, q5, q6, q7, q8, q9 };
       state('pre', style({ transform: 'translateX(100%)' })),
       state('next', style({ transform: 'translateX(-100%)' })),
       state('other', style({ transform: 'translateX(-200%)' })),
-      transition('void <=> main', [
+      transition('main => void', [
+        animate(200),
+        style({ transform: 'translateX(100%)' })
+      ]),
+      transition('void => main', [
         animate(200)
       ]),
       transition('next <=> main', [
