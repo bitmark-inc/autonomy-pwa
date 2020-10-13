@@ -14,7 +14,7 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
   styleUrls: ['./check-in.component.scss'],
   animations: [
     trigger('surveyTransition', [
-      state('main', style({ transform: 'translateX(0)' })),
+      state('main', style({ })),
       state('pre', style({ transform: 'translateX(100%)' })),
       state('next', style({ transform: 'translateX(-100%)' })),
       state('other', style({ transform: 'translateX(-200%)' })),
