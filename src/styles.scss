@@ -1138,6 +1138,13 @@ textarea {
   border-radius: unset !important;
 }
 
+.cdk-overlay-pane{
+  // width: unset !important;
+  // height: unset !important;
+  max-width: calc(100vw - 30px) !important;
+}
+
+
 /* Responsive Styles */
 @media screen and (max-width: 767px) {
 }
