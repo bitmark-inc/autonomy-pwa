@@ -5,6 +5,7 @@ import { trigger, animate, style, transition, state } from '@angular/animations'
 import { SurveyService } from '../../services/survey/survey.service';
 
 enum Questions { q1, q2, q3, q4, q5, q6, q7, q8, q9 };
+enum MonthlyQuestions { q1, q2, q3, q4, q5, q6, q7, q8, q9, q10, q11, q12, q13, q14, q15 };
 
 @Component({
   selector: 'app-survey',
@@ -47,12 +48,14 @@ export class SurveyComponent implements OnInit, OnDestroy {
   public isCompleted: boolean = false;
   public hasChanged: boolean = false;
 
-  public Questions = Questions;
-  public activeQuestion = Questions.q1;
+  public Questions;
+  public activeQuestion: number = 0;
 
   public answers;
+  public monthlyAnswers;
+  public survey: FormGroup;
 
-  public survey = new FormGroup({
+  public weeklySurvey = new FormGroup({
     q1a: new FormControl(9),
     q1b: new FormControl(9),
     q2a: new FormControl(9),
@@ -72,11 +75,40 @@ export class SurveyComponent implements OnInit, OnDestroy {
     q9c: new FormControl(9),
   });
 
+  public monthlySurvey = new FormGroup({
+    q1a: new FormControl(9),
+    q1b: new FormControl(9),
+    q2a: new FormControl(9),
+    q2b: new FormControl(9),
+    q2c: new FormControl(9),
+    q3a: new FormControl(9),
+    q3b: new FormControl(0),
+    q4: new FormControl(9),
+    q5: new FormControl(9),
+    q6: new FormControl(9),
+    q7a: new FormControl(9),
+    q7b: new FormControl(9),
+    q7c: new FormControl(9),
+    q8: new FormControl(9),
+    q9a: new FormControl(9),
+    q9b: new FormControl(9),
+    q9c: new FormControl(9),
+    q10: new FormControl(9),
+    q11: new FormControl(9),
+    q12: new FormControl(9),
+    q13: new FormControl(9),
+    q14: new FormControl(9),
+    q15: new FormControl(''),
+  });
+
   constructor(private surveyService: SurveyService) {
     this.answers = AppSettings.SURVEY_ANSWERS;
+    this.monthlyAnswers = AppSettings.SURVEY_MONTHLY_ANSWERS;
   }
 
   ngOnInit(): void {
+    this.Questions = this.includeMonthly ? MonthlyQuestions : Questions;
+    this.survey = this.includeMonthly ? this.monthlySurvey : this.weeklySurvey;
   }
 
   ngOnDestroy() {
@@ -98,7 +130,6 @@ export class SurveyComponent implements OnInit, OnDestroy {
     form.updateValueAndValidity();
     setTimeout(() => {
       this.hasChanged = true;
-      console.log(form.value);
     }, 0);
   }
 

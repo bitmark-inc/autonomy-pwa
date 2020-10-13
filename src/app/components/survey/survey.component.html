@@ -1160,11 +1160,247 @@
       </form>
     </mat-card>
   </div>
+  <!-- monthly -->
+  <!-- question 10 -->
+  <div [@questionTransition]="getStateAnimation(Questions.q10)" [hidden]="activeQuestion != Questions.q10">
+    <mat-card class="header-btn" layout="fill">
+      <a (click)="activeQuestion = Questions.q9" class="back upcase"><img class="gap-right-5" src="/assets/img/back-small.svg"
+          alt="back-arrow"><span>back</span></a>
+    </mat-card>
+    <div class="header-page-title direction-color">
+      <span class="line-title"></span><span class="page-title">How old are you?</span>
+    </div>
+    <mat-card class="no-top">
+      <form [formGroup]="survey" class="radio-answer p-t-30">
+        <input type="radio" id="q10_1" formControlName="q10" [value]="monthlyAnswers.lessThan18.id">
+        <label for="q10_1">
+          <div class="content-left p-b-10"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{monthlyAnswers.lessThan18.value}}</span></div>
+        </label>
+        <input type="radio" id="q10_2" formControlName="q10" [value]="monthlyAnswers.from18To30.id">
+        <label for="q10_2">
+          <div class="content-left p-b-10"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{monthlyAnswers.from18To30.value}}</span></div>
+        </label>
+        <input type="radio" id="q10_3" formControlName="q10" [value]="monthlyAnswers.from31To40.id">
+        <label for="q10_3">
+          <div class="content-left p-b-10"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{monthlyAnswers.from31To40.value}}</span></div>
+        </label>
+        <input type="radio" id="q10_4" formControlName="q10" [value]="monthlyAnswers.from41To50.id">
+        <label for="q10_4">
+          <div class="content-left p-b-10"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{monthlyAnswers.from41To50.value}}</span></div>
+        </label>
+        <input type="radio" id="q10_5" formControlName="q10" [value]="monthlyAnswers.from51To60.id">
+        <label for="q10_5">
+          <div class="content-left p-b-10"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{monthlyAnswers.from51To60.value}}</span></div>
+        </label>
+        <input type="radio" id="q10_6" formControlName="q10" [value]="monthlyAnswers.from61To70.id">
+        <label for="q10_6">
+          <div class="content-left p-b-10"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{monthlyAnswers.from61To70.value}}</span></div>
+        </label>
+        <input type="radio" id="q10_7" formControlName="q10" [value]="monthlyAnswers.over70.id">
+        <label for="q10_7">
+          <div class="content-left p-b-10"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{monthlyAnswers.over70.value}}</span></div>
+        </label>
+      </form>
+    </mat-card>
+  </div>
+  <!-- question 11 -->
+  <div [@questionTransition]="getStateAnimation(Questions.q11)" [hidden]="activeQuestion != Questions.q11">
+    <mat-card class="header-btn" layout="fill">
+      <a (click)="activeQuestion = Questions.q10" class="back upcase"><img class="gap-right-5" src="/assets/img/back-small.svg"
+          alt="back-arrow"><span>back</span></a>
+    </mat-card>
+    <div class="header-page-title direction-color">
+      <span class="line-title"></span><span class="page-title">How do you identify?</span>
+    </div>
+    <mat-card class="no-top">
+      <form [formGroup]="survey" class="radio-answer p-t-30">
+        <input type="radio" id="q11_1" formControlName="q11" [value]="monthlyAnswers.female.id">
+        <label for="q11_1">
+          <div class="content-left p-b-10"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{monthlyAnswers.female.value}}</span></div>
+        </label>
+        <input type="radio" id="q11_2" formControlName="q11" [value]="monthlyAnswers.male.id">
+        <label for="q11_2">
+          <div class="content-left p-b-10"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{monthlyAnswers.male.value}}</span></div>
+        </label>
+        <input type="radio" id="q11_3" formControlName="q11" [value]="monthlyAnswers.transMale.id">
+        <label for="q11_3">
+          <div class="content-left p-b-10"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{monthlyAnswers.transMale.value}}</span></div>
+        </label>
+        <input type="radio" id="q11_4" formControlName="q11" [value]="monthlyAnswers.transFemale.id">
+        <label for="q11_4">
+          <div class="content-left p-b-10"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{monthlyAnswers.transFemale.value}}</span></div>
+        </label>
+        <input type="radio" id="q11_5" formControlName="q11" [value]="monthlyAnswers.queer.id">
+        <label for="q11_5">
+          <div class="content-left p-b-10"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{monthlyAnswers.queer.value}}</span></div>
+        </label>
+        <input type="radio" id="q11_6" formControlName="q11" [value]="monthlyAnswers.other.id">
+        <label for="q11_6">
+          <div class="content-left p-b-10"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{monthlyAnswers.other.value}}</span></div>
+        </label>
+      </form>
+    </mat-card>
+  </div>
+  <!-- question 12 -->
+  <div [@questionTransition]="getStateAnimation(Questions.q12)" [hidden]="activeQuestion != Questions.q12">
+    <mat-card class="header-btn" layout="fill">
+      <a (click)="activeQuestion = Questions.q11" class="back upcase"><img class="gap-right-5" src="/assets/img/back-small.svg"
+          alt="back-arrow"><span>back</span></a>
+    </mat-card>
+    <div class="header-page-title direction-color horizal-display">
+      <div><span class="line-title"></span></div>
+      <div class="p-l-10"><span class="page-title no-left">What is your racial/ethnic identity?</span></div>
+    </div>
+    <mat-card class="no-top">
+      <form [formGroup]="survey" class="radio-answer p-t-30">
+        <input type="radio" id="q12_1" formControlName="q12" [value]="monthlyAnswers.latinx.id">
+        <label for="q12_1">
+          <div class="content-left p-b-10"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{monthlyAnswers.latinx.value}}</span></div>
+        </label>
+        <input type="radio" id="q12_2" formControlName="q12" [value]="monthlyAnswers.blackAmerican.id">
+        <label for="q12_2">
+          <div class="content-left p-b-10"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{monthlyAnswers.blackAmerican.value}}</span></div>
+        </label>
+        <input type="radio" id="q12_3" formControlName="q12" [value]="monthlyAnswers.asianAmericam.id">
+        <label for="q12_3">
+          <div class="content-left p-b-10"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{monthlyAnswers.asianAmericam.value}}</span></div>
+        </label>
+        <input type="radio" id="q12_4" formControlName="q12" [value]="monthlyAnswers.white.id">
+        <label for="q12_4">
+          <div class="content-left p-b-10"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{monthlyAnswers.white.value}}</span></div>
+        </label>
+        <input type="radio" id="q12_5" formControlName="q12" [value]="monthlyAnswers.nativeAmerican.id">
+        <label for="q12_5">
+          <div class="content-left p-b-10"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{monthlyAnswers.nativeAmerican.value}}</span></div>
+        </label>
+        <input type="radio" id="q12_6" formControlName="q12" [value]="monthlyAnswers.nativeHawaiian.id">
+        <label for="q12_6">
+          <div class="content-left p-b-10"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{monthlyAnswers.nativeHawaiian.value}}</span></div>
+        </label>
+        <input type="radio" id="q12_7" formControlName="q12" [value]="monthlyAnswers.multi.id">
+        <label for="q12_7">
+          <div class="content-left p-b-10"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{monthlyAnswers.multi.value}}</span></div>
+        </label>
+        <input type="radio" id="q12_8" formControlName="q12" [value]="monthlyAnswers.otherEthnic.id">
+        <label for="q12_8">
+          <div class="content-left p-b-10"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{monthlyAnswers.otherEthnic.value}}</span></div>
+        </label>
+      </form>
+    </mat-card>
+  </div>
+  <!-- question 13 -->
+  <div [@questionTransition]="getStateAnimation(Questions.q13)" [hidden]="activeQuestion != Questions.q13">
+    <mat-card class="header-btn" layout="fill">
+      <a (click)="activeQuestion = Questions.q12" class="back upcase"><img class="gap-right-5" src="/assets/img/back-small.svg"
+          alt="back-arrow"><span>back</span></a>
+    </mat-card>
+    <div class="header-page-title direction-color horizal-display">
+      <div>
+        <span class="line-title"></span>
+      </div>
+      <div class="p-l-10">
+        <span class="page-title no-left">What’s your household income before taxes?</span>
+      </div>
+    </div>
+    <mat-card class="no-top">
+      <form [formGroup]="survey" class="radio-answer p-t-30">
+        <input type="radio" id="q13_1" formControlName="q13" [value]="monthlyAnswers.income25.id">
+        <label for="q13_1">
+          <div class="content-left p-b-10"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{monthlyAnswers.income25.value}}</span></div>
+        </label>
+        <input type="radio" id="q13_2" formControlName="q13" [value]="monthlyAnswers.income25To35.id">
+        <label for="q13_2">
+          <div class="content-left p-b-10"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{monthlyAnswers.income25To35.value}}</span></div>
+        </label>
+        <input type="radio" id="q13_3" formControlName="q13" [value]="monthlyAnswers.income35To50.id">
+        <label for="q13_3">
+          <div class="content-left p-b-10"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{monthlyAnswers.income35To50.value}}</span></div>
+        </label>
+        <input type="radio" id="q13_4" formControlName="q13" [value]="monthlyAnswers.income50To100.id">
+        <label for="q13_4">
+          <div class="content-left p-b-10"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{monthlyAnswers.income50To100.value}}</span></div>
+        </label>
+        <input type="radio" id="q13_5" formControlName="q13" [value]="monthlyAnswers.income100.id">
+        <label for="q13_5">
+          <div class="content-left p-b-10"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{monthlyAnswers.income100.value}}</span></div>
+        </label>
+      </form>
+    </mat-card>
+  </div>
+  <!-- question 14 -->
+  <div [@questionTransition]="getStateAnimation(Questions.q14)" [hidden]="activeQuestion != Questions.q14">
+    <mat-card class="header-btn" layout="fill">
+      <a (click)="activeQuestion = Questions.q13" class="back upcase"><img class="gap-right-5" src="/assets/img/back-small.svg"
+          alt="back-arrow"><span>back</span></a>
+    </mat-card>
+    <div class="header-page-title direction-color horizal-display">
+      <div>
+        <span class="line-title"></span>
+      </div>
+      <div class="p-l-10">
+        <span class="page-title no-left">“Wearing face coverings and keeping distance are part of keeping safe during the COVID pandemic.”</span>
+      </div>
+    </div>
+    <mat-card class="no-top">
+      <p class="font-18 direction-color p-t-15">What do you think of the statement?</p>
+      <form [formGroup]="survey" class="radio-answer p-t-30">
+        <input type="radio" id="q14_1" formControlName="q14" [value]="monthlyAnswers.thinking01.id">
+        <label for="q14_1">
+          <div class="content-left p-b-10"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{monthlyAnswers.thinking01.value}}</span></div>
+        </label>
+        <input type="radio" id="q14_2" formControlName="q14" [value]="monthlyAnswers.thinking02.id">
+        <label for="q14_2">
+          <div class="content-left p-b-10"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{monthlyAnswers.thinking02.value}}</span></div>
+        </label>
+        <input type="radio" id="q14_3" formControlName="q14" [value]="monthlyAnswers.thinking03.id">
+        <label for="q14_3">
+          <div class="content-left p-b-10"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{monthlyAnswers.thinking03.value}}</span></div>
+        </label>
+        <input type="radio" id="q14_4" formControlName="q14" [value]="monthlyAnswers.thinking04.id">
+        <label for="q14_4">
+          <div class="content-left p-b-10"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{monthlyAnswers.thinking04.value}}</span></div>
+        </label>
+        <input type="radio" id="q14_5" formControlName="q14" [value]="monthlyAnswers.thinking05.id">
+        <label for="q14_5">
+          <div class="content-left p-b-10"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{monthlyAnswers.thinking05.value}}</span></div>
+        </label>
+        <input type="radio" id="q14_6" formControlName="q14" [value]="monthlyAnswers.nothinking.id">
+        <label for="q14_6">
+          <div class="content-left p-b-10"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{monthlyAnswers.nothinking.value}}</span></div>
+        </label>
+      </form>
+    </mat-card>
+  </div>
+  <!-- question 15 -->
+  <div [@questionTransition]="getStateAnimation(Questions.q15)" [hidden]="activeQuestion != Questions.q15">
+    <mat-card class="header-btn" layout="fill">
+      <a (click)="activeQuestion = Questions.q14" class="back upcase"><img class="gap-right-5" src="/assets/img/back-small.svg"
+          alt="back-arrow"><span>back</span></a>
+    </mat-card>
+    <div class="header-page-title direction-color">
+      <span class="line-title"></span><span class="page-title">What is your zip code?</span>
+    </div>
+    <mat-card class="no-top">
+      <form [formGroup]="survey" class="p-t-30">
+        <input class="col p-t-5 p-b-5 p-l-15 p-r-15 font-18" type="text" id="q15" formControlName="q15" placeholder="Your response">
+      </form>
+    </mat-card>
+  </div>
 </div>
 <div [hidden]="activeQuestion != Questions.q3 || survey.controls['q3a'].value !== answers.yes.id">
   <div class="footer-btn next-action">
     <a class="next" (click)="saveAndMoveToNext(survey)">
       <span class="gap-right-15">next</span><img src="/assets/img/next-icon.svg" alt="">
+    </a>
+  </div>
+</div>
+<div [hidden]="activeQuestion <= Questions.q9">
+  <div class="footer-btn next-action">
+    <a *ngIf="activeQuestion !== 14" class="next" (click)="saveAndMoveToNext(survey)">
+      <span class="gap-right-15">next</span><img src="/assets/img/next-icon.svg" alt="">
+    </a>
+    <a *ngIf="activeQuestion === 14" class="next" (click)="saveAndMoveToNext(survey)">
+      <span class="gap-right-15">submit</span><img src="/assets/img/submit.svg" alt="">
     </a>
   </div>
 </div>

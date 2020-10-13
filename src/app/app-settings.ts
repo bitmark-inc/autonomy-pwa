@@ -65,4 +65,44 @@ export class AppSettings {
     decline: { id: 7, value: 'Decline to answer' },
     notAnswer: { id: 9, value: '' }
   }
+  public static SURVEY_MONTHLY_ANSWERS = {
+    lessThan18: { id: 1, value: 'Less than 18' },
+    from18To30: { id: 2, value: '18-30' },
+    from31To40: { id: 3, value: '31-40' },
+    from41To50: { id: 4, value: '41-50' },
+    from51To60: { id: 5, value: '51-60' },
+    from61To70: { id: 6, value: '61-70' },
+    over70: { id: 7, value: 'Over 70' },
+
+    female: { id: 1, value: 'Female' },
+    male: { id: 2, value: 'Male' },
+    transMale: { id: 3, value: 'Trans male' },
+    transFemale: { id: 4, value: 'Trans female' },
+    queer: { id: 5, value: 'Queer/non-binary' },
+    other: { id: 6, value: 'Other' },
+
+    latinx: { id: 1, value: 'Latinx' },
+    blackAmerican: { id: 2, value: 'Black/African American' },
+    asianAmericam: { id: 3, value: 'Asian/Asian American' },
+    white: { id: 4, value: 'Caucasian/White' },
+    nativeAmerican: { id: 5, value: 'Native American' },
+    nativeHawaiian: { id: 6, value: 'Native Hawaiian or Pacific Islander' },
+    multi: { id: 7, value: 'Multi-ethnic' },
+    otherEthnic: { id: 8, value: 'Other' },
+
+    income25: { id: 1, value: '<$25,000' },
+    income25To35: { id: 2, value: '$25,000-$35,000' },
+    income35To50: { id: 3, value: '$35,001-$50,000' },
+    income50To100: { id: 4, value: '$50,001-$100,000' },
+    income100: { id: 5, value: '>$100,000' },
+
+    thinking01: { id: 1, value: 'Strongly agree' },
+    thinking02: { id: 2, value: 'Somewhat agree' },
+    thinking03: { id: 3, value: 'Agree' },
+    thinking04: { id: 4, value: 'Somewhat disagree' },
+    thinking05: { id: 5, value: 'Strongly disagree' },
+    nothinking: { id: 7, value: 'Decline to answer' },
+
+    notAnswer: { id: 9, value: '' }
+  }
 }
