@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, TemplateRef, AfterViewInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, TemplateRef, AfterViewInit, OnDestroy, ElementRef } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { UserService } from 'src/app/services/user/user.service';
 import { SurveyService } from 'src/app/services/survey/survey.service';
@@ -40,7 +40,7 @@ export class CheckInComponent implements OnInit, AfterViewInit, OnDestroy {
   private destroy;
   private rxjsTimer;
 
-  constructor(public dialog: MatDialog, private userService: UserService, private surveyService: SurveyService) {
+  constructor(public dialog: MatDialog, private userService: UserService, private surveyService: SurveyService, private elementRef: ElementRef) {
     this.setSurveyState();
   }
 
@@ -87,7 +87,12 @@ export class CheckInComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public openWelcomeAlert() {
-    this.dialog.open(this.welcomeAlert);
+    let dialogRef = this.dialog.open(this.welcomeAlert, { panelClass: 'full-view-dialog' });
+    this.elementRef.nativeElement.ownerDocument.body.style.background = 'rgba(0,0,0,0.32)';
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.elementRef.nativeElement.ownerDocument.body.style.background = 'initial';
+    });
   }
 
   public checkIn() {
