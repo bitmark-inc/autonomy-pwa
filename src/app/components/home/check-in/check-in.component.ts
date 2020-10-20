@@ -35,7 +35,7 @@ export class CheckInComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public surveyShown: boolean = false;
   public surveyCompleted: boolean = false;
-  public includeMonthlyQuestion: boolean = false;
+  public includeDemographicQuestion: boolean = false;
 
   private destroy;
   private rxjsTimer;
@@ -67,8 +67,8 @@ export class CheckInComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.surveyCompleted) {
       this.enableSurveyTimer();
     } else {
-      // include Monthly if survey enable
-      this.includeMonthlyQuestion = this.surveyService.includeMonthly();
+      // include demographics question if survey hasn't completed yet
+      this.includeDemographicQuestion = this.surveyService.includeDemoGraphics();
     }
   }
 
@@ -82,7 +82,6 @@ export class CheckInComponent implements OnInit, AfterViewInit, OnDestroy {
       if (!this.surveyCompleted) {
         this.destroy.next();
         this.destroy.complete();
-        this.includeMonthlyQuestion = this.surveyService.includeMonthly();
       }
     })
   }

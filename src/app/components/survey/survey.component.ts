@@ -14,9 +14,10 @@ enum MonthlyQuestions { q1, q2, q3, q4, q5, q6, q7, q8, q9, q10, q11, q12, q13, 
   animations: [
     trigger('questionTransition', [
       state('main', style({ transform: 'translateX(0)' })),
-      state('pre', style({ transform: 'translateX(100%)' })),
-      state('next', style({ transform: 'translateX(-100%)' })),
-      state('other', style({ transform: 'translateX(-200%)' })),
+      state('next', style({ transform: 'translateX(100%)' })),
+      state('pre', style({ transform: 'translateX(-100%)' })),
+      state('pre2', style({ transform: 'translateX(-200%)' })),
+      state('other', style({ transform: 'translateX(200%)' })),
       transition('main => void', [
         animate(200),
         style({ transform: 'translateX(100%)' })
@@ -29,7 +30,16 @@ enum MonthlyQuestions { q1, q2, q3, q4, q5, q6, q7, q8, q9, q10, q11, q12, q13, 
       ]),
       transition('main <=> pre', [
         animate(200)
-      ])
+      ]),
+      transition('other <=> main', [
+        animate(200)
+      ]),
+      transition('pre <=> next', [
+        animate(200)
+      ]),
+      transition('main <=> pre2', [
+        animate(200)
+      ]),
     ]),
     trigger('subquestionExpand',[
       state('hidden', style({ display: 'none', height: 0, opacity: 0 })),
@@ -66,9 +76,9 @@ export class SurveyComponent implements OnInit, OnDestroy {
     q4: new FormControl(9),
     q5: new FormControl(9),
     q6: new FormControl(9),
-    q7a: new FormControl(9),
-    q7b: new FormControl(9),
-    q7c: new FormControl(9),
+    q7a: new FormControl(null),
+    q7b: new FormControl(null),
+    q7c: new FormControl(null),
     q8: new FormControl(9),
     q9a: new FormControl(9),
     q9b: new FormControl(9),
@@ -86,9 +96,9 @@ export class SurveyComponent implements OnInit, OnDestroy {
     q4: new FormControl(9),
     q5: new FormControl(9),
     q6: new FormControl(9),
-    q7a: new FormControl(9),
-    q7b: new FormControl(9),
-    q7c: new FormControl(9),
+    q7a: new FormControl(null),
+    q7b: new FormControl(null),
+    q7c: new FormControl(null),
     q8: new FormControl(9),
     q9a: new FormControl(9),
     q9b: new FormControl(9),
@@ -133,19 +143,20 @@ export class SurveyComponent implements OnInit, OnDestroy {
     }, 0);
   }
 
-  private nextQuestion() {
+  private nextQuestion(jumpTo?: number) {
     setTimeout(() => {
       if (this.activeQuestion === (Object.keys(this.Questions).length / 2) - 1) {
         this.isCompleted = true;
         this.submitSurvey(this.survey);
         this.surveyCompleted.emit(true);
       } else {
-        this.activeQuestion += 1;
+        this.activeQuestion = jumpTo ? jumpTo : this.activeQuestion + 1;
       }
     }, 0.5 * 1000);
   }
 
   private submitSurvey(form: FormGroup) {
+    this.formatFormData(form);
     this.surveyService.submitSurvey(form.value).subscribe((result) => {
       this.close();
     }, (error) => {
@@ -153,10 +164,18 @@ export class SurveyComponent implements OnInit, OnDestroy {
     })
   }
 
-  public saveAndMoveToNext(form: FormGroup, formControlname?: string[]) {
+  private formatFormData(form: FormGroup) {
+    Object.keys(form.value).forEach((key) => {
+      if (form.controls[key].value === null) {
+        form.controls[key].setValue(99); // default 99 if none value
+      }
+    });
+  }
+
+  public saveAndMoveToNext(form: FormGroup, formControlname?: string[], jumpTo?: number) {
     this.resetNestedAnswer(form, formControlname);
     this.saveChange(form);
-    this.nextQuestion();
+    this.nextQuestion(jumpTo);
   }
 
   public updateSelectList(form: FormGroup, formControlName: string, selected: string) {
@@ -178,9 +197,11 @@ export class SurveyComponent implements OnInit, OnDestroy {
     if (this.activeQuestion == questionNum) {
       return 'main';
     } else if (questionNum - 1 == this.activeQuestion) {
-      return 'pre';
-    } else if (questionNum + 1 == this.activeQuestion) {
       return 'next';
+    } else if (questionNum + 1 == this.activeQuestion) {
+      return 'pre';
+    } else if (questionNum + 2 == this.activeQuestion) {
+      return 'pre2';
     } else {
       return 'other';
     }
