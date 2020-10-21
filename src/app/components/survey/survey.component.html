@@ -400,13 +400,13 @@
       <form [formGroup]="survey" class="p-t-30">
         <input class="col p-t-5 p-b-5 p-l-15 p-r-15 font-18" type="tel" id="q7_1" formControlName="q7a" oninput="this.value = this.value.replace(/[^0-9.]/g, '');">
         <!-- subquestion -->
-        <div [@subquestionExpand]="survey.controls['q7a'].value && survey.controls['q7a'].value > 1 && survey.controls['q7a'].value != 99 ? 'shown' : 'hidden'">
+        <div [@subquestionExpand]="survey.controls['q7a'].value && survey.controls['q7a'].value >= 1 && survey.controls['q7a'].value != 99 ? 'shown' : 'hidden'">
           <div class="p-l-30 p-t-15 p-b-5">
             <p class="direction-color p-b-10 font-18 font-weight-normal">How many were children 10 years old or younger?</p>
             <input class="col p-t-5 p-b-5 p-l-15 p-r-15 font-18" type="tel" id="q7_1_1" formControlName="q7b" oninput="this.value = this.value.replace(/[^0-9.]/g, '');">
           </div>
         </div>
-        <div [@subquestionExpand]="survey.controls['q7a'].value > 1 && survey.controls['q7b'].value && survey.controls['q7b'].value != 99 ? 'shown' : 'hidden'">
+        <div [@subquestionExpand]="survey.controls['q7a'].value >= 1 && survey.controls['q7b'].value && survey.controls['q7b'].value != 99 ? 'shown' : 'hidden'">
           <div class="p-l-30 p-t-15 p-b-15">
             <p class="direction-color p-b-10 font-18 font-weight-normal">How many were older adults 60 years or older?</p>
             <input class="col p-t-5 p-b-5 p-l-15 p-r-15 font-18" type="tel" id="q7_1_1_1" formControlName="q7c" oninput="this.value = this.value.replace(/[^0-9.]/g, '');">
