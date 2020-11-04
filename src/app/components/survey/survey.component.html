@@ -274,43 +274,45 @@
             <div class="checklist-answer">
               <input type="checkbox" id="q3_1">
               <label for="q3_1">
-                <div (click)="updateSelectList(survey, 'q3a', answers['3a1'].id)" class="content-left checkbox"><span class="font-18">{{answers['3a1'].value}}</span></div>
+                <div (click)="updateSelectList(survey, 'q3a', answers['3a1'].id)" class="content-left checkbox" [ngClass]="{'selected': survey.controls['q3a'].value && survey.controls['q3a'].value.length && survey.controls['q3a'].value.includes('3a1')}">
+                  <span class="font-18">{{answers['3a1'].value}}</span></div>
               </label>
               <input type="checkbox" id="q3_2">
               <label for="q3_2">
-                <div (click)="updateSelectList(survey, 'q3a', answers['3a2'].id)" class="content-left checkbox"><span class="font-18">{{answers['3a2'].value}}</span></div>
+                <div (click)="updateSelectList(survey, 'q3a', answers['3a2'].id)" class="content-left checkbox" [ngClass]="{'selected': survey.controls['q3a'].value && survey.controls['q3a'].value.length && survey.controls['q3a'].value.includes('3a2')}">
+                  <span class="font-18">{{answers['3a2'].value}}</span></div>
               </label>
-              <input type="checkbox" id="q3_3" >
+              <input type="checkbox" id="q3_3">
               <label for="q3_3">
-                <div (click)="updateSelectList(survey, 'q3a', answers['3a3'].id)" class="content-left checkbox"><span class="font-18">{{answers['3a3'].value}}</span></div>
+                <div (click)="updateSelectList(survey, 'q3a', answers['3a3'].id)" class="content-left checkbox" [ngClass]="{'selected': survey.controls['q3a'].value && survey.controls['q3a'].value.length && survey.controls['q3a'].value.includes('3a3')}"><span class="font-18">{{answers['3a3'].value}}</span></div>
               </label>
               <input type="checkbox" id="q3_4">
               <label for="q3_4">
-                <div (click)="updateSelectList(survey, 'q3a', answers['3a4'].id)" class="content-left checkbox"><span class="font-18">{{answers['3a4'].value}}</span></div>
+                <div (click)="updateSelectList(survey, 'q3a', answers['3a4'].id)" class="content-left checkbox" [ngClass]="{'selected': survey.controls['q3a'].value && survey.controls['q3a'].value.length && survey.controls['q3a'].value.includes('3a4')}"><span class="font-18">{{answers['3a4'].value}}</span></div>
               </label>
               <input type="checkbox" id="q3_5">
               <label for="q3_5">
-                <div (click)="updateSelectList(survey, 'q3a', answers['3a5'].id)" class="content-left checkbox"><span class="font-18">{{answers['3a5'].value}}</span></div>
+                <div (click)="updateSelectList(survey, 'q3a', answers['3a5'].id)" class="content-left checkbox" [ngClass]="{'selected': survey.controls['q3a'].value && survey.controls['q3a'].value.length && survey.controls['q3a'].value.includes('3a5')}"><span class="font-18">{{answers['3a5'].value}}</span></div>
               </label>
               <input type="checkbox" id="q3_6">
               <label for="q3_6">
-                <div (click)="updateSelectList(survey, 'q3a', answers['3a6'].id)" class="content-left checkbox"><span class="font-18">{{answers['3a6'].value}}</span></div>
+                <div (click)="updateSelectList(survey, 'q3a', answers['3a6'].id)" class="content-left checkbox" [ngClass]="{'selected': survey.controls['q3a'].value && survey.controls['q3a'].value.length && survey.controls['q3a'].value.includes('3a6')}"><span class="font-18">{{answers['3a6'].value}}</span></div>
               </label>
               <input type="checkbox" id="q3_7">
               <label for="q3_7">
-                <div (click)="updateSelectList(survey, 'q3a', answers['3a7'].id)" class="content-left checkbox"><span class="font-18">{{answers['3a7'].value}}</span></div>
+                <div (click)="updateSelectList(survey, 'q3a', answers['3a7'].id)" class="content-left checkbox" [ngClass]="{'selected': survey.controls['q3a'].value && survey.controls['q3a'].value.length && survey.controls['q3a'].value.includes('3a7')}"><span class="font-18">{{answers['3a7'].value}}</span></div>
               </label>
               <input type="checkbox" id="q3_8">
               <label for="q3_8">
-                <div (click)="updateSelectList(survey, 'q3a', answers['3a8'].id)" class="content-left checkbox"><span class="font-18">{{answers['3a8'].value}}</span></div>
+                <div (click)="updateSelectList(survey, 'q3a', answers['3a8'].id)" class="content-left checkbox" [ngClass]="{'selected': survey.controls['q3a'].value && survey.controls['q3a'].value.length && survey.controls['q3a'].value.includes('3a8')}"><span class="font-18">{{answers['3a8'].value}}</span></div>
               </label>
               <input type="checkbox" id="q3_9">
               <label for="q3_9">
-                <div (click)="updateSelectList(survey, 'q3a', answers['3a9'].id)" class="content-left checkbox"><span class="font-18">{{answers['3a9'].value}}</span></div>
+                <div (click)="updateSelectList(survey, 'q3a', answers['3a9'].id)" class="content-left checkbox" [ngClass]="{'selected': survey.controls['q3a'].value && survey.controls['q3a'].value.length && survey.controls['q3a'].value.includes('3a9')}"><span class="font-18">{{answers['3a9'].value}}</span></div>
               </label>
               <input type="checkbox" id="q3_10">
               <label for="q3_10">
-                <div (click)="updateSelectList(survey, 'q3a', answers['3a10'].id)" class="content-left checkbox"><span class="font-18">{{answers['3a10'].value}}</span></div>
+                <div (click)="updateSelectList(survey, 'q3a', answers['3a10'].id)" class="content-left checkbox" [ngClass]="{'selected': survey.controls['q3a'].value && survey.controls['q3a'].value.length && survey.controls['q3a'].value.includes('3a10')}"><span class="font-18">{{answers['3a10'].value}}</span></div>
               </label>
             </div>
           </div>
@@ -661,10 +663,6 @@
                 <input type="radio" id="q11_1_4" formControlName="q11a" [value]="answers.neverGotResult.id">
                 <label for="q11_1_4">
                   <div (click)="saveAndMoveToNext(survey)" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q11a'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.neverGotResult.value}}</span></div>
-                </label>
-                <input type="radio" id="q11_1_5" formControlName="q11a" [value]="answers.decline.id">
-                <label for="q11_1_5">
-                  <div (click)="saveAndMoveToNext(survey)" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q11a'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.decline.value}}</span></div>
                 </label>
               </div>
             </div>
@@ -1193,8 +1191,9 @@
     <mat-card class="header-btn" layout="fill">
       <a (click)="activeQuestion = Questions.q21" class="back upcase"><img class="gap-right-5" src="/assets/img/back-small.svg" alt="back-arrow"><span>back</span></a>
     </mat-card>
-    <div class="header-page-title direction-color">
-      <span class="line-title"></span><span class="page-title">What did you think about the survey?</span>
+    <div class="header-page-title direction-color horizal-display">
+      <div><span class="line-title"></span></div>
+      <div class="p-l-10"><span class="page-title no-left">What did you think about the survey?</span></div>
     </div>
     <mat-card class="no-top">
       <form [formGroup]="survey" class="p-t-30">
@@ -1210,8 +1209,10 @@
         <a (click)="activeQuestion = Questions.q22" class="back upcase"><img class="gap-right-5" src="/assets/img/back-small.svg"
             alt="back-arrow"><span>back</span></a>
       </mat-card>
-      <div class="header-page-title direction-color">
-        <span class="line-title"></span><span class="page-title">In general, would you say your health is:</span>
+      <div class="header-page-title direction-color horizal-display">
+        <div><span class="line-title"></span></div>
+        <div class="p-l-10"><span class="page-title no-left">In general, would you say your health is:</span></div>
+        
       </div>
       <mat-card class="no-top">
         <form [formGroup]="survey" class="radio-answer p-t-30">
@@ -1248,8 +1249,11 @@
         <a (click)="activeQuestion = Questions.m1" class="back upcase"><img class="gap-right-5" src="/assets/img/back-small.svg"
             alt="back-arrow"><span>back</span></a>
       </mat-card>
-      <div class="header-page-title direction-color">
-        <span class="line-title"></span><span class="page-title">Compared to now, how do you think your health will be next year?</span>
+      <div class="header-page-title direction-color horizal-display">
+        <div><span class="line-title"></span></div>
+        <div class="p-l-10">
+          <span class="page-title no-left">Compared to now, how do you think your health will be next year?</span>
+        </div>
       </div>
       <mat-card class="no-top">
         <form [formGroup]="survey" class="radio-answer p-t-30">

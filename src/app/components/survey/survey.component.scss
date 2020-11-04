@@ -67,16 +67,20 @@
       opacity: 0;
     }
 
-    input:checked + label {
-      .checkbox {
-        background: #B3E7F4;
-      }
-    }
+    // input:checked + label {
+    //   .checkbox {
+    //     background: #B3E7F4;
+    //   }
+    // }
     .checkbox {
       background: #EDF0F4;
       width: 100%;
       margin-bottom: 10px;
       padding: 5px 15px;
+    }
+
+    .selected {
+      background: #B3E7F4;
     }
   }
 
@@ -91,9 +95,12 @@
   min-height: 60px;
   display: block;
   overflow: hidden;
+  color: #303030 !important;
+  font-weight: 300 !important;
 
   .example-box {
-    color: rgba(0, 0, 0, 0.87);
+    color: #303030 !important;
+    font-weight: 300 !important;
     display: flex;
     flex-direction: row;
     box-sizing: border-box;
@@ -112,17 +119,27 @@
 }
 
 .cdk-drag-preview {
-  box-sizing: border-box;
+  color: #303030 !important;
+  font-weight: 300 !important;
   display: flex;
-  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
-              0 8px 10px 1px rgba(0, 0, 0, 0.14),
-              0 3px 14px 2px rgba(0, 0, 0, 0.12);
+  flex-direction: row;
+  box-sizing: border-box;
+  cursor: move;
+  background: #EDF0F4;
+  margin-bottom: 10px;
+  // box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+  //             0 8px 10px 1px rgba(0, 0, 0, 0.14),
+  //             0 3px 14px 2px rgba(0, 0, 0, 0.12);
 
   .highlight-order {
     padding: 5px 7px;
     background: #B3E7F4;
+    color: #303030 !important;
+    font-weight: 300 !important;
   }
   .order-content {
+    color: #303030 !important;
+    font-weight: 300 !important;
     padding: 5px 7px;
   }
 }

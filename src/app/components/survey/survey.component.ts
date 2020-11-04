@@ -197,8 +197,6 @@ export class SurveyComponent implements OnInit, OnDestroy {
     this.Questions = this.firstSurvey ? this.FirstWeekQuestions : (this.includeMonthly ? this.MonthlyQuestions : this.WeeklyQuestions);
     this.survey = this.firstSurvey ? this.firstWeekSurvey : (this.includeMonthly ? this.monthlySurvey : this.weeklySurvey);
     this.initDemographicQuestion();
-    console.log(this.survey.value);
-    console.log(this.Questions);
   }
 
   ngOnDestroy() {
@@ -227,6 +225,7 @@ export class SurveyComponent implements OnInit, OnDestroy {
               this.removeQuestion(form, `q3b.${sub}`);
               this.updateQuestionOrder(this.Questions.q4, false);
               delete this.Questions[`q3b.${sub}`]
+              this.updateOrderOfDynamicQuestion('q3b.', 'q3');
             })
             form.controls[key].setValue(0);
           }
@@ -258,7 +257,6 @@ export class SurveyComponent implements OnInit, OnDestroy {
 
   private submitSurvey(form: FormGroup) {
     this.formatFormDataForInput(form);
-    console.log(form.value);
     this.surveyService.submitSurvey(form.value).subscribe((result) => {
       if (this.firstSurvey) {
         this.surveyService.firstSurveySubmitted();
@@ -299,6 +297,13 @@ export class SurveyComponent implements OnInit, OnDestroy {
     })
   }
 
+  private updateOrderOfDynamicQuestion(dynamicParent: string, previoursOfGroup: string) {
+    let dynamicQuestions = Object.keys(this.Questions).filter(key => key.includes(dynamicParent));
+    dynamicQuestions.forEach((q, index) => {
+      this.Questions[q] = index + this.Questions[previoursOfGroup] + 1;
+    })
+  }
+
   public saveAndMoveToNext(form: FormGroup, formControlname?: string[], jumpTo?: number, demoGraphicOrder?: string) {
     if (demoGraphicOrder) {
       this.updateDemographicStorage(demoGraphicOrder);
@@ -310,14 +315,14 @@ export class SurveyComponent implements OnInit, OnDestroy {
 
   public updateSelectList(form: FormGroup, formControlName: string, selected: string) {
     let controlValues: string[] = form.controls[formControlName].value || [];
-    console.log(controlValues);
     if (controlValues.includes(selected)) { // remove selection
       let index = controlValues.indexOf(selected);
       controlValues.splice(index, 1);
       this.removeQuestion(form, `q3b.${selected}`);
 
       this.updateQuestionOrder(this.Questions.q4, false);
-      delete this.Questions[`q3b.${selected}`]
+      delete this.Questions[`q3b.${selected}`];
+      this.updateOrderOfDynamicQuestion('q3b.', 'q3');
     } else { // add selection
       controlValues.push(selected);
       this.addQuestion(form, `q3b.${selected}`);
