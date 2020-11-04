@@ -1323,7 +1323,7 @@
 </div>
 
 <div [hidden]="activeQuestion != Questions.q3 || survey.controls['q3'].value !== answers.yes.id">
-  <div class="footer-btn next-action">
+  <div class="footer-btn next-action noselect">
     <a class="next" (click)="saveAndMoveToNext(survey)">
       <span class="gap-right-15">next</span><img src="/assets/img/next-icon.svg" alt="">
     </a>
@@ -1331,7 +1331,7 @@
 </div>
 <div *ngIf="survey.controls['q3a'].value">
   <div *ngFor="let sub of survey.controls['q3a'].value; let i = index" [hidden]="activeQuestion != Questions['q3b.' + sub]">
-    <div class="footer-btn next-action">
+    <div class="footer-btn next-action noselect">
       <a class="next" (click)="saveAndMoveToNext(survey)">
         <span class="gap-right-15">next</span><img src="/assets/img/next-icon.svg" alt="">
       </a>
@@ -1340,17 +1340,17 @@
 </div>
 
 <div *ngIf="activeQuestion == Questions.q12">
-  <div class="footer-btn next-action">
+  <div class="footer-btn next-action noselect">
     <a class="next" (click)="saveOrderList12()"><span class="gap-right-15">next</span><img src="/assets/img/next-icon.svg" alt=""></a>
   </div>
 </div>
 <div *ngIf="activeQuestion == Questions.q13">
-  <div class="footer-btn next-action">
+  <div class="footer-btn next-action noselect">
     <a class="next" (click)="saveAndMoveToNext(survey)"><span class="gap-right-15">next</span><img src="/assets/img/next-icon.svg" alt=""></a>
   </div>
 </div>
 <div *ngIf="activeQuestion > Questions.q15 && activeQuestion <= Questions.q22">
-  <div class="footer-btn next-action">
+  <div class="footer-btn next-action noselect">
     <a *ngIf="activeQuestion !== Questions.q22" class="next" (click)="saveAndMoveToNext(survey, null, null, getKeyByValue(Questions, activeQuestion))">
       <span class="gap-right-15">next</span><img src="/assets/img/next-icon.svg" alt="">
     </a>
