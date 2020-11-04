@@ -16,6 +16,7 @@ import { GoogleMapsModule } from '@angular/google-maps'
 import { TextFieldModule } from '@angular/cdk/text-field';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule }    from '@angular/common/http';
@@ -107,6 +108,7 @@ window.isProduction = environment.production;
     GoogleMapsModule,
     MatTabsModule,
     MatDialogModule,
+    DragDropModule,
   ],
   providers: [
     UserService,

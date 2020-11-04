@@ -24,23 +24,36 @@ export class AppSettings {
     'reinforces_physical_distancing'
   ];
   public static SURVEY_ANSWERS = {
+    excellent: { id: 1, value: 'Excellent' },
+    veryGood: { id: 2, value: 'Very Good' },
+    good: { id: 3, value: 'Good' },
+    fair: { id: 4, value: 'Fair' },
+    poor: { id: 5, value: 'Poor' },
+
     yes: { id: 1, value: 'Yes' },
     no: { id: 2, value: 'No' },
+    maybe: { id: 3, value: 'Maybe' },
 
-    once: { id: 1, value: 'Once' },
-    from2To3: { id: 2, value: '2-3 times' },
-    from4To5: { id: 3, value: '4-5 times' },
-    from6: { id: 4, value: '6+ times' },
+    alreadyGotIt: { id: 1, value: 'Already got it' },
+    yesVer2: { id: 2, value: 'Yes' },
+    maybeVer2: { id: 3, value: 'Maybe' },
+    noVer2: { id: 4, value: 'No' },
+
+    once: { id: 1, value: 'Once per week' },
+    from2To3: { id: 2, value: '2-3 times per week' },
+    from4To5: { id: 3, value: '4-5 times per week' },
+    from6: { id: 4, value: '6+ times per week' },
 
     from0To5: { id: 1, value: '0-5' },
     from5To10: { id: 2, value: '5-10' },
     from11To20: { id: 3, value: '11-20' },
     from20: { id: 4, value: '20+' },
 
-    from0To5People: { id: 1, value: 'No, less than 5 people' },
-    from5To10People: { id: 2, value: 'No, 5-10 people' },
-    from11To20People: { id: 3, value: 'Yes, 11-20 people' },
-    from20People: { id: 4, value: 'Yes, more than 20 people' },
+    from2To4People: { id: 1, value: '2-4' },
+    from5To10People: { id: 2, value: '5-10' },
+    from11To15People: { id: 3, value: '11-15' },
+    from16To20People: { id: 4, value: '16-20' },
+    from20People: { id: 5, value: 'Over 20' },
 
     outside: { id: 1, value: 'Outside' },
     inside: { id: 2, value: 'Inside' },
@@ -51,21 +64,26 @@ export class AppSettings {
     waitResult: { id: 3, value: 'Still waiting for the result' },
     neverGotResult: { id: 7, value: 'Never got the result' },
 
-    healthcare: { id: '3a1', value: 'Healthcare' },
-    transportation: { id: '3a2', value: 'Transportation' },
-    store: { id: '3a3', value: 'Grocery store' },
-    restaurant: { id: '3a4', value: 'Restaurant or bar' } ,
-    construction: { id: '3a5', value: 'Construction' },
-    delivery: { id: '3a6', value: 'Delivery' },
-    cleaning: { id: '3a7', value: 'Cleaning or janitorial' },
-    publicServant: { id: '3a8', value: 'Public servant (EMT, police, firefighter)' },
-    school: { id: '3a9', value: 'School or daycare' },
-    techCompany: { id: '3a10', value: 'Tech company' },
+    '3a1': { id: '3a1', value: 'Healthcare' },
+    '3a2': { id: '3a2', value: 'Transportation' },
+    '3a3': { id: '3a3', value: 'Grocery store' },
+    '3a4': { id: '3a4', value: 'Restaurant or bar' } ,
+    '3a5': { id: '3a5', value: 'Construction' },
+    '3a6': { id: '3a6', value: 'Delivery' },
+    '3a7': { id: '3a7', value: 'Cleaning or janitorial' },
+    '3a8': { id: '3a8', value: 'Public servant (EMT, police, firefighter)' },
+    '3a9': { id: '3a9', value: 'School or daycare' },
+    '3a10': { id: '3a10', value: 'Tech company' },
+
+    always: { id: 1, value: 'Always' },
+    mostly: { id: 2, value: 'Mostly' },
+    sometimes: { id: 3, value: 'Sometimes' },
+    never: { id: 4, value: 'Never' },
 
     decline: { id: 7, value: 'Decline to answer' },
     notAnswer: { id: 9, value: '' }
   }
-  public static SURVEY_MONTHLY_ANSWERS = {
+  public static SURVEY_DEMOGRAPHIC_ANSWERS = {
     lessThan18: { id: 1, value: 'Less than 18' },
     from18To30: { id: 2, value: '18-30' },
     from31To40: { id: 3, value: '31-40' },
@@ -101,8 +119,29 @@ export class AppSettings {
     thinking03: { id: 3, value: 'Agree' },
     thinking04: { id: 4, value: 'Somewhat disagree' },
     thinking05: { id: 5, value: 'Strongly disagree' },
-    nothinking: { id: 7, value: 'Decline to answer' },
 
+    decline: { id: 77, value: 'Decline to answer' },
+    notAnswer: { id: 99, value: '' }
+  }
+  public static MONTHLY_SURVEY_ANSWERS = {
+    excellent: { id: 1, value: 'Excellent' },
+    veryGood: { id: 2, value: 'Very Good' },
+    Good: { id: 3, value: 'Good' },
+    Fair: { id: 4, value: 'Fair' },
+    Poor: { id: 5, value: 'Poor' },
+
+    better: { id: 1, value: 'Better' },
+    same: { id: 2, value: 'About the same' },
+    worse: { id: 3, value: 'Worse' },
+    notKnow: { id: 4, value: 'Don’t know' },
+
+    notAtAll: { id: 1, value: 'Not at all' },
+    slightly: { id: 2, value: 'Slightly' },
+    moderately: { id: 3, value: 'Moderately' },
+    quiteABit: { id: 4, value: 'Quite a bit' },
+    extremely: { id: 5, value: 'Extremely' },
+
+    decline: { id: 7, value: 'Decline to answer' },
     notAnswer: { id: 9, value: '' }
   }
 }

@@ -44,7 +44,7 @@
   </div>
 
   <div [@surveyTransition]="getSurveyState()" class="survey-content">
-    <app-survey [surveyShown]="surveyShown" [includeMonthly]="includeDemographicQuestion" (exitSurvey)="exitSurvey($event)" (surveyCompleted)="completeSurvey($event)"></app-survey>
+    <app-survey [surveyShown]="surveyShown" [includeMonthly]="includeMonthly" [firstSurvey]="onFirstSurvey" (exitSurvey)="exitSurvey($event)" (surveyCompleted)="completeSurvey($event)"></app-survey>
   </div>
 </div>
 

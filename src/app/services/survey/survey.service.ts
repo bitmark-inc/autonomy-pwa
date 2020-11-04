@@ -5,12 +5,14 @@ import { environment } from '../../../environments/environment';
 
 import * as moment from 'moment';
 
+const FIRST_SURVEY_SUBMITTED: string = 'first_survey_submitted';
 const NEXT_WEEKLY_SURVEY_AT: string = 'next_weekly_survey_at';
+const NEXT_MONTHLY_SURVEY_AT: string = 'next_monthly_survey_at';
 const SURVEY_TAKEN: string = 'survey-taken';
-const SURVEY_GOT_DEMOGRAPHICS: string = 'survey_got_demographics';
 
-const WEEKLY_SURVEY_ID: string = 'weekly_01';
-const DEMOGRAPHICS_SURVEY_ID: string = 'weekly_include_demographics_01';
+const WEEKLY_SURVEY_ID: string = 'weekly_02';
+const FIRST_SURVEY: string = 'first_week_02';
+const MONTHLY_SURVEY_ID: string = 'include_monthly_02';
 
 @Injectable({
   providedIn: 'root'
@@ -21,9 +23,7 @@ export class SurveyService {
 
   public weeklyCompleted() {
     this.userService.setPreference(NEXT_WEEKLY_SURVEY_AT, moment().add(7, 'days').format());
-    if (!this.userService.getPreference(SURVEY_GOT_DEMOGRAPHICS)) {
-      this.userService.setPreference(SURVEY_GOT_DEMOGRAPHICS, true);
-    }
+    this.userService.setPreference(NEXT_MONTHLY_SURVEY_AT, moment().add(28, 'days').format());
   }
 
   public surveyTaken() {
@@ -37,16 +37,32 @@ export class SurveyService {
     return this.userService.getPreference(NEXT_WEEKLY_SURVEY_AT) && moment().isBefore(moment(this.userService.getPreference(NEXT_WEEKLY_SURVEY_AT)));
   }
 
-  public includeDemoGraphics(): boolean {
-    return !this.userService.getPreference(SURVEY_GOT_DEMOGRAPHICS);
+  public includeDemoGraphic(order: string): boolean {
+    return !this.userService.getPreference(`got_demographic_${order}`);
+  }
+
+  public includeMonthly(): boolean {
+    return (this.userService.getPreference(NEXT_MONTHLY_SURVEY_AT) && moment().isAfter(moment(this.userService.getPreference(NEXT_MONTHLY_SURVEY_AT))));
+  }
+
+  public isFirstSurvey(): boolean {
+    return !this.userService.getPreference(FIRST_SURVEY_SUBMITTED);
   }
 
   public submitSurvey(data) {
-    let surveyID = this.includeDemoGraphics() ? DEMOGRAPHICS_SURVEY_ID : WEEKLY_SURVEY_ID;
+    let surveyID = this.isFirstSurvey() ? FIRST_SURVEY : (this.includeMonthly() ? MONTHLY_SURVEY_ID : WEEKLY_SURVEY_ID);
     return this.apiService.request('post', `${environment.autonomy_api_url}api/survey`, {
       survey_id: surveyID,
       contents: data
     }, null, null)
+  }
+
+  public firstSurveySubmitted() {
+    this.userService.setPreference(FIRST_SURVEY_SUBMITTED, true);
+  }
+
+  public demograhicSkip(order: string) {
+    this.userService.setPreference(`got_demographic_${order}`, true);
   }
 
 }

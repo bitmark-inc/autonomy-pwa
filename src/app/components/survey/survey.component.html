@@ -1,8 +1,45 @@
 <div class="main-content">
+  <!-- question 0 -->
+  <div [@questionTransition]="getStateAnimation(Questions.q0)" [hidden]="activeQuestion != Questions.q0">
+    <mat-card class="header-btn" layout="fill">
+      <a (click)="close()" class="back upcase"><img class="gap-right-5" src="/assets/img/back-small.svg"
+          alt="back-arrow"><span>back</span></a>
+    </mat-card>
+    <div class="header-page-title direction-color horizal-display">
+      <div><span class="line-title"></span></div>
+      <div class="p-l-10"><span class="page-title no-left">How are you feeling today?</span></div>
+    </div>
+    <mat-card class="no-top">
+      <form [formGroup]="survey" class="radio-answer p-t-30">
+        <input type="radio" id="q0_1" formControlName="q0" [value]="answers.excellent.id">
+        <label for="q0_1">
+          <div (click)="saveAndMoveToNext(survey)" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q0'].value !== answers.notAnswer.id}">
+            <div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.excellent.value}}</span>
+          </div>
+        </label>
+        <input type="radio" id="q0_2" formControlName="q0" [value]="answers.veryGood.id">
+        <label for="q0_2">
+          <div (click)="saveAndMoveToNext(survey)" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q0'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.veryGood.value}}</span></div>
+        </label>
+        <input type="radio" id="q0_3" formControlName="q0" [value]="answers.good.id">
+        <label for="q0_3">
+          <div (click)="saveAndMoveToNext(survey)" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q0'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.good.value}}</span></div>
+        </label>
+        <input type="radio" id="q0_4" formControlName="q0" [value]="answers.fair.id">
+        <label for="q0_4">
+          <div (click)="saveAndMoveToNext(survey)" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q0'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.fair.value}}</span></div>
+        </label>
+        <input type="radio" id="q0_5" formControlName="q0" [value]="answers.poor.id">
+        <label for="q0_5">
+          <div (click)="saveAndMoveToNext(survey)" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q0'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.poor.value}}</span></div>
+        </label>
+      </form>
+    </mat-card>
+  </div>
   <!-- question 1 -->
   <div [@questionTransition]="getStateAnimation(Questions.q1)" [hidden]="activeQuestion != Questions.q1">
     <mat-card class="header-btn" layout="fill">
-      <a (click)="close()" class="back upcase"><img class="gap-right-5" src="/assets/img/back-small.svg"
+      <a (click)="activeQuestion = Questions.q0" class="back upcase"><img class="gap-right-5" src="/assets/img/back-small.svg"
           alt="back-arrow"><span>back</span></a>
     </mat-card>
     <div class="header-page-title direction-color">
@@ -12,48 +49,48 @@
       <p class="direction-color question p-b-10">did you take public transportation or shared rides?</p>
       <p class="font-18">For example: bus, trail, light rail, Uber/Lift, taxi, or other carpool.</p>
       <form [formGroup]="survey" class="radio-answer p-t-30">
-        <input type="radio" id="q1_yes" formControlName="q1a" [value]="answers.yes.id">
+        <input type="radio" id="q1_yes" formControlName="q1" [value]="answers.yes.id">
         <label for="q1_yes">
-          <div class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q1a'].value !== answers.notAnswer.id}">
+          <div class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q1'].value !== answers.notAnswer.id}">
             <div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.yes.value}}</span>
           </div>
         </label>
         <!-- subquestion -->
-        <div [@subquestionExpand]="survey.controls['q1a'].value === answers.yes.id ? 'shown' : 'hidden'">
+        <div [@subquestionExpand]="survey.controls['q1'].value === answers.yes.id ? 'shown' : 'hidden'">
           <div class="p-l-30 p-t-5 p-b-15">
             <p class="direction-color p-b-10 font-18 font-weight-normal">How many times?</p>
             <div class="radio-answer">
-              <input type="radio" id="q1_1" formControlName="q1b" [value]="answers.once.id">
+              <input type="radio" id="q1_1" formControlName="q1a" [value]="answers.once.id">
               <label for="q1_1">
-                <div (click)="saveAndMoveToNext(survey)" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q1b'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.once.value}}</span></div>
+                <div (click)="saveAndMoveToNext(survey)" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q1a'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.once.value}}</span></div>
               </label>
-              <input type="radio" id="q1_2" formControlName="q1b" [value]="answers.from2To3.id">
+              <input type="radio" id="q1_2" formControlName="q1a" [value]="answers.from2To3.id">
               <label for="q1_2">
-                <div (click)="saveAndMoveToNext(survey)" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q1b'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.from2To3.value}}</span></div>
+                <div (click)="saveAndMoveToNext(survey)" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q1a'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.from2To3.value}}</span></div>
               </label>
-              <input type="radio" id="q1_3" formControlName="q1b" [value]="answers.from4To5.id">
+              <input type="radio" id="q1_3" formControlName="q1a" [value]="answers.from4To5.id">
               <label for="q1_3">
-                <div (click)="saveAndMoveToNext(survey)" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q1b'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.from4To5.value}}</span></div>
+                <div (click)="saveAndMoveToNext(survey)" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q1a'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.from4To5.value}}</span></div>
               </label>
-              <input type="radio" id="q1_4" formControlName="q1b" [value]="answers.from6.id">
+              <input type="radio" id="q1_4" formControlName="q1a" [value]="answers.from6.id">
               <label for="q1_4">
-                <div (click)="saveAndMoveToNext(survey)" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q1b'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.from6.value}}</span></div>
+                <div (click)="saveAndMoveToNext(survey)" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q1a'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.from6.value}}</span></div>
               </label>
-              <input type="radio" id="q1_5" formControlName="q1b" [value]="answers.decline.id">
+              <input type="radio" id="q1_5" formControlName="q1a" [value]="answers.decline.id">
               <label for="q1_5">
-                <div (click)="saveAndMoveToNext(survey)" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q1b'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.decline.value}}</span></div>
+                <div (click)="saveAndMoveToNext(survey)" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q1a'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.decline.value}}</span></div>
               </label>
             </div>
           </div>
         </div>
         <!-- end subquestion -->
-        <input type="radio" id="q1_no" formControlName="q1a" [value]="answers.no.id">
+        <input type="radio" id="q1_no" formControlName="q1" [value]="answers.no.id">
         <label for="q1_no">
-          <div (click)="saveAndMoveToNext(survey, ['q1b'])" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q1a'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.no.value}}</span></div>
+          <div (click)="saveAndMoveToNext(survey, ['q1a'])" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q1'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.no.value}}</span></div>
         </label>
-        <input type="radio" id="q1_dec" formControlName="q1a" [value]="answers.decline.id">
+        <input type="radio" id="q1_dec" formControlName="q1" [value]="answers.decline.id">
         <label for="q1_dec">
-          <div (click)="saveAndMoveToNext(survey, ['q1b'])" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q1a'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.decline.value}}</span></div>
+          <div (click)="saveAndMoveToNext(survey, ['q1a'])" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q1'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.decline.value}}</span></div>
         </label>
       </form>
     </mat-card>
@@ -69,146 +106,146 @@
     <mat-card class="no-top">
       <p class="direction-color question p-b-10">did you eat at a restaurant or bar?</p>
       <form [formGroup]="survey" class="radio-answer p-t-30">
-        <input type="radio" id="q2_yes" formControlName="q2a" [value]="answers.yes.id">
+        <input type="radio" id="q2_yes" formControlName="q2" [value]="answers.yes.id">
         <label for="q2_yes">
-          <div class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q2a'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.yes.value}}</span></div>
+          <div class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q2'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.yes.value}}</span></div>
         </label>
         <!-- subquestion -->
-        <div [@subquestionExpand]="survey.controls['q2a'].value === answers.yes.id ? 'shown' : 'hidden'">
+        <div [@subquestionExpand]="survey.controls['q2'].value === answers.yes.id ? 'shown' : 'hidden'">
           <div class="p-l-30 p-t-5 p-b-15">
             <p class="direction-color p-b-10 font-18 font-weight-normal">How many times?</p>
             <div class="radio-answer">
-              <input type="radio" id="q2_1" formControlName="q2b" [value]="answers.once.id">
+              <input type="radio" id="q2_1" formControlName="q2a" [value]="answers.once.id">
               <label for="q2_1">
-                <div (click)="resetNestedAnswer(survey, ['q2c'])" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q2b'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.once.value}}</span></div>
+                <div (click)="resetNestedAnswer(survey, ['q2b'])" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q2a'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.once.value}}</span></div>
               </label>
               <!-- subquestion -->
-              <div [@subquestionExpand]="survey.controls['q2b'].value === answers.once.id ? 'shown' : 'hidden'">
+              <div [@subquestionExpand]="survey.controls['q2a'].value === answers.once.id ? 'shown' : 'hidden'">
                 <div class="p-l-30 p-t-5 p-b-15">
                   <p class="direction-color p-b-10 font-18 font-weight-normal">Where were you seated the last time you ate out?</p>
                   <div class="radio-answer">
-                    <input type="radio" id="q2_1_1" formControlName="q2c" [value]="answers.outside.id">
-                    <label for="q2_1_1">
-                      <div (click)="saveAndMoveToNext(survey)" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q2c'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.outside.value}}</span></div>
+                    <input type="radio" id="q2_1_1once" formControlName="q2b" [value]="answers.outside.id">
+                    <label for="q2_1_1once">
+                      <div (click)="saveAndMoveToNext(survey)" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q2b'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.outside.value}}</span></div>
                     </label>
-                    <input type="radio" id="q2_1_2" formControlName="q2c" [value]="answers.inside.id">
-                    <label for="q2_1_2">
-                      <div (click)="saveAndMoveToNext(survey)" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q2c'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.inside.value}}</span></div>
+                    <input type="radio" id="q2_1_2once" formControlName="q2b" [value]="answers.inside.id">
+                    <label for="q2_1_2once">
+                      <div (click)="saveAndMoveToNext(survey)" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q2b'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.inside.value}}</span></div>
                     </label>
-                    <input type="radio" id="q2_1_3" formControlName="q2c" [value]="answers.mixed.id">
-                    <label for="q2_1_3">
-                      <div (click)="saveAndMoveToNext(survey)" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q2c'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.mixed.value}}</span></div>
+                    <input type="radio" id="q2_1_3once" formControlName="q2b" [value]="answers.mixed.id">
+                    <label for="q2_1_3once">
+                      <div (click)="saveAndMoveToNext(survey)" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q2b'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.mixed.value}}</span></div>
                     </label>
-                    <input type="radio" id="q2_1_4" formControlName="q2c" [value]="answers.decline.id">
-                    <label for="q2_1_4">
-                      <div (click)="saveAndMoveToNext(survey)" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q2c'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.decline.value}}</span></div>
+                    <input type="radio" id="q2_1_4once" formControlName="q2b" [value]="answers.decline.id">
+                    <label for="q2_1_4once">
+                      <div (click)="saveAndMoveToNext(survey)" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q2b'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.decline.value}}</span></div>
                     </label>
                   </div>
                 </div>
               </div>
               <!-- end subquestion -->
-              <input type="radio" id="q2_2" formControlName="q2b" [value]="answers.from2To3.id">
+              <input type="radio" id="q2_2" formControlName="q2a" [value]="answers.from2To3.id">
               <label for="q2_2">
-                <div (click)="resetNestedAnswer(survey, ['q2c'])" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q2b'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.from2To3.value}}</span></div>
+                <div (click)="resetNestedAnswer(survey, ['q2b'])" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q2a'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.from2To3.value}}</span></div>
               </label>
               <!-- subquestion -->
-              <div [@subquestionExpand]="survey.controls['q2b'].value === answers.from2To3.id ? 'shown' : 'hidden'">
+              <div [@subquestionExpand]="survey.controls['q2a'].value === answers.from2To3.id ? 'shown' : 'hidden'">
                 <div class="p-l-30 p-t-5 p-b-15">
                   <p class="direction-color p-b-10 font-18 font-weight-normal">Where were you seated the last time you ate out?</p>
                   <div class="radio-answer">
-                    <input type="radio" id="q2_1_1" formControlName="q2c" [value]="answers.outside.id">
-                    <label for="q2_1_1">
-                      <div (click)="saveAndMoveToNext(survey)" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q2c'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.outside.value}}</span></div>
+                    <input type="radio" id="q2_1_1_2to3" formControlName="q2b" [value]="answers.outside.id">
+                    <label for="q2_1_1_2to3">
+                      <div (click)="saveAndMoveToNext(survey)" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q2b'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.outside.value}}</span></div>
                     </label>
-                    <input type="radio" id="q2_1_2" formControlName="q2c" [value]="answers.inside.id">
-                    <label for="q2_1_2">
-                      <div (click)="saveAndMoveToNext(survey)" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q2c'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.inside.value}}</span></div>
+                    <input type="radio" id="q2_1_2_2to3" formControlName="q2b" [value]="answers.inside.id">
+                    <label for="q2_1_2_2to3">
+                      <div (click)="saveAndMoveToNext(survey)" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q2b'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.inside.value}}</span></div>
                     </label>
-                    <input type="radio" id="q2_1_3" formControlName="q2c" [value]="answers.mixed.id">
-                    <label for="q2_1_3">
-                      <div (click)="saveAndMoveToNext(survey)" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q2c'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.mixed.value}}</span></div>
+                    <input type="radio" id="q2_1_3_2to3" formControlName="q2b" [value]="answers.mixed.id">
+                    <label for="q2_1_3_2to3">
+                      <div (click)="saveAndMoveToNext(survey)" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q2b'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.mixed.value}}</span></div>
                     </label>
-                    <input type="radio" id="q2_1_4" formControlName="q2c" [value]="answers.decline.id">
-                    <label for="q2_1_4">
-                      <div (click)="saveAndMoveToNext(survey)" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q2c'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.decline.value}}</span></div>
+                    <input type="radio" id="q2_1_4_2to3" formControlName="q2b" [value]="answers.decline.id">
+                    <label for="q2_1_4_2to3">
+                      <div (click)="saveAndMoveToNext(survey)" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q2b'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.decline.value}}</span></div>
                     </label>
                   </div>
                 </div>
               </div>
               <!-- end subquestion -->
-              <input type="radio" id="q2_3" formControlName="q2b" [value]="answers.from4To5.id">
+              <input type="radio" id="q2_3" formControlName="q2a" [value]="answers.from4To5.id">
               <label for="q2_3">
-                <div (click)="resetNestedAnswer(survey, ['q2c'])" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q2b'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.from4To5.value}}</span></div>
+                <div (click)="resetNestedAnswer(survey, ['q2b'])" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q2a'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.from4To5.value}}</span></div>
               </label>
               <!-- subquestion -->
-              <div [@subquestionExpand]="survey.controls['q2b'].value === answers.from4To5.id ? 'shown' : 'hidden'">
+              <div [@subquestionExpand]="survey.controls['q2a'].value === answers.from4To5.id ? 'shown' : 'hidden'">
                 <div class="p-l-30 p-t-5 p-b-15">
                   <p class="direction-color p-b-10 font-18 font-weight-normal">Where were you seated the last time you ate out?</p>
                   <div class="radio-answer">
-                    <input type="radio" id="q2_1_1" formControlName="q2c" [value]="answers.outside.id">
-                    <label for="q2_1_1">
-                      <div (click)="saveAndMoveToNext(survey)" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q2c'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.outside.value}}</span></div>
+                    <input type="radio" id="q2_1_1_4to5" formControlName="q2b" [value]="answers.outside.id">
+                    <label for="q2_1_1_4to5">
+                      <div (click)="saveAndMoveToNext(survey)" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q2b'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.outside.value}}</span></div>
                     </label>
-                    <input type="radio" id="q2_1_2" formControlName="q2c" [value]="answers.inside.id">
-                    <label for="q2_1_2">
-                      <div (click)="saveAndMoveToNext(survey)" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q2c'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.inside.value}}</span></div>
+                    <input type="radio" id="q2_1_2_4to5" formControlName="q2b" [value]="answers.inside.id">
+                    <label for="q2_1_2_4to5">
+                      <div (click)="saveAndMoveToNext(survey)" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q2b'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.inside.value}}</span></div>
                     </label>
-                    <input type="radio" id="q2_1_3" formControlName="q2c" [value]="answers.mixed.id">
-                    <label for="q2_1_3">
-                      <div (click)="saveAndMoveToNext(survey)" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q2c'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.mixed.value}}</span></div>
+                    <input type="radio" id="q2_1_3_4to5" formControlName="q2b" [value]="answers.mixed.id">
+                    <label for="q2_1_3_4to5">
+                      <div (click)="saveAndMoveToNext(survey)" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q2b'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.mixed.value}}</span></div>
                     </label>
-                    <input type="radio" id="q2_1_4" formControlName="q2c" [value]="answers.decline.id">
-                    <label for="q2_1_4">
-                      <div (click)="saveAndMoveToNext(survey)" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q2c'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.decline.value}}</span></div>
+                    <input type="radio" id="q2_1_4_4to5" formControlName="q2b" [value]="answers.decline.id">
+                    <label for="q2_1_4_4to5">
+                      <div (click)="saveAndMoveToNext(survey)" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q2b'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.decline.value}}</span></div>
                     </label>
                   </div>
                 </div>
               </div>
               <!-- end subquestion -->
-              <input type="radio" id="q2_4" formControlName="q2b" [value]="answers.from6.id">
+              <input type="radio" id="q2_4" formControlName="q2a" [value]="answers.from6.id">
               <label for="q2_4">
-                <div (click)="resetNestedAnswer(survey, ['q2c'])" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q2b'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.from6.value}}</span></div>
+                <div (click)="resetNestedAnswer(survey, ['q2b'])" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q2a'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.from6.value}}</span></div>
               </label>
               <!-- subquestion -->
-              <div [@subquestionExpand]="survey.controls['q2b'].value === answers.from6.id ? 'shown' : 'hidden'">
+              <div [@subquestionExpand]="survey.controls['q2a'].value === answers.from6.id ? 'shown' : 'hidden'">
                 <div class="p-l-30 p-t-5 p-b-15">
                   <p class="direction-color p-b-10 font-18 font-weight-normal">Where were you seated the last time you ate out?</p>
                   <div class="radio-answer">
-                    <input type="radio" id="q2_1_1" formControlName="q2c" [value]="answers.outside.id">
-                    <label for="q2_1_1">
-                      <div (click)="saveAndMoveToNext(survey)" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q2c'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.outside.value}}</span></div>
+                    <input type="radio" id="q2_1_1from6" formControlName="q2b" [value]="answers.outside.id">
+                    <label for="q2_1_1from6">
+                      <div (click)="saveAndMoveToNext(survey)" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q2b'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.outside.value}}</span></div>
                     </label>
-                    <input type="radio" id="q2_1_2" formControlName="q2c" [value]="answers.inside.id">
-                    <label for="q2_1_2">
-                      <div (click)="saveAndMoveToNext(survey)" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q2c'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.inside.value}}</span></div>
+                    <input type="radio" id="q2_1_2from6" formControlName="q2b" [value]="answers.inside.id">
+                    <label for="q2_1_2from6">
+                      <div (click)="saveAndMoveToNext(survey)" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q2b'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.inside.value}}</span></div>
                     </label>
-                    <input type="radio" id="q2_1_3" formControlName="q2c" [value]="answers.mixed.id">
-                    <label for="q2_1_3">
-                      <div (click)="saveAndMoveToNext(survey)" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q2c'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.mixed.value}}</span></div>
+                    <input type="radio" id="q2_1_3from6" formControlName="q2b" [value]="answers.mixed.id">
+                    <label for="q2_1_3from6">
+                      <div (click)="saveAndMoveToNext(survey)" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q2b'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.mixed.value}}</span></div>
                     </label>
-                    <input type="radio" id="q2_1_4" formControlName="q2c" [value]="answers.decline.id">
-                    <label for="q2_1_4">
-                      <div (click)="saveAndMoveToNext(survey)" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q2c'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.decline.value}}</span></div>
+                    <input type="radio" id="q2_1_4from6" formControlName="q2b" [value]="answers.decline.id">
+                    <label for="q2_1_4from6">
+                      <div (click)="saveAndMoveToNext(survey)" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q2b'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.decline.value}}</span></div>
                     </label>
                   </div>
                 </div>
               </div>
               <!-- end subquestion -->
-              <input type="radio" id="q2_5" formControlName="q2b" [value]="answers.decline.id">
+              <input type="radio" id="q2_5" formControlName="q2a" [value]="answers.decline.id">
               <label for="q2_5">
-                <div (click)="saveAndMoveToNext(survey, ['q2c'])" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q2b'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.decline.value}}</span></div>
+                <div (click)="saveAndMoveToNext(survey, ['q2b'])" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q2a'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.decline.value}}</span></div>
               </label>
             </div>
           </div>
         </div>
         <!-- end subquestion -->
-        <input type="radio" id="q2_no" formControlName="q2a" [value]="answers.no.id">
+        <input type="radio" id="q2_no" formControlName="q2" [value]="answers.no.id">
         <label for="q2_no">
-          <div (click)="saveAndMoveToNext(survey, ['q2b', 'q2c'])" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q2a'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.no.value}}</span></div>
+          <div (click)="saveAndMoveToNext(survey, ['q2a', 'q2a'])" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q2'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.no.value}}</span></div>
         </label>
-        <input type="radio" id="q2_dec" formControlName="q2a" [value]="answers.decline.id">
+        <input type="radio" id="q2_dec" formControlName="q2" [value]="answers.decline.id">
         <label for="q2_dec">
-          <div (click)="saveAndMoveToNext(survey, ['q2b', 'q2c'])" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q2a'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.decline.value}}</span></div>
+          <div (click)="saveAndMoveToNext(survey, ['q2a', 'q2a'])" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q2'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.decline.value}}</span></div>
         </label>
       </form>
     </mat-card>
@@ -224,101 +261,111 @@
     <mat-card class="no-top">
       <p class="direction-color question p-b-10">did you work outside your home?</p>
       <form [formGroup]="survey" class="radio-answer p-t-30">
-        <input type="radio" id="q3_yes" formControlName="q3a" [value]="answers.yes.id">
+        <input type="radio" id="q3_yes" formControlName="q3" [value]="answers.yes.id">
         <label for="q3_yes">
-          <div class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q3a'].value !== answers.notAnswer.id}">
+          <div class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q3'].value !== answers.notAnswer.id}">
             <div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.yes.value}}</span>
           </div>
         </label>
         <!-- subquestion -->
-        <div [@subquestionExpand]="survey.controls['q3a'].value === answers.yes.id ? 'shown' : 'hidden'">
+        <div [@subquestionExpand]="survey.controls['q3'].value === answers.yes.id ? 'shown' : 'hidden'">
           <div class="p-l-30 p-t-5 p-b-15 p-r-15">
             <p class="direction-color p-b-10 font-18 font-weight-normal">What industry do you work in? Select all that apply.</p>
             <div class="checklist-answer">
               <input type="checkbox" id="q3_1">
               <label for="q3_1">
-                <div (click)="updateSelectList(survey, 'q3b', answers.healthcare.id)" class="content-left checkbox"><span class="font-18">{{answers.healthcare.value}}</span></div>
+                <div (click)="updateSelectList(survey, 'q3a', answers['3a1'].id)" class="content-left checkbox"><span class="font-18">{{answers['3a1'].value}}</span></div>
               </label>
               <input type="checkbox" id="q3_2">
               <label for="q3_2">
-                <div (click)="updateSelectList(survey, 'q3b', answers.transportation.id)" class="content-left checkbox"><span class="font-18">{{answers.transportation.value}}</span></div>
+                <div (click)="updateSelectList(survey, 'q3a', answers['3a2'].id)" class="content-left checkbox"><span class="font-18">{{answers['3a2'].value}}</span></div>
               </label>
               <input type="checkbox" id="q3_3" >
               <label for="q3_3">
-                <div (click)="updateSelectList(survey, 'q3b', answers.store.id)" class="content-left checkbox"><span class="font-18">{{answers.store.value}}</span></div>
+                <div (click)="updateSelectList(survey, 'q3a', answers['3a3'].id)" class="content-left checkbox"><span class="font-18">{{answers['3a3'].value}}</span></div>
               </label>
               <input type="checkbox" id="q3_4">
               <label for="q3_4">
-                <div (click)="updateSelectList(survey, 'q3b', answers.restaurant.id)" class="content-left checkbox"><span class="font-18">{{answers.restaurant.value}}</span></div>
+                <div (click)="updateSelectList(survey, 'q3a', answers['3a4'].id)" class="content-left checkbox"><span class="font-18">{{answers['3a4'].value}}</span></div>
               </label>
               <input type="checkbox" id="q3_5">
               <label for="q3_5">
-                <div (click)="updateSelectList(survey, 'q3b', answers.construction.id)" class="content-left checkbox"><span class="font-18">{{answers.construction.value}}</span></div>
+                <div (click)="updateSelectList(survey, 'q3a', answers['3a5'].id)" class="content-left checkbox"><span class="font-18">{{answers['3a5'].value}}</span></div>
               </label>
               <input type="checkbox" id="q3_6">
               <label for="q3_6">
-                <div (click)="updateSelectList(survey, 'q3b', answers.delivery.id)" class="content-left checkbox"><span class="font-18">{{answers.delivery.value}}</span></div>
+                <div (click)="updateSelectList(survey, 'q3a', answers['3a6'].id)" class="content-left checkbox"><span class="font-18">{{answers['3a6'].value}}</span></div>
               </label>
               <input type="checkbox" id="q3_7">
               <label for="q3_7">
-                <div (click)="updateSelectList(survey, 'q3b', answers.cleaning.id)" class="content-left checkbox"><span class="font-18">{{answers.cleaning.value}}</span></div>
+                <div (click)="updateSelectList(survey, 'q3a', answers['3a7'].id)" class="content-left checkbox"><span class="font-18">{{answers['3a7'].value}}</span></div>
               </label>
               <input type="checkbox" id="q3_8">
               <label for="q3_8">
-                <div (click)="updateSelectList(survey, 'q3b', answers.publicServant.id)" class="content-left checkbox"><span class="font-18">{{answers.publicServant.value}}</span></div>
+                <div (click)="updateSelectList(survey, 'q3a', answers['3a8'].id)" class="content-left checkbox"><span class="font-18">{{answers['3a8'].value}}</span></div>
               </label>
               <input type="checkbox" id="q3_9">
               <label for="q3_9">
-                <div (click)="updateSelectList(survey, 'q3b', answers.school.id)" class="content-left checkbox"><span class="font-18">{{answers.school.value}}</span></div>
+                <div (click)="updateSelectList(survey, 'q3a', answers['3a9'].id)" class="content-left checkbox"><span class="font-18">{{answers['3a9'].value}}</span></div>
               </label>
               <input type="checkbox" id="q3_10">
               <label for="q3_10">
-                <div (click)="updateSelectList(survey, 'q3b', answers.techCompany.id)" class="content-left checkbox"><span class="font-18">{{answers.techCompany.value}}</span></div>
+                <div (click)="updateSelectList(survey, 'q3a', answers['3a10'].id)" class="content-left checkbox"><span class="font-18">{{answers['3a10'].value}}</span></div>
               </label>
             </div>
           </div>
         </div>
         <!-- end subquestion -->
-        <input type="radio" id="q3_no" formControlName="q3a" [value]="answers.no.id">
+        <input type="radio" id="q3_no" formControlName="q3" [value]="answers.no.id">
         <label for="q3_no">
-          <div (click)="saveAndMoveToNext(survey, ['q3a'], Questions.q5); resetNestedAnswer(survey, ['q4'])" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q3a'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.no.value}}</span></div>
+          <div (click)="saveAndMoveToNext(survey, ['q3a']); resetNestedAnswer(survey, ['q4'])" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q3'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.no.value}}</span></div>
         </label>
-        <input type="radio" id="q3_dec" formControlName="q3a" [value]="answers.decline.id">
+        <input type="radio" id="q3_dec" formControlName="q3" [value]="answers.decline.id">
         <label for="q3_dec">
-          <div (click)="saveAndMoveToNext(survey, ['q3a'], Questions.q5); resetNestedAnswer(survey, ['q4'])" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q3a'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.decline.value}}</span></div>
+          <div (click)="saveAndMoveToNext(survey, ['q3a']); resetNestedAnswer(survey, ['q4'])" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q3'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.decline.value}}</span></div>
         </label>
       </form>
     </mat-card>
   </div>
+  <div *ngIf="survey.controls['q3a'].value">
+    <div *ngFor="let sub of survey.controls['q3a'].value; let i = index" [@questionTransition]="getStateAnimation(Questions['q3b.' + sub])" [hidden]="activeQuestion != Questions['q3b.' + sub]">
+      <mat-card class="header-btn" layout="fill">
+        <a (click)="activeQuestion = i === 0 ? Questions.q3 : Questions['q3b.' + survey.controls['q3a'].value[i - 1]]" class="back upcase"><img class="gap-right-5"
+            src="/assets/img/back-small.svg" alt="back-arrow"><span>back</span></a>
+      </mat-card>
+      <div class="header-page-title direction-color">
+        <span class="line-title"></span><span class="page-title bold">In the past week...</span>
+      </div>
+      <mat-card class="no-top">
+        <p class="direction-color question p-b-10">how many people worked with you in <span class="bold">{{answers[sub].value}}</span>?</p>
+        <form [formGroup]="survey" class="p-t-30">
+          <input class="col p-t-5 p-b-5 p-l-15 p-r-15 font-18" type="tel" [formControlName]="'q3b.' + sub" oninput="this.value = this.value.replace(/[^0-9.]/g, '');">
+        </form>
+      </mat-card>
+    </div>
+  </div>
+
   <!-- question 4 -->
   <div [@questionTransition]="getStateAnimation(Questions.q4)" [hidden]="activeQuestion != Questions.q4">
     <mat-card class="header-btn" layout="fill">
-      <a (click)="activeQuestion = Questions.q3" class="back upcase"><img class="gap-right-5" src="/assets/img/back-small.svg"
+      <a (click)="activeQuestion = survey.controls['q3a'].value ? Questions['q3b.' + survey.controls['q3a'].value[survey.controls['q3a'].value.length - 1]] : Questions.q3" class="back upcase"><img class="gap-right-5" src="/assets/img/back-small.svg"
           alt="back-arrow"><span>back</span></a>
     </mat-card>
     <div class="header-page-title direction-color">
       <span class="line-title"></span><span class="page-title bold">In the past week...</span>
     </div>
     <mat-card class="no-top">
-      <p class="direction-color question p-b-10">how many people worked with you in the same space?</p>
+      <p class="direction-color question p-b-10">did you or anyone living/staying with you attend in-person college, school or daycare?</p>
       <form [formGroup]="survey" class="radio-answer p-t-30">
-        <input type="radio" id="q4_1" formControlName="q4" [value]="answers.from0To5.id">
+        <input type="radio" id="q4_1" formControlName="q4" [value]="answers.yes.id">
         <label for="q4_1">
           <div (click)="saveAndMoveToNext(survey)" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q4'].value !== answers.notAnswer.id}">
-            <div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.from0To5.value}}</span>
+            <div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.yes.value}}</span>
           </div>
         </label>
-        <input type="radio" id="q4_2" formControlName="q4" [value]="answers.from5To10.id">
+        <input type="radio" id="q4_2" formControlName="q4" [value]="answers.no.id">
         <label for="q4_2">
-          <div (click)="saveAndMoveToNext(survey)" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q4'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.from5To10.value}}</span></div>
-        </label>
-        <input type="radio" id="q4_3" formControlName="q4" [value]="answers.from11To20.id">
-        <label for="q4_3">
-          <div (click)="saveAndMoveToNext(survey)" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q4'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.from11To20.value}}</span></div>
-        </label>
-        <input type="radio" id="q4_4" formControlName="q4" [value]="answers.from20.id">
-        <label for="q4_4">
-          <div (click)="saveAndMoveToNext(survey)" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q4'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.from20.value}}</span></div>
+          <div (click)="saveAndMoveToNext(survey)" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q4'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.no.value}}</span></div>
         </label>
         <input type="radio" id="q4_5" formControlName="q4" [value]="answers.decline.id">
         <label for="q4_5">
@@ -330,14 +377,15 @@
   <!-- question 5 -->
   <div [@questionTransition]="getStateAnimation(Questions.q5)" [hidden]="activeQuestion != Questions.q5">
     <mat-card class="header-btn" layout="fill">
-      <a (click)="activeQuestion = survey.controls['q3a'].value === answers.yes.id ? Questions.q4 : Questions.q3" class="back upcase"><img class="gap-right-5" src="/assets/img/back-small.svg"
+      <a (click)="activeQuestion = Questions.q4" class="back upcase"><img class="gap-right-5" src="/assets/img/back-small.svg"
           alt="back-arrow"><span>back</span></a>
     </mat-card>
     <div class="header-page-title direction-color">
       <span class="line-title"></span><span class="page-title bold">In the past week...</span>
     </div>
     <mat-card class="no-top">
-      <p class="direction-color question p-b-10">did you or anyone living/staying with you attend in-person college, school or daycare?</p>
+      <p class="direction-color question p-b-10">did you attend a gathering with more than <span class="bold">10 people</span>?</p>
+      <p class="font-18">For example: sports event, wedding, religious gathering, concert, dance, festival, or party.</p>
       <form [formGroup]="survey" class="radio-answer p-t-30">
         <input type="radio" id="q5_1" formControlName="q5" [value]="answers.yes.id">
         <label for="q5_1">
@@ -366,7 +414,7 @@
       <span class="line-title"></span><span class="page-title bold">In the past week...</span>
     </div>
     <mat-card class="no-top">
-      <p class="direction-color question p-b-10">did you attend a gathering with more than 10 people?</p>
+      <p class="direction-color question p-b-10">did you attend a gathering with more than <span class="bold">20 people</span> ?</p>
       <p class="font-18">For example: sports event, wedding, religious gathering, concert, dance, festival, or party.</p>
       <form [formGroup]="survey" class="radio-answer p-t-30">
         <input type="radio" id="q6_1" formControlName="q6" [value]="answers.yes.id">
@@ -392,27 +440,36 @@
       <a (click)="activeQuestion = Questions.q6" class="back upcase"><img class="gap-right-5" src="/assets/img/back-small.svg"
           alt="back-arrow"><span>back</span></a>
     </mat-card>
-    <div class="header-page-title direction-color">
-      <span class="line-title"></span><span class="page-title bold">In the past week...</span>
+    <div class="header-page-title direction-color horizal-display">
+      <div><span class="line-title"></span></div>
+      <div class="p-l-10">
+        <span class="page-title no-left">Do you wear a face covering/mask when going outside of your home?</span>
+      </div>
     </div>
     <mat-card class="no-top">
-      <p class="direction-color question p-b-10">how many people lived/stayed with you at your home?</p>
-      <form [formGroup]="survey" class="p-t-30">
-        <input class="col p-t-5 p-b-5 p-l-15 p-r-15 font-18" type="tel" id="q7_1" formControlName="q7a" oninput="this.value = this.value.replace(/[^0-9.]/g, '');">
-        <!-- subquestion -->
-        <div [@subquestionExpand]="survey.controls['q7a'].value && survey.controls['q7a'].value >= 1 && survey.controls['q7a'].value != 99 ? 'shown' : 'hidden'">
-          <div class="p-l-30 p-t-15 p-b-5">
-            <p class="direction-color p-b-10 font-18 font-weight-normal">How many were children 10 years old or younger?</p>
-            <input class="col p-t-5 p-b-5 p-l-15 p-r-15 font-18" type="tel" id="q7_1_1" formControlName="q7b" oninput="this.value = this.value.replace(/[^0-9.]/g, '');">
+      <form [formGroup]="survey" class="radio-answer p-t-30">
+        <input type="radio" id="q7_1" formControlName="q7" [value]="answers.always.id">
+        <label for="q7_1">
+          <div (click)="saveAndMoveToNext(survey)" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q7'].value !== answers.notAnswer.id}">
+            <div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.always.value}}</span>
           </div>
-        </div>
-        <div [@subquestionExpand]="survey.controls['q7a'].value >= 1 && survey.controls['q7b'].value && survey.controls['q7b'].value != 99 ? 'shown' : 'hidden'">
-          <div class="p-l-30 p-t-15 p-b-15">
-            <p class="direction-color p-b-10 font-18 font-weight-normal">How many were older adults 60 years or older?</p>
-            <input class="col p-t-5 p-b-5 p-l-15 p-r-15 font-18" type="tel" id="q7_1_1_1" formControlName="q7c" oninput="this.value = this.value.replace(/[^0-9.]/g, '');">
-          </div>
-        </div>
-        <!-- end subquestion -->
+        </label>
+        <input type="radio" id="q7_2" formControlName="q7" [value]="answers.mostly.id">
+        <label for="q7_2">
+          <div (click)="saveAndMoveToNext(survey)" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q7'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.mostly.value}}</span></div>
+        </label>
+        <input type="radio" id="q7_3" formControlName="q7" [value]="answers.sometimes.id">
+        <label for="q7_3">
+          <div (click)="saveAndMoveToNext(survey)" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q7'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.sometimes.value}}</span></div>
+        </label>
+        <input type="radio" id="q7_4" formControlName="q7" [value]="answers.never.id">
+        <label for="q7_4">
+          <div (click)="saveAndMoveToNext(survey)" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q7'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.never.value}}</span></div>
+        </label>
+        <input type="radio" id="q7_5" formControlName="q7" [value]="answers.decline.id">
+        <label for="q7_5">
+          <div (click)="saveAndMoveToNext(survey)" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q7'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.decline.value}}</span></div>
+        </label>
       </form>
     </mat-card>
   </div>
@@ -422,25 +479,34 @@
       <a (click)="activeQuestion = Questions.q7" class="back upcase"><img class="gap-right-5" src="/assets/img/back-small.svg"
           alt="back-arrow"><span>back</span></a>
     </mat-card>
-    <div class="header-page-title direction-color">
-      <span class="line-title"></span><span class="page-title bold">In the past week...</span>
+    <div class="header-page-title direction-color horizal-display">
+      <div><span class="line-title"></span></div>
+      <div class="p-l-10">
+        <span class="page-title no-left">Do you keep 6 feet distance outside your home from those not living or staying with you?</span>
+      </div>
     </div>
     <mat-card class="no-top">
-      <p class="direction-color question p-b-10">did you experience any new COVID-19 symptoms?</p>
-      <p class="font-18">For example: fever, chills, cough, difficulty breathing, shortness of breath, tired/fatigue, muscle/body aches, headache, sore throat, persistent runny nose not allergies, new loss of smell or taste, or diarrhea.</p>
       <form [formGroup]="survey" class="radio-answer p-t-30">
-        <input type="radio" id="q8_yes" formControlName="q8" [value]="answers.yes.id">
-        <label for="q8_yes">
+        <input type="radio" id="q8_1" formControlName="q8" [value]="answers.always.id">
+        <label for="q8_1">
           <div (click)="saveAndMoveToNext(survey)" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q8'].value !== answers.notAnswer.id}">
-            <div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.yes.value}}</span>
+            <div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.always.value}}</span>
           </div>
         </label>
-        <input type="radio" id="q8_no" formControlName="q8" [value]="answers.no.id">
-        <label for="q8_no">
-          <div (click)="saveAndMoveToNext(survey)" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q8'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.no.value}}</span></div>
+        <input type="radio" id="q8_2" formControlName="q8" [value]="answers.mostly.id">
+        <label for="q8_2">
+          <div (click)="saveAndMoveToNext(survey)" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q8'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.mostly.value}}</span></div>
         </label>
-        <input type="radio" id="q8_dec" formControlName="q8" [value]="answers.decline.id">
-        <label for="q8_dec">
+        <input type="radio" id="q8_3" formControlName="q8" [value]="answers.sometimes.id">
+        <label for="q8_3">
+          <div (click)="saveAndMoveToNext(survey)" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q8'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.sometimes.value}}</span></div>
+        </label>
+        <input type="radio" id="q8_4" formControlName="q8" [value]="answers.never.id">
+        <label for="q8_4">
+          <div (click)="saveAndMoveToNext(survey)" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q8'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.never.value}}</span></div>
+        </label>
+        <input type="radio" id="q8_5" formControlName="q8" [value]="answers.decline.id">
+        <label for="q8_5">
           <div (click)="saveAndMoveToNext(survey)" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q8'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.decline.value}}</span></div>
         </label>
       </form>
@@ -452,119 +518,103 @@
       <a (click)="activeQuestion = Questions.q8" class="back upcase"><img class="gap-right-5" src="/assets/img/back-small.svg"
           alt="back-arrow"><span>back</span></a>
     </mat-card>
-    <div class="header-page-title direction-color">
-      <span class="line-title"></span><span class="page-title bold">In the past week...</span>
+    <div class="header-page-title direction-color horizal-display">
+      <div><span class="line-title"></span></div>
+      <div class="p-l-10">
+        <span class="page-title no-left">Are you or your family part of a COVID-19 pod/bubble?</span>
+      </div>
     </div>
     <mat-card class="no-top">
-      <p class="direction-color question p-b-10">was anyone living/staying with you at your home sick with COVID-19 symptoms?</p>
       <form [formGroup]="survey" class="radio-answer p-t-30">
-        <input type="radio" id="q9_yes" formControlName="q9a" [value]="answers.yes.id">
-        <label for="q9_yes">
-          <div class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q9a'].value !== answers.notAnswer.id}">
+        <input type="radio" id="q9_1" formControlName="q9" [value]="answers.yes.id">
+        <label for="q9_1">
+          <div class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q9'].value !== answers.notAnswer.id}">
             <div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.yes.value}}</span>
           </div>
         </label>
         <!-- subquestion -->
-        <div [@subquestionExpand]="survey.controls['q9a'].value === answers.yes.id ? 'shown' : 'hidden'">
+        <div [@subquestionExpand]="survey.controls['q9'].value === answers.yes.id ? 'shown' : 'hidden'">
           <div class="p-l-30 p-t-5 p-b-15">
-            <p class="direction-color p-b-10 font-18 font-weight-normal">Were they tested for COVID-19?</p>
+            <p class="direction-color p-b-10 font-18 font-weight-normal">How many people total are in your pod?</p>
             <div class="radio-answer">
-              <input type="radio" id="q9_yes_1" formControlName="q9b" [value]="answers.yes.id">
-              <label for="q9_yes_1">
-                <div class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q9b'].value !== answers.notAnswer.id}">
-                  <div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.yes.value}}</span>
+              <input type="radio" id="q9_1_1" formControlName="q9a" [value]="answers.from2To4People.id">
+              <label for="q9_1_1">
+                <div (click)="saveAndMoveToNext(survey)" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q9a'].value !== answers.notAnswer.id}">
+                  <div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.from2To4People.value}}</span>
                 </div>
               </label>
-              <!-- subquestion -->
-              <div [@subquestionExpand]="survey.controls['q9b'].value === answers.yes.id ? 'shown' : 'hidden'">
-                <div class="p-l-30 p-t-5 p-b-15">
-                  <p class="direction-color p-b-10 font-18 font-weight-normal">What was the result?</p>
-                  <div class="radio-answer">
-                    <input type="radio" id="q9_1_1_1" formControlName="q9c" [value]="answers.postive.id">
-                    <label for="q9_1_1_1">
-                      <div (click)="saveAndMoveToNext(survey)" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q9c'].value !== answers.notAnswer.id}">
-                        <div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.postive.value}}</span>
-                      </div>
-                    </label>
-                    <input type="radio" id="q9_1_1_2" formControlName="q9c" [value]="answers.negative.id">
-                    <label for="q9_1_1_2">
-                      <div (click)="saveAndMoveToNext(survey)" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q9c'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.negative.value}}</span></div>
-                    </label>
-                    <input type="radio" id="q9_1_1_3" formControlName="q9c" [value]="answers.waitResult.id">
-                    <label for="q9_1_1_3">
-                      <div (click)="saveAndMoveToNext(survey)" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q9c'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.waitResult.value}}</span></div>
-                    </label>
-                    <input type="radio" id="q9_1_1_4" formControlName="q9c" [value]="answers.neverGotResult.id">
-                    <label for="q9_1_1_4">
-                      <div (click)="saveAndMoveToNext(survey)" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q9c'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.neverGotResult.value}}</span></div>
-                    </label>
-                  </div>
-                </div>
-              </div>
-              <!-- end subquestion -->
-              <input type="radio" id="q9_no_2" formControlName="q9b" [value]="answers.no.id">
-              <label for="q9_no_2">
-                <div (click)="saveAndMoveToNext(survey, ['q9c'])" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q9b'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.no.value}}</span></div>
+              <input type="radio" id="q9_1_2" formControlName="q9a" [value]="answers.from5To10People.id">
+              <label for="q9_1_2">
+                <div (click)="saveAndMoveToNext(survey)" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q9a'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.from5To10People.value}}</span></div>
               </label>
-              <input type="radio" id="q9_dec_3" formControlName="q9b" [value]="answers.decline.id">
-              <label for="q9_dec_3">
-                <div (click)="saveAndMoveToNext(survey, ['q9c'])" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q9b'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.decline.value}}</span></div>
+              <input type="radio" id="q9_1_3" formControlName="q9a" [value]="answers.from11To15People.id">
+              <label for="q9_1_3">
+                <div (click)="saveAndMoveToNext(survey)" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q9a'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.from11To15People.value}}</span></div>
+              </label>
+              <input type="radio" id="q9_1_4" formControlName="q9a" [value]="answers.from16To20People.id">
+              <label for="q9_1_4">
+                <div (click)="saveAndMoveToNext(survey)" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q9a'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.from16To20People.value}}</span></div>
+              </label>
+              <input type="radio" id="q9_1_5" formControlName="q9a" [value]="answers.from20People.id">
+              <label for="q9_1_5">
+                <div (click)="saveAndMoveToNext(survey)" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q9a'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.from20People.value}}</span></div>
+              </label>
+              <input type="radio" id="q9_1_6" formControlName="q9a" [value]="answers.decline.id">
+              <label for="q9_1_6">
+                <div (click)="saveAndMoveToNext(survey)" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q9a'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.decline.value}}</span></div>
               </label>
             </div>
           </div>
         </div>
         <!-- end subquestion -->
-        <input type="radio" id="q9_no" formControlName="q9a" [value]="answers.no.id">
-        <label for="q9_no">
-          <div (click)="saveAndMoveToNext(survey, ['q9b', 'q9c'])" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q9a'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.no.value}}</span></div>
+        <input type="radio" id="q9_2" formControlName="q9" [value]="answers.no.id">
+        <label for="q9_2">
+          <div (click)="saveAndMoveToNext(survey, ['q9a'])" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q9'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.no.value}}</span></div>
         </label>
-        <input type="radio" id="q9_dec" formControlName="q9a" [value]="answers.decline.id">
-        <label for="q9_dec">
-          <div (click)="saveAndMoveToNext(survey, ['q9b', 'q9c'])" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q9a'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.decline.value}}</span></div>
+        <input type="radio" id="q9_5" formControlName="q9" [value]="answers.decline.id">
+        <label for="q9_5">
+          <div (click)="saveAndMoveToNext(survey, ['q9a'])" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q9'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.decline.value}}</span></div>
         </label>
       </form>
     </mat-card>
   </div>
-  <!-- monthly -->
-  <div *ngIf="includeMonthly">
+
+  <div *ngIf="firstSurvey">
     <!-- question 10 -->
     <div [@questionTransition]="getStateAnimation(Questions.q10)" [hidden]="activeQuestion != Questions.q10">
       <mat-card class="header-btn" layout="fill">
         <a (click)="activeQuestion = Questions.q9" class="back upcase"><img class="gap-right-5" src="/assets/img/back-small.svg"
             alt="back-arrow"><span>back</span></a>
       </mat-card>
-      <div class="header-page-title direction-color">
-        <span class="line-title"></span><span class="page-title">How old are you?</span>
+      <div class="header-page-title direction-color horizal-display">
+        <div><span class="line-title"></span></div>
+        <div class="p-l-10">
+          <span class="page-title no-left">Are you planning on taking the flu shot this season, Fall/Winter 2020-21?</span>
+        </div>
       </div>
       <mat-card class="no-top">
         <form [formGroup]="survey" class="radio-answer p-t-30">
-          <input type="radio" id="q10_1" formControlName="q10" [value]="monthlyAnswers.lessThan18.id">
+          <input type="radio" id="q10_1" formControlName="q10" [value]="answers.alreadyGotIt.id">
           <label for="q10_1">
-            <div class="content-left p-b-10"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{monthlyAnswers.lessThan18.value}}</span></div>
+            <div (click)="saveAndMoveToNext(survey)" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q10'].value !== answers.notAnswer.id}">
+              <div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.alreadyGotIt.value}}</span>
+            </div>
           </label>
-          <input type="radio" id="q10_2" formControlName="q10" [value]="monthlyAnswers.from18To30.id">
+          <input type="radio" id="q10_2" formControlName="q10" [value]="answers.yesVer2.id">
           <label for="q10_2">
-            <div class="content-left p-b-10"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{monthlyAnswers.from18To30.value}}</span></div>
+            <div (click)="saveAndMoveToNext(survey)" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q10'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.yesVer2.value}}</span></div>
           </label>
-          <input type="radio" id="q10_3" formControlName="q10" [value]="monthlyAnswers.from31To40.id">
+          <input type="radio" id="q10_3" formControlName="q10" [value]="answers.maybeVer2.id">
           <label for="q10_3">
-            <div class="content-left p-b-10"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{monthlyAnswers.from31To40.value}}</span></div>
+            <div (click)="saveAndMoveToNext(survey)" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q10'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.maybeVer2.value}}</span></div>
           </label>
-          <input type="radio" id="q10_4" formControlName="q10" [value]="monthlyAnswers.from41To50.id">
+          <input type="radio" id="q10_4" formControlName="q10" [value]="answers.noVer2.id">
           <label for="q10_4">
-            <div class="content-left p-b-10"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{monthlyAnswers.from41To50.value}}</span></div>
+            <div (click)="saveAndMoveToNext(survey)" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q10'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.noVer2.value}}</span></div>
           </label>
-          <input type="radio" id="q10_5" formControlName="q10" [value]="monthlyAnswers.from51To60.id">
+          <input type="radio" id="q10_5" formControlName="q10" [value]="answers.decline.id">
           <label for="q10_5">
-            <div class="content-left p-b-10"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{monthlyAnswers.from51To60.value}}</span></div>
-          </label>
-          <input type="radio" id="q10_6" formControlName="q10" [value]="monthlyAnswers.from61To70.id">
-          <label for="q10_6">
-            <div class="content-left p-b-10"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{monthlyAnswers.from61To70.value}}</span></div>
-          </label>
-          <input type="radio" id="q10_7" formControlName="q10" [value]="monthlyAnswers.over70.id">
-          <label for="q10_7">
-            <div class="content-left p-b-10"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{monthlyAnswers.over70.value}}</span></div>
+            <div (click)="saveAndMoveToNext(survey)" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q10'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.decline.value}}</span></div>
           </label>
         </form>
       </mat-card>
@@ -575,34 +625,58 @@
         <a (click)="activeQuestion = Questions.q10" class="back upcase"><img class="gap-right-5" src="/assets/img/back-small.svg"
             alt="back-arrow"><span>back</span></a>
       </mat-card>
-      <div class="header-page-title direction-color">
-        <span class="line-title"></span><span class="page-title">How do you identify?</span>
+      <div class="header-page-title direction-color horizal-display">
+        <div><span class="line-title"></span></div>
+        <div class="p-l-10">
+          <span class="page-title no-left">Have you ever been tested for COVID-19?</span>
+        </div>
       </div>
       <mat-card class="no-top">
         <form [formGroup]="survey" class="radio-answer p-t-30">
-          <input type="radio" id="q11_1" formControlName="q11" [value]="monthlyAnswers.female.id">
+          <input type="radio" id="q11_1" formControlName="q11" [value]="answers.yes.id">
           <label for="q11_1">
-            <div class="content-left p-b-10"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{monthlyAnswers.female.value}}</span></div>
+            <div class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q11'].value !== answers.notAnswer.id}">
+              <div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.yes.value}}</span>
+            </div>
           </label>
-          <input type="radio" id="q11_2" formControlName="q11" [value]="monthlyAnswers.male.id">
+          <!-- subquestion -->
+          <div [@subquestionExpand]="survey.controls['q11'].value === answers.yes.id ? 'shown' : 'hidden'">
+            <div class="p-l-30 p-t-5 p-b-15">
+              <p class="direction-color p-b-10 font-18 font-weight-normal">What was the result?</p>
+              <div class="radio-answer">
+                <input type="radio" id="q11_1_1" formControlName="q11a" [value]="answers.postive.id">
+                <label for="q11_1_1">
+                  <div (click)="saveAndMoveToNext(survey)" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q11a'].value !== answers.notAnswer.id}">
+                    <div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.postive.value}}</span>
+                  </div>
+                </label>
+                <input type="radio" id="q11_1_2" formControlName="q11a" [value]="answers.negative.id">
+                <label for="q11_1_2">
+                  <div (click)="saveAndMoveToNext(survey)" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q11a'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.negative.value}}</span></div>
+                </label>
+                <input type="radio" id="q11_1_3" formControlName="q11a" [value]="answers.waitResult.id">
+                <label for="q11_1_3">
+                  <div (click)="saveAndMoveToNext(survey)" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q11a'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.waitResult.value}}</span></div>
+                </label>
+                <input type="radio" id="q11_1_4" formControlName="q11a" [value]="answers.neverGotResult.id">
+                <label for="q11_1_4">
+                  <div (click)="saveAndMoveToNext(survey)" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q11a'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.neverGotResult.value}}</span></div>
+                </label>
+                <input type="radio" id="q11_1_5" formControlName="q11a" [value]="answers.decline.id">
+                <label for="q11_1_5">
+                  <div (click)="saveAndMoveToNext(survey)" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q11a'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.decline.value}}</span></div>
+                </label>
+              </div>
+            </div>
+          </div>
+          <!-- end subquestion -->
+          <input type="radio" id="q11_2" formControlName="q11" [value]="answers.no.id">
           <label for="q11_2">
-            <div class="content-left p-b-10"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{monthlyAnswers.male.value}}</span></div>
+            <div (click)="saveAndMoveToNext(survey, ['q11a'])" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q11'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.no.value}}</span></div>
           </label>
-          <input type="radio" id="q11_3" formControlName="q11" [value]="monthlyAnswers.transMale.id">
-          <label for="q11_3">
-            <div class="content-left p-b-10"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{monthlyAnswers.transMale.value}}</span></div>
-          </label>
-          <input type="radio" id="q11_4" formControlName="q11" [value]="monthlyAnswers.transFemale.id">
-          <label for="q11_4">
-            <div class="content-left p-b-10"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{monthlyAnswers.transFemale.value}}</span></div>
-          </label>
-          <input type="radio" id="q11_5" formControlName="q11" [value]="monthlyAnswers.queer.id">
+          <input type="radio" id="q11_5" formControlName="q11" [value]="answers.decline.id">
           <label for="q11_5">
-            <div class="content-left p-b-10"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{monthlyAnswers.queer.value}}</span></div>
-          </label>
-          <input type="radio" id="q11_6" formControlName="q11" [value]="monthlyAnswers.other.id">
-          <label for="q11_6">
-            <div class="content-left p-b-10"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{monthlyAnswers.other.value}}</span></div>
+            <div (click)="saveAndMoveToNext(survey, ['q11a'])" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q11'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.decline.value}}</span></div>
           </label>
         </form>
       </mat-card>
@@ -615,54 +689,410 @@
       </mat-card>
       <div class="header-page-title direction-color horizal-display">
         <div><span class="line-title"></span></div>
-        <div class="p-l-10"><span class="page-title no-left">What is your racial/ethnic identity?</span></div>
+        <div class="p-l-10">
+          <span class="page-title no-left">Which source do you trust for guidance on COVID-19?</span>
+        </div>
+      </div>
+      <mat-card class="no-top">
+        <p class="font-18 p-t-15">Drag to rank from 1 (most trusted) to 8 (least trusted)</p>
+        <form [formGroup]="survey" class="p-t-30">
+          <div cdkDropList class="example-list" (cdkDropListDropped)="drop($event)">
+            <div class="example-box" *ngFor="let organize of orderAnswer12; let i = index" cdkDrag>
+              <span class="highlight-order">{{i + 1}}</span><span class="order-content">{{organize}}</span>
+            </div>
+          </div>
+        </form>
+      </mat-card>
+    </div>
+  </div>
+  <div *ngIf="!firstSurvey">
+    <!-- question 10.1 -->
+    <div [@questionTransition]="getStateAnimation(Questions['q10.1'])" [hidden]="activeQuestion != Questions['q10.1']">
+      <mat-card class="header-btn" layout="fill">
+        <a (click)="activeQuestion = Questions.q9" class="back upcase"><img class="gap-right-5" src="/assets/img/back-small.svg"
+            alt="back-arrow"><span>back</span></a>
+      </mat-card>
+      <div class="header-page-title direction-color horizal-display">
+        <div><span class="line-title"></span></div>
+        <div class="p-l-10">
+          <span class="page-title no-left">When a COVID-19 vaccine/shot becomes available, are you planning to take it?</span>
+        </div>
       </div>
       <mat-card class="no-top">
         <form [formGroup]="survey" class="radio-answer p-t-30">
-          <input type="radio" id="q12_1" formControlName="q12" [value]="monthlyAnswers.latinx.id">
-          <label for="q12_1">
-            <div class="content-left p-b-10"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{monthlyAnswers.latinx.value}}</span></div>
+          <input type="radio" id="q10.1_1" formControlName="q10.1" [value]="answers.alreadyGotIt.id">
+          <label for="q10.1_1">
+            <div (click)="saveAndMoveToNext(survey)" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q10.1'].value !== answers.notAnswer.id}">
+              <div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.alreadyGotIt.value}}</span>
+            </div>
           </label>
-          <input type="radio" id="q12_2" formControlName="q12" [value]="monthlyAnswers.blackAmerican.id">
-          <label for="q12_2">
-            <div class="content-left p-b-10"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{monthlyAnswers.blackAmerican.value}}</span></div>
+          <input type="radio" id="q10.1_2" formControlName="q10.1" [value]="answers.yesVer2.id">
+          <label for="q10.1_2">
+            <div (click)="saveAndMoveToNext(survey)" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q10.1'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.yesVer2.value}}</span></div>
           </label>
-          <input type="radio" id="q12_3" formControlName="q12" [value]="monthlyAnswers.asianAmericam.id">
-          <label for="q12_3">
-            <div class="content-left p-b-10"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{monthlyAnswers.asianAmericam.value}}</span></div>
+          <input type="radio" id="q10.1_3" formControlName="q10.1" [value]="answers.maybeVer2.id">
+          <label for="q10.1_3">
+            <div (click)="saveAndMoveToNext(survey)" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q10.1'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.maybeVer2.value}}</span></div>
           </label>
-          <input type="radio" id="q12_4" formControlName="q12" [value]="monthlyAnswers.white.id">
-          <label for="q12_4">
-            <div class="content-left p-b-10"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{monthlyAnswers.white.value}}</span></div>
+          <input type="radio" id="q10.1_4" formControlName="q10.1" [value]="answers.noVer2.id">
+          <label for="q10.1_4">
+            <div (click)="saveAndMoveToNext(survey)" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q10.1'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.noVer2.value}}</span></div>
           </label>
-          <input type="radio" id="q12_5" formControlName="q12" [value]="monthlyAnswers.nativeAmerican.id">
-          <label for="q12_5">
-            <div class="content-left p-b-10"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{monthlyAnswers.nativeAmerican.value}}</span></div>
-          </label>
-          <input type="radio" id="q12_6" formControlName="q12" [value]="monthlyAnswers.nativeHawaiian.id">
-          <label for="q12_6">
-            <div class="content-left p-b-10"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{monthlyAnswers.nativeHawaiian.value}}</span></div>
-          </label>
-          <input type="radio" id="q12_7" formControlName="q12" [value]="monthlyAnswers.multi.id">
-          <label for="q12_7">
-            <div class="content-left p-b-10"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{monthlyAnswers.multi.value}}</span></div>
-          </label>
-          <input type="radio" id="q12_8" formControlName="q12" [value]="monthlyAnswers.otherEthnic.id">
-          <label for="q12_8">
-            <div class="content-left p-b-10"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{monthlyAnswers.otherEthnic.value}}</span></div>
+          <input type="radio" id="q10.1_5" formControlName="q10.1" [value]="answers.decline.id">
+          <label for="q10.1_5">
+            <div (click)="saveAndMoveToNext(survey)" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q10.1'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.decline.value}}</span></div>
           </label>
         </form>
       </mat-card>
     </div>
-    <!-- question 13 -->
-    <div [@questionTransition]="getStateAnimation(Questions.q13)" [hidden]="activeQuestion != Questions.q13">
+  </div>
+
+  <!-- question 13 -->
+  <div [@questionTransition]="getStateAnimation(Questions.q13)" [hidden]="activeQuestion != Questions.q13">
+    <mat-card class="header-btn" layout="fill">
+      <a (click)="activeQuestion = firstSurvey ? Questions.q12 : Questions['q10.1']" class="back upcase"><img class="gap-right-5"
+          src="/assets/img/back-small.svg" alt="back-arrow"><span>back</span></a>
+    </mat-card>
+    <div class="header-page-title direction-color">
+      <span class="line-title"></span><span class="page-title bold">In the past week...</span>
+    </div>
+    <mat-card class="no-top">
+      <p class="direction-color question p-b-10">how many people lived/stayed with you at your home?</p>
+      <form [formGroup]="survey" class="p-t-30">
+        <input class="col p-t-5 p-b-5 p-l-15 p-r-15 font-18" type="tel" id="q13_1" formControlName="q13" oninput="this.value = this.value.replace(/[^0-9.]/g, '');">
+        <!-- subquestion -->
+        <div [@subquestionExpand]="survey.controls['q13'].value && survey.controls['q13'].value >= 1 && survey.controls['q13'].value != 99 ? 'shown' : 'hidden'">
+          <div class="p-l-30 p-t-15 p-b-5">
+            <p class="direction-color p-b-10 font-18 font-weight-normal">How many were children 10 years old or younger?
+            </p>
+            <input class="col p-t-5 p-b-5 p-l-15 p-r-15 font-18" type="tel" id="q7_1_1" formControlName="q13a" oninput="this.value = this.value.replace(/[^0-9.]/g, '');">
+          </div>
+        </div>
+        <div [@subquestionExpand]="survey.controls['q13'].value >= 1 && survey.controls['q13a'].value && survey.controls['q13a'].value != 99 ? 'shown' : 'hidden'">
+          <div class="p-l-30 p-t-15 p-b-15">
+            <p class="direction-color p-b-10 font-18 font-weight-normal">How many were older adults 60 years or older?</p>
+            <input class="col p-t-5 p-b-5 p-l-15 p-r-15 font-18" type="tel" id="q7_1_1_1" formControlName="q13b" oninput="this.value = this.value.replace(/[^0-9.]/g, '');">
+          </div>
+        </div>
+        <!-- end subquestion -->
+      </form>
+    </mat-card>
+  </div>
+  <!-- question 14 -->
+  <div [@questionTransition]="getStateAnimation(Questions.q14)" [hidden]="activeQuestion != Questions.q14">
+    <mat-card class="header-btn" layout="fill">
+      <a (click)="activeQuestion = Questions.q13" class="back upcase"><img class="gap-right-5" src="/assets/img/back-small.svg"
+          alt="back-arrow"><span>back</span></a>
+    </mat-card>
+    <div class="header-page-title direction-color">
+      <span class="line-title"></span><span class="page-title bold">In the past week...</span>
+    </div>
+    <mat-card class="no-top">
+      <p class="direction-color question p-b-10">did you experience any new COVID-19 symptoms?</p>
+      <p class="font-18">For example: fever, chills, cough, difficulty breathing, shortness of breath, tired/fatigue, muscle/body aches, headache, sore throat, persistent runny nose not allergies, new loss of smell or taste, or diarrhea.</p>
+      <form [formGroup]="survey" class="radio-answer p-t-30">
+        <input type="radio" id="q14_yes" formControlName="q14" [value]="answers.yes.id">
+        <label for="q14_yes">
+          <div class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q14'].value !== answers.notAnswer.id}">
+            <div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.yes.value}}</span>
+          </div>
+        </label>
+        <!-- subquestion -->
+        <div [@subquestionExpand]="survey.controls['q14'].value === answers.yes.id ? 'shown' : 'hidden'">
+          <div class="p-l-30 p-t-5 p-b-15">
+            <p class="direction-color p-b-10 font-18 font-weight-normal">Were you tested for COVID-19?</p>
+            <div class="radio-answer">
+              <input type="radio" id="q14_yes_1" formControlName="q14a" [value]="answers.yes.id">
+              <label for="q14_yes_1">
+                <div class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q14a'].value !== answers.notAnswer.id}">
+                  <div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.yes.value}}</span>
+                </div>
+              </label>
+              <!-- subquestion -->
+              <div [@subquestionExpand]="survey.controls['q14a'].value === answers.yes.id ? 'shown' : 'hidden'">
+                <div class="p-l-30 p-t-5 p-b-15">
+                  <p class="direction-color p-b-10 font-18 font-weight-normal">What was the result?</p>
+                  <div class="radio-answer">
+                    <input type="radio" id="q14_1_1_1" formControlName="q14b" [value]="answers.postive.id">
+                    <label for="q14_1_1_1">
+                      <div (click)="saveAndMoveToNext(survey)" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q14b'].value !== answers.notAnswer.id}">
+                        <div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.postive.value}}</span>
+                      </div>
+                    </label>
+                    <input type="radio" id="q14_1_1_2" formControlName="q14b" [value]="answers.negative.id">
+                    <label for="q14_1_1_2">
+                      <div (click)="saveAndMoveToNext(survey)" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q14b'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.negative.value}}</span></div>
+                    </label>
+                    <input type="radio" id="q14_1_1_3" formControlName="q14b" [value]="answers.waitResult.id">
+                    <label for="q14_1_1_3">
+                      <div (click)="saveAndMoveToNext(survey)" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q14b'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.waitResult.value}}</span></div>
+                    </label>
+                    <input type="radio" id="q14_1_1_4" formControlName="q14b" [value]="answers.neverGotResult.id">
+                    <label for="q14_1_1_4">
+                      <div (click)="saveAndMoveToNext(survey)" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q14b'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.neverGotResult.value}}</span></div>
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <!-- end subquestion -->
+              <input type="radio" id="q14_no_2" formControlName="q14a" [value]="answers.no.id">
+              <label for="q14_no_2">
+                <div (click)="saveAndMoveToNext(survey, ['q14b'])" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q14a'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.no.value}}</span></div>
+              </label>
+              <input type="radio" id="q14_dec_3" formControlName="q14a" [value]="answers.decline.id">
+              <label for="q14_dec_3">
+                <div (click)="saveAndMoveToNext(survey, ['q14b'])" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q14a'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.decline.value}}</span></div>
+              </label>
+            </div>
+          </div>
+        </div>
+        <!-- end subquestion -->
+        <input type="radio" id="q14_no" formControlName="q14" [value]="answers.no.id">
+        <label for="q14_no">
+          <div (click)="saveAndMoveToNext(survey, ['q14a', 'q14b'])" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q14'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.no.value}}</span></div>
+        </label>
+        <input type="radio" id="q14_dec" formControlName="q14" [value]="answers.decline.id">
+        <label for="q14_dec">
+          <div (click)="saveAndMoveToNext(survey, ['q14a', 'q14b'])" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q14'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.decline.value}}</span></div>
+        </label>
+      </form>
+    </mat-card>
+  </div>
+  <!-- question 15 -->
+  <div [@questionTransition]="getStateAnimation(Questions.q15)" [hidden]="activeQuestion != Questions.q15">
+    <mat-card class="header-btn" layout="fill">
+      <a (click)="activeQuestion = Questions.q14" class="back upcase"><img class="gap-right-5" src="/assets/img/back-small.svg"
+          alt="back-arrow"><span>back</span></a>
+    </mat-card>
+    <div class="header-page-title direction-color">
+      <span class="line-title"></span><span class="page-title bold">In the past week...</span>
+    </div>
+    <mat-card class="no-top">
+      <p class="direction-color question p-b-10">was anyone living/staying with you at your home sick with COVID-19 symptoms?</p>
+      <form [formGroup]="survey" class="radio-answer p-t-30">
+        <input type="radio" id="q15_yes" formControlName="q15" [value]="answers.yes.id">
+        <label for="q15_yes">
+          <div class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q15'].value !== answers.notAnswer.id}">
+            <div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.yes.value}}</span>
+          </div>
+        </label>
+        <!-- subquestion -->
+        <div [@subquestionExpand]="survey.controls['q15'].value === answers.yes.id ? 'shown' : 'hidden'">
+          <div class="p-l-30 p-t-5 p-b-15">
+            <p class="direction-color p-b-10 font-18 font-weight-normal">Were they tested for COVID-19?</p>
+            <div class="radio-answer">
+              <input type="radio" id="q15_yes_1" formControlName="q15a" [value]="answers.yes.id">
+              <label for="q15_yes_1">
+                <div class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q15a'].value !== answers.notAnswer.id}">
+                  <div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.yes.value}}</span>
+                </div>
+              </label>
+              <!-- subquestion -->
+              <div [@subquestionExpand]="survey.controls['q15a'].value === answers.yes.id ? 'shown' : 'hidden'">
+                <div class="p-l-30 p-t-5 p-b-15">
+                  <p class="direction-color p-b-10 font-18 font-weight-normal">What was the result?</p>
+                  <div class="radio-answer">
+                    <input type="radio" id="q15_1_1_1" formControlName="q15b" [value]="answers.postive.id">
+                    <label for="q15_1_1_1">
+                      <div (click)="saveAndMoveToNext(survey)" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q15b'].value !== answers.notAnswer.id}">
+                        <div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.postive.value}}</span>
+                      </div>
+                    </label>
+                    <input type="radio" id="q15_1_1_2" formControlName="q15b" [value]="answers.negative.id">
+                    <label for="q15_1_1_2">
+                      <div (click)="saveAndMoveToNext(survey)" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q15b'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.negative.value}}</span></div>
+                    </label>
+                    <input type="radio" id="q15_1_1_3" formControlName="q15b" [value]="answers.waitResult.id">
+                    <label for="q15_1_1_3">
+                      <div (click)="saveAndMoveToNext(survey)" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q15b'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.waitResult.value}}</span></div>
+                    </label>
+                    <input type="radio" id="q15_1_1_4" formControlName="q15b" [value]="answers.neverGotResult.id">
+                    <label for="q15_1_1_4">
+                      <div (click)="saveAndMoveToNext(survey)" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q15b'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.neverGotResult.value}}</span></div>
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <!-- end subquestion -->
+              <input type="radio" id="q15_no_2" formControlName="q15a" [value]="answers.no.id">
+              <label for="q15_no_2">
+                <div (click)="saveAndMoveToNext(survey, ['q15b'])" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q15a'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.no.value}}</span></div>
+              </label>
+              <input type="radio" id="q15_dec_3" formControlName="q15a" [value]="answers.decline.id">
+              <label for="q15_dec_3">
+                <div (click)="saveAndMoveToNext(survey, ['q15b'])" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q15a'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.decline.value}}</span></div>
+              </label>
+            </div>
+          </div>
+        </div>
+        <!-- end subquestion -->
+        <input type="radio" id="q15_no" formControlName="q15" [value]="answers.no.id">
+        <label for="q15_no">
+          <div (click)="saveAndMoveToNext(survey, ['q15a', 'q15b'])" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q15'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.no.value}}</span></div>
+        </label>
+        <input type="radio" id="q15_dec" formControlName="q15" [value]="answers.decline.id">
+        <label for="q15_dec">
+          <div (click)="saveAndMoveToNext(survey, ['q15a', 'q15b'])" class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q15'].value !== answers.notAnswer.id}"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{answers.decline.value}}</span></div>
+        </label>
+      </form>
+    </mat-card>
+  </div>
+
+  <!-- demographic -->
+  <!-- question 16 -->
+  <div *ngIf="askDemographic('q16')">
+    <div [@questionTransition]="getStateAnimation(Questions.q16)" [hidden]="activeQuestion != Questions.q16">
       <mat-card class="header-btn" layout="fill">
-        <a (click)="activeQuestion = Questions.q12" class="back upcase"><img class="gap-right-5" src="/assets/img/back-small.svg"
+        <a (click)="activeQuestion = Questions.q15" class="back upcase"><img class="gap-right-5" src="/assets/img/back-small.svg"
+            alt="back-arrow"><span>back</span></a>
+      </mat-card>
+      <div class="header-page-title direction-color">
+        <span class="line-title"></span><span class="page-title">How old are you?</span>
+      </div>
+      <mat-card class="no-top">
+        <form [formGroup]="survey" class="radio-answer p-t-30">
+          <input type="radio" id="q16_1" formControlName="q16" [value]="demographicAnswers.lessThan18.id">
+          <label for="q16_1">
+            <div class="content-left p-b-10"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{demographicAnswers.lessThan18.value}}</span></div>
+          </label>
+          <input type="radio" id="q16_2" formControlName="q16" [value]="demographicAnswers.from18To30.id">
+          <label for="q16_2">
+            <div class="content-left p-b-10"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{demographicAnswers.from18To30.value}}</span></div>
+          </label>
+          <input type="radio" id="q16_3" formControlName="q16" [value]="demographicAnswers.from31To40.id">
+          <label for="q16_3">
+            <div class="content-left p-b-10"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{demographicAnswers.from31To40.value}}</span></div>
+          </label>
+          <input type="radio" id="q16_4" formControlName="q16" [value]="demographicAnswers.from41To50.id">
+          <label for="q16_4">
+            <div class="content-left p-b-10"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{demographicAnswers.from41To50.value}}</span></div>
+          </label>
+          <input type="radio" id="q16_5" formControlName="q16" [value]="demographicAnswers.from51To60.id">
+          <label for="q16_5">
+            <div class="content-left p-b-10"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{demographicAnswers.from51To60.value}}</span></div>
+          </label>
+          <input type="radio" id="q16_6" formControlName="q16" [value]="demographicAnswers.from61To70.id">
+          <label for="q16_6">
+            <div class="content-left p-b-10"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{demographicAnswers.from61To70.value}}</span></div>
+          </label>
+          <input type="radio" id="q16_7" formControlName="q16" [value]="demographicAnswers.over70.id">
+          <label for="q16_7">
+            <div class="content-left p-b-10"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{demographicAnswers.over70.value}}</span></div>
+          </label>
+          <input type="radio" id="q16_8" formControlName="q16" [value]="demographicAnswers.decline.id">
+          <label for="q16_8">
+            <div class="content-left p-b-10"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{demographicAnswers.decline.value}}</span></div>
+          </label>
+        </form>
+      </mat-card>
+    </div>
+  </div>
+  <!-- question 17 -->
+  <div *ngIf="askDemographic('q17')">
+    <div [@questionTransition]="getStateAnimation(Questions.q17)" [hidden]="activeQuestion != Questions.q17">
+      <mat-card class="header-btn" layout="fill">
+        <a (click)="activeQuestion = Questions.q17 - 1" class="back upcase"><img class="gap-right-5" src="/assets/img/back-small.svg"
+            alt="back-arrow"><span>back</span></a>
+      </mat-card>
+      <div class="header-page-title direction-color">
+        <span class="line-title"></span><span class="page-title">How do you identify?</span>
+      </div>
+      <mat-card class="no-top">
+        <form [formGroup]="survey" class="radio-answer p-t-30">
+          <input type="radio" id="q17_1" formControlName="q17" [value]="demographicAnswers.female.id">
+          <label for="q17_1">
+            <div class="content-left p-b-10"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{demographicAnswers.female.value}}</span></div>
+          </label>
+          <input type="radio" id="q17_2" formControlName="q17" [value]="demographicAnswers.male.id">
+          <label for="q17_2">
+            <div class="content-left p-b-10"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{demographicAnswers.male.value}}</span></div>
+          </label>
+          <input type="radio" id="q17_3" formControlName="q17" [value]="demographicAnswers.transMale.id">
+          <label for="q17_3">
+            <div class="content-left p-b-10"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{demographicAnswers.transMale.value}}</span></div>
+          </label>
+          <input type="radio" id="q17_4" formControlName="q17" [value]="demographicAnswers.transFemale.id">
+          <label for="q17_4">
+            <div class="content-left p-b-10"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{demographicAnswers.transFemale.value}}</span></div>
+          </label>
+          <input type="radio" id="q17_5" formControlName="q17" [value]="demographicAnswers.queer.id">
+          <label for="q17_5">
+            <div class="content-left p-b-10"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{demographicAnswers.queer.value}}</span></div>
+          </label>
+          <input type="radio" id="q17_6" formControlName="q17" [value]="demographicAnswers.other.id">
+          <label for="q17_6">
+            <div class="content-left p-b-10"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{demographicAnswers.other.value}}</span></div>
+          </label>
+          <input type="radio" id="q17_7" formControlName="q17" [value]="demographicAnswers.decline.id">
+          <label for="q17_7">
+            <div class="content-left p-b-10"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{demographicAnswers.decline.value}}</span></div>
+          </label>
+        </form>
+      </mat-card>
+    </div>
+  </div>
+  <!-- question 18 -->
+  <div *ngIf="askDemographic('q18')">
+    <div [@questionTransition]="getStateAnimation(Questions.q18)" [hidden]="activeQuestion != Questions.q18">
+      <mat-card class="header-btn" layout="fill">
+        <a (click)="activeQuestion = Questions.q18 - 1" class="back upcase"><img class="gap-right-5" src="/assets/img/back-small.svg"
             alt="back-arrow"><span>back</span></a>
       </mat-card>
       <div class="header-page-title direction-color horizal-display">
-        <div>
-          <span class="line-title"></span>
+        <div><span class="line-title"></span></div>
+        <div class="p-l-10"><span class="page-title no-left">What is your racial/ethnic identity?</span></div>
+      </div>
+      <mat-card class="no-top">
+        <form [formGroup]="survey" class="radio-answer p-t-30">
+          <input type="radio" id="q18_1" formControlName="q18" [value]="demographicAnswers.latinx.id">
+          <label for="q18_1">
+            <div class="content-left p-b-10"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{demographicAnswers.latinx.value}}</span></div>
+          </label>
+          <input type="radio" id="q18_2" formControlName="q18" [value]="demographicAnswers.blackAmerican.id">
+          <label for="q18_2">
+            <div class="content-left p-b-10"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{demographicAnswers.blackAmerican.value}}</span></div>
+          </label>
+          <input type="radio" id="q18_3" formControlName="q18" [value]="demographicAnswers.asianAmericam.id">
+          <label for="q18_3">
+            <div class="content-left p-b-10"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{demographicAnswers.asianAmericam.value}}</span></div>
+          </label>
+          <input type="radio" id="q18_4" formControlName="q18" [value]="demographicAnswers.white.id">
+          <label for="q18_4">
+            <div class="content-left p-b-10"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{demographicAnswers.white.value}}</span></div>
+          </label>
+          <input type="radio" id="q18_5" formControlName="q18" [value]="demographicAnswers.nativeAmerican.id">
+          <label for="q18_5">
+            <div class="content-left p-b-10"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{demographicAnswers.nativeAmerican.value}}</span></div>
+          </label>
+          <input type="radio" id="q18_6" formControlName="q18" [value]="demographicAnswers.nativeHawaiian.id">
+          <label for="q18_6">
+            <div class="content-left p-b-10"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{demographicAnswers.nativeHawaiian.value}}</span></div>
+          </label>
+          <input type="radio" id="q18_7" formControlName="q18" [value]="demographicAnswers.multi.id">
+          <label for="q18_7">
+            <div class="content-left p-b-10"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{demographicAnswers.multi.value}}</span></div>
+          </label>
+          <input type="radio" id="q18_8" formControlName="q18" [value]="demographicAnswers.otherEthnic.id">
+          <label for="q18_8">
+            <div class="content-left p-b-10"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{demographicAnswers.otherEthnic.value}}</span></div>
+          </label>
+          <input type="radio" id="q18_9" formControlName="q18" [value]="demographicAnswers.decline.id">
+          <label for="q18_9">
+            <div class="content-left p-b-10"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{demographicAnswers.decline.value}}</span></div>
+          </label>
+        </form>
+      </mat-card>
+    </div>
+  </div>
+  <!-- question 19 -->
+  <div *ngIf="askDemographic('q19')">
+    <div [@questionTransition]="getStateAnimation(Questions.q19)" [hidden]="activeQuestion != Questions.q19">
+      <mat-card class="header-btn" layout="fill">
+        <a (click)="activeQuestion = Questions.q19 - 1" class="back upcase"><img class="gap-right-5" src="/assets/img/back-small.svg"
+            alt="back-arrow"><span>back</span></a>
+      </mat-card>
+      <div class="header-page-title direction-color horizal-display">
+        <div><span class="line-title"></span>
         </div>
         <div class="p-l-10">
           <span class="page-title no-left">What’s your household income before taxes?</span>
@@ -670,33 +1100,39 @@
       </div>
       <mat-card class="no-top">
         <form [formGroup]="survey" class="radio-answer p-t-30">
-          <input type="radio" id="q13_1" formControlName="q13" [value]="monthlyAnswers.income25.id">
-          <label for="q13_1">
-            <div class="content-left p-b-10"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{monthlyAnswers.income25.value}}</span></div>
+          <input type="radio" id="q19_1" formControlName="q19" [value]="demographicAnswers.income25.id">
+          <label for="q19_1">
+            <div class="content-left p-b-10"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{demographicAnswers.income25.value}}</span></div>
           </label>
-          <input type="radio" id="q13_2" formControlName="q13" [value]="monthlyAnswers.income25To35.id">
-          <label for="q13_2">
-            <div class="content-left p-b-10"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{monthlyAnswers.income25To35.value}}</span></div>
+          <input type="radio" id="q19_2" formControlName="q19" [value]="demographicAnswers.income25To35.id">
+          <label for="q19_2">
+            <div class="content-left p-b-10"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{demographicAnswers.income25To35.value}}</span></div>
           </label>
-          <input type="radio" id="q13_3" formControlName="q13" [value]="monthlyAnswers.income35To50.id">
-          <label for="q13_3">
-            <div class="content-left p-b-10"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{monthlyAnswers.income35To50.value}}</span></div>
+          <input type="radio" id="q19_3" formControlName="q19" [value]="demographicAnswers.income35To50.id">
+          <label for="q19_3">
+            <div class="content-left p-b-10"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{demographicAnswers.income35To50.value}}</span></div>
           </label>
-          <input type="radio" id="q13_4" formControlName="q13" [value]="monthlyAnswers.income50To100.id">
-          <label for="q13_4">
-            <div class="content-left p-b-10"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{monthlyAnswers.income50To100.value}}</span></div>
+          <input type="radio" id="q19_4" formControlName="q19" [value]="demographicAnswers.income50To100.id">
+          <label for="q19_4">
+            <div class="content-left p-b-10"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{demographicAnswers.income50To100.value}}</span></div>
           </label>
-          <input type="radio" id="q13_5" formControlName="q13" [value]="monthlyAnswers.income100.id">
-          <label for="q13_5">
-            <div class="content-left p-b-10"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{monthlyAnswers.income100.value}}</span></div>
+          <input type="radio" id="q19_5" formControlName="q19" [value]="demographicAnswers.income100.id">
+          <label for="q19_5">
+            <div class="content-left p-b-10"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{demographicAnswers.income100.value}}</span></div>
+          </label>
+          <input type="radio" id="q19_6" formControlName="q19" [value]="demographicAnswers.decline.id">
+          <label for="q19_6">
+            <div class="content-left p-b-10"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{demographicAnswers.decline.value}}</span></div>
           </label>
         </form>
       </mat-card>
     </div>
-    <!-- question 14 -->
-    <div [@questionTransition]="getStateAnimation(Questions.q14)" [hidden]="activeQuestion != Questions.q14">
+  </div>
+  <!-- question 20 -->
+  <div *ngIf="askDemographic('q20')">
+    <div [@questionTransition]="getStateAnimation(Questions.q20)" [hidden]="activeQuestion != Questions.q20">
       <mat-card class="header-btn" layout="fill">
-        <a (click)="activeQuestion = Questions.q13" class="back upcase"><img class="gap-right-5" src="/assets/img/back-small.svg"
+        <a (click)="activeQuestion = Questions.q20 - 1" class="back upcase"><img class="gap-right-5" src="/assets/img/back-small.svg"
             alt="back-arrow"><span>back</span></a>
       </mat-card>
       <div class="header-page-title direction-color horizal-display">
@@ -710,68 +1146,211 @@
       <mat-card class="no-top">
         <p class="font-18 direction-color p-t-15 font-weight-normal">What do you think of the statement?</p>
         <form [formGroup]="survey" class="radio-answer p-t-30">
-          <input type="radio" id="q14_1" formControlName="q14" [value]="monthlyAnswers.thinking01.id">
-          <label for="q14_1">
-            <div class="content-left p-b-10"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{monthlyAnswers.thinking01.value}}</span></div>
+          <input type="radio" id="q20_1" formControlName="q20" [value]="demographicAnswers.thinking01.id">
+          <label for="q20_1">
+            <div class="content-left p-b-10"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{demographicAnswers.thinking01.value}}</span></div>
           </label>
-          <input type="radio" id="q14_2" formControlName="q14" [value]="monthlyAnswers.thinking02.id">
-          <label for="q14_2">
-            <div class="content-left p-b-10"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{monthlyAnswers.thinking02.value}}</span></div>
+          <input type="radio" id="q20_2" formControlName="q20" [value]="demographicAnswers.thinking02.id">
+          <label for="q20_2">
+            <div class="content-left p-b-10"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{demographicAnswers.thinking02.value}}</span></div>
           </label>
-          <input type="radio" id="q14_3" formControlName="q14" [value]="monthlyAnswers.thinking03.id">
-          <label for="q14_3">
-            <div class="content-left p-b-10"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{monthlyAnswers.thinking03.value}}</span></div>
+          <input type="radio" id="q20_3" formControlName="q20" [value]="demographicAnswers.thinking03.id">
+          <label for="q20_3">
+            <div class="content-left p-b-10"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{demographicAnswers.thinking03.value}}</span></div>
           </label>
-          <input type="radio" id="q14_4" formControlName="q14" [value]="monthlyAnswers.thinking04.id">
-          <label for="q14_4">
-            <div class="content-left p-b-10"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{monthlyAnswers.thinking04.value}}</span></div>
+          <input type="radio" id="q20_4" formControlName="q20" [value]="demographicAnswers.thinking04.id">
+          <label for="q20_4">
+            <div class="content-left p-b-10"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{demographicAnswers.thinking04.value}}</span></div>
           </label>
-          <input type="radio" id="q14_5" formControlName="q14" [value]="monthlyAnswers.thinking05.id">
-          <label for="q14_5">
-            <div class="content-left p-b-10"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{monthlyAnswers.thinking05.value}}</span></div>
+          <input type="radio" id="q20_5" formControlName="q20" [value]="demographicAnswers.thinking05.id">
+          <label for="q20_5">
+            <div class="content-left p-b-10"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{demographicAnswers.thinking05.value}}</span></div>
           </label>
-          <input type="radio" id="q14_6" formControlName="q14" [value]="monthlyAnswers.nothinking.id">
-          <label for="q14_6">
-            <div class="content-left p-b-10"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{monthlyAnswers.nothinking.value}}</span></div>
+          <input type="radio" id="q20_6" formControlName="q20" [value]="demographicAnswers.decline.id">
+          <label for="q20_6">
+            <div class="content-left p-b-10"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{demographicAnswers.decline.value}}</span></div>
           </label>
         </form>
       </mat-card>
     </div>
-    <!-- question 15 -->
-    <div [@questionTransition]="getStateAnimation(Questions.q15)" [hidden]="activeQuestion != Questions.q15">
+  </div>
+  <!-- question 21 -->
+  <div [@questionTransition]="getStateAnimation(Questions.q21)" [hidden]="activeQuestion != Questions.q21">
+    <mat-card class="header-btn" layout="fill">
+      <a (click)="activeQuestion = Questions.q21 - 1" class="back upcase"><img class="gap-right-5" src="/assets/img/back-small.svg" alt="back-arrow"><span>back</span></a>
+    </mat-card>
+    <div class="header-page-title direction-color">
+      <span class="line-title"></span><span class="page-title">What is your zip code?</span>
+    </div>
+    <mat-card class="no-top">
+      <form [formGroup]="survey" class="p-t-30">
+        <input class="col p-t-5 p-b-5 p-l-15 p-r-15 font-18" type="text" id="q21" formControlName="q21" placeholder="Your response">
+      </form>
+    </mat-card>
+  </div>
+  <!-- question 22 -->
+  <div [@questionTransition]="getStateAnimation(Questions.q22)" [hidden]="activeQuestion != Questions.q22">
+    <mat-card class="header-btn" layout="fill">
+      <a (click)="activeQuestion = Questions.q21" class="back upcase"><img class="gap-right-5" src="/assets/img/back-small.svg" alt="back-arrow"><span>back</span></a>
+    </mat-card>
+    <div class="header-page-title direction-color">
+      <span class="line-title"></span><span class="page-title">What did you think about the survey?</span>
+    </div>
+    <mat-card class="no-top">
+      <form [formGroup]="survey" class="p-t-30">
+        <input class="col p-t-5 p-b-5 p-l-15 p-r-15 font-18" type="text" id="q22" formControlName="q22" placeholder="Your response">
+      </form>
+    </mat-card>
+  </div>
+  <!-- monthly -->
+  <div *ngIf="includeMonthly">
+    <!-- question m1 -->
+    <div [@questionTransition]="getStateAnimation(Questions.m1)" [hidden]="activeQuestion != Questions.m1">
       <mat-card class="header-btn" layout="fill">
-        <a (click)="activeQuestion = Questions.q14" class="back upcase"><img class="gap-right-5" src="/assets/img/back-small.svg"
+        <a (click)="activeQuestion = Questions.q22" class="back upcase"><img class="gap-right-5" src="/assets/img/back-small.svg"
             alt="back-arrow"><span>back</span></a>
       </mat-card>
       <div class="header-page-title direction-color">
-        <span class="line-title"></span><span class="page-title">What is your zip code?</span>
+        <span class="line-title"></span><span class="page-title">In general, would you say your health is:</span>
       </div>
       <mat-card class="no-top">
-        <form [formGroup]="survey" class="p-t-30">
-          <input class="col p-t-5 p-b-5 p-l-15 p-r-15 font-18" type="text" id="q15" formControlName="q15" placeholder="Your response">
+        <form [formGroup]="survey" class="radio-answer p-t-30">
+          <input type="radio" id="m1_1" formControlName="m1" [value]="monthlyAnswers.excellent.id">
+          <label for="m1_1">
+            <div (click)="saveAndMoveToNext(survey)" class="content-left p-b-10"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{monthlyAnswers.excellent.value}}</span></div>
+          </label>
+          <input type="radio" id="m1_2" formControlName="m1" [value]="monthlyAnswers.veryGood.id">
+          <label for="m1_2">
+            <div (click)="saveAndMoveToNext(survey)" class="content-left p-b-10"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{monthlyAnswers.veryGood.value}}</span></div>
+          </label>
+          <input type="radio" id="m1_3" formControlName="m1" [value]="monthlyAnswers.Good.id">
+          <label for="m1_3">
+            <div (click)="saveAndMoveToNext(survey)" class="content-left p-b-10"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{monthlyAnswers.Good.value}}</span></div>
+          </label>
+          <input type="radio" id="m1_4" formControlName="m1" [value]="monthlyAnswers.Fair.id">
+          <label for="m1_4">
+            <div (click)="saveAndMoveToNext(survey)" class="content-left p-b-10"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{monthlyAnswers.Fair.value}}</span></div>
+          </label>
+          <input type="radio" id="m1_5" formControlName="m1" [value]="monthlyAnswers.Poor.id">
+          <label for="m1_5">
+            <div (click)="saveAndMoveToNext(survey)" class="content-left p-b-10"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{monthlyAnswers.Poor.value}}</span></div>
+          </label>
+          <input type="radio" id="m1_8" formControlName="m1" [value]="monthlyAnswers.decline.id">
+          <label for="m1_8">
+            <div (click)="saveAndMoveToNext(survey)" class="content-left p-b-10"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{monthlyAnswers.decline.value}}</span></div>
+          </label>
+        </form>
+      </mat-card>
+    </div>
+    <!-- question m2 -->
+    <div [@questionTransition]="getStateAnimation(Questions.m2)" [hidden]="activeQuestion != Questions.m2">
+      <mat-card class="header-btn" layout="fill">
+        <a (click)="activeQuestion = Questions.m1" class="back upcase"><img class="gap-right-5" src="/assets/img/back-small.svg"
+            alt="back-arrow"><span>back</span></a>
+      </mat-card>
+      <div class="header-page-title direction-color">
+        <span class="line-title"></span><span class="page-title">Compared to now, how do you think your health will be next year?</span>
+      </div>
+      <mat-card class="no-top">
+        <form [formGroup]="survey" class="radio-answer p-t-30">
+          <input type="radio" id="m2_1" formControlName="m2" [value]="monthlyAnswers.better.id">
+          <label for="m2_1">
+            <div (click)="saveAndMoveToNext(survey)" class="content-left p-b-10"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{monthlyAnswers.better.value}}</span></div>
+          </label>
+          <input type="radio" id="m2_2" formControlName="m2" [value]="monthlyAnswers.same.id">
+          <label for="m2_2">
+            <div (click)="saveAndMoveToNext(survey)" class="content-left p-b-10"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{monthlyAnswers.same.value}}</span></div>
+          </label>
+          <input type="radio" id="m2_3" formControlName="m2" [value]="monthlyAnswers.worse.id">
+          <label for="m2_3">
+            <div (click)="saveAndMoveToNext(survey)" class="content-left p-b-10"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{monthlyAnswers.worse.value}}</span></div>
+          </label>
+          <input type="radio" id="m2_4" formControlName="m2" [value]="monthlyAnswers.notKnow.id">
+          <label for="m2_4">
+            <div (click)="saveAndMoveToNext(survey)" class="content-left p-b-10"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{monthlyAnswers.notKnow.value}}</span></div>
+          </label>
+          <input type="radio" id="m2_5" formControlName="m2" [value]="monthlyAnswers.decline.id">
+          <label for="m2_5">
+            <div (click)="saveAndMoveToNext(survey)" class="content-left p-b-10"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{monthlyAnswers.decline.value}}</span></div>
+          </label>
+        </form>
+      </mat-card>
+    </div>
+    <!-- question m3 -->
+    <div [@questionTransition]="getStateAnimation(Questions.m3)" [hidden]="activeQuestion != Questions.m3">
+      <mat-card class="header-btn" layout="fill">
+        <a (click)="activeQuestion = Questions.m2" class="back upcase"><img class="gap-right-5" src="/assets/img/back-small.svg"
+            alt="back-arrow"><span>back</span></a>
+      </mat-card>
+      <div class="header-page-title direction-color">
+        <span class="line-title"></span><span class="page-title">During the past month,</span>
+      </div>
+      <mat-card class="no-top">
+        <p class="direction-color question p-b-10">to what extent has your physical health or emotional health interfered with your normal-for-COVID-life with family, friends, neighbors, or groups?</p>
+        <form [formGroup]="survey" class="radio-answer p-t-30">
+          <input type="radio" id="m3_1" formControlName="m3" [value]="monthlyAnswers.notAtAll.id">
+          <label for="m3_1">
+            <div (click)="saveAndMoveToNext(survey)" class="content-left p-b-10"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{monthlyAnswers.notAtAll.value}}</span></div>
+          </label>
+          <input type="radio" id="m3_2" formControlName="m3" [value]="monthlyAnswers.slightly.id">
+          <label for="m3_2">
+            <div (click)="saveAndMoveToNext(survey)" class="content-left p-b-10"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{monthlyAnswers.slightly.value}}</span></div>
+          </label>
+          <input type="radio" id="m3_3" formControlName="m3" [value]="monthlyAnswers.moderately.id">
+          <label for="m3_3">
+            <div (click)="saveAndMoveToNext(survey)" class="content-left p-b-10"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{monthlyAnswers.moderately.value}}</span></div>
+          </label>
+          <input type="radio" id="m3_4" formControlName="m3" [value]="monthlyAnswers.quiteABit.id">
+          <label for="m3_4">
+            <div (click)="saveAndMoveToNext(survey)" class="content-left p-b-10"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{monthlyAnswers.quiteABit.value}}</span></div>
+          </label>
+          <input type="radio" id="m3_5" formControlName="m3" [value]="monthlyAnswers.extremely.id">
+          <label for="m3_5">
+            <div (click)="saveAndMoveToNext(survey)" class="content-left p-b-10"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{monthlyAnswers.extremely.value}}</span></div>
+          </label>
+          <input type="radio" id="m3_6" formControlName="m3" [value]="monthlyAnswers.decline.id">
+          <label for="m3_6">
+            <div (click)="saveAndMoveToNext(survey)" class="content-left p-b-10"><div class="check gap-right-5"><img src="/assets/img/check-symbol.svg" alt=""></div><span class="font-18">{{monthlyAnswers.decline.value}}</span></div>
+          </label>
         </form>
       </mat-card>
     </div>
   </div>
 </div>
-<div [hidden]="activeQuestion != Questions.q3 || survey.controls['q3a'].value !== answers.yes.id">
+
+<div [hidden]="activeQuestion != Questions.q3 || survey.controls['q3'].value !== answers.yes.id">
   <div class="footer-btn next-action">
     <a class="next" (click)="saveAndMoveToNext(survey)">
       <span class="gap-right-15">next</span><img src="/assets/img/next-icon.svg" alt="">
     </a>
   </div>
 </div>
-<div [hidden]="activeQuestion != Questions.q7">
+<div *ngIf="survey.controls['q3a'].value">
+  <div *ngFor="let sub of survey.controls['q3a'].value; let i = index" [hidden]="activeQuestion != Questions['q3b.' + sub]">
+    <div class="footer-btn next-action">
+      <a class="next" (click)="saveAndMoveToNext(survey)">
+        <span class="gap-right-15">next</span><img src="/assets/img/next-icon.svg" alt="">
+      </a>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="activeQuestion == Questions.q12">
+  <div class="footer-btn next-action">
+    <a class="next" (click)="saveOrderList12()"><span class="gap-right-15">next</span><img src="/assets/img/next-icon.svg" alt=""></a>
+  </div>
+</div>
+<div *ngIf="activeQuestion == Questions.q13">
   <div class="footer-btn next-action">
     <a class="next" (click)="saveAndMoveToNext(survey)"><span class="gap-right-15">next</span><img src="/assets/img/next-icon.svg" alt=""></a>
   </div>
 </div>
-<div [hidden]="activeQuestion <= Questions.q9">
+<div *ngIf="activeQuestion > Questions.q15 && activeQuestion <= Questions.q22">
   <div class="footer-btn next-action">
-    <a *ngIf="activeQuestion !== 14" class="next" (click)="saveAndMoveToNext(survey)">
+    <a *ngIf="activeQuestion !== Questions.q22" class="next" (click)="saveAndMoveToNext(survey, null, null, getKeyByValue(Questions, activeQuestion))">
       <span class="gap-right-15">next</span><img src="/assets/img/next-icon.svg" alt="">
     </a>
-    <a *ngIf="activeQuestion === 14" class="next" (click)="saveAndMoveToNext(survey)">
+    <a *ngIf="activeQuestion === Questions.q22" class="next" (click)="saveAndMoveToNext(survey)">
       <span class="gap-right-15">submit</span><img src="/assets/img/submit.svg" alt="">
     </a>
   </div>

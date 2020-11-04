@@ -35,13 +35,14 @@ export class CheckInComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public surveyShown: boolean = false;
   public surveyCompleted: boolean = false;
-  public includeDemographicQuestion: boolean = false;
+  public includeMonthly: boolean = false;
+  public onFirstSurvey: boolean = false;
 
   private destroy;
   private rxjsTimer;
 
   constructor(public dialog: MatDialog, private userService: UserService, private surveyService: SurveyService, private elementRef: ElementRef) {
-    this.setSurveyState();
+    this.setSurvey();
   }
 
   ngOnInit(): void {
@@ -62,13 +63,18 @@ export class CheckInComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  private setSurveyState() {
+  private setSurvey() {
     this.surveyCompleted = this.surveyService.surveyDisabled();
+    this.initSurveyState();
+  }
+  
+  private initSurveyState() {
     if (this.surveyCompleted) {
       this.enableSurveyTimer();
     } else {
-      // include demographics question if survey hasn't completed yet
-      this.includeDemographicQuestion = this.surveyService.includeDemoGraphics();
+      // include monthly
+      this.includeMonthly = this.surveyService.includeMonthly();
+      this.onFirstSurvey = this.surveyService.isFirstSurvey();
     }
   }
 
@@ -82,6 +88,7 @@ export class CheckInComponent implements OnInit, AfterViewInit, OnDestroy {
       if (!this.surveyCompleted) {
         this.destroy.next();
         this.destroy.complete();
+        this.initSurveyState()
       }
     })
   }
