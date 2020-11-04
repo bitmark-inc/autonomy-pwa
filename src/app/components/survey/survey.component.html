@@ -1,4 +1,4 @@
-<div class="main-content">
+<div class="main-content noselect">
   <!-- question 0 -->
   <div [@questionTransition]="getStateAnimation(Questions.q0)" [hidden]="activeQuestion != Questions.q0">
     <mat-card class="header-btn" layout="fill">
@@ -260,7 +260,7 @@
     </div>
     <mat-card class="no-top">
       <p class="direction-color question p-b-10">did you work outside your home?</p>
-      <form [formGroup]="survey" class="radio-answer p-t-30">
+      <form [formGroup]="survey" class="radio-answer p-t-30 noselect">
         <input type="radio" id="q3_yes" formControlName="q3" [value]="answers.yes.id">
         <label for="q3_yes">
           <div class="content-left p-b-10" [ngClass]="{'unchoose': survey.controls['q3'].value !== answers.notAnswer.id}">
