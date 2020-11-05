@@ -113,7 +113,7 @@
       background: #B3E7F4;
     }
     .order-content {
-      padding: 5px 7px;
+      padding: 5px 10px;
     }
   }
 }
@@ -121,6 +121,7 @@
 .cdk-drag-preview {
   color: #303030 !important;
   font-weight: 300 !important;
+  font-family: 'Atlas Grotesk' !important;
   display: flex;
   flex-direction: row;
   box-sizing: border-box;
@@ -140,7 +141,7 @@
   .order-content {
     color: #303030 !important;
     font-weight: 300 !important;
-    padding: 5px 7px;
+    padding: 5px 10px;
   }
 }
 
@@ -158,6 +159,15 @@
 
 .example-list.cdk-drop-list-dragging .example-box:not(.cdk-drag-placeholder) {
   transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+  color: #303030 !important;
+  font-weight: 300 !important;
+}
+
+.cdk-drop-list-dragging {
+  .example-box {
+    color: #303030 !important;
+    font-weight: inherit !important;
+  }
 }
 
 .noselect {

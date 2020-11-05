@@ -1,4 +1,4 @@
-<div class="main-content noselect">
+<div class="main-content">
   <!-- question 0 -->
   <div [@questionTransition]="getStateAnimation(Questions.q0)" [hidden]="activeQuestion != Questions.q0">
     <mat-card class="header-btn" layout="fill">
@@ -681,21 +681,21 @@
     </div>
     <!-- question 12 -->
     <div [@questionTransition]="getStateAnimation(Questions.q12)" [hidden]="activeQuestion != Questions.q12">
-      <mat-card class="header-btn" layout="fill">
+      <mat-card class="header-btn noselect" layout="fill">
         <a (click)="activeQuestion = Questions.q11" class="back upcase"><img class="gap-right-5" src="/assets/img/back-small.svg"
             alt="back-arrow"><span>back</span></a>
       </mat-card>
       <div class="header-page-title direction-color horizal-display">
         <div><span class="line-title"></span></div>
         <div class="p-l-10">
-          <span class="page-title no-left">Which source do you trust for guidance on COVID-19?</span>
+          <span class="page-title no-left noselect">Which source do you trust for guidance on COVID-19?</span>
         </div>
       </div>
       <mat-card class="no-top">
-        <p class="font-18 p-t-15">Drag to rank from 1 (most trusted) to 8 (least trusted)</p>
+        <p class="font-18 p-t-15 noselect">Drag to rank from 1 (most trusted) to 8 (least trusted)</p>
         <form [formGroup]="survey" class="p-t-30">
-          <div cdkDropList class="example-list" (cdkDropListDropped)="drop($event)">
-            <div class="example-box" *ngFor="let organize of orderAnswer12; let i = index" cdkDrag>
+          <div cdkDropList class="example-list noselect" (cdkDropListDropped)="drop($event)">
+            <div class="example-box noselect" *ngFor="let organize of orderAnswer12; let i = index" cdkDrag>
               <span class="highlight-order">{{i + 1}}</span><span class="order-content">{{organize}}</span>
             </div>
           </div>
