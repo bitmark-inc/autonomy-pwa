@@ -369,7 +369,7 @@ export class SurveyComponent implements OnInit, OnDestroy {
   }
 
   public askDemographic(order: string): boolean {
-    return this.surveyService.includeDemoGraphic(order);
+    return Object.keys(this.Questions).includes(order);
   }
 
   public updateDemographicStorage(order: string) {
